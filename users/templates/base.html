@@ -181,7 +181,7 @@
                                         </li>
                                         <li class="col-xs-4" data-content="Logout">
                                            <a class="shortcut-grid" href="{% url 'logout' %}">
-                                                <i class="demo-psi-lock-2"></i>
+                                                <i class="fa fa-sign-out"></i>
                                             </a>
                                         </li>
                                        
@@ -223,7 +223,8 @@
                                             </span>
                                         </a>
                                     </li>
-                                    <li >
+                                    {% url 'Subscriptions' as sub %}
+                                    <li {% if request.path == sub  %} class="active-sub"{% endif %}>
                                         <a href="{% url 'Subscriptions' %}">
                                             <i class="fa fa-braille"></i>
                                             <span class="menu-title">
@@ -232,7 +233,8 @@
                                             </span>
                                         </a>
                                     </li>
-                                     <li >
+                                    {% url 'instalment' as inst %}
+                                     <li {% if request.path == inst  %} class="active-sub"{% endif %}>
                                         <a href="{% url 'instalment'%}">
                                             <i class="fa fa-address-card"></i>
                                             <span class="menu-title">
@@ -250,16 +252,6 @@
                                             </span>
                                         </a>
                                     </li>
-                                    <li >
-                                        <a href="#">
-                                            <i class="fa fa-address-book-o"></i>
-                                            <span class="menu-title">
-                                                <strong>Invoice</strong>
-                                                
-                                            </span>
-                                        </a>
-                                    </li> 
-
                                     {% url 'Meters' as url2 %}
                                     <li {% if request.path == url2  %} class="active-sub"{% endif %}>
                                         <a href="{% url 'Meters' %}">
