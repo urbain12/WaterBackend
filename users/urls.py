@@ -11,6 +11,8 @@ urlpatterns = [
     path('Addcustomers/',Addcustomers,name='Addcustomers'),
     path('Meters/',meters,name='Meters'),
     path('AddMeter/',AddMeter,name='AddMeter'),
+    path('Subscriptions/',subscriptions,name='Subscriptions'),
+    path('instalment/',instalment,name='instalment'),
 
 
 

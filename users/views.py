@@ -105,7 +105,13 @@ def add_customer(request):
     Meter = Meters.objects.filter(customer=None)
     return render(request,'add_customer.html',{'Meter':Meter})
 
+@login_required(login_url='/login')
+def subscriptions(request):
+    return render(request,'Subscriptions.html')
 
+@login_required(login_url='/login')
+def instalment(request):
+    return render(request,'Installament.html')
 
 
 #mobile
