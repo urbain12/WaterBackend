@@ -6,7 +6,7 @@
                     
 					<div class="panel">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Meter Numbers</h3>
+                            <h3 class="panel-title">Subscribers</h3>
                         </div>
                     
                         <!--Data Table-->
@@ -16,11 +16,11 @@
                                 <div class="row">
                                     
                                     <div class="col-sm-12 table-toolbar-right">
-                                        <a href="{% url 'AddMeter'%}" id="demo-btn-addrow" class="btn btn-purple"><i class="demo-pli-add"></i> Add new</a>
+                                        <a href="" id="demo-btn-addrow" class="btn btn-purple"><i class="demo-pli-add"></i> Add new</a>
 
                                         <div class="btn-group">
                                             <div class="form-group">
-                                        <form class="form-inline my-2 my-lg-0" action="{% url 'Meters'%}">
+                                        <form class="form-inline my-2 my-lg-0">
                                         <input id="demo-input-search2" type="text" name="search" placeholder="Search" class="form-control" autocomplete="off">
                                         <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                                         </form>
@@ -36,39 +36,31 @@
                                     <thead>
                                         <tr>
                                             <th class="text-left">ID</th>
-                                            <th>Meter Number</th>
+                                            <th>Customer</th>
+                                            <th>Services</th>
+                                            <th>Tools</th>
+                                            <th>Total amount</th>
+                                            <th>Sub date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for meter in page_obj %}
+                                    
                                     <tr>
-                                            <td><a class="btn-link" href="#">{{meter.id}}</a></td>
-                                            <td>{{meter.Meternumber}}</td>
+                                            <td><a class="btn-link" href="#">1</a></td>
+                                            <td>Aimable Rukundo</td>
+                                            <td>INuma</td>
+                                            <td>Robinet,Pipes</td>
+                                            <td>150,000 RWF</td>
+                                            <td>22-12-2020</td>
                                     </tr>
 
-                                    {% endfor %}
+                                    
                                         
                                     
                                         </tbody>
                                 </table>
                             </div>
-                            <div class="pagination">
-                <span class="step-links">
-                    {% if page_obj.has_previous %}
-                        <a class="btn btn-primary mb-4" href="?page=1">&laquo; first</a>
-                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.previous_page_number }}">previous</a>
-                    {% endif %}
-
-                    <span class="current">
-                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                    </span>
-
-                    {% if page_obj.has_next %}
-                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.next_page_number }}">next</a>
-                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                    {% endif %}
-                </span>
-            </div>
+                            
                         </div>
                         <!--===================================================-->
                         <!--End Data Table-->

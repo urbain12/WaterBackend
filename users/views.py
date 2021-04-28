@@ -79,6 +79,17 @@ def Addcustomers(request):
         return redirect('customers')
 
 @login_required(login_url='/login')
+def AddMeter(request):
+    if request.method=='POST':
+        AddMeter= Meters()
+        AddMeter.Meternumber=request.POST['Meternumber']
+        AddMeter.save()
+        AddMeter=True
+        return redirect('Meters')
+    else:
+        return render(request,'Addmeternumber.html')
+
+@login_required(login_url='/login')
 def tools(request):
     tools = Tools.objects.all()
     search_query=request.GET.get('search','')
@@ -110,7 +121,12 @@ def add_tool(request):
         categories=ToolsCategory.objects.all()
         return render(request,'add_tool.html',{'categories':categories})
 
+def subscriptions(request):
+    return render(request,'Subscriptions.html')
 
+@login_required(login_url='/login')
+def instalment(request):
+    return render(request,'Installament.html')
 
 
 #mobile

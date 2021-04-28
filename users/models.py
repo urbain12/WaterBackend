@@ -70,7 +70,7 @@ class Customer(models.Model):
     Sector = models.CharField(max_length=255, null=True, blank=True)
     Cell = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateField(auto_now_add=True)
-    Meternumber = models.OneToOneField('Meters',on_delete=models.SET_NULL,null=True,blank=True)
+    Meternumber = models.OneToOneField('Meters',on_delete=models.SET_NULL,null=True,blank=True, unique=True)
 
 class Meters(models.Model):
     created_at = models.DateField(auto_now_add=True)

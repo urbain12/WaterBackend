@@ -6,12 +6,13 @@
                     
 					<div class="panel">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Add new customers</h3>
+                                    <h3 class="panel-title">Add new Meter Numbers</h3>
                                 </div>
                     
                                 <!--Block Styled Form -->
                                 <!--===================================================-->
-                                <form>
+                                <form enctype="multipart/form-data" action="{% url 'AddMeter' %}" method="POST">
+                                {% csrf_token %}
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-sm-12">
