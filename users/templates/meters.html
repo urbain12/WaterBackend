@@ -16,13 +16,13 @@
                                 <div class="row">
                                     
                                     <div class="col-sm-12 table-toolbar-right">
-                                        <a href="{% url 'add_customer' %}" id="demo-btn-addrow" class="btn btn-purple"><i class="demo-pli-add"></i> Add new</a>
+                                        <a href="" id="demo-btn-addrow" class="btn btn-purple"><i class="demo-pli-add"></i> Add new</a>
 
                                         <div class="btn-group">
                                             <div class="form-group">
-                                        <form class="form-inline my-2 my-lg-0" action="{% url 'customers'%}">
-                                        <input id="demo-input-search2" type="text" name="search" placeholder="Search by Fisrtname" class="form-control" autocomplete="off">
-                                        <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></buttn>
+                                        <form class="form-inline my-2 my-lg-0" action="{% url 'Meters'%}">
+                                        <input id="demo-input-search2" type="text" name="search" placeholder="Search" class="form-control" autocomplete="off">
+                                        <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                                         </form>
                                         </div>
                                    
@@ -36,38 +36,15 @@
                                     <thead>
                                         <tr>
                                             <th class="text-left">ID</th>
-                                            <th>Names</th>
                                             <th>Meter Number</th>
-                                            <th>ID number</th>
-                                            <th>Phone number</th>
-                                            <th>Province</th>
-                                            <th>District</th>
-                                            <th>Sector</th>
-                                            <th>Cell</th>
-                                            <th>created at</th>
-                                            <th>Status</th>
-                                            
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for customer in page_obj %}
+                                    {% for meter in page_obj %}
                                     <tr>
-                                            <td><a class="btn-link" href="#">{{customer.id}}</a></td>
-                                            <td>{{customer.FirstName}} {{customer.LastName}}</td>
-                                            <td>{{customer.Meternumber}}</td>
-                                            <td><span class="text-muted"> {{customer.IDnumber}}</span></td>
-                                            <td>{{customer.Phone}}</td>
-                                            <td>{{customer.Province}}</td>
-                                            <td>{{customer.District}}</td>
-                                            <td>{{customer.Sector}}</td>
-                                            <td>{{customer.Cell}}</td>
-                                            <td>{{customer.created_at}}</td>
-
-                                            <td>
-                                                <div class="label label-table label-success">Paid</div>
-                                            </td>
-                                            
-                                        </tr>
+                                            <td><a class="btn-link" href="#">{{meter.id}}</a></td>
+                                            <td>{{meter.Meternumber}}</td>
+                                    </tr>
 
                                     {% endfor %}
                                         

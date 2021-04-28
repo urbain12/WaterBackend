@@ -48,9 +48,39 @@ def customers(request):
     page_obj=paginator.get_page(page_number)
     return render(request,'customers.html',{'Customers':Customers,'page_obj':page_obj})
 
+
+@login_required(login_url='/login')
+def meters(request):
+    Meter = Meters.objects.all()
+    search_query=request.GET.get('search','')
+    if search_query:
+        Meter=Meters.objects.filter(Q(Meternumber__icontains=search_query))
+    paginator=Paginator(Meter,6)
+    page_number=request.GET.get('page')
+    page_obj=paginator.get_page(page_number)
+    return render(request,'meters.html',{'Meter':Meter,'page_obj':page_obj})
+    
+@login_required(login_url='/login')
+def Addcustomers(request):
+    if request.method=='POST':
+        Addcustomers=Customer()
+        Addcustomers.FirstName=request.POST['FirstName']
+        Addcustomers.LastName=request.POST['LastName']
+        Addcustomers.Phone=request.POST['Phone']
+        Addcustomers.IDnumber=request.POST['IDnumber']
+        Addcustomers.Province=request.POST['Province']
+        Addcustomers.District=request.POST['District']
+        Addcustomers.Sector=request.POST['Sector']
+        Addcustomers.Cell=request.POST['Cell']
+        Addcustomers.Meternumber=request.POST['Meternumber']
+        Addcustomers.save()
+        Addcustomers=True
+        return redirect('customers')
+
 @login_required(login_url='/login')
 def add_customer(request):
-    return render(request,'add_customer.html')
+    Meter = Meters.objects.all()
+    return render(request,'add_customer.html',{'Meter':Meter})
 
 
 

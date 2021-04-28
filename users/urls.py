@@ -7,7 +7,14 @@ urlpatterns = [
     path('logout/',logout,name='logout'),
     path('customers/',customers,name='customers'),
     path('add_customer/',add_customer,name='add_customer'),
+    path('Addcustomers/',Addcustomers,name='Addcustomers'),
+    path('Meters/',meters,name='Meters'),
+    # path('add_meternumber/',add_meternumber,name='add_meternumber'),
 
+
+
+    
+    #MOBILE
     path('Language/',LanguageListView.as_view()),
     path('Language/create/',LanguageCreateView.as_view()),
     path('UpdateLanguage/<id>/', LanguageUpdateView.as_view()),
