@@ -11,19 +11,20 @@
                     
                                 <!--Block Styled Form -->
                                 <!--===================================================-->
-                                <form>
+                                <form enctype="multipart/form-data" action="{% url 'Addcustomers' %}" method="POST">
+                                {% csrf_token %}
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Firstname</label>
-                                                    <input type="text" class="form-control">
+                                                    <input type="text" class="form-control" name="FirstName"> 
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Lastname</label>
-                                                    <input type="text" class="form-control">
+                                                    <input type="text" class="form-control" name="LastName">
                                                 </div>
                                             </div>
                                         </div>
@@ -31,47 +32,49 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="control-label">ID number</label>
-                                                    <input type="number" class="form-control">
+                                                    <input type="number" class="form-control" name="IDnumber">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Phone Number</label>
-                                                    <input type="number" class="form-control">
+                                                    <input type="number" class="form-control" name="Phone">
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label class="control-label">Province</label>
-                                                    <input type="text" class="form-control">
+                                                    <input type="text" class="form-control" name="Province">
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label class="control-label">District</label>
-                                                    <input type="text" class="form-control">
+                                                    <input type="text" class="form-control" name="District">
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label class="control-label">Sector</label>
-                                                    <input type="text" class="form-control">
+                                                    <input type="text" class="form-control"name="Sector">
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label class="control-label">Cell</label>
-                                                    <input type="text" class="form-control">
+                                                    <input type="text" class="form-control" name="Cell">
                                                 </div>
                                             </div>
                                             <div class="col-sm-12">
                                                 <div class="form-group">
                                                     <label class="control-label">Meter Number</label>
-                                                    <select class="form-control">
+                                                    <select class="form-control" name="Meternumber">
                                                        <option value="Select meter number">Select meter number</option> 
-                                                       <option value="1">1</option> 
-                                                       <option value="2">2</option> 
-                                                       <option value="3">3</option> 
+                                                    {%for meter in Meter %}
+
+                                                       <option value="{{meter.Meternumber}}">{{meter.Customer}}</option> 
+                                                    {% endfor %}
+                                                       
                                                     </select>  
                                                 </div>
                                             </div>
