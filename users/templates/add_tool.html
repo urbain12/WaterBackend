@@ -11,71 +11,48 @@
                     
                                 <!--Block Styled Form -->
                                 <!--===================================================-->
-                                <form enctype="multipart/form-data" action="{% url 'Addcustomers' %}" method="POST">
+                                <form enctype="multipart/form-data" action="{% url 'add_tool' %}" method="POST">
                                 {% csrf_token %}
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Firstname</label>
-                                                    <input type="text" class="form-control" name="FirstName"> 
+                                                    <label class="control-label">Title</label>
+                                                    <input type="text" class="form-control" name="Title"> 
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Lastname</label>
-                                                    <input type="text" class="form-control" name="LastName">
+                                                    <label class="control-label">Serial Number</label>
+                                                    <input type="text" class="form-control" name="SerialNumber">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">ID number</label>
-                                                    <input type="number" class="form-control" name="IDnumber">
+                                                    <label class="control-label">Category</label>
+                                                    <select class="form-control" name="category">
+                                                       <option value="Select meter number">Select Category</option> 
+                                                    {% for category in categories %}
+
+                                                       <option value="{{category.id}}">{{category.Description}}</option> 
+                                                    {% endfor %}
+                                                       
+                                                    </select>  
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Phone Number</label>
-                                                    <input type="number" class="form-control" name="Phone">
+                                                    <label class="control-label">Amount</label>
+                                                    <input type="number" class="form-control" name="amount">
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Province</label>
-                                                    <input type="text" class="form-control" name="Province">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">District</label>
-                                                    <input type="text" class="form-control" name="District">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Sector</label>
-                                                    <input type="text" class="form-control"name="Sector">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Cell</label>
-                                                    <input type="text" class="form-control" name="Cell">
-                                                </div>
-                                            </div>
+                                           
                                             <div class="col-sm-12">
                                                 <div class="form-group">
-                                                    <label class="control-label">Meter Number</label>
-                                                    <select class="form-control" name="Meternumber">
-                                                       <option value="Select meter number">Select meter number</option> 
-                                                    {% for meter in Meter %}
-
-                                                       <option value="{{meter.id}}">{{meter.Meternumber}}</option> 
-                                                    {% endfor %}
-                                                       
-                                                    </select>  
+                                                    <label class="control-label">Description</label>
+                                                    <textarea class="form-control" name="description"></textarea> 
                                                 </div>
                                             </div>
                                         </div>

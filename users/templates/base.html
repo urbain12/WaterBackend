@@ -199,8 +199,9 @@
                                     
                         
                                     <!--Menu list item-->
-                                    <li class="active-sub">
-                                        <a href="{% url 'dashboard' %}">
+                                        {% url 'dashboard' as url %}
+                                    <li {% if request.path == url  %} class="active-sub"{% endif %}>
+                                        <a href="{{url}}">
                                             <i class="demo-psi-home"></i>
                                             <span class="menu-title">
                                                 <strong>Dashboard</strong>
@@ -212,7 +213,8 @@
                                     
                         
                                     <!--Menu list item-->
-                                    <li >
+                                    {% url 'customers' as url1 %}
+                                    <li {% if request.path == url1  %} class="active-sub"{% endif %}>
                                         <a href="{% url 'customers' %}">
                                             <i class="fa fa-users"></i>
                                             <span class="menu-title">
@@ -257,7 +259,9 @@
                                             </span>
                                         </a>
                                     </li> 
-                                    <li >
+
+                                    {% url 'Meters' as url2 %}
+                                    <li {% if request.path == url2  %} class="active-sub"{% endif %}>
                                         <a href="{% url 'Meters' %}">
                                             <i class="fa fa-tint"></i>
                                             <span class="menu-title">
@@ -266,7 +270,8 @@
                                             </span>
                                         </a>
                                     </li>
-                                    <li >
+                                    {% url 'tools' as url3 %}
+                                    <li {% if request.path == url3  %} class="active-sub"{% endif %}>
                                         <a href="{% url 'tools' %}">
                                             <i class="fa fa-wrench"></i>
                                             <span class="menu-title">
