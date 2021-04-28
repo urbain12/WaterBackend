@@ -11,7 +11,8 @@
                     
                                 <!--Block Styled Form -->
                                 <!--===================================================-->
-                                <form>
+                                <form enctype="multipart/form-data" action="{% url 'AddMeter' %}" method="POST">
+                                {% csrf_token %}
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-sm-12">
