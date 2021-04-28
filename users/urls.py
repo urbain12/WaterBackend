@@ -6,6 +6,7 @@ urlpatterns = [
     path('login/',login,name='login'),
     path('logout/',logout,name='logout'),
     path('customers/',customers,name='customers'),
+    path('tools/',tools,name='tools'),
     path('add_customer/',add_customer,name='add_customer'),
 
     path('Language/',LanguageListView.as_view()),

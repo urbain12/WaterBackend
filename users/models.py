@@ -104,17 +104,21 @@ class SubscriptionsPayment(models.Model):
 class ToolsCategory(models.Model):
     Description = models.CharField(max_length=255, null=True,blank=True)
 
+    def __str__(self):
+        return self.Description
+    
+
 class Tools(models.Model):
     Title = models.CharField(max_length=255, null=True,blank=True)
     Description = models.CharField(max_length=255, null=True,blank=True)
     SerialNumber = models.CharField(max_length=255, null=True,blank=True)
+    Amount = models.CharField(max_length=255, null=True,blank=True)
     CategoryID = models.ForeignKey('ToolsCategory',on_delete=models.SET_NULL,null=True,blank=True)
     created_at = models.DateField(auto_now_add=True)
 
 class SubscriptionsTools(models.Model):
     ToolID = models.ForeignKey('Tools',on_delete=models.SET_NULL,null=True,blank=True)
     SubscriptionsID = models.ForeignKey('Subscriptions',on_delete=models.SET_NULL,null=True,blank=True)
-    Amount = models.CharField(max_length=255, null=True,blank=True)
     created_at = models.DateField(auto_now_add=True)
 
 class Language(models.Model):

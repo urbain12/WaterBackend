@@ -36,36 +36,28 @@
                                     <thead>
                                         <tr>
                                             <th class="text-left">ID</th>
-                                            <th>Names</th>
-                                            <th>Meter Number</th>
-                                            <th>ID number</th>
-                                            <th>Phone number</th>
-                                            <th>Province</th>
-                                            <th>District</th>
-                                            <th>Sector</th>
-                                            <th>Cell</th>
+                                            <th>Title</th>
+                                            <th>Serial Number</th>
+                                            <th>Category</th>
+                                            <th>Amount</th>
+                                            <th>Description</th>
                                             <th>created at</th>
-                                            <th>Status</th>
+                                            
                                             
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for customer in page_obj %}
+                                    {% for tool in page_obj %}
                                     <tr>
-                                            <td><a class="btn-link" href="#">{{customer.id}}</a></td>
-                                            <td>{{customer.FirstName}} {{customer.LastName}}</td>
-                                            <td>{{customer.Meternumber}}</td>
-                                            <td><span class="text-muted"> {{customer.IDnumber}}</span></td>
-                                            <td>{{customer.Phone}}</td>
-                                            <td>{{customer.Province}}</td>
-                                            <td>{{customer.District}}</td>
-                                            <td>{{customer.Sector}}</td>
-                                            <td>{{customer.Cell}}</td>
-                                            <td>{{customer.created_at}}</td>
+                                            <td><a class="btn-link" href="#">{{tool.id}}</a></td>
+                                            <td>{{tool.Title}}</td>
+                                            <td>{{tool.SerialNumber}}</td>
+                                            <td>{{tool.CategoryID}}</td>
+                                            <td>{{tool.Amount}}</td>
+                                            <td>{{tool.Description}}</td>
+                                            <td>{{tool.created_at}}</td>
 
-                                            <td>
-                                                <div class="label label-table label-success">Paid</div>
-                                            </td>
+                                           
                                             
                                         </tr>
 

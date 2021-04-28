@@ -49,6 +49,17 @@ def customers(request):
     return render(request,'customers.html',{'Customers':Customers,'page_obj':page_obj})
 
 @login_required(login_url='/login')
+def tools(request):
+    tools = Tools.objects.all()
+    search_query=request.GET.get('search','')
+    if search_query:
+        tools=Tools.objects.filter(Q(Title__icontains=search_query))
+    paginator=Paginator(tools,6)
+    page_number=request.GET.get('page')
+    page_obj=paginator.get_page(page_number)
+    return render(request,'tools.html',{'tools':tools,'page_obj':page_obj})
+
+@login_required(login_url='/login')
 def add_customer(request):
     return render(request,'add_customer.html')
 
