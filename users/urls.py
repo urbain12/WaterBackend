@@ -16,6 +16,9 @@ urlpatterns = [
     path('AddMeter/',AddMeter,name='AddMeter'),
     path('Subscriptions/',subscriptions,name='Subscriptions'),
     path('instalment/',instalment,name='instalment'),
+    path('requestor/',requestors,name='requestor'),
+    # path('quatation/<int:SubscriptionsID>',views.quatation,name="quatation"),
+
 
 
 
@@ -25,6 +28,10 @@ urlpatterns = [
     path('Language/create/',LanguageCreateView.as_view()),
     path('UpdateLanguage/<id>/', LanguageUpdateView.as_view()),
     path('DeleteLanguage/<id>/', LanguageDeleteView.as_view()),
+
+
+    #SubscriberRequest
+    path('Request/create/',RequestCreateView.as_view()),
 
 
     path('Service/',ServiceListView.as_view()),
@@ -39,7 +46,7 @@ urlpatterns = [
     path('DeleteCustomer/<id>/', CustomerDeleteView.as_view()),
 
 
-    path('Meters/',MetersListView.as_view()),
+    path('MetersNumber/',MetersListView.as_view()),
     path('Meters/create/',MetersCreateView.as_view()),
     path('UpdateMeters/<id>/', MetersUpdateView.as_view()),
     path('DeleteMeters/<id>/', MetersDeleteView.as_view()),
@@ -69,7 +76,7 @@ urlpatterns = [
     path('DeleteSubscriptionsTools/<id>/', SubscriptionsToolsDeleteView.as_view()),
 
 
-    path('Tools/',ToolsListView.as_view()),
+    path('Toolslist/',ToolsListView.as_view()),
     path('Tools/create/',ToolsCreateView.as_view()),
     path('UpdateTools/<id>/', ToolsUpdateView.as_view()),
     path('DeleteTools/<id>/', ToolsDeleteView.as_view()),

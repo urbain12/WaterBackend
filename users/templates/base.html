@@ -233,7 +233,6 @@
                                             <i class="fa fa-users"></i>
                                             <span class="menu-title">
                                                 <strong>Customers</strong>
-                                                <span class="pull-right badge badge-warning">24</span>
                                             </span>
                                         </a>
                                     </li>
@@ -262,6 +261,16 @@
                                             <i class="fa fa-money"></i>
                                             <span class="menu-title">
                                                 <strong>Receipts</strong>
+                                                
+                                            </span>
+                                        </a>
+                                    </li>
+                                    {% url 'requestor' as req %}
+                                    <li {% if request.path == req  %} class="active-sub"{% endif %}>
+                                        <a href="{% url 'requestor' %}">
+                                            <i class="fa fa-paper-plane-o"></i>
+                                            <span class="menu-title">
+                                                <strong>Requests</strong>
                                                 
                                             </span>
                                         </a>
