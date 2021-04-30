@@ -52,6 +52,20 @@
 
     <!--NiftyJS [ RECOMMENDED ]-->
     <script src="{% static "js/nifty.min.js" %}"></script>
+
+    <script>
+    
+        $(document).ready(function(){
+            $('.magic-checkbox').click(function(){
+                var text="";
+                $('.magic-checkbox:checked').each(function(){
+                    text+=$(this).val()+','
+                });
+                $('#tools').val(text);
+            })
+        })
+
+    </script>
         
 
 </head>

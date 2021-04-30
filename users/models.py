@@ -94,9 +94,14 @@ class Category(models.Model):
 class Subscriptions(models.Model):
     CustomerID = models.ForeignKey('Customer',on_delete=models.SET_NULL,null=True,blank=True)
     From = models.DateField(blank=True, null=True)
-    LastDateofPayment = models.CharField(max_length=255, null=True,blank=True)
     Totalamount = models.ForeignKey('SubscriptionsTools',on_delete=models.SET_NULL,null=True,blank=True)
     TotalBalance = models.CharField(max_length=255, null=True,blank=True)
+    @property
+    def get_total_amount(self):
+        tools=self.subscriptionstools_set.all()
+        total= sum([tool.get_total for tool in tools])
+        return total
+
 
 class SubscriptionsPayment(models.Model):
     SubscriptionsID = models.ForeignKey('Subscriptions',on_delete=models.SET_NULL,null=True,blank=True)
@@ -111,17 +116,23 @@ class ToolsCategory(models.Model):
     
 
 class Tools(models.Model):
-    Title = models.CharField(max_length=255, null=True,blank=True)
+    Title = models.CharField(max_length=255, null=True,blank=True,unique=True)
     Description = models.CharField(max_length=255, null=True,blank=True)
     SerialNumber = models.CharField(max_length=255, null=True,blank=True)
-    Amount = models.CharField(max_length=255, null=True,blank=True)
+    Amount = models.IntegerField(default=0, null=True,blank=True)
     CategoryID = models.ForeignKey('ToolsCategory',on_delete=models.SET_NULL,null=True,blank=True)
     created_at = models.DateField(auto_now_add=True)
 
 class SubscriptionsTools(models.Model):
     ToolID = models.ForeignKey('Tools',on_delete=models.SET_NULL,null=True,blank=True)
+    quantity = models.IntegerField(default=0, null=True, blank=True)
     SubscriptionsID = models.ForeignKey('Subscriptions',on_delete=models.SET_NULL,null=True,blank=True)
     created_at = models.DateField(auto_now_add=True)
+
+    @property
+    def get_total(self):
+        total=int(self.ToolID.Amount*self.quantity)
+        return total
 
 class Language(models.Model):
     Language = models.CharField(max_length=255, null=True,blank=True)

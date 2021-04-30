@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse,JsonResponse
 from rest_framework.response import Response
 from django.core import serializers
+from datetime import datetime
 import json
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
@@ -90,6 +91,44 @@ def AddMeter(request):
         return render(request,'Addmeternumber.html')
 
 @login_required(login_url='/login')
+def add_subscription(request):
+    if request.method=='POST':
+        return redirect('Meters')
+    else:
+        tools=Tools.objects.all()
+        customers=Customer.objects.all()
+        services=Service.objects.all()
+        return render(request,'add_subscription.html',{'tools':tools,'customers':customers,'services':services})
+
+@login_required(login_url='/login')
+def checkout(request):
+    if request.method=='POST':
+        today=datetime.today()
+        subscription=Subscriptions()
+        customer = Customer.objects.only('id').get(id=int(request.POST['customer']))
+        subscription.CustomerID=customer
+        subscription.From=today
+        subscription.save()
+        tools=request.POST['tools'].split(',')[:-1]
+
+        for tool in tools:
+            my_tool=Tools.objects.get(Title=tool)
+            subscriptionTool=SubscriptionsTools()
+            subscriptionTool.ToolID=my_tool
+            subscriptionTool.SubscriptionsID=subscription
+            subscriptionTool.save()
+            
+        print(request.POST['service'])
+        print(request.POST['customer'])
+        print(today)
+        return redirect('customers')
+    # else:
+    #     tools=Tools.objects.all()
+    #     customers=Customer.objects.all()
+    #     services=Service.objects.all()
+    #     return render(request,'checkout.html',{'tools':tools,'customers':customers,'services':services})
+
+@login_required(login_url='/login')
 def tools(request):
     tools = Tools.objects.all()
     search_query=request.GET.get('search','')
@@ -122,7 +161,8 @@ def add_tool(request):
         return render(request,'add_tool.html',{'categories':categories})
 
 def subscriptions(request):
-    return render(request,'Subscriptions.html')
+    subscriptions=Subscriptions.objects.all()
+    return render(request,'Subscriptions.html',{'subscriptions':subscriptions})
 
 @login_required(login_url='/login')
 def instalment(request):
