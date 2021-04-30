@@ -59,6 +59,17 @@ def meters(request):
     page_number=request.GET.get('page')
     page_obj=paginator.get_page(page_number)
     return render(request,'meters.html',{'Meter':Meter,'page_obj':page_obj})
+
+@login_required(login_url='/login')
+def requestors(request):
+    requests = Request.objects.all()
+    search_query=request.GET.get('search','')
+    if search_query:
+        requests=Request.objects.filter(Q(Names__icontains=search_query))
+    paginator=Paginator(requests,6)
+    page_number=request.GET.get('page')
+    page_obj=paginator.get_page(page_number)
+    return render(request,'requestor.html',{'requests':requests,'page_obj':page_obj})
     
 @login_required(login_url='/login')
 def Addcustomers(request):
@@ -121,8 +132,14 @@ def add_tool(request):
         categories=ToolsCategory.objects.all()
         return render(request,'add_tool.html',{'categories':categories})
 
+@login_required(login_url='/login')
 def subscriptions(request):
     return render(request,'Subscriptions.html')
+
+# @login_required(login_url='/login')
+# def quatation(request):
+#     qoute = SubscriptionsTools.objects.get(SubscriptionsID=SubscriptionsID)
+#     return render(request, 'quotation.html',{'quote':quote})
 
 @login_required(login_url='/login')
 def instalment(request):
@@ -147,6 +164,12 @@ class LanguageUpdateView(UpdateAPIView):
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer
     lookup_field = 'id'
+
+
+#SubscriberRequest
+class RequestCreateView(CreateAPIView):
+    queryset = Request.objects.all()
+    serializer_class = RequestSerializer
 
 
 

@@ -130,3 +130,16 @@ class Service(models.Model):
     Title = models.CharField(max_length=255, null=True,blank=True)
     Description = models.CharField(max_length=255, null=True,blank=True)
     created_at = models.DateField(auto_now_add=True)
+
+class Request(models.Model):
+    Names = models.CharField(max_length=255, null=True,blank=True)
+    Idnumber = models.CharField(max_length=255, null=True,blank=True)
+    phonenumber = models.CharField(max_length=255, null=True,blank=True)
+    Province = models.CharField(max_length=255, null=True, blank=True)
+    District = models.CharField(max_length=255, null=True, blank=True)
+    Sector = models.CharField(max_length=255, null=True, blank=True)
+    Cell = models.CharField(max_length=255, null=True, blank=True)
+    send_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.Names
