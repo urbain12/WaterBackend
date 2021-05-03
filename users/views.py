@@ -142,7 +142,7 @@ def checkout(request):
         print(request.POST['service'])
         print(request.POST['customer'])
         print(today)
-        return redirect('customers')
+        return redirect('Subscriptions')
     # else:
     #     tools=Tools.objects.all()
     #     customers=Customer.objects.all()
