@@ -1,12 +1,12 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block content%}
-
+{% load humanize %}
  <div id="page-content">
                     
 					<div class="panel">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Quatation installation</h3>
+                            <h3 class="panel-title">Quotation installation</h3>
                         </div>
                     
                         <!--Data Table-->
@@ -32,50 +32,52 @@
                                         <tr>
                                             <th class="text-left">ID</th>
                                             <th>Tool</th>
-                                            <th>Quantity</th>
                                             <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Amount</th>
                                             
                                             
                                             
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% comment %} {% for tool in page_obj %} {% endcomment %}
+                                    {% for tool in sub_tools %}
                                     <tr>
-                                            <td><a class="btn-link" href="#">1</a></td>
-                                            <td>Robinet</td>
-                                            <td>5</td>
-                                            <td>15000</td>
-                                            <td>total</td>
-                                            <td>150,0000</td>
+                                            <td><a class="btn-link" href="#">{{tool.id}}</a></td>
+                                            <td>{{tool.ToolID.Title}}</td>
+                                            <td>{{tool.ToolID.Amount|intcomma}} Rwf</td>
+                                            <td>{{tool.quantity}}</td>
+                                            <td>{{tool.get_total|intcomma}} Rwf</td>
 
                                            
                                             
                                         </tr>
+                                       
 
-                                    {% comment %} {% endfor %} {% endcomment %}
+                                    {% endfor %}
+
+                                     <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                           
+                                        </tr>
+                                        <tr>
+                                            <td> <strong>Total</strong> </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><strong><u>{{subscription.get_total_amount|intcomma}} Rwf</u></strong></td>
+                                           
+                                        </tr>
                                         
                                     
                                         </tbody>
                                 </table>
                             </div>
-                            {% comment %} <div class="pagination">
-                <span class="step-links">
-                    {% if page_obj.has_previous %}
-                        <a class="btn btn-primary mb-4" href="?page=1">&laquo; first</a>
-                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.previous_page_number }}">previous</a>
-                    {% endif %}
-
-                    <span class="current">
-                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                    </span>
-
-                    {% if page_obj.has_next %}
-                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.next_page_number }}">next</a>
-                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                    {% endif %}
-                </span>
-            </div> {% endcomment %}
+                      
                         </div>
                         <!--===================================================-->
                         <!--End Data Table-->

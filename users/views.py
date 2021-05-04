@@ -113,13 +113,9 @@ def AddMeter(request):
 
 @login_required(login_url='/login')
 def add_subscription(request):
-    if request.method=='POST':
-        return redirect('Meters')
-    else:
-        tools=Tools.objects.all()
-        customers=Customer.objects.all()
-        services=Service.objects.all()
-        return render(request,'add_subscription.html',{'tools':tools,'customers':customers,'services':services})
+    tools=Tools.objects.all()
+    customers=Customer.objects.all()
+    return render(request,'add_subscription.html',{'tools':tools,'customers':customers})
 
 @login_required(login_url='/login')
 def checkout(request):
@@ -137,12 +133,54 @@ def checkout(request):
             subscriptionTool=SubscriptionsTools()
             subscriptionTool.ToolID=my_tool
             subscriptionTool.SubscriptionsID=subscription
+            subscriptionTool.quantity=1
             subscriptionTool.save()
             
-        print(request.POST['service'])
-        print(request.POST['customer'])
-        print(today)
-        return redirect('Subscriptions')
+        my_tools=SubscriptionsTools.objects.filter(SubscriptionsID=subscription.id)
+        return redirect('checkout_page', pk=subscription.id)
+
+@login_required(login_url='/login')
+def Checkout(request,subID):
+    if request.method=='POST':
+        today=datetime.today()
+        subscription= Subscriptions.objects.get(id=subID)
+        customer = Customer.objects.only('id').get(id=int(request.POST['customer']))
+        subscription.CustomerID=customer
+        subscription.From=today
+        subscription.save()
+        SubscriptionsTools.objects.filter(SubscriptionsID=subID).delete()
+        tools=request.POST['tools'].split(',')[:-1]
+
+        for tool in tools:
+            my_tool=Tools.objects.get(Title=tool)
+            subscriptionTool=SubscriptionsTools()
+            subscriptionTool.ToolID=my_tool
+            subscriptionTool.SubscriptionsID=subscription
+            subscriptionTool.quantity=1
+            subscriptionTool.save()
+            
+        my_tools=SubscriptionsTools.objects.filter(SubscriptionsID=subscription.id)
+        return redirect('checkout_page', pk=subscription.id)
+
+@login_required(login_url='/login')
+def checkout_page(request,pk):
+    subscription = Subscriptions.objects.get(id=pk)
+    my_tools=SubscriptionsTools.objects.filter(SubscriptionsID=pk)
+    return render(request, 'checkout.html', {'subscription': subscription,'my_tools':my_tools})
+
+@login_required(login_url='/login')
+def confirm(request,subID):
+    subscription = Subscriptions.objects.get(id=subID)
+    subscription.complete=True
+    subscription.save()
+    return redirect('Subscriptions')
+
+@login_required(login_url='/login')
+def cancel(request,subID):
+    subscription = Subscriptions.objects.get(id=subID)
+    subscription.delete()
+    return redirect('Subscriptions')
+
     # else:
     #     tools=Tools.objects.all()
     #     customers=Customer.objects.all()
@@ -187,19 +225,56 @@ def add_tool(request):
 
 @login_required(login_url='/login')
 def subscriptions(request):
-    subscriptions=Subscriptions.objects.all()
+    subscriptions=Subscriptions.objects.filter(complete=True)
     return render(request,'Subscriptions.html',{'subscriptions':subscriptions})
 
-# @login_required(login_url='/login')
-# def quatation(request):
-#     qoute = SubscriptionsTools.objects.get(SubscriptionsID=SubscriptionsID)
-#     return render(request, 'quotation.html',{'quote':quote})
+@login_required(login_url='/login')
+def quotation(request,SubscriptionsID):
+    sub_tools = SubscriptionsTools.objects.filter(SubscriptionsID=SubscriptionsID)
+    subscription=Subscriptions.objects.get(id=SubscriptionsID)
+    return render(request, 'quotation.html',{'sub_tools':sub_tools,'subscription':subscription})
 
 
 @login_required(login_url='/login')
 def instalment(request):
     return render(request, 'Installament.html')
 
+@login_required(login_url='/login')
+def updateItem(request):
+    data = json.loads(request.body)
+    subToolID = data['productId']
+    action = data['action']
+    print('Action:', action)
+    print('Product:', subToolID)
+
+    Sub_tool= SubscriptionsTools.objects.get(id=subToolID)
+
+    if action == 'add':
+        Sub_tool.quantity = (Sub_tool.quantity + 1)
+    elif action == 'remove':
+        if Sub_tool.quantity < 1:
+            Sub_tool.quantity=Sub_tool.quantity
+        else:
+            Sub_tool.quantity = (Sub_tool.quantity-1)
+
+    Sub_tool.save()
+
+    # if orderItem.quantity <= 0:
+    # 	orderItem.delete()
+
+    return JsonResponse('Item was added', safe=False)
+
+
+@login_required(login_url='/login')
+def update_subscription(request,subID):
+    subscription=Subscriptions.objects.get(id=subID)
+    customers=Customer.objects.all()
+    tools=Tools.objects.all()
+    tools_ids=[]
+    sub_tools=SubscriptionsTools.objects.filter(SubscriptionsID=subID)
+    for tool in sub_tools:
+        tools_ids.append(tool.ToolID.id)
+    return render(request,'update_subscription.html',{'subscription':subscription,'tools_ids':tools_ids,'tools':tools,'customers':customers})
 
 # mobile
 class LanguageListView(ListAPIView):
