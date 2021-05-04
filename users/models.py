@@ -94,8 +94,8 @@ class Category(models.Model):
 class Subscriptions(models.Model):
     CustomerID = models.ForeignKey('Customer',on_delete=models.SET_NULL,null=True,blank=True)
     From = models.DateField(blank=True, null=True)
-    Totalamount = models.ForeignKey('SubscriptionsTools',on_delete=models.SET_NULL,null=True,blank=True)
     TotalBalance = models.CharField(max_length=255, null=True,blank=True)
+    complete = models.BooleanField(default=False)
     @property
     def get_total_amount(self):
         tools=self.subscriptionstools_set.all()
@@ -126,7 +126,7 @@ class Tools(models.Model):
 class SubscriptionsTools(models.Model):
     ToolID = models.ForeignKey('Tools',on_delete=models.SET_NULL,null=True,blank=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
-    SubscriptionsID = models.ForeignKey('Subscriptions',on_delete=models.SET_NULL,null=True,blank=True)
+    SubscriptionsID = models.ForeignKey('Subscriptions',on_delete=models.CASCADE,null=True,blank=True)
     created_at = models.DateField(auto_now_add=True)
 
     @property

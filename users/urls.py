@@ -1,4 +1,5 @@
 from django.urls import path,include
+from django.conf.urls import url
 from .views import *
 
 urlpatterns = [
@@ -7,8 +8,14 @@ urlpatterns = [
     path('logout/',logout,name='logout'),
     path('customers/',customers,name='customers'),
     path('checkout/',checkout,name='checkout'),
+    path('Checkout/<int:subID>/',Checkout,name='Checkout'),
+    path('confirm/<int:subID>/',confirm,name="confirm"),
+    path('cancel/<int:subID>/',cancel,name="cancel"),
+    url(r'checkout_page/(?P<pk>\d+)/$', checkout_page, name='checkout_page'),
     path('tools/',tools,name='tools'),
     path('add_tool/',add_tool,name='add_tool'),
+    path('update_item/',updateItem,name='update_item'),
+    path('update_subscription/<int:subID>/',update_subscription,name='update_subscription'),
     path('add_customer/',add_customer,name='add_customer'),
     path('add_subscription/',add_subscription,name='add_subscription'),
     path('Addcustomers/',Addcustomers,name='Addcustomers'),
@@ -17,7 +24,7 @@ urlpatterns = [
     path('Subscriptions/',subscriptions,name='Subscriptions'),
     path('instalment/',instalment,name='instalment'),
     path('requestor/',requestors,name='requestor'),
-    # path('quatation/<int:SubscriptionsID>',views.quatation,name="quatation"),
+    path('quotation/<int:SubscriptionsID>',quotation,name="quotation"),
 
 
 

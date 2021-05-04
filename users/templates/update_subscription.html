@@ -2,6 +2,17 @@
 {% load static %}
 {% block content%}
 
+<script>
+window.onload=function(){
+    console.log('oddsfsda')
+var text="";
+                $('.magic-checkbox:checked').each(function(){
+                    text+=$(this).val()+','
+                });
+                $('#tools').val(text);
+}
+</script>
+
  <div id="page-content">
                     
 					<div class="panel">
@@ -11,7 +22,7 @@
                     
                                 <!--Block Styled Form -->
                                 <!--===================================================-->
-                                <form enctype="multipart/form-data" action="{% url 'checkout' %}" method="POST">
+                                <form enctype="multipart/form-data" action="{% url 'Checkout' subscription.id%}" method="POST">
                                 {% csrf_token %}
                                     <div class="panel-body">
 
@@ -19,17 +30,21 @@
                                             <div class="col-sm-12">
                                                     <div class="form-group">
                                                     <label class="control-label">Customer</label>
-                                                    <select class="form-control" name="customer" required>
+                                                    <select class="form-control" value="5" name="customer" required>
                                                        <option value="Select meter number">Select customer</option> 
                                                     {% for customer in customers%}
-
-                                                       <option value="{{customer.id}}">{{customer.FirstName}} {{customer.LastName}}</option> 
+                                                        {% if subscription.CustomerID.id == customer.id %}
+                                                       <option value="{{customer.id}}" selected>{{customer.FirstName}} {{customer.LastName}}</option>
+                                                       {% else %} 
+                                                       <option value="{{customer.id}}">{{customer.FirstName}} {{customer.LastName}}</option>
+                                                       {% endif %}
+                                                        
                                                     {% endfor %}
                                                        
                                                     </select>  
                                                 </div>
                                             </div>
-                                           
+                                            
                                             
                                             
                                             <h3>Tools</h3>
@@ -37,7 +52,11 @@
                                             {% for tool in tools%}
                                             <div class="col-sm-2">
                                                 <div class="checkbox">
+                                                    {% if tool.id in tools_ids %}
+                                                    <input id="demo-remember-me" value={{tool.Title}} class="magic-checkbox" type="checkbox" checked>
+                                                    {% else %}
                                                     <input id="demo-remember-me" value={{tool.Title}} class="magic-checkbox" type="checkbox">
+                                                    {% endif %}
                                                     <label for="demo-remember-me">{{tool.Title}}</label>
                                                 </div>
                                             </div>

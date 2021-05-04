@@ -1,6 +1,7 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block content%}
+{% load humanize %}
 
  <div id="page-content">
                     
@@ -49,8 +50,8 @@
                                             <td><a class="btn-link" href="#">{{sub.id}}</a></td>
                                             <td>{{sub.CustomerID.FirstName}} {{sub.CustomerID.LastName}}</td>
                                             <td>{{sub.From}}</td>
-                                            <td>{{sub.get_total_amount}}</td>
-                                            <td> <button class="btn btn-success">View</button></td>
+                                            <td>{{sub.get_total_amount|intcomma}} Rwf</td>
+                                            <td> <a class="btn-link" href="{% url 'quotation' sub.id%}"><button class="btn btn-success">View</button></a></td>
                                     </tr>
                                     {% endfor %}
 
