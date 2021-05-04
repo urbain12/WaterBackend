@@ -6,7 +6,7 @@
                     
 					<div class="panel">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Customers</h3>
+                            <h3 class="panel-title">Quatation installation</h3>
                         </div>
                     
                         <!--Data Table-->
@@ -16,14 +16,9 @@
                                 <div class="row">
                                     
                                     <div class="col-sm-12 table-toolbar-right">
-                                        <a href="{% url 'add_tool' %}" id="demo-btn-addrow" class="btn btn-purple"><i class="demo-pli-add"></i> Add new</a>
 
                                         <div class="btn-group">
                                             <div class="form-group">
-                                        <form class="form-inline my-2 my-lg-0" action="{% url 'tools'%}">
-                                        <input id="demo-input-search2" type="text" name="search" placeholder="Search by Fisrtname" class="form-control" autocomplete="off">
-                                        <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                                        </form>
                                         </div>
                                    
                                             
@@ -36,38 +31,35 @@
                                     <thead>
                                         <tr>
                                             <th class="text-left">ID</th>
-                                            <th>Title</th>
-                                            <th>Serial Number</th>
-                                            <th>Category</th>
-                                            <th>Amount</th>
-                                            <th>Description</th>
-                                            <th>created at</th>
+                                            <th>Tool</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                            
                                             
                                             
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for tool in page_obj %}
+                                    {% comment %} {% for tool in page_obj %} {% endcomment %}
                                     <tr>
-                                            <td><a class="btn-link" href="#">{{tool.id}}</a></td>
-                                            <td>{{tool.Title}}</td>
-                                            <td>{{tool.SerialNumber}}</td>
-                                            <td>{{tool.CategoryID}}</td>
-                                            <td>{{tool.Amount}}</td>
-                                            <td>{{tool.Description}}</td>
-                                            <td>{{tool.created_at}}</td>
+                                            <td><a class="btn-link" href="#">1</a></td>
+                                            <td>Robinet</td>
+                                            <td>5</td>
+                                            <td>15000</td>
+                                            <td>total</td>
+                                            <td>150,0000</td>
 
                                            
                                             
                                         </tr>
 
-                                    {% endfor %}
+                                    {% comment %} {% endfor %} {% endcomment %}
                                         
                                     
                                         </tbody>
                                 </table>
                             </div>
-                            <div class="pagination">
+                            {% comment %} <div class="pagination">
                 <span class="step-links">
                     {% if page_obj.has_previous %}
                         <a class="btn btn-primary mb-4" href="?page=1">&laquo; first</a>
@@ -83,7 +75,7 @@
                         <a class="btn btn-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
                     {% endif %}
                 </span>
-            </div>
+            </div> {% endcomment %}
                         </div>
                         <!--===================================================-->
                         <!--End Data Table-->

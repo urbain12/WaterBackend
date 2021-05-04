@@ -12,6 +12,11 @@ class LanguageSerializer(serializers.ModelSerializer):
         model = Language
         fields = '__all__'
 
+class RequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Request
+        field = '__all__'
+
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
