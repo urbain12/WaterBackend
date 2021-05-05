@@ -36,6 +36,8 @@ urlpatterns = [
     path('UpdateLanguage/<id>/', LanguageUpdateView.as_view()),
     path('DeleteLanguage/<id>/', LanguageDeleteView.as_view()),
 
+    path('get_customer/<str:meter_number>/',GetCustomer.as_view(),name="get_customer"),
+
 
     #SubscriberRequest
     path('Request/create/',RequestCreateView.as_view()),
