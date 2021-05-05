@@ -136,6 +136,8 @@ def checkout(request):
             subscriptionTool.quantity=1
             subscriptionTool.save()
             
+        subscription.TotalBalance=subscription.get_total_amount
+        subscription.save()
         my_tools=SubscriptionsTools.objects.filter(SubscriptionsID=subscription.id)
         return redirect('checkout_page', pk=subscription.id)
 
@@ -172,6 +174,7 @@ def checkout_page(request,pk):
 def confirm(request,subID):
     subscription = Subscriptions.objects.get(id=subID)
     subscription.complete=True
+    subscription.TotalBalance=subscription.get_total_amount
     subscription.save()
     return redirect('Subscriptions')
 
@@ -529,3 +532,34 @@ class SubscriptionsPaymentUpdateView(UpdateAPIView):
     queryset = SubscriptionsPayment.objects.all()
     serializer_class = SubscriptionsPaymentSerializer
     lookup_field = 'id'
+
+def pay_subscription(request):
+    if request.method=='POST':
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        today=datetime.today()
+        print(body)
+        subscription=Subscriptions.objects.get(CustomerID=body['customerID'])
+        subscription.TotalBalance=int(subscription.TotalBalance)-int(body['amount'])
+        subscription.save()
+        payment=SubscriptionsPayment()
+        payment.SubscriptionsID=subscription
+        payment.Paidamount=int(body['amount'])
+        payment.PaymentDate=today
+        payment.save()
+        data = {
+            'result': 'Payment done successfully!!!',
+        }
+        dump = json.dumps(data)
+        return HttpResponse(dump, content_type='application/json')
+
+def get_balance(request,meter_number):
+    meter=Meters.objects.get(Meternumber=meter_number)
+    customer=Customer.objects.get(Meternumber=meter.id)
+    subscription=Subscriptions.objects.get(CustomerID=customer.id)
+    data={
+        'balance':subscription.TotalBalance
+    }
+    dump=json.dumps(data)
+    return HttpResponse(dump,content_type='application/json')
+        
