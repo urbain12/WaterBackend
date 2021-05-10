@@ -8,6 +8,7 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
 from django.core import serializers
 from datetime import datetime
+from datetime import timedelta
 import json
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
@@ -115,7 +116,8 @@ def AddMeter(request):
 def add_subscription(request):
     tools=Tools.objects.all()
     customers=Customer.objects.all()
-    return render(request,'add_subscription.html',{'tools':tools,'customers':customers})
+    categories=Category.objects.all()
+    return render(request,'add_subscription.html',{'tools':tools,'customers':customers,'categories':categories})
 
 @login_required(login_url='/login')
 def checkout(request):
@@ -125,6 +127,7 @@ def checkout(request):
         customer = Customer.objects.only('id').get(id=int(request.POST['customer']))
         subscription.CustomerID=customer
         subscription.From=today
+        subscription.To=today + timedelta(days=365)
         subscription.save()
         tools=request.POST['tools'].split(',')[:-1]
 
@@ -240,7 +243,8 @@ def quotation(request,SubscriptionsID):
 
 @login_required(login_url='/login')
 def instalment(request):
-    return render(request, 'Installament.html')
+    subscriptions=Subscriptions.objects.filter(complete=True)
+    return render(request, 'Installament.html',{'subscriptions':subscriptions})
 
 @login_required(login_url='/login')
 def updateItem(request):

@@ -16,7 +16,7 @@
                                     <div class="panel-body">
 
                                         <div class="row">
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-6">
                                                     <div class="form-group">
                                                     <label class="control-label">Customer</label>
                                                     <select class="form-control" name="customer" required>
@@ -24,6 +24,19 @@
                                                     {% for customer in customers%}
 
                                                        <option value="{{customer.id}}">{{customer.FirstName}} {{customer.LastName}}</option> 
+                                                    {% endfor %}
+                                                       
+                                                    </select>  
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                    <label class="control-label">Service</label>
+                                                    <select class="form-control" name="customer" required>
+                                                       <option value="Select meter number">Select Service</option> 
+                                                    {% for category in categories%}
+
+                                                       <option value="{{category.id}}">{{category.Title}}</option> 
                                                     {% endfor %}
                                                        
                                                     </select>  
