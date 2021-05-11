@@ -15,7 +15,7 @@ class LanguageSerializer(serializers.ModelSerializer):
 class RequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Request
-        field = '__all__'
+        fields = ('Names','phonenumber','Idnumber','Province','District','Sector','Cell')
 
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
