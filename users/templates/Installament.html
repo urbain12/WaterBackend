@@ -1,6 +1,7 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block content%}
+{% load humanize %}
 
  <div id="page-content">
                     
@@ -48,20 +49,24 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    
+                                    {% for sub in subscriptions %}
+                                    {% widthratio sub.get_total_amount 12 1 as MonthlyPayment %}
                                     <tr>
-                                            <td>Aimable Rukundo</td>
-                                            <td>22-12-2020</td>
-                                            <td>INuma</td>
-                                            <td>120,000 RWF</td>
-                                            <td>10,000 RWF</td>
-                                            <td>90,000 RWF</td>
-                                            <td>30,000 RWF</td>
-                                            <td>10,000 RWF</td>
-                                            <td>22-12-2020</td>
-                                            <td>unemployed for now. Will start paying when he gets a job.</td>
-                                            <td>5</td>
+                                            <td>{{sub.CustomerID.FirstName}} {{sub.CustomerID.LastName}}</td>
+                                            <td>{{sub.From}}</td>{% widthratio sub.get_total_amount 12 1 %}
+                                            <td>{{sub.Category.Title}}</td>
+                                            <td>{{sub.get_total_amount|intcomma}} Rwf</td>
+                                            <td> {{ MonthlyPayment|intcomma }} Rwf</td>                                           
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{sub.To}}</td>
+                                            <td></td>
+                                            <td></td>
                                     </tr>
+                                    {% endfor %}
+                                    
+                                
 
                                     
                                         

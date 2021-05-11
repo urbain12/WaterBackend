@@ -1,6 +1,7 @@
 from django.urls import path,include
 from django.conf.urls import url
 from .views import *
+from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     path('dashboard/',dashboard,name='dashboard'),
@@ -16,6 +17,7 @@ urlpatterns = [
     path('add_tool/',add_tool,name='add_tool'),
     path('update_item/',updateItem,name='update_item'),
     path('update_subscription/<int:subID>/',update_subscription,name='update_subscription'),
+    path('pay_subscription/',csrf_exempt(pay_subscription),name='pay_subscription'),
     path('add_customer/',add_customer,name='add_customer'),
     path('add_subscription/',add_subscription,name='add_subscription'),
     path('Addcustomers/',Addcustomers,name='Addcustomers'),
@@ -37,6 +39,7 @@ urlpatterns = [
     path('DeleteLanguage/<id>/', LanguageDeleteView.as_view()),
 
     path('get_customer/<str:meter_number>/',GetCustomer.as_view(),name="get_customer"),
+    path('get_balance/<str:meter_number>/',get_balance,name="get_balance"),
 
 
     #SubscriberRequest
