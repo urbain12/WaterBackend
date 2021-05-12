@@ -4,9 +4,11 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 # Create your models here.
 
 class UserManager(BaseUserManager):
-    def create_user(self,email,password=None,is_active=True,is_staff=False,is_admin=False):
+    def create_user(self,email,phone,password=None,is_active=True,is_staff=False,is_admin=False):
         if not email:
             raise ValueError('Users must have a valid email')
+        if not phone:
+            raise ValueError('Users must have a valid phone number')
         if not password:
             raise ValueError("You must enter a password")
         
@@ -14,6 +16,7 @@ class UserManager(BaseUserManager):
         user_obj=self.model(email=email)
         user_obj.set_password(password)
         user_obj.staff=is_staff
+        user_obj.phone=phone
         user_obj.admin=is_admin
         user_obj.active=is_active
         user_obj.save(using=self._db)
@@ -30,6 +33,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255,unique=True)
+    phone = models.CharField(max_length=255,unique=True,null=True,blank=True)
     active=models.BooleanField(default=True)
     staff=models.BooleanField(default=False)
     admin=models.BooleanField(default=False)

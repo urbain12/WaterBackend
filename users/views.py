@@ -16,6 +16,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from django.core.paginator import Paginator
 from django.db.models import Q
+from rest_framework.authtoken.models import Token
 
 
 # website
@@ -35,6 +36,45 @@ def login(request):
             return render(request, 'login.html')
     else:
         return render(request, 'login.html')
+
+def customer_login(request):
+    if request.method=='POST':
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        print(body)
+        try:
+            user=User.objects.get(phone=body['phone'])
+            if user.check_password(body['password']):
+                token=Token.objects.get_or_create(user=user)[0]
+                data={
+                    'user_id':user.id,
+                    'email':user.email,
+                    'status': 'success',
+                    'token':str(token),
+                    'code': status.HTTP_200_OK,
+                    'message': 'Login successfull',
+                    'data': []
+                }
+                dump = json.dumps(data)
+                return HttpResponse(dump, content_type='application/json')
+            else:
+                data={
+                    'status': 'failure',
+                    'code': status.HTTP_400_BAD_REQUEST,
+                    'message': 'Phone or password incorrect!',
+                    'data': []
+                }
+                dump = json.dumps(data)
+                return HttpResponse(dump, content_type='application/json')
+        except User.DoesNotExist:
+            data={
+                'status': 'failure',
+                'code': status.HTTP_400_BAD_REQUEST,
+                'message': 'Phone or password incorrect!',
+                'data': []
+            }
+            dump = json.dumps(data)
+            return HttpResponse(dump, content_type='application/json')
 
 
 @login_required(login_url='/login')
