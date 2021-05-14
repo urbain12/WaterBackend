@@ -65,6 +65,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.active
 
 class Customer(models.Model):
+    user=models.OneToOneField('User',on_delete=models.CASCADE,null=True,blank=True)
     FirstName = models.CharField(max_length=255,null=True,blank=True)
     LastName = models.CharField(max_length=255,null=True,blank=True)
     Phone = models.CharField(max_length=255,null=True,blank=True)
