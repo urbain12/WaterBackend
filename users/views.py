@@ -25,6 +25,11 @@ def dashboard(request):
     return render(request, 'dashboard.html')
 
 
+@login_required(login_url='/login')
+def operator(request):
+    return render(request, 'operator.html')
+
+
 def login(request):
     if request.method == "POST":
         customer = authenticate(
@@ -388,7 +393,7 @@ class GetCustomer(ListAPIView):
     serializer_class = CustomerSerializer
     def get_queryset(self):
         meter=Meters.objects.get(Meternumber=self.kwargs['meter_number'])
-        return Customer.objects.filter(Meternumber=meter.id)\
+        return Customer.objects.filter(Meternumber=meter.id)
 
 class GetCustomerbyId(ListAPIView):
     serializer_class = CustomerSerializer
