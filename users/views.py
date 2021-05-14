@@ -48,7 +48,7 @@ def operator(request):
                     email=request.POST['email'],
                     phone=request.POST['phonenumber'],
                     password=request.POST['password1'])
-                return redirect('dashboard')
+                return redirect('user')
     return render(request,'operator.html')
 
 
