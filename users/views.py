@@ -37,6 +37,21 @@ def user(request):
     return render(request, 'users.html',{'users': users, 'page_obj': page_obj})
 
 
+def operator(request):
+    if request.method=='POST':
+        if request.POST['password1']==request.POST['password2'] :
+            try:
+                user=User.objects.get(phone=request.POST['phonenumber'])
+                return render(request,'operator.html',{'error':'The user  has already been taken'})
+            except User.DoesNotExist:
+                user=User.objects.create_user(
+                    email=request.POST['email'],
+                    phone=request.POST['phonenumber'],
+                    password=request.POST['password1'])
+                return redirect('dashboard')
+    return render(request,'operator.html')
+
+
 def login(request):
     if request.method == "POST":
         customer = authenticate(

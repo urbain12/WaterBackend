@@ -2,6 +2,10 @@
 {% load static %}
 {% block content%}
 
+{% if error%}
+error
+{% endif %}
+
  <div id="page-content">
                     
 					<div class="panel">
@@ -11,7 +15,7 @@
                     
                                 <!--Block Styled Form -->
                                 <!--===================================================-->
-                                <form enctype="multipart/form-data" >
+                                <form enctype="multipart/form-data" action="{% url 'operator'%}" method='POST' >
                                 {% csrf_token %}
                                     <div class="panel-body">
                                         <div class="row">
