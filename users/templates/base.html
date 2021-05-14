@@ -416,9 +416,9 @@
                                         </a>
                                     </li>
 
-                                    {% url 'operator' as users %}
-                                    <li {% if request.path == users  %} class="active-sub"{% endif %}>
-                                        <a href="{% url 'operator' %}">
+                                    {% url 'user' as users %}
+                                    <li {% if request.path == users %} class="active-sub"{% endif %}>
+                                        <a href="{% url 'user' %}">
                                             <i class="fa fa-cogs"></i>
                                             <span class="menu-title">
                                                 <strong>Operator</strong>

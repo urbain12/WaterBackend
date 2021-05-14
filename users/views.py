@@ -26,8 +26,15 @@ def dashboard(request):
 
 
 @login_required(login_url='/login')
-def operator(request):
-    return render(request, 'operator.html')
+def user(request):
+    users = User.objects.all()
+    search_query = request.GET.get('search', '')
+    if search_query:
+        users = User.objects.filter(Q(phone__icontains=search_query))
+    paginator = Paginator(users, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'users.html',{'users': users, 'page_obj': page_obj})
 
 
 def login(request):
