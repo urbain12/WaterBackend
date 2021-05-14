@@ -41,6 +41,8 @@ urlpatterns = [
 
     path('get_customer/<str:meter_number>/',GetCustomer.as_view(),name="get_customer"),
     path('get_balance/<str:meter_number>/',get_balance,name="get_balance"),
+    path('getcustomerbyid/<int:user_id>/',GetCustomerbyId.as_view()),
+    path('get_category/<int:user_id>/',get_category,name="get_category"),
 
 
     #SubscriberRequest
