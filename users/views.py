@@ -25,6 +25,11 @@ def dashboard(request):
     return render(request, 'dashboard.html')
 
 
+@login_required(login_url='/login')
+def operator(request):
+    return render(request, 'operator.html')
+
+
 def login(request):
     if request.method == "POST":
         customer = authenticate(

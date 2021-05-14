@@ -405,8 +405,8 @@
                                             </span>
                                         </a>
                                     </li>
-                                    {% url 'tools' as url3 %}
-                                    <li {% if request.path == url3  %} class="active-sub"{% endif %}>
+                                    {% url 'tools' as toolls %}
+                                    <li {% if request.path == toolls  %} class="active-sub"{% endif %}>
                                         <a href="{% url 'tools' %}">
                                             <i class="fa fa-wrench"></i>
                                             <span class="menu-title">
@@ -415,8 +415,10 @@
                                             </span>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="#">
+
+                                    {% url 'operator' as users %}
+                                    <li {% if request.path == users  %} class="active-sub"{% endif %}>
+                                        <a href="{% url 'operator' %}">
                                             <i class="fa fa-cogs"></i>
                                             <span class="menu-title">
                                                 <strong>Operator</strong>
