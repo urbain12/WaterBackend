@@ -108,6 +108,8 @@ def meters(request):
     return render(request, 'meters.html', {'Meter': Meter, 'page_obj': page_obj})
 
 
+
+
 @login_required(login_url='/login')
 def requestors(request):
     requests = Request.objects.all()
@@ -125,6 +127,8 @@ def Addcustomers(request):
     if request.method == 'POST':
         meter = Meters.objects.only('id').get(
             id=int(request.POST['Meternumber']))
+        user = User.objects.only('id').get(
+            id=int(request.POST['user_id']))
         Addcustomers = Customer()
         Addcustomers.FirstName = request.POST['FirstName']
         Addcustomers.LastName = request.POST['LastName']
@@ -135,6 +139,7 @@ def Addcustomers(request):
         Addcustomers.Sector = request.POST['Sector']
         Addcustomers.Cell = request.POST['Cell']
         Addcustomers.Meternumber = meter
+        Addcustomers.user = user
         Addcustomers.save()
         # Addcustomers=True
         return redirect('customers')
@@ -248,7 +253,8 @@ def tools(request):
 @login_required(login_url='/login')
 def add_customer(request):
     Meter = Meters.objects.filter(customer=None)
-    return render(request, 'add_customer.html', {'Meter': Meter})
+    users= User.objects.filter(customer=None)
+    return render(request, 'add_customer.html', {'Meter': Meter,'users':users})
 
 
 @login_required(login_url='/login')
