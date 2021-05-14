@@ -25,6 +25,33 @@ def dashboard(request):
     return render(request, 'dashboard.html')
 
 
+@login_required(login_url='/login')
+def user(request):
+    users = User.objects.all()
+    search_query = request.GET.get('search', '')
+    if search_query:
+        users = User.objects.filter(Q(phone__icontains=search_query))
+    paginator = Paginator(users, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'users.html',{'users': users, 'page_obj': page_obj})
+
+
+def operator(request):
+    if request.method=='POST':
+        if request.POST['password1']==request.POST['password2'] :
+            try:
+                user=User.objects.get(phone=request.POST['phonenumber'])
+                return render(request,'operator.html',{'error':'The user  has already been taken'})
+            except User.DoesNotExist:
+                user=User.objects.create_user(
+                    email=request.POST['email'],
+                    phone=request.POST['phonenumber'],
+                    password=request.POST['password1'])
+                return redirect('user')
+    return render(request,'operator.html')
+
+
 def login(request):
     if request.method == "POST":
         customer = authenticate(
@@ -108,6 +135,8 @@ def meters(request):
     return render(request, 'meters.html', {'Meter': Meter, 'page_obj': page_obj})
 
 
+
+
 @login_required(login_url='/login')
 def requestors(request):
     requests = Request.objects.all()
@@ -125,6 +154,8 @@ def Addcustomers(request):
     if request.method == 'POST':
         meter = Meters.objects.only('id').get(
             id=int(request.POST['Meternumber']))
+        user = User.objects.only('id').get(
+            id=int(request.POST['user_id']))
         Addcustomers = Customer()
         Addcustomers.FirstName = request.POST['FirstName']
         Addcustomers.LastName = request.POST['LastName']
@@ -135,6 +166,7 @@ def Addcustomers(request):
         Addcustomers.Sector = request.POST['Sector']
         Addcustomers.Cell = request.POST['Cell']
         Addcustomers.Meternumber = meter
+        Addcustomers.user = user
         Addcustomers.save()
         # Addcustomers=True
         return redirect('customers')
@@ -248,7 +280,8 @@ def tools(request):
 @login_required(login_url='/login')
 def add_customer(request):
     Meter = Meters.objects.filter(customer=None)
-    return render(request, 'add_customer.html', {'Meter': Meter})
+    users= User.objects.filter(customer=None)
+    return render(request, 'add_customer.html', {'Meter': Meter,'users':users})
 
 
 @login_required(login_url='/login')
@@ -382,7 +415,7 @@ class GetCustomer(ListAPIView):
     serializer_class = CustomerSerializer
     def get_queryset(self):
         meter=Meters.objects.get(Meternumber=self.kwargs['meter_number'])
-        return Customer.objects.filter(Meternumber=meter.id)\
+        return Customer.objects.filter(Meternumber=meter.id)
 
 class GetCustomerbyId(ListAPIView):
     serializer_class = CustomerSerializer
