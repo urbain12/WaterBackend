@@ -393,7 +393,7 @@ class GetCustomer(ListAPIView):
 class GetCustomerbyId(ListAPIView):
     serializer_class = CustomerSerializer
     def get_queryset(self):
-        return Customer.objects.get(user=user_id)
+        return Customer.objects.filter(user=self.kwargs['user_id'])
 
 
 class CustomerCreateView(CreateAPIView):
