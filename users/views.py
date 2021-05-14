@@ -382,7 +382,12 @@ class GetCustomer(ListAPIView):
     serializer_class = CustomerSerializer
     def get_queryset(self):
         meter=Meters.objects.get(Meternumber=self.kwargs['meter_number'])
-        return Customer.objects.filter(Meternumber=meter.id)
+        return Customer.objects.filter(Meternumber=meter.id)\
+
+class GetCustomerbyId(ListAPIView):
+    serializer_class = CustomerSerializer
+    def get_queryset(self):
+        return Customer.objects.filter(user=self.kwargs['user_id'])
 
 
 class CustomerCreateView(CreateAPIView):
@@ -603,6 +608,15 @@ def get_balance(request,meter_number):
     subscription=Subscriptions.objects.get(CustomerID=customer.id)
     data={
         'balance':subscription.TotalBalance
+    }
+    dump=json.dumps(data)
+    return HttpResponse(dump,content_type='application/json')
+
+def get_category(request,user_id):
+    customer=Customer.objects.get(user=user_id)
+    subscription=Subscriptions.objects.get(CustomerID=customer.id)
+    data={
+        'category':subscription.Category.Title
     }
     dump=json.dumps(data)
     return HttpResponse(dump,content_type='application/json')

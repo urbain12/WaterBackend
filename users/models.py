@@ -65,6 +65,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.active
 
 class Customer(models.Model):
+    user=models.OneToOneField('User',on_delete=models.CASCADE,null=True,blank=True)
     FirstName = models.CharField(max_length=255,null=True,blank=True)
     LastName = models.CharField(max_length=255,null=True,blank=True)
     Phone = models.CharField(max_length=255,null=True,blank=True)
@@ -94,6 +95,10 @@ class WaterBuyHistory(models.Model):
 class Category(models.Model):
     Title = models.CharField(max_length=255, null=True,blank=True)
     Description = models.CharField(max_length=255, null=True,blank=True)
+
+    def __str__(self):
+        return self.Title
+    
 
 class Subscriptions(models.Model):
     CustomerID = models.ForeignKey('Customer',on_delete=models.SET_NULL,null=True,blank=True)
