@@ -96,6 +96,10 @@ class Category(models.Model):
     Title = models.CharField(max_length=255, null=True,blank=True)
     Description = models.CharField(max_length=255, null=True,blank=True)
 
+    def __str__(self):
+        return self.Title
+    
+
 class Subscriptions(models.Model):
     CustomerID = models.ForeignKey('Customer',on_delete=models.SET_NULL,null=True,blank=True)
     Category = models.ForeignKey('Category',on_delete=models.SET_NULL,null=True,blank=True)
