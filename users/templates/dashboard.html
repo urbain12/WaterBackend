@@ -5,26 +5,129 @@
 <div id="page-content">
                     
 					
-					<hr class="new-section-sm bord-no">
 					<div class="row">
-					    <div class="col-lg-6 col-lg-offset-3">
-					        <div class="panel panel-trans text-center">
-					        <div class="panel-heading">
-					            <h3 class="panel-title">Your content here...</h3>
-					        </div>
-					        <div class="panel-body">
-					            <p>Start putting content on grids or panels, you can also use different combinations of grids.
-					            <br>Please check out the dashboard and other pages.</p>
-					        </div>
+					    <div class="col-lg-10 col-lg-offset-1">
+					        <div class="panel panel-body">
+					            <div class="panel-body">
+				
+					                <br>
+									<div class='row text-center' >
+									<div class="col-md-12"  >
+					                    <div class="panel panel-warning panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                                <i class="fas fa-users icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+					                            <p class="text-2x mar-no text-semibold">148</p>
+					                            <p class="mar-no">Total subscribers</p>
+					                        </div>
+					                    </div>
+					                </div>
+									</div>
+					              <div class="row">
+					                
+					                <div class="col-md-6">
+					                    <div class="panel panel-info panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                                <i class="far fa-credit-card icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+					                            <p class="text-2x mar-no text-semibold">24,209,466.00 RWF</p>
+					                            <p class="mar-no">Total Amount invoiced</p>
+					                        </div>
+					                    </div>
+					                </div>
+					                <div class="col-md-6">
+					                    <div class="panel panel-mint panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                               <i class="fas fa-coins icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+					                            <p class="text-2x mar-no text-semibold">16,383,204.00 RWF</p>
+					                            <p class="mar-no">Total Amount Outstanding </p>
+					                        </div>
+					                    </div>
+					                </div>
+					
+					            </div>
+
+                                <div class="row">
+					               
+					                <div class="col-md-6">
+					                    <div class="panel panel-info panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                                <i class="far fa-credit-card icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+					                            <p class="text-2x mar-no text-semibold">8,016,461.00 RWF</p>
+					                            <p class="mar-no">Total Amount Already Paid </p>
+					                        </div>
+					                    </div>
+					                </div>
+					                <div class="col-md-6">
+					                    <div class="panel panel-mint panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                               <i class="fas fa-coins icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+					                            <p class="text-2x mar-no text-semibold">11,509,811.75 RWF</p>
+					                            <p class="mar-no">Total Amount Overdue</p>
+					                        </div>
+					                    </div>
+					                </div>
+					
+					            </div>
+
+								<canvas id="my_chart"></canvas>
+
+					            </div>
 					        </div>
 					    </div>
 					</div>
 					
-					<hr class="new-section-md bord-no">
-					
-					
 					
 					
                 </div>
+
+				<script>
+					var my_chart=document.getElementById('my_chart').getContext('2d')
+					var barChart=new Chart(my_chart,{
+						type:'bar',
+						data:{
+							labels:[
+							'January',
+							'February',
+							'March',
+							'April',
+							'May',
+							'June',
+							'July',
+							'August',
+							'September',
+							'Octobre',
+							'November',
+							'December'
+							],
+							datasets:[{
+								label:'Number of Subscribers By Overdue Months',
+								data:[3,4,22,22,17,15,20,14,11,9,6,3],
+								backgroundColor:['#FF6633','#809900' , '#FF33FF', '#FFFF99', '#00B3E6', 
+												'#E6B333', '#3366E6', '#999966', '#99FF99','#B34D4D' ,
+												'#80B300', '#FFB399']
+							}]
+						},
+						options:{},
+					})
+				</script>
 
 {% endblock content%}

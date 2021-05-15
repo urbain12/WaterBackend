@@ -197,8 +197,10 @@ def checkout(request):
         today=datetime.today()
         subscription=Subscriptions()
         customer = Customer.objects.only('id').get(id=int(request.POST['customer']))
+        category = Category.objects.only('id').get(id=int(request.POST['category']))
         subscription.CustomerID=customer
         subscription.From=today
+        subscription.Category=category
         subscription.To=today + timedelta(days=365)
         subscription.save()
         tools=request.POST['tools'].split(',')[:-1]
