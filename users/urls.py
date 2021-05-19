@@ -105,7 +105,7 @@ urlpatterns = [
     path('DeleteToolsCategory/<id>/', ToolsCategoryDeleteView.as_view()),
 
 
-    path('SubscriptionsPayment/',SubscriptionsPaymentListView.as_view()),
+    path('SubscriptionsPayment/<int:user_id>/',SubscriptionsPaymentListView.as_view()),
     path('SubscriptionsPayment/create/',SubscriptionsPaymentCreateView.as_view()),
     path('UpdateSubscriptionsPayment/<id>/', SubscriptionsPaymentUpdateView.as_view()),
     path('DeleteSubscriptionsPayment/<id>/', SubscriptionsPaymentDeleteView.as_view()),

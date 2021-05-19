@@ -597,8 +597,11 @@ class ToolsCategoryUpdateView(UpdateAPIView):
 
 
 class SubscriptionsPaymentListView(ListAPIView):
-    queryset = SubscriptionsPayment.objects.all()
     serializer_class = SubscriptionsPaymentSerializer
+    def get_queryset(self):
+        customer=Customer.objects.get(user=self.kwargs['user_id'])
+        subscription=Subscriptions.objects.get(CustomerID=customer.id)
+        return SubscriptionsPayment.objects.filter(SubscriptionsID=subscription.id)
 
 
 class SubscriptionsPaymentCreateView(CreateAPIView):
