@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 urlpatterns = [
     #website
     path('',index,name='index'),
+    path('about/',about,name='about'),
+    path('ijabo/',ijabo,name='ijabo'),
 
 
     #backend

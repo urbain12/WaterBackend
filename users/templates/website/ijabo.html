@@ -8,6 +8,7 @@
 <!--<![endif]-->
 
 <head>
+{% load static %}
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 	<!-- Basic Page Needs -->
 	<meta charset="utf-8">
@@ -22,10 +23,10 @@
 	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Sora:100,200,300,400,400italic,500,600,700,700italic,900'>
 	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Poppins:100,200,300,400,400italic,500,600,700,700italic,900'>
 	<!-- CSS -->
-	<link rel='stylesheet' href='css/global.css'>
-	<link rel='stylesheet' href='css/structure.css'>
-	<link rel='stylesheet' href='css/scooterrental.css'>
-	<link rel='stylesheet' href='css/custom.css'> </head>
+	<link rel='stylesheet' href="{% static "web/css/global.css" %}">
+	<link rel='stylesheet' href="{% static "web/css/structure.css" %}">
+	<link rel='stylesheet' href="{% static "web/css/scooterrental.css"%}">
+	<link rel='stylesheet' href="{% static "web/css/custom.css" %}"> </head>
 
 <body class="page-template-default page color-custom style-simple button-custom layout-full-width if-zoom if-border-hide no-content-padding no-shadows header-classic sticky-header sticky-tb-color ab-hide subheader-both-center menu-link-color menuo-right menuo-no-borders footer-copy-center mobile-tb-hide mobile-side-slide mobile-mini-mr-ll tablet-sticky mobile-sticky ">
 	<div id="Wrapper">
@@ -36,7 +37,11 @@
 						<div class="column one">
 							<div class="top_bar_left clearfix">
 								<div class="logo">
-									<a id="logo" href=".index.html" title="BeScooterRental - Betheme" data-height="60" data-padding="30"><img class="logo-main scale-with-grid" src="images/scooterrental.png" data-retina="images/retina-scooterrental.png" data-height="50" alt="scooterrental" data-no-retina><img class="logo-sticky scale-with-grid" src="images/scooterrental.png" data-retina="images/retina-scooterrental.png" data-height="50" alt="scooterrental" data-no-retina><img class="logo-mobile scale-with-grid" src="images/scooterrental.png" data-retina="images/retina-scooterrental.png" data-height="50" alt="scooterrental" data-no-retina><img class="logo-mobile-sticky scale-with-grid" src="images/scooterrental.png" data-retina="images/retina-scooterrental.png" data-height="50" alt="scooterrental" data-no-retina></a>
+									<a id="logo" href=".index.html" title="BeScooterRental - Betheme" data-height="60" data-padding="30">
+									<img class="logo-main scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/retina-scooterrental.png" %}" data-height="50" alt="scooterrental" data-no-retina>
+									<img class="logo-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}"data-retina="{% static "web/images/retina-scooterrental.png" %}" data-height="50" alt="scooterrental" data-no-retina>
+									<img class="logo-mobile scale-with-grid" src="{% static "web/images/scooterrental.png" %}"data-retina="{% static "web/images/retina-scooterrental.png" %}" data-height="50" alt="scooterrental" data-no-retina>
+									<img class="logo-mobile-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}"data-retina="{% static "web/images/retina-scooterrental.png" %}" data-height="50" alt="scooterrental" data-no-retina></a>
 								</div>
 								<div class="menu_wrapper">
 									<nav id="menu">
@@ -64,7 +69,7 @@
 					<div class="entry-content">
 						<div class="section mcb-section mcb-section-19e2801bd full-width" style="padding-left:5%;padding-right:5%">
 							<div class="section_wrapper mcb-section-inner">
-								<div class="wrap mcb-wrap mcb-wrap-f71662337 one scooterrental-wrap-radius2 valign-top clearfix" style="padding:120px 10% 70px;background-color:#000;background-image:url(images/scooterrental-section-bg1.png);background-repeat:no-repeat;background-position:left center">
+								<div class="wrap mcb-wrap mcb-wrap-f71662337 one scooterrental-wrap-radius2 valign-top clearfix" style="padding:120px 10% 70px;background-color:#000;background-image:url(  {% static "web/images/scooterrental-section-bg1.png" %} );background-repeat:no-repeat;background-position:left center">
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-a0e4df973 one-sixth column_placeholder">
 											<div class="placeholder"> &nbsp; </div>
@@ -114,7 +119,7 @@
 											<div class="column_attr clearfix align_center" style="background-color:#fff;padding:40px 10%;border-radius: 20px; box-shadow: 0px 10px 30px 0px rgba(0,0,0,0.1);">
 												
 												<div class="image_frame image_item no_link scale-with-grid alignnone no_border">
-													<div class="image_wrapper"><img class="scale-with-grid" src="images/scooterrental-home-icon9.png" alt="scooterrental-home-icon9" title width="96" height="96"> </div>
+													<div class="image_wrapper"><img class="scale-with-grid" src="{% static "web/images/scooterrental-home-icon9.png" %}" alt="scooterrental-home-icon9" title width="96" height="96"> </div>
 												</div>
 												<hr class="no_line" style="margin:0 auto 40px">
 												
@@ -134,7 +139,7 @@
 											<div class="column_attr clearfix align_center" style="background-color:#fff;padding:40px 10%;border-radius: 20px; box-shadow: 0px 10px 30px 0px rgba(0,0,0,0.1);">
 												
 												<div class="image_frame image_item no_link scale-with-grid alignnone no_border">
-													<div class="image_wrapper"><img class="scale-with-grid" src="images/scooterrental-home-icon9.png" alt="scooterrental-home-icon9" title width="96" height="96"> </div>
+													<div class="image_wrapper"><img class="scale-with-grid" src="{% static "web/images/scooterrental-home-icon9.png" %}" alt="scooterrental-home-icon9" title width="96" height="96"> </div>
 												</div>
 												<hr class="no_line" style="margin:0 auto 40px">
 												
@@ -154,7 +159,7 @@
 											<div class="column_attr clearfix align_center" style="background-color:#fff;padding:40px 10%;border-radius: 20px; box-shadow: 0px 10px 30px 0px rgba(0,0,0,0.1);">
 												
 												<div class="image_frame image_item no_link scale-with-grid alignnone no_border">
-													<div class="image_wrapper"><img class="scale-with-grid" src="images/scooterrental-home-icon9.png" alt="scooterrental-home-icon9" title width="96" height="96"> </div>
+													<div class="image_wrapper"><img class="scale-with-grid" src="{% static "web/images/scooterrental-home-icon9.png" %}" alt="scooterrental-home-icon9" title width="96" height="96"> </div>
 												</div>
 												<hr class="no_line" style="margin:0 auto 40px">
 												
@@ -201,7 +206,7 @@
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-b6e2ae677 one column_image">
 											<div class="image_frame image_item no_link scale-with-grid no_border">
-												<div class="image_wrapper"><img class="scale-with-grid" src="images/scooterrental-how-pic1.jpg" alt="scooterrental-how-pic1" title width="780" height="1137"> </div>
+												<div class="image_wrapper"><img class="scale-with-grid" src="{% static "web/images/scooterrental-how-pic1.jpg" %}" alt="scooterrental-how-pic1" title width="780" height="1137"> </div>
 											</div>
 										</div>
 									</div>
@@ -223,7 +228,7 @@ How it Works : A Partnership</span> </h2><br>
 											<div class="placeholder"> &nbsp; </div>
 										</div>
 										<div class="column mcb-column mcb-item-m3zd3ku3c five-sixth column_column column-margin-0px" style="margin-top: 50px;">
-											<div class="column_attr clearfix" style="background-image:url('images/scooterrental-how-bg1.png');background-repeat:no-repeat;background-position:left center;padding:40px 0 25px 80px;">
+											<div class="column_attr clearfix" style="background-image:url({% static "web/images/scooterrental-how-bg1.png" %});background-repeat:no-repeat;background-position:left center;padding:40px 0 25px 80px;">
 												<h2 class="themecolor">01</h2>
 												<h3>The System Owner</h3> </div>
 										</div>
@@ -233,7 +238,7 @@ How it Works : A Partnership</span> </h2><br>
 											<div class="placeholder"> &nbsp; </div>
 										</div>
 										<div class="column mcb-column mcb-item-zwyn3qubs five-sixth column_column column-margin-0px" style="margin-top: 60px;">
-											<div class="column_attr clearfix" style="background-image:url('images/scooterrental-how-bg1.png');background-repeat:no-repeat;background-position:left center;padding:40px 0 25px 80px;">
+											<div class="column_attr clearfix" style="background-image:url({% static "web/images/scooterrental-how-bg1.png" %});background-repeat:no-repeat;background-position:left center;padding:40px 0 25px 80px;">
 												<h2 class="themecolor">02</h2>
 												<h3>Water Access Rwanda</h3> </div>
 										</div>
@@ -243,7 +248,7 @@ How it Works : A Partnership</span> </h2><br>
 											<div class="placeholder"> &nbsp; </div>
 										</div>
 										<div class="column mcb-column mcb-item-skeb1w0ha five-sixth column_column column-margin-0px" style="margin-top: 100px;">
-											<div class="column_attr clearfix" style="background-image:url('images/scooterrental-how-bg1.png');background-repeat:no-repeat;background-position:left center;padding:40px 0 25px 80px;">
+											<div class="column_attr clearfix" style="background-image:url({% static "web/images/scooterrental-how-bg1.png" %});background-repeat:no-repeat;background-position:left center;padding:40px 0 25px 80px;">
 												<h2 class="themecolor">03</h2>
 												<h3>The Farmers</h3> </div>
 										</div>
@@ -255,7 +260,7 @@ How it Works : A Partnership</span> </h2><br>
 										
 									</div>
 								</div>
-								<div class="wrap mcb-wrap mcb-wrap-bbv643y6j one-second scooterrental-wrap-radius3 valign-top clearfix" style="padding:120px 7% 70px;background-color:#f5f5f5;background-image:url(images/scooterrental-wrap-bg1.png);background-repeat:no-repeat;background-position:right center">
+								<div class="wrap mcb-wrap mcb-wrap-bbv643y6j one-second scooterrental-wrap-radius3 valign-top clearfix" style="padding:120px 7% 70px;background-color:#f5f5f5;background-image:url({% static "web/images/scooterrental-wrap-bg1.png" %});background-repeat:no-repeat;background-position:right center">
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-dttjrdsic two-third column_column">
 											<div class="column_attr clearfix" style>
@@ -375,13 +380,13 @@ How it Works : A Partnership</span> </h2><br>
 	</div>
 	<div id="body_overlay"></div>
 	<!-- JS -->
-	<script src="js/jquery-2.1.4.min.js"></script>
-	<script src="js/mfn.menu.js"></script>
-	<script src="js/jquery.plugins.js"></script>
-	<script src="js/jquery.jplayer.min.js"></script>
-	<script src="js/animations/animations.js"></script>
-	<script src="js/translate3d.js"></script>
-	<script src="js/scripts.js"></script>
+	<script src="{% static "web/js/jquery-2.1.4.min.js" %}" ""></script>
+	<script src="{% static "web/js/mfn.menu.js" %}" ""></script>
+	<script src="{% static "web/js/jquery.plugins.js" %}" ""></script>
+	<script src="{% static "web/js/jquery.jplayer.min.js" %}" ""></script>
+	<script src="{% static "web/js/animations/animations.js" %}" ""></script>
+	<script src="{% static "web/js/translate3d.js" %}" ""></script>
+	<script src="{% static "web/js/scripts.js" %}" ""></script>
 </body>
 
 </html>

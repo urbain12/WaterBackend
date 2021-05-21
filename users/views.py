@@ -22,6 +22,12 @@ from rest_framework.authtoken.models import Token
 def index(request):
     return render(request,'website/index.html')
 
+def about(request):
+    return render(request,'website/about.html')
+
+def ijabo(request):
+    return render(request,'website/ijabo.html')
+
 # backend
 @login_required(login_url='/login')
 def dashboard(request):
