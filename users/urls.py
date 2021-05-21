@@ -4,6 +4,11 @@ from .views import *
 from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
+    #website
+    path('',index,name='index'),
+
+
+    #backend
     path('dashboard/',dashboard,name='dashboard'),
     path('operator/',operator,name='operator'),
     path('user/',user,name='user'),
