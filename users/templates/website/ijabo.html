@@ -12,13 +12,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 	<!-- Basic Page Needs -->
 	<meta charset="utf-8">
-	<title>Be</title>
+	<title>Water Access Rwanda</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<!-- Favicons -->
-	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="shortcut icon" href="{% static "web/images/favicon.ico"%}">
 	<!-- FONTS -->
 	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Sora:100,200,300,400,400italic,500,600,700,700italic,900'>
 	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Poppins:100,200,300,400,400italic,500,600,700,700italic,900'>
@@ -42,7 +42,7 @@
 								<div class="menu_wrapper">
 									<nav id="menu">
 										<ul id="menu-main-menu" class="menu menu-main">
-											<li class="  page_item current_page_item"> <a href="index.html"><span>Home</span></a> </li>
+											<li class="  page_item "> <a href="{% url 'index' %}"><span>Home</span></a> </li>
 											<li> <a href="{% url 'about' %}"><span>About us</span></a> </li>
 											<li> <a href="{% url 'service' %}"><span>Service</span></a> </li>
 											<li class="current-menu-item"> <a href="{% url 'ijabo' %}"><span>Ijabo</span></a> </li>
@@ -314,13 +314,13 @@ How it Works : A Partnership</span> </h2><br>
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h6 style="color:#7d7d7d">MEET US</h6>
+									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="ijabo.html">How it works</a> </p>
-									<p> <a href="service.html">Find a vehicle</a> </p>
-									<p> <a href=".index.html#pricing">Pricing</a> </p>
 									<p> <a href="about.html"> About us</a> </p>
+									<p> <a href="service.html">Service</a> </p>
+									<p> <a href="ijabo.html">How it works</a> </p>
 									<p> <a href="contact.html">Contact</a> </p>
+									<p> <a href="#">fAQs</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -329,15 +329,15 @@ How it Works : A Partnership</span> </h2><br>
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h3>Rent a scooter
+									<h3>Simple, Affordable and Reliable Access to
 										<br>
-										<span class="themecolor">just like that!</span></h3>
+										<span class="themecolor">Clean Safe Water</span></h3>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<a href="#"><img src="images/scooterrental-footer-btn1.png"></a>
-									<a href="#"><img src="images/scooterrental-footer-btn2.png"></a>
+									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
+									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="contact.html">FIND OUT MORE <i class="icon-right-thin" style="color:#00d285"></i></a> </p>
-									<hr class="no_line" style="margin:0 auto 80px"> <img src="images/scooterrental-footer-logo.png"> </div>
+									<p> <a href="contact.html">CONTACT US <i class="icon-right-thin" style="color:#00d285"></i></a> </p>
+									<hr class="no_line" style="margin:0 auto 80px"> </div>
 							</div>
 						</aside>
 					</div>
@@ -347,11 +347,11 @@ How it Works : A Partnership</span> </h2><br>
 								<div style="text-align: center;">
 									<h6 style="color:#7d7d7d">MORE INFO</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="#">News</a> </p>
-									<p> <a href="#">FAQ</a> </p>
-									<p> <a href="#">Work</a> </p>
-									<p> <a href="#"> Franchise</a> </p>
-									<p> <a href="#">Partners</a> </p>
+									<p> <a href="#">Inuma</a> </p>
+									<p> <a href="#">Amazi</a> </p>
+									<p> <a href="#">Uhira</a> </p>
+									<p> <a href="#">Voma</a> </p>
+									<p> <a href="#">Ijabo</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -361,11 +361,11 @@ How it Works : A Partnership</span> </h2><br>
 			<div class="footer_copy">
 				<div class="container">
 					<div class="column one">
-						<div class="copyright"> &copy; 2021 BeScooterRental - BeTheme. Muffin group - HTML by <a target="_blank" rel="nofollow" href="https://1.envato.market/9ZxXY">BeantownThemes</a> </div>
+						<div class="copyright"> &copy; <script>document.write(new Date().getFullYear());</script> Water Access Rwanda </div>
 					</div>
 				</div>
 			</div>
-		</footer>
+</footer>
 	</div>
 	<div id="Side_slide" class="right dark" data-width="250">
 		<div class="close-wrapper"> <a href="#" class="close"><i class="icon-cancel-fine"></i></a> </div>
