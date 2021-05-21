@@ -37,26 +37,22 @@
 						<div class="column one">
 							<div class="top_bar_left clearfix">
 								<div class="logo">
-									<a id="logo" href=".index.html" title="BeScooterRental - Betheme" data-height="60" data-padding="30">
-									<img class="logo-main scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/retina-scooterrental.png" %}" data-height="50" alt="scooterrental" data-no-retina>
-									<img class="logo-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}"data-retina="{% static "web/images/retina-scooterrental.png" %}" data-height="50" alt="scooterrental" data-no-retina>
-									<img class="logo-mobile scale-with-grid" src="{% static "web/images/scooterrental.png" %}"data-retina="{% static "web/images/retina-scooterrental.png" %}" data-height="50" alt="scooterrental" data-no-retina>
-									<img class="logo-mobile-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}"data-retina="{% static "web/images/retina-scooterrental.png" %}" data-height="50" alt="scooterrental" data-no-retina></a>
+									<a id="logo" href="{% url 'index' %}" title="BeScooterRental - Betheme" data-height="60" data-padding="30"><img class="logo-main scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/retina-scooterrental.png" %}" data-height="50" alt="scooterrental" data-no-retina><img class="logo-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/retina-scooterrental.png" %}" data-height="50" alt="scooterrental" data-no-retina><img class="logo-mobile scale-with-grid" src="{% static "web/images/scooterrental.png"%}"  data-height="50" alt="scooterrental" data-no-retina><img class="logo-mobile-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}"  data-height="50" alt="scooterrental" data-no-retina></a>
 								</div>
 								<div class="menu_wrapper">
 									<nav id="menu">
 										<ul id="menu-main-menu" class="menu menu-main">
-											<li> <a href="index.html"><span>Home</span></a> </li>
-											<li> <a href="about.html"><span>About us</span></a> </li>
-											<li> <a href="service.html"><span>Service</span></a> </li>
-											<li> <a href="ijabo.html"><span>Ijabo</span></a> </li>
-											<li> <a href="blog.html"><span>Blog</span></a> </li>
-											<li> <a href="contact.html"><span>Contact</span></a> </li>
+											<li class=" current-menu-item page_item current_page_item"> <a href="index.html"><span>Home</span></a> </li>
+											<li> <a href="{% url 'about' %}"><span>About us</span></a> </li>
+											<li> <a href="{% url 'service' %}"><span>Service</span></a> </li>
+											<li> <a href="{% url 'ijabo' %}"><span>Ijabo</span></a> </li>
+											<li> <a href="{% url 'blog' %}"><span>Blog</span></a> </li>
+											<li> <a href="{% url 'contact_us' %}"><span>Contact</span></a> </li>
 										</ul>
 									</nav><a class="responsive-menu-toggle " href="#"><i class="icon-menu-fine"></i></a> </div>
 							</div>
 							<div class="top_bar_right">
-								<div class="top_bar_right_wrapper"> <a href="https://1.envato.market/9ZxXY" class="action_button" target="_blank">BUY NOW</a> </div>
+								<div class="top_bar_right_wrapper"> <a href="{% url 'shopping' %}" class="action_button" >BUY NOW</a> </div>
 							</div>
 						</div>
 					</div>
