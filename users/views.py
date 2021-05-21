@@ -18,8 +18,11 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from rest_framework.authtoken.models import Token
 
+#website
+def index(request):
+    return render(request,'website/index.html')
 
-# website
+# backend
 @login_required(login_url='/login')
 def dashboard(request):
     return render(request, 'dashboard.html')
