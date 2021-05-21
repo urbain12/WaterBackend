@@ -11,6 +11,8 @@ urlpatterns = [
     path('contact_us/',contact_us,name='contact_us'),
     path('shopping/',shopping,name='shopping'),
     path('product/',product,name='product'),
+    path('about/',about,name='about'),
+    path('ijabo/',ijabo,name='ijabo'),
 
 
     #backend

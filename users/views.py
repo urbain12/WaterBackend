@@ -36,6 +36,11 @@ def shopping(request):
 
 def product(request):
     return render(request,'website/product_page.html')
+def about(request):
+    return render(request,'website/about.html')
+
+def ijabo(request):
+    return render(request,'website/ijabo.html')
 
 # backend
 @login_required(login_url='/login')

@@ -24,12 +24,12 @@
 	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Poppins:100,200,300,400,400italic,500,600,700,700italic,900'>
 	<!-- CSS -->
 	<link rel='stylesheet' href="{% static "web/css/global.css" %}">
-	<link rel='stylesheet' href='css/el_demo.css'>
+	<link rel='stylesheet' href="{% static "web/css/el_demo.css" %}">
 	<link rel='stylesheet' href="{% static "web/css/structure.css" %}">
-	<link rel='stylesheet' href='css/finance2.css'>
-	<link rel='stylesheet' href='css/insurance3.css'>
-	<link rel='stylesheet' href='css/scooterrental.css'>
-	<link rel='stylesheet' href='css/custom.css'> 
+	<link rel='stylesheet' href="{% static "web/css/finance2.css" %}">
+	<link rel='stylesheet' href="{% static "web/css/insurance3.css" %}">
+	<link rel='stylesheet' href="{% static "web/css/scooterrental.css" %}">
+	<link rel='stylesheet' href="{% static "web/css/custom.css" %}"> 
 	</head>
 
 <body class="page-template-default page color-custom style-simple button-custom layout-full-width if-zoom if-border-hide no-content-padding no-shadows header-classic sticky-header sticky-tb-color ab-hide subheader-both-center menu-link-color menuo-right menuo-no-borders footer-copy-center mobile-tb-hide mobile-side-slide mobile-mini-mr-ll tablet-sticky mobile-sticky ">
@@ -41,7 +41,11 @@
 						<div class="column one">
 							<div class="top_bar_left clearfix">
 								<div class="logo">
-									<a id="logo" href="index.html" title="BeScooterRental - Betheme" data-height="60" data-padding="30"><img class="logo-main scale-with-grid" src="images/scooterrental.png" data-retina="images/retina-scooterrental.png" data-height="50" alt="scooterrental" data-no-retina><img class="logo-sticky scale-with-grid" src="images/scooterrental.png" data-retina="images/retina-scooterrental.png" data-height="50" alt="scooterrental" data-no-retina><img class="logo-mobile scale-with-grid" src="images/scooterrental.png" data-retina="images/retina-scooterrental.png" data-height="50" alt="scooterrental" data-no-retina><img class="logo-mobile-sticky scale-with-grid" src="images/scooterrental.png" data-retina="images/retina-scooterrental.png" data-height="50" alt="scooterrental" data-no-retina></a>
+									<a id="logo" href="index.html" title="BeScooterRental - Betheme" data-height="60" data-padding="30">
+									<img class="logo-main scale-with-grid" src="{% static "web/images/scooterrental.png" %}"  data-retina="{% static "web/images/retina-scooterrental.png" %}" data-height="50" alt="scooterrental" data-no-retina>
+									<img class="logo-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/retina-scooterrental.png" %}" data-height="50" alt="scooterrental" data-no-retina>
+									<img class="logo-mobile scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/retina-scooterrental.png" %}" data-height="50" alt="scooterrental" data-no-retina>
+									<img class="logo-mobile-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/retina-scooterrental.png" %}" data-height="50" alt="scooterrental" data-no-retina></a>
 								</div>
 								<div class="menu_wrapper">
 									<nav id="menu">
@@ -69,7 +73,7 @@
 					<div class="entry-content">
 						<div class="section mcb-section mcb-section-jhjgar3sg full-width" style="padding-left:5%;padding-right:5%">
 							<div class="section_wrapper mcb-section-inner">
-								<div class="wrap mcb-wrap mcb-wrap-418y1xrbc one scooterrental-wrap-radius2 valign-top clearfix" style="padding:120px 10% 70px;background-color:#000;background-image:url(images/scooterrental-section-bg1.png);background-repeat:no-repeat;background-position:left center">
+								<div class="wrap mcb-wrap mcb-wrap-418y1xrbc one scooterrental-wrap-radius2 valign-top clearfix" style="padding:120px 10% 70px;background-color:#000;background-image:url({% static "web/images/scooterrental-section-bg1.png" %});background-repeat:no-repeat;background-position:left center">
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-k4ycezxt1 one-sixth column_placeholder">
 											<div class="placeholder"> &nbsp; </div>
@@ -106,23 +110,23 @@
 												</div>
 										</div>
 										<div class="column mcb-column mcb-item-rdxp6j57i one column_column">
-											<div class="column_attr clearfix" style="background-image:url('images/scooterrental-home-icon5.png');background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
+											<div class="column_attr clearfix" style="background-image:url({% static "web/images/scooterrental-home-icon5.png" %});background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
 												<h5 style="color:#8e9aac;"><b style="color:black">Great Low Prices</b> - Competitive pricing on
 all our services. We charge less than half our competitors' prices</h5> </div>
 										</div>
 
 										<div class="column mcb-column mcb-item-rdxp6j57i one column_column">
-											<div class="column_attr clearfix" style="background-image:url('images/scooterrental-home-icon5.png');background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
+											<div class="column_attr clearfix" style="background-image:url({% static "web/images/scooterrental-home-icon5.png" %});background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
 												<h5 style="color:#8e9aac;"><b style="color:black">Quality</b> – Our services and products are of the highest quality and done with durability in mind. </h5> </div>
 										</div>
 
 										<div class="column mcb-column mcb-item-rdxp6j57i one column_column">
-											<div class="column_attr clearfix" style="background-image:url('images/scooterrental-home-icon5.png');background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
+											<div class="column_attr clearfix" style="background-image:url({% static "web/images/scooterrental-home-icon5.png" %});background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
 												<h5 style="color:#8e9aac;"><b style="color:black">Committed Staff</b> - Our staff is highly trained and committed to eradicating water scarcity in Rwanda.</h5> </div>
 										</div>
 
 										<div class="column mcb-column mcb-item-rdxp6j57i one column_column">
-											<div class="column_attr clearfix" style="background-image:url('images/scooterrental-home-icon5.png');background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
+											<div class="column_attr clearfix" style="background-image:url({% static "web/images/scooterrental-home-icon5.png" %});background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
 												<h5 style="color:#8e9aac;"><b style="color:black">Support the Local Market</b> - At WARwanda, the majority of our supplies are obtained locally and local laborers make more than 90% our staff. Working with us, supports the local economy and provides jobs to young people.</h5> </div>
 										</div>
 										
@@ -134,7 +138,7 @@ all our services. We charge less than half our competitors' prices</h5> </div>
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-x7vvd5ghc one column_image">
 											<div class="image_frame image_item no_link scale-with-grid aligncenter no_border">
-												<div class="image_wrapper"><img class="scale-with-grid" src="images/scooterrental-home-pic2.jpg" alt="scooterrental-home-pic2" title width="780" height="1125"> </div>
+												<div class="image_wrapper"><img class="scale-with-grid" src="{% static "web/images/scooterrental-home-pic2.jpg" %}" alt="scooterrental-home-pic2" title width="780" height="1125"> </div>
 											</div>
 										</div>
 									</div>
@@ -172,7 +176,7 @@ all our services. We charge less than half our competitors' prices</h5> </div>
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-zyabt1q4n one column_icon_box">
 											<div class="icon_box icon_position_top no_border">
-												<div class="image_wrapper"><img src="images/scooterrental-home-icon1.png" class="scale-with-grid"> </div>
+												<div class="image_wrapper"><img src="{% static "web/images/scooterrental-home-icon1.png" %}" class="scale-with-grid"> </div>
 												<div class="desc_wrapper">
 													<h5 class="title">
 													<b>Hadidja Mukabaranga</b>
@@ -188,7 +192,7 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-7gg4rz0zd one column_icon_box">
 											<div class="icon_box icon_position_top no_border">
-												<div class="image_wrapper"><img src="images/scooterrental-home-icon2.png" class="scale-with-grid"> </div>
+												<div class="image_wrapper"><img src="{% static "web/images/scooterrental-home-icon2.png" %}" class="scale-with-grid"> </div>
 												<div class="desc_wrapper">
 													<h5 class="title">
 													<b>Andre Ndejuru</b><br>
@@ -203,7 +207,7 @@ We had 10 cows but the milk production was so low that its returns was not enoug
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-lutr7tatd one column_icon_box">
 											<div class="icon_box icon_position_top no_border">
-												<div class="image_wrapper"><img src="images/scooterrental-home-icon3.png" class="scale-with-grid"> </div>
+												<div class="image_wrapper"><img src="{% static "web/images/scooterrental-home-icon3.png" %}" class="scale-with-grid"> </div>
 												<div class="desc_wrapper">
 <h5 class="title">
 													<b>Wendy Davenport</b>
@@ -249,7 +253,7 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
 																							<div class="elementor-widget-wrap">
 																								<div class="elementor-element elementor-element-b90c934 elementor-widget elementor-widget-image" data-id="b90c934" data-element_type="widget" data-widget_type="image.default">
 																									<div class="elementor-widget-container">
-																										<div class="elementor-image"> <img width="31" height="46" src="images/finance2-pic1.png" class="attachment-large size-large" alt="" /> </div>
+																										<div class="elementor-image"> <img width="31" height="46" src="{% static "web/images/finance2-pic1.png" %}" class="attachment-large size-large" alt="" /> </div>
 																									</div>
 																								</div>
 																								<div class="elementor-element elementor-element-bc4ec95 elementor-widget elementor-widget-spacer" data-id="bc4ec95" data-element_type="widget" data-widget_type="spacer.default">
@@ -312,7 +316,7 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
 																								<div class="elementor-element elementor-element-09a0c0e elementor-widget elementor-widget-text-editor" data-id="09a0c0e" data-element_type="widget" data-widget_type="text-editor.default">
 																									<div class="elementor-widget-container">
 																										<div class="elementor-text-editor elementor-clearfix">
-																											<p><img class="alignnone wp-image-304 size-full" src="images/finance2-about-pic11.jpg" alt="" width="333" height="500" /> </p>
+																											<p><img class="alignnone wp-image-304 size-full" src="{% static "web/images/finance2-about-pic11.jpg" %}" alt="" width="333" height="500" /> </p>
 																											<h6>CREDIT SPECIALIST</h6>
 																											<h4>Doris Flores
 					<br>
@@ -331,7 +335,7 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
 																								<div class="elementor-element elementor-element-240954d elementor-widget elementor-widget-text-editor" data-id="240954d" data-element_type="widget" data-widget_type="text-editor.default">
 																									<div class="elementor-widget-container">
 																										<div class="elementor-text-editor elementor-clearfix">
-																											<p><img class="alignnone wp-image-305 size-full" src="images/finance2-about-pic12.jpg" alt="" width="333" height="500" /> </p>
+																											<p><img class="alignnone wp-image-305 size-full" src="{% static "web/images/finance2-about-pic12.jpg" %}" alt="" width="333" height="500" /> </p>
 																											<h6>FINANCIAL SPECIALIST</h6>
 																											<h4>Alice Boyd</h4>
 																											<p> Lorem ipsum dolor consectetur adipiscing elit elit tellus, luctus nec ullamcorper mattis. </p>
@@ -348,7 +352,7 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
 																								<div class="elementor-element elementor-element-0518a7d elementor-widget elementor-widget-text-editor" data-id="0518a7d" data-element_type="widget" data-widget_type="text-editor.default">
 																									<div class="elementor-widget-container">
 																										<div class="elementor-text-editor elementor-clearfix">
-																											<p><img class="alignnone wp-image-306 size-full" src="images/finance2-about-pic13.jpg" alt="" width="333" height="500" /> </p>
+																											<p><img class="alignnone wp-image-306 size-full" src="{% static "web/images/finance2-about-pic13.jpg" %}" alt="" width="333" height="500" /> </p>
 																											<h6>FINANCIAL SPECIALIST</h6>
 																											<h4>Kevin Perry</h4>
 																											<p> Lorem ipsum dolor consectetur adipiscing elit elit tellus, luctus nec ullamcorper mattis. </p>
@@ -365,7 +369,7 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
 																								<div class="elementor-element elementor-element-28dba33 elementor-widget elementor-widget-text-editor" data-id="28dba33" data-element_type="widget" data-widget_type="text-editor.default">
 																									<div class="elementor-widget-container">
 																										<div class="elementor-text-editor elementor-clearfix">
-																											<p><img class="alignnone wp-image-307 size-full" src="images/finance2-about-pic14.jpg" alt="" width="333" height="500" /> </p>
+																											<p><img class="alignnone wp-image-307 size-full" src="{% static "web/images/finance2-about-pic14.jpg" %}" alt="" width="333" height="500" /> </p>
 																											<h6>CREDIT SPECIALIST</h6>
 																											<h4>Karen Donut</h4>
 																											<p> Lorem ipsum dolor consectetur adipiscing elit elit tellus, luctus nec ullamcorper mattis. </p>
@@ -409,7 +413,7 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                             <div class="image_frame post-photo-wrapper scale-with-grid image">
                                                 <div class="image_wrapper">
                                                     <a href="post.html">
-                                                        <div class="mask"></div><img src="images/insurance3-articles-post1-960x720.jpg" class="scale-with-grid wp-post-image" alt></a>
+                                                        <div class="mask"></div><img src="{% static "web/images/Global citizen_PNG.webp" %}" class="scale-with-grid wp-post-image" alt></a>
                                                     <div class="image_links double">
                                                         <a href="images/insurance3-articles-post1-1024x1200.jpg" class="zoom" rel="prettyphoto"><i class="icon-search"></i></a><a href="post.html" class="link"><i class="icon-link"></i></a>
                                                     </div>
@@ -420,12 +424,12 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                                     <div class="post-head">
                                                         <div class="post-meta clearfix">
                                                             <div class="author-date">
-                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">September 23, 2019</span></span>
+                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">2020</span></span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="post-title">
-                                                        <h2 class="entry-title"><a href="post.html">Quisque lorem tortor fringilla sed</a></h2>
+                                                        <h2 class="entry-title"><a href="post.html">Global Citizen Cisco Youth Leadership Award</a></h2>
                                                     </div>
                                                     
                                                     
@@ -439,7 +443,7 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                             <div class="image_frame post-photo-wrapper scale-with-grid image">
                                                 <div class="image_wrapper">
                                                     <a href="post.html">
-                                                        <div class="mask"></div><img src="images/insurance3-articles-post2-960x720.jpg" class="scale-with-grid wp-post-image" alt></a>
+                                                        <div class="mask"></div><img src="{% static "web/images/Africa_Netpreneur.webp" %}" class="scale-with-grid wp-post-image" alt></a>
                                                     <div class="image_links double">
                                                         <a href="images/insurance3-articles-post2-1024x1200.jpg" class="zoom" rel="prettyphoto"><i class="icon-search"></i></a><a href="post.html" class="link"><i class="icon-link"></i></a>
                                                     </div>
@@ -450,12 +454,12 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                                     <div class="post-head">
                                                         <div class="post-meta clearfix">
                                                             <div class="author-date">
-                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">September 23, 2019</span></span>
+                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">2019, Accra</span></span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="post-title">
-                                                        <h2 class="entry-title"><a href="post.html">Nulla imperdiet sit amet magna ullamcorper</a></h2>
+                                                        <h2 class="entry-title"><a href="post.html">Africa Netpreneur Prize</a></h2>
                                                     </div>
                                                    
                                                 </div>
@@ -468,7 +472,7 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                             <div class="image_frame post-photo-wrapper scale-with-grid image">
                                                 <div class="image_wrapper">
                                                     <a href="post.html">
-                                                        <div class="mask"></div><img src="images/insurance3-articles-post3-960x720.jpg" class="scale-with-grid wp-post-image" alt></a>
+                                                        <div class="mask"></div><img src="{% static "web/images/Africa_Regional.webp" %}" class="scale-with-grid wp-post-image" alt></a>
                                                     <div class="image_links double">
                                                         <a href="images/insurance3-articles-post3-1024x1200.jpg" class="zoom" rel="prettyphoto"><i class="icon-search"></i></a><a href="post.html" class="link"><i class="icon-link"></i></a>
                                                     </div>
@@ -479,12 +483,12 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                                     <div class="post-head">
                                                         <div class="post-meta clearfix">
                                                             <div class="author-date">
-                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">September 23, 2019</span></span>
+                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">2019, New York</span></span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="post-title">
-                                                        <h2 class="entry-title"><a href="post.html">Vivamus urna eget tempus pellentesque dui</a></h2>
+                                                        <h2 class="entry-title"><a href="post.html">WE Empower SDG Challenge - Africa Regional Winner</a></h2>
                                                     </div>
                                                     
                                                 </div>
@@ -497,7 +501,7 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                             <div class="image_frame post-photo-wrapper scale-with-grid image">
                                                 <div class="image_wrapper">
                                                     <a href="post.html">
-                                                        <div class="mask"></div><img src="images/insurance3-articles-post4-960x720.jpg" class="scale-with-grid wp-post-image" alt></a>
+                                                        <div class="mask"></div><img src="{% static "web/images/Famae.webp" %}" class="scale-with-grid wp-post-image" alt></a>
                                                     <div class="image_links double">
                                                         <a href="images/insurance3-articles-post4-1024x1200.jpg" class="zoom" rel="prettyphoto"><i class="icon-search"></i></a><a href="post.html" class="link"><i class="icon-link"></i></a>
                                                     </div>
@@ -508,12 +512,12 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                                     <div class="post-head">
                                                         <div class="post-meta clearfix">
                                                             <div class="author-date">
-                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">September 23, 2019</span></span>
+                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">2019, France</span></span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="post-title">
-                                                        <h2 class="entry-title"><a href="post.html">Praesent at urna fringilla et ipsum dolor</a></h2>
+                                                        <h2 class="entry-title"><a href="post.html">Famae Top 100</a></h2>
                                                     </div>
                                                     
                                                 </div>
@@ -526,7 +530,7 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                             <div class="image_frame post-photo-wrapper scale-with-grid image">
                                                 <div class="image_wrapper">
                                                     <a href="post.html">
-                                                        <div class="mask"></div><img src="images/insurance3-articles-post5-960x720.jpg" class="scale-with-grid wp-post-image" alt></a>
+                                                        <div class="mask"></div><img src="{% static "web/images/Entrepreneurship_Award.webp" %}" class="scale-with-grid wp-post-image" alt></a>
                                                     <div class="image_links double">
                                                         <a href="images/insurance3-articles-post5-1024x1200.jpg" class="zoom" rel="prettyphoto"><i class="icon-search"></i></a><a href="post.html" class="link"><i class="icon-link"></i></a>
                                                     </div>
@@ -537,12 +541,12 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                                     <div class="post-head">
                                                         <div class="post-meta clearfix">
                                                             <div class="author-date">
-                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">September 23, 2019</span></span>
+                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">2017, Morocco</span></span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="post-title">
-                                                        <h2 class="entry-title"><a href="post.html">Integer euismod nulla facilisis amet</a></h2>
+                                                        <h2 class="entry-title"><a href="post.html">Innovation - Africa Entrepreneurship Award</a></h2>
                                                     </div>
                                                    
                                                 </div>
@@ -555,7 +559,7 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                             <div class="image_frame post-photo-wrapper scale-with-grid image">
                                                 <div class="image_wrapper">
                                                     <a href="post.html">
-                                                        <div class="mask"></div><img src="images/insurance3-articles-post6-960x720.jpg" class="scale-with-grid wp-post-image" alt></a>
+                                                        <div class="mask"></div><img src="{% static "web/images/Woman_Entrepreneur.webp" %}" class="scale-with-grid wp-post-image" alt></a>
                                                     <div class="image_links double">
                                                         <a href="images/insurance3-articles-post6-1024x1200.jpg" class="zoom" rel="prettyphoto"><i class="icon-search"></i></a><a href="post.html" class="link"><i class="icon-link"></i></a>
                                                     </div>
@@ -566,12 +570,12 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                                     <div class="post-head">
                                                         <div class="post-meta clearfix">
                                                             <div class="author-date">
-                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">September 23, 2019</span></span>
+                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">2019, Paris</span></span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="post-title">
-                                                        <h2 class="entry-title"><a href="post.html">Proin volutpat odio imperdiet magna</a></h2>
+                                                        <h2 class="entry-title"><a href="post.html">Woman Entrepreneur of the Year Award</a></h2>
                                                     </div>
                                                     
                                                 </div>
@@ -584,7 +588,7 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                             <div class="image_frame post-photo-wrapper scale-with-grid image">
                                                 <div class="image_wrapper">
                                                     <a href="post.html">
-                                                        <div class="mask"></div><img src="images/insurance3-articles-post7-960x720.jpg" class="scale-with-grid wp-post-image" alt></a>
+                                                        <div class="mask"></div><img src="{% static "web/images/Woman_Entrepreneur2.webp" %}" class="scale-with-grid wp-post-image" alt></a>
                                                     <div class="image_links double">
                                                         <a href="images/insurance3-articles-post7-1024x1200.jpg" class="zoom" rel="prettyphoto"><i class="icon-search"></i></a><a href="post.html" class="link"><i class="icon-link"></i></a>
                                                     </div>
@@ -595,12 +599,12 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                                     <div class="post-head">
                                                         <div class="post-meta clearfix">
                                                             <div class="author-date">
-                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">September 23, 2019</span></span>
+                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">2019, Kigali</span></span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="post-title">
-                                                        <h2 class="entry-title"><a href="post.html">Nullam suscipit sed euismod</a></h2>
+                                                        <h2 class="entry-title"><a href="post.html">Women Entrepreneur of the Year, Rwanda</a></h2>
                                                     </div>
                                                    
                                                 </div>
@@ -613,7 +617,7 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                             <div class="image_frame post-photo-wrapper scale-with-grid image">
                                                 <div class="image_wrapper">
                                                     <a href="post.html">
-                                                        <div class="mask"></div><img src="images/insurance3-articles-post8-960x720.jpg" class="scale-with-grid wp-post-image" alt></a>
+                                                        <div class="mask"></div><img src="{% static "web/images/EDF_pulse.webp" %}" class="scale-with-grid wp-post-image" alt></a>
                                                     <div class="image_links double">
                                                         <a href="images/insurance3-articles-post8-1024x1200.jpg" class="zoom" rel="prettyphoto"><i class="icon-search"></i></a><a href="post.html" class="link"><i class="icon-link"></i></a>
                                                     </div>
@@ -624,12 +628,12 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                                     <div class="post-head">
                                                         <div class="post-meta clearfix">
                                                             <div class="author-date">
-                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">September 23, 2019</span></span>
+                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">2018,Paris</span></span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="post-title">
-                                                        <h2 class="entry-title"><a href="post.html">Curabitur ornare interdum lectus blandit eu</a></h2>
+                                                        <h2 class="entry-title"><a href="post.html">EDF pulse Africa Award 3rd Place</a></h2>
                                                     </div>
                                                     
                                                 </div>
@@ -643,7 +647,7 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                             <div class="image_frame post-photo-wrapper scale-with-grid image">
                                                 <div class="image_wrapper">
                                                     <a href="post.html">
-                                                        <div class="mask"></div><img src="images/insurance3-articles-post8-960x720.jpg" class="scale-with-grid wp-post-image" alt></a>
+                                                        <div class="mask"></div><img src="{% static "web/images/SDG_Innovator.webp" %}" class="scale-with-grid wp-post-image" alt></a>
                                                     <div class="image_links double">
                                                         <a href="images/insurance3-articles-post8-1024x1200.jpg" class="zoom" rel="prettyphoto"><i class="icon-search"></i></a><a href="post.html" class="link"><i class="icon-link"></i></a>
                                                     </div>
@@ -654,12 +658,12 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                                     <div class="post-head">
                                                         <div class="post-meta clearfix">
                                                             <div class="author-date">
-                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">September 23, 2019</span></span>
+                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">2018, New York</span></span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="post-title">
-                                                        <h2 class="entry-title"><a href="post.html">Curabitur ornare interdum lectus blandit eu</a></h2>
+                                                        <h2 class="entry-title"><a href="post.html">SDG Innovator - UNSDSN</a></h2>
                                                     </div>
                                                     
                                                 </div>
@@ -673,23 +677,23 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                             <div class="image_frame post-photo-wrapper scale-with-grid image">
                                                 <div class="image_wrapper">
                                                     <a href="post.html">
-                                                        <div class="mask"></div><img src="images/insurance3-articles-post8-960x720.jpg" class="scale-with-grid wp-post-image" alt></a>
+                                                        <div class="mask"></div><img src="{% static "web/images/Most_Innovative.webp" %}" class="scale-with-grid wp-post-image" alt></a>
                                                     <div class="image_links double">
                                                         <a href="images/insurance3-articles-post8-1024x1200.jpg" class="zoom" rel="prettyphoto"><i class="icon-search"></i></a><a href="post.html" class="link"><i class="icon-link"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="post-desc-wrapper bg-" style>
-                                                <div class="post-desc">
+                                                <div class="post-desc" style="border: shadow 2px">
                                                     <div class="post-head">
                                                         <div class="post-meta clearfix">
                                                             <div class="author-date">
-                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">September 23, 2019</span></span>
+                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">2016, Kigali</span></span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="post-title">
-                                                        <h2 class="entry-title"><a href="post.html">Curabitur ornare interdum lectus blandit eu</a></h2>
+                                                        <h2 class="entry-title"><a href="post.html">Most Innovative Female Run Business - 2nd place</a></h2>
                                                     </div>
                                                     
                                                 </div>
@@ -703,7 +707,7 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                             <div class="image_frame post-photo-wrapper scale-with-grid image">
                                                 <div class="image_wrapper">
                                                     <a href="post.html">
-                                                        <div class="mask"></div><img src="images/insurance3-articles-post8-960x720.jpg" class="scale-with-grid wp-post-image" alt></a>
+                                                        <div class="mask"></div><img src="{% static "web/images/East_Africa.webp" %}" class="scale-with-grid wp-post-image" alt></a>
                                                     <div class="image_links double">
                                                         <a href="images/insurance3-articles-post8-1024x1200.jpg" class="zoom" rel="prettyphoto"><i class="icon-search"></i></a><a href="post.html" class="link"><i class="icon-link"></i></a>
                                                     </div>
@@ -714,12 +718,12 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
                                                     <div class="post-head">
                                                         <div class="post-meta clearfix">
                                                             <div class="author-date">
-                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">September 23, 2019</span></span>
+                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">2016, Kigali</span></span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="post-title">
-                                                        <h2 class="entry-title"><a href="post.html">Curabitur ornare interdum lectus blandit eu</a></h2>
+                                                        <h2 class="entry-title"><a href="post.html">East Africa Business Excellence Award - 2nd Runner Up SME</a></h2>
                                                     </div>
                                                     
                                                 </div>
@@ -773,12 +777,12 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
 										<div class="column mcb-column mcb-item-81aeb380c one column_divider">
 											<hr class="no_line" style="margin:0 auto 20px"> </div>
 										<div class="column mcb-column mcb-item-3e9873392 one column_column">
-											<div class="column_attr clearfix" style="background-image:url('images/scooterrental-icon2.png');background-repeat:no-repeat;background-position:left center;padding:15px 0 0 45px;">
+											<div class="column_attr clearfix" style="background-image:url({% static "web/images/scooterrental-icon2.png" %});background-repeat:no-repeat;background-position:left center;padding:15px 0 0 45px;">
 												<p style="color:#FFF;"> <strong><span class="counter-inline animate-math"><span class="number" data-to="76">76</span></span></strong> vehicles available </p>
 											</div>
 										</div>
 										<div class="column mcb-column mcb-item-923d6a29c one column_column">
-											<div class="column_attr clearfix" style="background-image:url('images/scooterrental-icon3.png');background-repeat:no-repeat;background-position:left center;padding:15px 0 0 45px;">
+											<div class="column_attr clearfix" style="background-image:url({% static "web/images/scooterrental-icon3.png" %});background-repeat:no-repeat;background-position:left center;padding:15px 0 0 45px;">
 												<p style="color:#FFF;"> <strong>1:<span class="counter-inline animate-math"><span class="number" data-to="30">30</span></span></strong> min. to closest one </p>
 											</div>
 										</div>
@@ -828,7 +832,7 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
 						</div>
 						<div class="section mcb-section mcb-section-evs7yzurd full-width bg-cover" style="padding-top:120px;padding-left:5%;padding-right:5%;background-color:#020202">
 							<div class="section_wrapper mcb-section-inner">
-								<div class="wrap mcb-wrap mcb-wrap-odqd5mqx0 one scooterrental-wrap-radius valign-top bg-cover move-up clearfix" style="padding:100px 15%;background-color:#00d285;margin-top:-320px;background-image:url(images/scooterrental-section-bg2.png);background-repeat:no-repeat;background-position:center" data-mobile="no-up">
+								<div class="wrap mcb-wrap mcb-wrap-odqd5mqx0 one scooterrental-wrap-radius valign-top bg-cover move-up clearfix" style="padding:100px 15%;background-color:#00d285;margin-top:-320px;background-image:url({% static "web/images/scooterrental-section-bg2.png" %});background-repeat:no-repeat;background-position:center" data-mobile="no-up">
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-8ad3u8f0r one-second column_column">
 											<div class="column_attr clearfix" style="padding:0 10% 0 0;">
@@ -920,13 +924,13 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
 	</div>
 	<div id="body_overlay"></div>
 	<!-- JS -->
-	<script src="js/jquery-2.1.4.min.js"></script>
-	<script src="js/mfn.menu.js"></script>
-	<script src="js/jquery.plugins.js"></script>
-	<script src="js/jquery.jplayer.min.js"></script>
-	<script src="js/animations/animations.js"></script>
-	<script src="js/translate3d.js"></script>
-	<script src="js/scripts.js"></script>
+	<script src="{% static "web/js/jquery-2.1.4.min.js" %}"></script>
+	<script src="{% static "web/js/mfn.menu.js" %}"></script>
+	<script src="{% static "web/js/jquery.plugins.js" %}"></script>
+	<script src="{% static "web/js/jquery.jplayer.min.js" %}"></script>
+	<script src="{% static "web/js/animations/animations.js" %}"></script>
+	<script src="{% static "web/js/translate3d.js" %}"></script>
+	<script src="{% static "web/js/scripts.js" %}"></script>
 </body>
 
 </html>
