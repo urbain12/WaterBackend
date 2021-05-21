@@ -8,11 +8,12 @@
 <!--<![endif]-->
 
 <head>
+{% load static %}
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 
     <!-- Basic Page Needs -->
     <meta charset="utf-8">
-    <title>Be</title>
+    <title>Water Access Rwanda</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -20,7 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <!-- Favicons -->
-    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="shortcut icon" href="{% static "web/images/favicon.ico" %}">
 
     <!-- FONTS -->
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:100,300,400,400italic,700'>
@@ -29,10 +30,10 @@
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lora:100,300,400,400italic,500,700,700italic'>
 
     <!-- CSS -->
-    <link rel='stylesheet' href='css/global.css'>
-    <link rel='stylesheet' href='css/structure.css'>
-    <link rel='stylesheet' href='css/betheme.css'>
-    <link rel='stylesheet' href='css/custom.css'>
+    <link rel='stylesheet' href="{% static "web/css/global.css"%}">
+    <link rel='stylesheet' href="{% static "web/css/structure.css"%}">
+    <link rel='stylesheet' href="{% static "web/css/betheme.css"%}">
+    <link rel='stylesheet' href="{% static "web/css/custom.css"%}">
 
 
 </head>
@@ -46,17 +47,17 @@
 						<div class="column one">
 							<div class="top_bar_left clearfix"  >
 								<div class="logo">
-									<a id="logo" href="index.html" title="BeScooterRental - Betheme" data-height="60" data-padding="30"><img class="logo-main scale-with-grid" src="images/scooterrental.png" data-retina="images/retina-scooterrental.png" data-height="50" alt="scooterrental" data-no-retina><img class="logo-sticky scale-with-grid" src="images/scooterrental.png" data-retina="images/retina-scooterrental.png" data-height="50" alt="scooterrental" data-no-retina><img class="logo-mobile scale-with-grid" src="images/scooterrental.png" data-retina="images/retina-scooterrental.png" data-height="50" alt="scooterrental" data-no-retina><img class="logo-mobile-sticky scale-with-grid" src="images/scooterrental.png" data-retina="images/retina-scooterrental.png" data-height="50" alt="scooterrental" data-no-retina></a>
+									<a id="logo" href="{% url 'index' %}" title="BeScooterRental - Betheme" data-height="60" data-padding="30"><img class="logo-main scale-with-grid" src="{% static "web/images/scooterrental.png"%}"   data-height="50" alt="scooterrental" data-no-retina></a>
 								</div>
 								<div class="menu_wrapper">
 									<nav id="menu">
 										<ul id="menu-main-menu" class="menu menu-main" >
-											<li> <a href="index.html"><span style="border:none;color:black">Home</span></a> </li>
-											<li> <a href="about.html"><span style="border:none;color:black">About us</span></a> </li>
-											<li> <a href="service.html"><span style="border:none;color:black">Service</span></a> </li>
-                                            <li> <a href="ijabo.html"><span>Ijabo</span></a> </li>
-											<li> <a href="blog.html"><span>Blog</span></a> </li>
-											<li> <a href="contact.html"><span style="border:none;color:black">Contact</span></a> </li>
+											<li> <a href="{% url 'index' %}"><span style="border:none;color:black">Home</span></a> </li>
+											<li> <a href="{% url 'about' %}"><span style="border:none;color:black">About us</span></a> </li>
+											<li> <a href="{% url 'service' %}"><span style="border:none;color:black">Service</span></a> </li>
+                                            <li> <a href="{% url 'ijabo' %}"><span style="border:none;color:black">Ijabo</span></a> </li>
+											<li> <a href="{% url 'blog' %}"><span style="border:none;color:black">Blog</span></a> </li>
+											<li> <a href="{% url 'contact_us' %}"><span style="border:none;color:black">Contact</span></a> </li>
 										</ul>
 									</nav><a class="responsive-menu-toggle " href="#"><i class="icon-menu-fine"></i></a> </div>
 							</div>
@@ -88,7 +89,7 @@
                                                 <div class="image_frame scale-with-grid product-loop-thumb" >
                                                     <div class="image_wrapper">
                                                         <a href="product_page.html">
-                                                            <div class="mask"></div><img width="800" height="800" src="images/poster_2_up-500x500.jpg" class="scale-with-grid wp-post-image" alt="">
+                                                            <div class="mask"></div><img width="800" height="800" src="{% static "web/images/poster_2_up-500x500.jpg"%}" class="scale-with-grid wp-post-image" alt="">
                                                         </a>
                                                         
                                                     </div><span class="onsale"><i class="icon-star"></i></span><a href="product_page.html"><span class="product-loading-icon added-cart"></span></a>
@@ -105,7 +106,7 @@
                                                 <div class="image_frame scale-with-grid product-loop-thumb" >
                                                     <div class="image_wrapper">
                                                         <a href="product_page.html">
-                                                            <div class="mask"></div><img width="500" height="500" src="images/T_7_front-500x500.jpg" class="scale-with-grid wp-post-image" alt="">
+                                                            <div class="mask"></div><img width="500" height="500" src="{% static "web/images/T_7_front-500x500.jpg"%}" class="scale-with-grid wp-post-image" alt="">
                                                         </a>
                                                         
                                                     </div><a href="product_page.html"><span class="product-loading-icon added-cart"></span></a>
@@ -121,7 +122,7 @@
                                                 <div class="image_frame scale-with-grid product-loop-thumb" >
                                                     <div class="image_wrapper">
                                                         <a href="product_page.html">
-                                                            <div class="mask"></div><img width="500" height="500" src="images/hoodie_4_front-500x500.jpg" class="scale-with-grid wp-post-image" alt="">
+                                                            <div class="mask"></div><img width="500" height="500" src="{% static "web/images/hoodie_4_front-500x500.jpg"%}" class="scale-with-grid wp-post-image" alt="">
                                                         </a>
                                                         
                                                     </div><a href="product_page.html"><span class="product-loading-icon added-cart"></span></a>
@@ -133,152 +134,11 @@
                                                     </span>
                                                 </div>
                                             </li>
-                                            <li class="isotope-item product">
-                                                <div class="image_frame scale-with-grid product-loop-thumb" >
-                                                    <div class="image_wrapper">
-                                                        <a href="product_page.html">
-                                                            <div class="mask"></div><img width="500" height="500" src="images/T_5_front-500x500.jpg" class="scale-with-grid wp-post-image" alt="">
-                                                        </a>
-                                                        
-                                                    </div><a href="product_page.html"><span class="product-loading-icon added-cart"></span></a>
-                                                </div>
-                                                <div class="desc">
-                                                    <h4><a href="product_page.html">Ninja Silhouette</a></h4>
-                                                    
-                                                    <span class="price"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>20.00</span>
-                                                    </span>
-                                                </div>
-                                            </li>
-                                            <li class="isotope-item product">
-                                                <div class="image_frame scale-with-grid product-loop-thumb" >
-                                                    <div class="image_wrapper">
-                                                        <a href="product_page.html">
-                                                            <div class="mask"></div><img width="500" height="500" src="images/hoodie_5_front-500x500.jpg" class="scale-with-grid wp-post-image" alt="">
-                                                        </a>
-                                                        
-                                                    </div><a href="product_page.html"><span class="product-loading-icon added-cart"></span></a>
-                                                </div>
-                                                <div class="desc">
-                                                    <h4><a href="product_page.html">Ninja Silhouette</a></h4>
-                                                    
-                                                    <span class="price"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>35.00</span>
-                                                    </span>
-                                                </div>
-                                            </li>
-                                            <li class="isotope-item product">
-                                                <div class="image_frame scale-with-grid product-loop-thumb" >
-                                                    <div class="image_wrapper">
-                                                        <a href="product_page.html">
-                                                            <div class="mask"></div><img width="500" height="500" src="images/hoodie_3_front-500x500.jpg" class="scale-with-grid wp-post-image" alt="">
-                                                        </a>
-                                                        
-                                                    </div><a href="product_page.html"><span class="product-loading-icon added-cart"></span></a>
-                                                </div>
-                                                <div class="desc">
-                                                    <h4><a href="product_page.html">Patient Ninja</a></h4>
-                                                    
-                                                    <span class="price"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>35.00</span>
-                                                    </span>
-                                                </div>
-                                            </li>
-                                            <li class="isotope-item product">
-                                                <div class="image_frame scale-with-grid product-loop-thumb" >
-                                                    <div class="image_wrapper">
-                                                        <a href="product_page.html">
-                                                            <div class="mask"></div><img width="500" height="500" src="images/T_2_front-500x500.jpg" class="scale-with-grid wp-post-image" alt="">
-                                                        </a>
-                                                        
-                                                    </div><a href="product_page.html"><span class="product-loading-icon added-cart"></span></a>
-                                                </div>
-                                                <div class="desc">
-                                                    <h4><a href="product_page.html">Premium Quality</a></h4>
-                                                   
-                                                    <span class="price"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>20.00</span>
-                                                    </span>
-                                                </div>
-                                            </li>
-                                            <li class="isotope-item product">
-                                                <div class="image_frame scale-with-grid product-loop-thumb" >
-                                                    <div class="image_wrapper">
-                                                        <a href="product_page.html">
-                                                            <div class="mask"></div><img width="500" height="500" src="images/poster_3_up-500x500.jpg" class="scale-with-grid wp-post-image" alt="">
-                                                        </a>
-                                                        
-                                                    </div><span class="onsale"><i class="icon-star"></i></span><a href="product_page.html"><span class="product-loading-icon added-cart"></span></a>
-                                                </div>
-                                                <div class="desc">
-                                                    <h4><a href="product_page.html">Premium Quality</a></h4>
-                                                    
-                                                    <span class="price"><del><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>15.00</span>
-                                                    </del> <ins><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>12.00</span></ins>
-                                                    </span>
-                                                </div>
-                                            </li>
-                                            <li class="isotope-item product">
-                                                <div class="image_frame scale-with-grid product-loop-thumb" >
-                                                    <div class="image_wrapper">
-                                                        <a href="product_page.html">
-                                                            <div class="mask"></div><img width="500" height="500" src="images/T_4_front-500x500.jpg" class="scale-with-grid wp-post-image" alt="">
-                                                        </a>
-                                                        <div class="image_links ">
-                                                            <a class="link" href="product_page.html"><i class="icon-link"></i></a>
-                                                        </div>
-                                                    </div><a href="product_page.html"><span class="product-loading-icon added-cart"></span></a>
-                                                </div>
-                                                <div class="desc">
-                                                    <h4><a href="product_page.html">Ship Your Idea</a></h4>
-                                                    
-                                                    <span class="price"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>20.00</span>
-                                                    </span>
-                                                </div>
-                                            </li>
-                                            <li class="isotope-item product">
-                                                <div class="image_frame scale-with-grid product-loop-thumb" >
-                                                    <div class="image_wrapper">
-                                                        <a href="product_page.html">
-                                                            <div class="mask"></div><img width="500" height="500" src="images/hoodie_7_front-500x500.jpg" class="scale-with-grid wp-post-image" alt="">
-                                                        </a>
-                                                        <div class="image_links ">
-                                                            <a class="link" href="product_page.html"><i class="icon-link"></i></a>
-                                                        </div>
-                                                    </div><span class="onsale"><i class="icon-star"></i></span><a href="product_page.html"><span class="product-loading-icon added-cart"></span></a>
-                                                </div>
-                                                <div class="desc">
-                                                    <h4><a href="product_page.html">Ship Your Idea</a></h4>
-                                                    
-                                                    <span class="price"><del><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>35.00</span>
-                                                    </del> <ins><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>30.00</span>&ndash;<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>35.00</span></ins>
-                                                    </span>
-                                                </div>
-                                            </li>
-                                            <li class="isotope-item product">
-                                                <div class="image_frame scale-with-grid product-loop-thumb" >
-                                                    <div class="image_wrapper">
-                                                        <a href="product_page.html">
-                                                            <div class="mask"></div><img width="500" height="500" src="images/poster_1_up-500x500.jpg" class="scale-with-grid wp-post-image" alt="">
-                                                        </a>
-                                                        
-                                                    </div><a href="product_page.html"><span class="product-loading-icon added-cart"></span></a>
-                                                </div>
-                                                <div class="desc">
-                                                    <h4><a href="product_page.html">Ship Your Idea</a></h4><span class="price"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>15.00</span>
-                                                    </span>
-                                                </div>
-                                            </li>
-                                            <li class="isotope-item product">
-                                                <div class="image_frame scale-with-grid product-loop-thumb" >
-                                                    <div class="image_wrapper">
-                                                        <a href="product_page.html">
-                                                            <div class="mask"></div><img width="500" height="500" src="images/cd_1_angle-500x500.jpg" class="scale-with-grid wp-post-image" alt="">
-                                                        </a>
-                                                        
-                                                    </div><a href="product_page.html"><span class="product-loading-icon added-cart"></span></a>
-                                                </div>
-                                                <div class="desc">
-                                                    <h4><a href="product_page.html">Woo Album #1</a></h4><span class="price"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>9.00</span>
-                                                    </span>
-                                                </div>
-                                            </li>
+                                            
+                                            
+                                            
+                                            
+                                           >
                                         </ul>
                                     </div>
                                     <div class="column one pager_wrapper">
@@ -303,13 +163,13 @@
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h6 style="color:#7d7d7d">MEET US</h6>
+									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="ijabo.html">How it works</a> </p>
-									<p> <a href="vehicles.html">Find a vehicle</a> </p>
-									<p> <a href="index.html#pricing">Pricing</a> </p>
 									<p> <a href="about.html"> About us</a> </p>
+									<p> <a href="service.html">Service</a> </p>
+									<p> <a href="ijabo.html">How it works</a> </p>
 									<p> <a href="contact.html">Contact</a> </p>
+									<p> <a href="#">fAQs</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -318,15 +178,15 @@
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h3>Rent a scooter
+									<h3>Simple, Affordable and Reliable Access to
 										<br>
-										<span class="themecolor">just like that!</span></h3>
+										<span class="themecolor">Clean Safe Water</span></h3>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<a href="#"><img src="images/scooterrental-footer-btn1.png"></a>
-									<a href="#"><img src="images/scooterrental-footer-btn2.png"></a>
+									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
+									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="contact.html">FIND OUT MORE <i class="icon-right-thin" style="color:#00d285"></i></a> </p>
-									<hr class="no_line" style="margin:0 auto 80px"> <img src="images/scooterrental-footer-logo.png"> </div>
+									<p> <a href="contact.html">CONTACT US <i class="icon-right-thin" style="color:#00d285"></i></a> </p>
+									<hr class="no_line" style="margin:0 auto 80px"> </div>
 							</div>
 						</aside>
 					</div>
@@ -336,11 +196,11 @@
 								<div style="text-align: center;">
 									<h6 style="color:#7d7d7d">MORE INFO</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="#">News</a> </p>
-									<p> <a href="#">FAQ</a> </p>
-									<p> <a href="#">Work</a> </p>
-									<p> <a href="#"> Franchise</a> </p>
-									<p> <a href="#">Partners</a> </p>
+									<p> <a href="#">Inuma</a> </p>
+									<p> <a href="#">Amazi</a> </p>
+									<p> <a href="#">Uhira</a> </p>
+									<p> <a href="#">Voma</a> </p>
+									<p> <a href="#">Ijabo</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -350,7 +210,7 @@
 			<div class="footer_copy">
 				<div class="container">
 					<div class="column one">
-						<div class="copyright"> &copy; 2021 BeScooterRental - BeTheme. Muffin group - HTML by <a  rel="nofollow" href="https://1.envato.market/9ZxXY">BeantownThemes</a> </div>
+						<div class="copyright"> &copy; <script>document.write(new Date().getFullYear());</script> Water Access Rwanda </div>
 					</div>
 				</div>
 			</div>
@@ -359,14 +219,14 @@
 
 
     <!-- JS -->
-    <script src="../js/jquery-2.1.4.min.js"></script>
+    <script src="{% static "web/js/jquery-2.1.4.min.js"%}"></script>
 
-    <script src="../js/mfn.menu.js"></script>
-    <script src="../js/jquery.plugins.js"></script>
-    <script src="../js/jquery.jplayer.min.js"></script>
-    <script src="../js/animations/animations.js"></script>
-    <script src="../js/translate3d.js"></script>
-    <script src="../js/scripts.js"></script>
+    <script src="{% static "web/js/mfn.menu.js"%}"></script>
+    <script src="{% static "web/js/jquery.plugins.js"%}"></script>
+    <script src="{% static "web/js/jquery.jplayer.min.js"%}"></script>
+    <script src="{% static "web/js/animations/animations.js"%}"></script>
+    <script src="{% static "web/js/translate3d.js"%}"></script>
+    <script src="{% static "web/js/scripts.js"%}"></script>
 
     <script>
         jQuery(window).load(function() {

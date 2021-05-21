@@ -22,6 +22,21 @@ from rest_framework.authtoken.models import Token
 def index(request):
     return render(request,'website/index.html')
 
+def service(request):
+    return render(request,'website/service.html')
+
+def blog(request):
+    return render(request,'website/blog.html')
+
+def contact_us(request):
+    return render(request,'website/contact.html')
+
+def shopping(request):
+    return render(request,'website/shop.html')
+
+def product(request):
+    return render(request,'website/product_page.html')
+
 # backend
 @login_required(login_url='/login')
 def dashboard(request):
