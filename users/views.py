@@ -18,8 +18,31 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from rest_framework.authtoken.models import Token
 
+#website
+def index(request):
+    return render(request,'website/index.html')
 
-# website
+def service(request):
+    return render(request,'website/service.html')
+
+def blog(request):
+    return render(request,'website/blog.html')
+
+def contact_us(request):
+    return render(request,'website/contact.html')
+
+def shopping(request):
+    return render(request,'website/shop.html')
+
+def product(request):
+    return render(request,'website/product_page.html')
+def about(request):
+    return render(request,'website/about.html')
+
+def ijabo(request):
+    return render(request,'website/ijabo.html')
+
+# backend
 @login_required(login_url='/login')
 def dashboard(request):
     return render(request, 'dashboard.html')

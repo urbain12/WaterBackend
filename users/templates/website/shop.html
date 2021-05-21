@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7 "> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]><html class="no-js lt-ie10"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+{% load static %}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+
+    <!-- Basic Page Needs -->
+    <meta charset="utf-8">
+    <title>Water Access Rwanda</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Favicons -->
+    <link rel="shortcut icon" href="{% static "web/images/favicon.ico" %}">
+
+    <!-- FONTS -->
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:100,300,400,400italic,700'>
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Patua+One:100,300,400,400italic,700'>
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lato:100,100,300,400,400italic,700'>
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lora:100,300,400,400italic,500,700,700italic'>
+
+    <!-- CSS -->
+    <link rel='stylesheet' href="{% static "web/css/global.css"%}">
+    <link rel='stylesheet' href="{% static "web/css/structure.css"%}">
+    <link rel='stylesheet' href="{% static "web/css/betheme.css"%}">
+    <link rel='stylesheet' href="{% static "web/css/custom.css"%}">
+
+
+</head>
+
+<body class="woocommerce woocommerce-page with_aside aside_right color-custom style-default layout-full-width header-plain header-fw minimalist-header sticky-header sticky-white ab-hide subheader-both-center menuo-last menuo-right mm-vertical mobile-tb-hide mobile-mini-mr-ll">
+    <div id="Wrapper">
+        <div id="Header_wrapper">
+			<header id="Header" >
+				<div id="Top_bar" style="background-color:white;border:none">
+					<div class="container">
+						<div class="column one">
+							<div class="top_bar_left clearfix"  >
+								<div class="logo">
+									<a id="logo" href="{% url 'index' %}" title="BeScooterRental - Betheme" data-height="60" data-padding="30"><img class="logo-main scale-with-grid" src="{% static "web/images/scooterrental.png"%}"   data-height="50" alt="scooterrental" data-no-retina></a>
+								</div>
+								<div class="menu_wrapper">
+									<nav id="menu">
+										<ul id="menu-main-menu" class="menu menu-main" >
+											<li> <a href="{% url 'index' %}"><span style="border:none;color:black">Home</span></a> </li>
+											<li> <a href="{% url 'about' %}"><span style="border:none;color:black">About us</span></a> </li>
+											<li> <a href="{% url 'service' %}"><span style="border:none;color:black">Service</span></a> </li>
+                                            <li> <a href="{% url 'ijabo' %}"><span style="border:none;color:black">Ijabo</span></a> </li>
+											<li> <a href="{% url 'blog' %}"><span style="border:none;color:black">Blog</span></a> </li>
+											<li> <a href="{% url 'contact_us' %}"><span style="border:none;color:black">Contact</span></a> </li>
+										</ul>
+									</nav><a class="responsive-menu-toggle " href="#"><i class="icon-menu-fine"></i></a> </div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</header>
+		</div>
+            <div id="Subheader">
+                <div class="container">
+                    <div class="column one">
+                        <h1 class="title">Shop</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="Content">
+            <div class="content_wrapper clearfix">
+                <div class="sections_group">
+                    <div class="section">
+                        <div class="section_wrapper clearfix">
+                            <div class="items_group clearfix">
+                                <div class="column one woocommerce-content">
+                                   
+                                    <div class="products_wrapper isotope_wrapper">
+                                        <ul class="products grid">
+                                            <li class="isotope-item product">
+                                                <div class="image_frame scale-with-grid product-loop-thumb" >
+                                                    <div class="image_wrapper">
+                                                        <a href="{% url 'product' %}">
+                                                            <div class="mask"></div><img width="800" height="800" src="{% static "web/images/poster_2_up-500x500.jpg"%}" class="scale-with-grid wp-post-image" alt="">
+                                                        </a>
+                                                        
+                                                    </div><span class="onsale"><i class="icon-star"></i></span><a href="{% url 'product' %}"><span class="product-loading-icon added-cart"></span></a>
+                                                </div>
+                                                <div class="desc">
+                                                    <h4><a href="{% url 'product' %}">Flying Ninja</a></h4>
+                                                    
+                                                    <span class="price"><del><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>15.00</span>
+                                                    </del> <ins><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>12.00</span></ins>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                            <li class="isotope-item product">
+                                                <div class="image_frame scale-with-grid product-loop-thumb" >
+                                                    <div class="image_wrapper">
+                                                        <a href="{% url 'product' %}">
+                                                            <div class="mask"></div><img width="500" height="500" src="{% static "web/images/T_7_front-500x500.jpg"%}" class="scale-with-grid wp-post-image" alt="">
+                                                        </a>
+                                                        
+                                                    </div><a href="{% url 'product' %}"><span class="product-loading-icon added-cart"></span></a>
+                                                </div>
+                                                <div class="desc">
+                                                    <h4><a href="{% url 'product' %}">Happy Ninja</a></h4>
+                                                    
+                                                    <span class="price"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>18.00</span>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                            <li class="isotope-item product">
+                                                <div class="image_frame scale-with-grid product-loop-thumb" >
+                                                    <div class="image_wrapper">
+                                                        <a href="{% url 'product' %}">
+                                                            <div class="mask"></div><img width="500" height="500" src="{% static "web/images/hoodie_4_front-500x500.jpg"%}" class="scale-with-grid wp-post-image" alt="">
+                                                        </a>
+                                                        
+                                                    </div><a href="{% url 'product' %}"><span class="product-loading-icon added-cart"></span></a>
+                                                </div>
+                                                <div class="desc">
+                                                    <h4><a href="{% url 'product' %}">Happy Ninja</a></h4>
+                                                   
+                                                    <span class="price"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>35.00</span>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                            
+                                            
+                                            
+                                            
+                                           >
+                                        </ul>
+                                    </div>
+                                    <div class="column one pager_wrapper">
+                                        <div class="pager">
+                                            <div class="pages">
+                                                <span class='page-numbers current'>1</span><a class='page-numbers' href='#'>2</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <footer id="Footer" class="clearfix ">
+			<div class="widgets_wrapper ">
+				<div class="container">
+					<div class="column one-third">
+						<aside class="widget_text widget widget_custom_html">
+							<div class="textwidget custom-html-widget">
+								<div style="text-align: center;">
+									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
+									<hr class="no_line" style="margin:0 auto 20px">
+									<p> <a href="about.html"> About us</a> </p>
+									<p> <a href="service.html">Service</a> </p>
+									<p> <a href="ijabo.html">How it works</a> </p>
+									<p> <a href="contact.html">Contact</a> </p>
+									<p> <a href="#">fAQs</a> </p>
+								</div>
+							</div>
+						</aside>
+					</div>
+					<div class="column one-third">
+						<aside class="widget_text widget widget_custom_html">
+							<div class="textwidget custom-html-widget">
+								<div style="text-align: center;">
+									<h3>Simple, Affordable and Reliable Access to
+										<br>
+										<span style="color:#3de372">Clean Safe Water</span></h3>
+									<hr class="no_line" style="margin:0 auto 20px">
+									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
+									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
+									<hr class="no_line" style="margin:0 auto 20px">
+									<p> <a href="contact.html">CONTACT US <i class="icon-right-thin" style="color:#00d285"></i></a> </p>
+									<hr class="no_line" style="margin:0 auto 80px"> </div>
+							</div>
+						</aside>
+					</div>
+					<div class="column one-third">
+						<aside class="widget_text widget widget_custom_html">
+							<div class="textwidget custom-html-widget">
+								<div style="text-align: center;">
+									<h6 style="color:#7d7d7d">MORE INFO</h6>
+									<hr class="no_line" style="margin:0 auto 20px">
+									<p> <a href="#">Inuma</a> </p>
+									<p> <a href="#">Amazi</a> </p>
+									<p> <a href="#">Uhira</a> </p>
+									<p> <a href="#">Voma</a> </p>
+									<p> <a href="#">Ijabo</a> </p>
+								</div>
+							</div>
+						</aside>
+					</div>
+				</div>
+			</div>
+			<div class="footer_copy">
+				<div class="container">
+					<div class="column one">
+						<div class="copyright"> &copy; <script>document.write(new Date().getFullYear());</script> Water Access Rwanda </div>
+					</div>
+				</div>
+			</div>
+		</footer>
+    </div>
+
+
+    <!-- JS -->
+    <script src="{% static "web/js/jquery-2.1.4.min.js"%}"></script>
+
+    <script src="{% static "web/js/mfn.menu.js"%}"></script>
+    <script src="{% static "web/js/jquery.plugins.js"%}"></script>
+    <script src="{% static "web/js/jquery.jplayer.min.js"%}"></script>
+    <script src="{% static "web/js/animations/animations.js"%}"></script>
+    <script src="{% static "web/js/translate3d.js"%}"></script>
+    <script src="{% static "web/js/scripts.js"%}"></script>
+
+    <script>
+        jQuery(window).load(function() {
+            var retina = window.devicePixelRatio > 1 ? true : false;
+            if (retina) {
+                var retinaEl = jQuery("#logo img.logo-main");
+                var retinaLogoW = retinaEl.width();
+                var retinaLogoH = retinaEl.height();
+                retinaEl.attr("src", "images/retina-theme.png").width(retinaLogoW).height(retinaLogoH);
+                var stickyEl = jQuery("#logo img.logo-sticky");
+                var stickyLogoW = stickyEl.width();
+                var stickyLogoH = stickyEl.height();
+                stickyEl.attr("src", "images/retina-theme.png").width(stickyLogoW).height(stickyLogoH);
+                var mobileEl = jQuery("#logo img.logo-mobile");
+                var mobileLogoW = mobileEl.width();
+                var mobileLogoH = mobileEl.height();
+                mobileEl.attr("src", "images/retina-theme.png").width(mobileLogoW).height(mobileLogoH);
+                var mobileStickyEl = jQuery("#logo img.logo-mobile-sticky");
+                var mobileStickyLogoW = mobileStickyEl.width();
+                var mobileStickyLogoH = mobileStickyEl.height();
+                mobileStickyEl.attr("src", "images/retina-theme.png").width(mobileStickyLogoW).height(mobileStickyLogoH);
+            }
+        });
+    </script>
+
+
+</body>
+
+</html>
+<!-- Localized -->
