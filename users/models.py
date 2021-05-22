@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 # Create your models here.
 
 class UserManager(BaseUserManager):
-    def create_user(self,email,phone,password=None,is_active=True,is_staff=False,is_admin=False):
+    def create_user(self,email,phone=None,password=None,is_active=True,is_staff=False,is_admin=False):
         if not email:
             raise ValueError('Users must have a valid email')
         if not phone:
@@ -22,12 +22,12 @@ class UserManager(BaseUserManager):
         user_obj.save(using=self._db)
         return user_obj
 
-    def create_staffuser(self,email,password=None):
-        user=self.create_user(email,password=password,is_staff=True)
+    def create_staffuser(self,email,phone=None,password=None):
+        user=self.create_user(email,phone=None,password=password,is_staff=True)
         return user
 
-    def create_superuser(self,email,password=None):
-        user=self.create_user(email,password=password,is_staff=True,is_admin=True)
+    def create_superuser(self,email,phone=None,password=None):
+        user=self.create_user(email,phone='0787018287',password=password,is_staff=True,is_admin=True)
         return user
         
 
