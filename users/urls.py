@@ -15,6 +15,8 @@ urlpatterns = [
     path('ijabo/',ijabo,name='ijabo'),
     path('updateItem/',updateItem2,name='updateItem'),
     path('cart',cart,name='cart'),
+    path('single_blog/<int:blogID>/',single_blog,name='single_blog'),
+
 
     #backend
     path('dashboard/',dashboard,name='dashboard'),

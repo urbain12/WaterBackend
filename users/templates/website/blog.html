@@ -106,21 +106,27 @@
 
 
 
-						<div class="section ">
+					<div class="section ">
                         <div class="section_wrapper clearfix">
                             <div class="column one column_blog">
+
+
+
                                 <div class="blog_wrapper isotope_wrapper">
                                     <div class="posts_group lm_wrapper grid col-3">
-                                        <div class="post-item isotope-item clearfix post-56 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized" style>
+
+
+                                        {% for blog in blogs  %}
+										<div class="post-item isotope-item clearfix post-56 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized" style>
                                             <div class="date_label">
-                                                September 23, 2019
+                                                {{blog.Published_at}}
                                             </div>
                                             <div class="image_frame post-photo-wrapper scale-with-grid image">
                                                 <div class="image_wrapper">
-                                                    <a href="post.html">
-                                                        <div class="mask"></div><img src="{% static "web/images/insurance3-articles-post1-960x720.jpg"%}" class="scale-with-grid wp-post-image" alt></a>
+                                                    <a href="{% url 'single_blog' blog.id %}">
+                                                        <div class="mask"></div><img src="{{blog.Image.url}}" class="scale-with-grid wp-post-image" alt style="height:200px;width:320px;"></a>
                                                     <div class="image_links double">
-                                                        <a href="{% static "web/images/insurance3-articles-post1-1024x1200.jpg"%}" class="zoom" rel="prettyphoto"><i class="icon-search"></i></a><a href="post.html" class="link"><i class="icon-link"></i></a>
+                                                        <a href="{{blog.Image.url}}" class="zoom" rel="prettyphoto"><i class="icon-search"></i></a><a href="{% url 'single_blog' blog.id %}" class="link"><i class="icon-link"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -129,105 +135,30 @@
                                                     <div class="post-head">
                                                         <div class="post-meta clearfix">
                                                             <div class="author-date">
-                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">September 23, 2019</span></span>
+                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">{{blog.Published_at}}</span></span>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="post-title">
-                                                        <h2 class="entry-title"><a href="post.html">Quisque lorem tortor fringilla sed</a></h2>
+                                                    <div class="post-title" style="height:100px;">
+                                                        <h2 class="entry-title"><a href="{% url 'single_blog' blog.id %}">{{blog.Title}}</a></h2>
                                                     </div>
-                                                    <div class="post-excerpt">
-                                                        Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis.
+                                                    <div class="post-excerpt" style="height:200px;">
+                                                        {{blog.Details|slice:":250"}}...
                                                     </div>
                                                     <div class="post-footer">
-                                                        <div class="button-love">
-                                                            <span class="love-text">Do you like it?</span><a href="#" class="mfn-love " data-id="56"><span class="icons-wrapper"><i class="icon-heart-empty-fa"></i><i class="icon-heart-fa"></i></span><span class="label">0</span></a>
-                                                        </div>
+                                                        
                                                         <div class="post-links">
-                                                            <i class="icon-doc-text"></i><a href="post.html" class="post-more">Read more</a>
+                                                            <i class="icon-doc-text"></i><a href="{% url 'single_blog' blog.id %}" class="post-more">Read more</a>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="post-item isotope-item clearfix post-53 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized" style>
-                                            <div class="date_label">
-                                                September 23, 2019
-                                            </div>
-                                            <div class="image_frame post-photo-wrapper scale-with-grid image">
-                                                <div class="image_wrapper">
-                                                    <a href="post.html">
-                                                        <div class="mask"></div><img src="{% static "web/images/insurance3-articles-post2-960x720.jpg"%}" class="scale-with-grid wp-post-image" alt></a>
-                                                    <div class="image_links double">
-                                                        <a href="{% static "web/images/insurance3-articles-post2-1024x1200.jpg"%}" class="zoom" rel="prettyphoto"><i class="icon-search"></i></a><a href="post.html" class="link"><i class="icon-link"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="post-desc-wrapper bg-" style>
-                                                <div class="post-desc">
-                                                    <div class="post-head">
-                                                        <div class="post-meta clearfix">
-                                                            <div class="author-date">
-                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">September 23, 2019</span></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="post-title">
-                                                        <h2 class="entry-title"><a href="post.html">Nulla imperdiet sit amet magna ullamcorper</a></h2>
-                                                    </div>
-                                                    <div class="post-excerpt">
-                                                        Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis.
-                                                    </div>
-                                                    <div class="post-footer">
-                                                        <div class="button-love">
-                                                            <span class="love-text">Do you like it?</span><a href="#" class="mfn-love " data-id="53"><span class="icons-wrapper"><i class="icon-heart-empty-fa"></i><i class="icon-heart-fa"></i></span><span class="label">1</span></a>
-                                                        </div>
-                                                        <div class="post-links">
-                                                            <i class="icon-doc-text"></i><a href="post.html" class="post-more">Read more</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="post-item isotope-item clearfix post-51 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized" style>
-                                            <div class="date_label">
-                                                September 23, 2019
-                                            </div>
-                                            <div class="image_frame post-photo-wrapper scale-with-grid image">
-                                                <div class="image_wrapper">
-                                                    <a href="post.html">
-                                                        <div class="mask"></div><img src="{% static "web/images/insurance3-articles-post3-960x720.jpg"%}" class="scale-with-grid wp-post-image" alt></a>
-                                                    <div class="image_links double">
-                                                        <a href="{% static "web/images/insurance3-articles-post3-1024x1200.jpg"%}" class="zoom" rel="prettyphoto"><i class="icon-search"></i></a><a href="post.html" class="link"><i class="icon-link"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="post-desc-wrapper bg-" style>
-                                                <div class="post-desc">
-                                                    <div class="post-head">
-                                                        <div class="post-meta clearfix">
-                                                            <div class="author-date">
-                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">September 23, 2019</span></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="post-title">
-                                                        <h2 class="entry-title"><a href="post.html">Vivamus urna eget tempus pellentesque dui</a></h2>
-                                                    </div>
-                                                    <div class="post-excerpt">
-                                                        Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis.
-                                                    </div>
-                                                    <div class="post-footer">
-                                                        <div class="button-love">
-                                                            <span class="love-text">Do you like it?</span><a href="#" class="mfn-love " data-id="51"><span class="icons-wrapper"><i class="icon-heart-empty-fa"></i><i class="icon-heart-fa"></i></span><span class="label">3</span></a>
-                                                        </div>
-                                                        <div class="post-links">
-                                                            <i class="icon-doc-text"></i><a href="post.html" class="post-more">Read more</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+										{% endfor %}
+
+										
+                                        
+                                        
                                         
                                         
                                         
@@ -235,6 +166,14 @@
                                         
                                     </div>
                                 </div>
+
+
+
+								
+
+
+								
+
                             </div>
                         </div>
                     </div>
