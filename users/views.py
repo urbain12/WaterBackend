@@ -26,7 +26,8 @@ def service(request):
     return render(request,'website/service.html')
 
 def blog(request):
-    return render(request,'website/blog.html')
+    blogs = Blog.objects.all()
+    return render(request,'website/blog.html',{'blogs':blogs})
 
 def contact_us(request):
     return render(request,'website/contact.html')
@@ -41,6 +42,10 @@ def about(request):
 
 def ijabo(request):
     return render(request,'website/ijabo.html')
+
+def single_blog(request,blogID):
+    blog = Blog.objects.get(id=blogID)
+    return render(request,'website/post.html',{'blog': blog})
 
 # backend
 @login_required(login_url='/login')

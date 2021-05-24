@@ -13,6 +13,7 @@ urlpatterns = [
     path('product/',product,name='product'),
     path('about/',about,name='about'),
     path('ijabo/',ijabo,name='ijabo'),
+    path('single_blog/<int:blogID>/',single_blog,name='single_blog'),
 
 
     #backend
