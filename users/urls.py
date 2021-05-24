@@ -10,9 +10,12 @@ urlpatterns = [
     path('blog/',blog,name='blog'),
     path('contact_us/',contact_us,name='contact_us'),
     path('shopping/',shopping,name='shopping'),
-    path('product/',product,name='product'),
+    path('product/<int:productID>/',product,name='product'),
     path('about/',about,name='about'),
     path('ijabo/',ijabo,name='ijabo'),
+    path('updateItem/',updateItem2,name='updateItem'),
+    path('cart',cart,name='cart'),
+    path('single_blog/<int:blogID>/',single_blog,name='single_blog'),
 
 
     #backend
@@ -25,6 +28,7 @@ urlpatterns = [
     path('customers/',customers,name='customers'),
     path('checkout/',checkout,name='checkout'),
     path('Checkout/<int:subID>/',Checkout,name='Checkout'),
+    path('Checkout/',checkout2,name='checkout2'),
     path('confirm/<int:subID>/',confirm,name="confirm"),
     path('cancel/<int:subID>/',cancel,name="cancel"),
     url(r'checkout_page/(?P<pk>\d+)/$', checkout_page, name='checkout_page'),

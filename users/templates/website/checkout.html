@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Access Rwanda</title>
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+	<link rel='stylesheet' href="{% static "web/css/global.css"%}">
+    <link rel='stylesheet' href="{% static "web/css/structure.css"%}">
+    <link rel='stylesheet' href="{% static "web/css/betheme.css"%}">
+    <link rel='stylesheet' href="{% static "web/css/custom.css"%}">
+	{% comment %} <link rel='stylesheet' href="{% static "web/css/scooterrental.css" %}"> {% endcomment %}
+
+    <style>
+
+        body{
+	background-color: hsl(0, 0%, 98%);
+}
+
+h1,h2,h3,h4,h5,h6{
+	color:hsl(0, 0%, 30%);
+}
+
+.box-element{
+	box-shadow:hsl(0, 0%, 80%) 0 0 16px;
+	background-color: #fff;
+	border-radius: 4px;
+	padding: 10px;
+}
+
+.thumbnail{
+	width: 100%;
+	height: 200px;
+	-webkit-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+    -moz-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+    box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+}
+
+.product{
+	border-radius: 0 0 4px 4px;
+}
+
+.bg-dark{
+	background-color: #4f868c!important;
+}
+
+#cart-icon{
+	width:25px;
+	display: inline-block;
+	margin-left: 15px;
+}
+
+#cart-total{
+	display: block;
+	text-align: center;
+	color:#fff;
+	background-color: red;
+	width: 20px;
+	height: 25px;
+	border-radius: 50%;
+	font-size: 14px;
+}
+
+.col-lg-4, .col-lg-6, .col-lg-8, .col-lg-12{
+	margin-top: 10px;
+}
+
+.btn{
+	border-radius: 0;
+}
+
+.row-image{
+	width: 100px;
+}
+
+.form-field{
+	width:250px;
+	display: inline-block;
+	padding: 5px;
+}
+
+.cart-row{
+	display: flex;
+    align-items: flex-stretch;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ececec;
+
+}
+
+.quantity{
+	display: inline-block;
+	font-weight: 700;
+	padding-right:10px;
+	
+
+}
+
+.chg-quantity{
+	width: 12px;
+	cursor: pointer;
+	display: block;
+	margin-top: 5px;
+	transition:.1s;
+}
+
+.chg-quantity:hover{
+	opacity: .6;
+}
+
+
+.hidden{
+	display: none!important;
+}
+
+    </style>
+</head>
+<body class="woocommerce woocommerce-page with_aside aside_right color-custom style-default layout-full-width header-plain header-fw minimalist-header sticky-header sticky-white ab-hide subheader-both-center menuo-last menuo-right mm-vertical mobile-tb-hide mobile-mini-mr-ll">
+	<header id="Header">
+				<div id="Top_bar" style="background-color:white;border:none">
+					<div class="container">
+						<div class="column one">
+							<div class="top_bar_left clearfix"  >
+								<div class="logo">
+									<a id="logo" href="{% url 'index' %}" title="BeScooterRental - Betheme" data-height="60" data-padding="30"><img class="logo-main scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/retina-scooterrental.png" %}" data-height="50" alt="scooterrental" data-no-retina><img class="logo-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/retina-scooterrental.png" %}" data-height="50" alt="scooterrental" data-no-retina><img class="logo-mobile scale-with-grid" src="{% static "web/images/scooterrental.png"%}"  data-height="50" alt="scooterrental" data-no-retina><img class="logo-mobile-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}"  data-height="50" alt="scooterrental" data-no-retina></a>
+								</div>
+                                
+								<div class="menu_wrapper">
+									<nav id="menu">
+										<ul id="menu-main-menu" class="menu menu-main" >
+											<li> <a href="{% url 'index' %}"><span style="border:none;color:black">Home</span></a> </li>
+											<li> <a href="{% url 'about' %}"><span style="border:none;color:black">About us</span></a> </li>
+											<li> <a href="{% url 'service' %}"><span style="border:none;color:black">Service</span></a> </li>
+                                            <li> <a href="{% url 'ijabo' %}"><span style="border:none;color:black">Ijabo</span></a> </li>
+											<li> <a href="{% url 'blog' %}"><span style="border:none;color:black">Blog</span></a> </li>
+											<li> <a href="{% url 'contact_us' %}"><span style="border:none;color:black">Contact</span></a> </li>
+										</ul>
+                                        
+									</nav><a class="responsive-menu-toggle " href="#"><i class="icon-menu-fine"></i></a> </div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</header>
+    <div class="row" style="margin-bottom:50px;">
+		<div class="col-lg-6">
+			<div class="box-element" id="form-wrapper">
+				<form id="form">
+					<div id="shipping-info">
+						<hr>
+						<p>Shipping Information:</p>
+						<hr>
+						<div class="form-field">
+							<input class="form-control" type="text" name="address" placeholder="Address..">
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="city" placeholder="City..">
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="state" placeholder="State..">
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="country" placeholder="Country..">
+						</div>
+					</div>
+
+					<hr>
+					<input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+				</form>
+			</div>
+
+			<br>
+			<div class="box-element hidden" id="payment-info">
+				<small>Paypal Options</small>
+				<!--<button id="make-payment">Make payment</button>-->
+				<div id="paypal-button-container"></div>
+			</div>
+			
+		</div>
+
+		<div class="col-lg-6">
+			<div class="box-element">
+				<a  class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
+				<hr>
+				<h3>Order Summary</h3>
+				<hr>
+				{% for item in items %}
+				<div class="cart-row">
+					<div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"></div>
+					<div style="flex:2"><p>{{item.product.name}}</p></div>
+					<div style="flex:1"><p>{{item.product.price}} Rwf</p></div>
+					<div style="flex:1"><p>x{{item.quantity}}</p></div>
+				</div>
+				{% endfor %}
+				<h5>Items:   <b> {{order.get_cart_items}}</b></h5>
+				<h5>Total:  &nbsp; <u><b>{{order.get_cart_total}} Rwf</b></u>  </h5>
+			</div>
+		</div>
+	</div>
+	<footer id="Footer" class="clearfix ">
+			<div class="widgets_wrapper ">
+				<div class="container">
+					<div class="column one-third">
+						<aside class="widget_text widget widget_custom_html">
+							<div class="textwidget custom-html-widget">
+								<div style="text-align: center;">
+									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
+									<hr class="no_line" style="margin:0 auto 20px">
+									<p> <a href="about.html"> About us</a> </p>
+									<p> <a href="service.html">Service</a> </p>
+									<p> <a href="ijabo.html">How it works</a> </p>
+									<p> <a href="contact.html">Contact</a> </p>
+									<p> <a href="#">fAQs</a> </p>
+								</div>
+							</div>
+						</aside>
+					</div>
+					<div class="column one-third">
+						<aside class="widget_text widget widget_custom_html">
+							<div class="textwidget custom-html-widget">
+								<div style="text-align: center;">
+									<h3>Simple, Affordable and Reliable Access to
+										<br>
+										<span style="color:#3de372">Clean Safe Water</span></h3>
+									<hr class="no_line" style="margin:0 auto 20px">
+									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
+									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
+									<hr class="no_line" style="margin:0 auto 20px">
+									<p> <a href="contact.html">CONTACT US <i class="icon-right-thin" style="color:#00d285"></i></a> </p>
+									<hr class="no_line" style="margin:0 auto 80px"> </div>
+							</div>
+						</aside>
+					</div>
+					<div class="column one-third">
+						<aside class="widget_text widget widget_custom_html">
+							<div class="textwidget custom-html-widget">
+								<div style="text-align: center;">
+									<h6 style="color:#7d7d7d">MORE INFO</h6>
+									<hr class="no_line" style="margin:0 auto 20px">
+									<p> <a href="#">Inuma</a> </p>
+									<p> <a href="#">Amazi</a> </p>
+									<p> <a href="#">Uhira</a> </p>
+									<p> <a href="#">Voma</a> </p>
+									<p> <a href="#">Ijabo</a> </p>
+								</div>
+							</div>
+						</aside>
+					</div>
+				</div>
+			</div>
+			<div class="footer_copy">
+				<div class="container">
+					<div class="column one">
+						<div class="copyright"> &copy; <script>document.write(new Date().getFullYear());</script> Water Access Rwanda </div>
+					</div>
+				</div>
+			</div>
+		</footer>
+</body>
+</html>

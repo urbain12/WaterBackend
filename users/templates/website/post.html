@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7 "> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]><html class="no-js lt-ie10"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+{% load static %}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+
+    <!-- Basic Page Needs -->
+    <meta charset="utf-8">
+    <title>Water Access Rwanda</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Favicons -->
+    <link rel="shortcut icon" href="{% static "web/images/favicon.ico"%}">
+
+    <!-- FONTS -->
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:100,300,400,400italic,700'>
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Patua+One:100,300,400,400italic,700'>
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lato:100,100,300,400,400italic,700'>
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lora:100,300,400,400italic,500,700,700italic'>
+
+    <!-- CSS -->
+    <link rel='stylesheet' href="{% static "web/css/structure.css"%}">
+    <link rel='stylesheet' href="{% static "web/css/global.css"%}">
+    <link rel='stylesheet' href="{% static "web/css/betheme.css"%}">
+    <link rel='stylesheet' href="{% static "web/css/custom.css"%}">
+
+</head>
+
+<body class="color-custom style-default layout-full-width header-plain header-fw minimalist-header sticky-header sticky-white ab-hide subheader-both-center menuo-last menuo-right mm-vertical mobile-tb-hide mobile-mini-mr-ll">
+    <div id="Wrapper">
+        <div id="Header_wrapper">
+			<header id="Header" >
+				<div id="Top_bar" style="background-color:white;border:none">
+					<div class="container">
+						<div class="column one">
+							<div class="top_bar_left clearfix"  >
+								<div class="logo">
+									<a id="logo" href="index.html" title="BeScooterRental - Betheme" data-height="60" data-padding="30"><img class="logo-main scale-with-grid" src="{% static "web/images/scooterrental.png"%}" data-retina="{% static "web/images/retina-scooterrental.png"%}" data-height="50" alt="scooterrental" data-no-retina><img class="logo-sticky scale-with-grid" src="{% static "web/images/scooterrental.png"%}" data-retina="{% static "web/images/retina-scooterrental.png"%}" data-height="50" alt="scooterrental" data-no-retina><img class="logo-mobile scale-with-grid" src="{% static "web/images/scooterrental.png"%}" data-retina={% static "web/images/retina-scooterrental.png"%}" data-height="50" alt="scooterrental" data-no-retina><img class="logo-mobile-sticky scale-with-grid" src={% static "web/images/scooterrental.png"%}" data-retina="{% static "web/images/retina-scooterrental.png"%}" data-height="50" alt="scooterrental" data-no-retina></a>
+								</div>
+								<div class="menu_wrapper">
+									<nav id="menu">
+										<ul id="menu-main-menu" class="menu menu-main" >
+											<li> <a href="{% url 'index' %}"><span style="border:none;color:black">Home</span></a> </li>
+											<li> <a href="{% url 'about' %}"><span style="border:none;color:black">About us</span></a> </li>
+											<li> <a href="{% url 'service' %}"><span style="border:none;color:black">Service</span></a> </li>
+                                            <li> <a href="{% url 'ijabo' %}"><span style="border:none;color:black">Ijabo</span></a> </li>
+											<li> <a href="{% url 'blog' %}"><span style="border:none;color:black">Blog</span></a> </li>
+											<li> <a href="{% url 'contact_us' %}"><span style="border:none;color:black">Contact</span></a> </li>
+										</ul>
+									</nav><a class="responsive-menu-toggle " href="#"><i class="icon-menu-fine"></i></a> </div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</header>
+		</div>
+        <div id="Content">
+            <div class="content_wrapper clearfix">singsing
+                <div class="sections_group">
+                    <div class="post type-post format-standard has-post-thumbnail hentry category-single">
+                        
+                        <div class="section section-post-header">
+                            <div class="section_wrapper clearfix">
+                                
+                                <div class="column one post-header">
+                                    <div class="button-love">
+                                    </div>
+                                    <div class="title_wrapper">
+                                        <h1 class="entry-title" itemprop="headline">{{blog.Title}}</h1>
+                                        <div class="post-meta clearfix">
+                                            <div class="author-date">
+                                                
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column one single-photo-wrapper image">
+
+                                    <div class="image_frame scale-with-grid ">
+                                        <div class="image_wrapper">
+                                            <a href="{{blog.Image.url}}" rel="prettyphoto">
+                                                <div class="mask"></div><img width="1200" height="480" src="{{blog.Image.url}}" class="scale-with-grid wp-post-image" alt="">
+                                            </a>
+                                            <div class="image_links">
+                                                <a href="{{blog.Image.url}}" class="zoom" rel="prettyphoto"><i class="icon-search"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-wrapper-content">
+                            <div class="section mcb-section" style="padding-top:10px; padding-bottom:0px;">
+                                <div class="section_wrapper mcb-section-inner">
+                                    <div class="wrap mcb-wrap one valign-top clearfix">
+                                        <div class="mcb-wrap-inner">
+                                            <div class="column mcb-column one-fifth column_placeholder">
+                                                <div class="placeholder">
+                                                    &nbsp;
+                                                </div>
+                                            </div>
+                                            <div class="column mcb-column three-fifth column_column">
+                                                <div class="column_attr clearfix">
+                                                    <h4>{{blog.Details}}</h4>
+                                                    
+                                                    
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="column mcb-column one-fifth column_placeholder">
+                                                <div class="placeholder">
+                                                    &nbsp;
+                                                </div>
+                                            </div>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                        </div>
+                        <div class="section section-post-related">
+                            <div class="section_wrapper clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer id="Footer" class="clearfix ">
+			<div class="widgets_wrapper ">
+				<div class="container">
+					<div class="column one-third">
+						<aside class="widget_text widget widget_custom_html">
+							<div class="textwidget custom-html-widget">
+								<div style="text-align: center;">
+									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
+									<hr class="no_line" style="margin:0 auto 20px">
+									<p> <a href="about.html"> About us</a> </p>
+									<p> <a href="service.html">Service</a> </p>
+									<p> <a href="ijabo.html">How it works</a> </p>
+									<p> <a href="contact.html">Contact</a> </p>
+									<p> <a href="#">fAQs</a> </p>
+								</div>
+							</div>
+						</aside>
+					</div>
+					<div class="column one-third">
+						<aside class="widget_text widget widget_custom_html">
+							<div class="textwidget custom-html-widget">
+								<div style="text-align: center;">
+									<h3>Simple, Affordable and Reliable Access to
+										<br>
+										<span class="themecolor">Clean Safe Water</span></h3>
+									<hr class="no_line" style="margin:0 auto 20px">
+									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
+									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
+									<hr class="no_line" style="margin:0 auto 20px">
+									<p> <a href="contact.html">CONTACT US <i class="icon-right-thin" style="color:#00d285"></i></a> </p>
+									<hr class="no_line" style="margin:0 auto 80px"> </div>
+							</div>
+						</aside>
+					</div>
+					<div class="column one-third">
+						<aside class="widget_text widget widget_custom_html">
+							<div class="textwidget custom-html-widget">
+								<div style="text-align: center;">
+									<h6 style="color:#7d7d7d">MORE INFO</h6>
+									<hr class="no_line" style="margin:0 auto 20px">
+									<p> <a href="#">Inuma</a> </p>
+									<p> <a href="#">Amazi</a> </p>
+									<p> <a href="#">Uhira</a> </p>
+									<p> <a href="#">Voma</a> </p>
+									<p> <a href="#">Ijabo</a> </p>
+								</div>
+							</div>
+						</aside>
+					</div>
+				</div>
+			</div>
+			<div class="footer_copy">
+				<div class="container">
+					<div class="column one">
+						<div class="copyright"> &copy; <script>document.write(new Date().getFullYear());</script> Water Access Rwanda </div>
+					</div>
+				</div>
+			</div>
+</footer>
+    </div>
+
+
+    <!-- JS -->
+    <script src="{% static "web/js/jquery-2.1.4.min.js"%}"></script>
+
+    <script src="{% static "web/js/mfn.menu.js"%}"></script>
+    <script src="{% static "web/js/jquery.plugins.js"%}"></script>
+    <script src="{% static "web/js/jquery.jplayer.min.js"%}"></script>
+    <script src="{% static "web/js/animations/animations.js"%}"></script>
+    <script src="{% static "web/js/translate3d.js"%}"></script>
+    <script src="{% static "web/js/scripts.js"%}"></script>
+
+    <script>
+        jQuery(window).load(function() {
+            var retina = window.devicePixelRatio > 1 ? true : false;
+            if (retina) {
+                var retinaEl = jQuery("#logo img.logo-main");
+                var retinaLogoW = retinaEl.width();
+                var retinaLogoH = retinaEl.height();
+                retinaEl.attr("src", "images/retina-theme.png").width(retinaLogoW).height(retinaLogoH);
+                var stickyEl = jQuery("#logo img.logo-sticky");
+                var stickyLogoW = stickyEl.width();
+                var stickyLogoH = stickyEl.height();
+                stickyEl.attr("src", "images/retina-theme.png").width(stickyLogoW).height(stickyLogoH);
+                var mobileEl = jQuery("#logo img.logo-mobile");
+                var mobileLogoW = mobileEl.width();
+                var mobileLogoH = mobileEl.height();
+                mobileEl.attr("src", "images/retina-theme.png").width(mobileLogoW).height(mobileLogoH);
+                var mobileStickyEl = jQuery("#logo img.logo-mobile-sticky");
+                var mobileStickyLogoW = mobileStickyEl.width();
+                var mobileStickyLogoH = mobileStickyEl.height();
+                mobileStickyEl.attr("src", "images/retina-theme.png").width(mobileStickyLogoW).height(mobileStickyLogoH);
+            }
+        });
+    </script>
+
+</body>
+
+</html>
+<!-- Localized -->
