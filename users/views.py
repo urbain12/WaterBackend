@@ -1,3 +1,4 @@
+from .utils import cartData
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView, UpdateAPIView
 from .models import *
 from django.contrib.auth import authenticate, logout as django_logout, login as django_login
@@ -32,10 +33,19 @@ def contact_us(request):
     return render(request,'website/contact.html')
 
 def shopping(request):
-    return render(request,'website/shop.html')
+    data = cartData(request)
 
-def product(request):
-    return render(request,'website/product_page.html')
+    cartItems = data['cartItems']
+    order = data['order']
+    items = data['items']
+    products=Product.objects.all()
+    return render(request,'website/shop.html',{'products':products,'cartItems':cartItems})
+
+def product(request,productID):
+    data = cartData(request)
+    cartItems = data['cartItems']
+    product=Product.objects.get(id=productID)
+    return render(request,'website/product_page.html',{'product':product,'cartItems':cartItems})
 def about(request):
     return render(request,'website/about.html')
 
@@ -368,6 +378,89 @@ def updateItem(request):
     # 	orderItem.delete()
 
     return JsonResponse('Item was added', safe=False)
+
+def cart(request):
+    inStock=False
+    data = cartData(request)
+
+    cartItems = data['cartItems']
+    order = data['order']
+    items = data['items']
+
+    context = {'items':items, 'order':order, 'cartItems':cartItems,'inStock':inStock}
+    return render(request, 'website/cart.html', context)
+
+def checkout2(request):
+    data = cartData(request)
+    
+    cartItems = data['cartItems']
+    order = data['order']
+    items = data['items']
+
+    context = {'items':items, 'order':order, 'cartItems':cartItems}
+    return render(request, 'website/checkout.html', context)
+
+def updateItem2(request):
+    data = json.loads(request.body)
+    productId = data['productId']
+    action = data['action']
+    print('Action:', action)
+    print('Product:', productId)
+
+    customer = request.user.customer
+    product = Product.objects.get(id=productId)
+    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+
+    orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+
+    if action == 'add':
+        if orderItem.quantity < product.inStock:
+            orderItem.quantity = (orderItem.quantity + 1)
+        else:
+            inStock=True
+            my_data = cartData(request)
+            cartItems = my_data['cartItems']
+            order = my_data['order']
+            items = my_data['items']
+            context = {'items':items, 'order':order, 'cartItems':cartItems,'inStock':inStock}
+            return render(request,'website/cart.html',context)
+    elif action == 'remove':
+        orderItem.quantity = (orderItem.quantity - 1)
+
+    orderItem.save()
+
+    if orderItem.quantity <= 0:
+        orderItem.delete()
+
+    return JsonResponse('Item was added', safe=False)
+
+def processOrder(request):
+    transaction_id = datetime.datetime.now().timestamp()
+    data = json.loads(request.body)
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    else:
+        customer, order = guestOrder(request, data)
+
+    total = float(data['form']['total'])
+    order.transaction_id = transaction_id
+
+    if total == order.get_cart_total:
+        order.complete = True
+    order.save()
+
+    ShippingAddress.objects.create(
+    customer=customer,
+    order=order,
+    address=data['shipping']['address'],
+    city=data['shipping']['city'],
+    state=data['shipping']['state'],
+    zipcode=data['shipping']['zipcode'],
+    )
+
+    return JsonResponse('Payment submitted..', safe=False)
 
 
 @login_required(login_url='/login')
