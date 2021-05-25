@@ -205,11 +205,10 @@ h1,h2,h3,h4,h5,h6{
 								<div style="text-align: center;">
 									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="about.html"> About us</a> </p>
-									<p> <a href="service.html">Service</a> </p>
-									<p> <a href="ijabo.html">How it works</a> </p>
-									<p> <a href="contact.html">Contact</a> </p>
-									<p> <a href="#">fAQs</a> </p>
+									<p> <a href="{% url 'about' %}"> About us</a> </p>
+									<p> <a href="{% url 'service' %}">Service</a> </p>
+									<p> <a href="{% url 'ijabo' %}">Ijabo</a> </p>
+									<p> <a href="{% url 'login' %}">LOGIN</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -220,12 +219,12 @@ h1,h2,h3,h4,h5,h6{
 								<div style="text-align: center;">
 									<h3>Simple, Affordable and Reliable Access to
 										<br>
-										<span style="color:#3de372">Clean Safe Water</span></h3>
+										<span class="themecolor">Clean Safe Water</span></h3>
 									<hr class="no_line" style="margin:0 auto 20px">
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="contact.html">CONTACT US <i class="icon-right-thin" style="color:#00d285"></i></a> </p>
+									<p> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00d285"></i></a> </p>
 									<hr class="no_line" style="margin:0 auto 80px"> </div>
 							</div>
 						</aside>
@@ -240,7 +239,6 @@ h1,h2,h3,h4,h5,h6{
 									<p> <a href="#">Amazi</a> </p>
 									<p> <a href="#">Uhira</a> </p>
 									<p> <a href="#">Voma</a> </p>
-									<p> <a href="#">Ijabo</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -256,6 +254,13 @@ h1,h2,h3,h4,h5,h6{
 			</div>
 		</footer>
 			</div>
+			<div id="Side_slide" class="right dark" data-width="250">
+		<div class="close-wrapper"> <a href="#" class="close"><i class="icon-cancel-fine"></i></a> </div>
+		<div class="menu_wrapper"></div>
+		<div class="extras"> <a href="{% url 'shopping' %}" class="action_button" target="_blank">BUY NOW</a>
+			<div class="extras-wrapper"></div>
+		</div>
+	</div>
     <script>
      var user = '{{request.user}}'
 
