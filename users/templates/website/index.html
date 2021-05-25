@@ -156,7 +156,7 @@
 												<hr class="no_line" style="margin:0 auto 15px">
 												<p style="color:#8e9aac;"> To ensure all taps provide safe water and encourage rainwater harvesting,  Amazi provides first flush diverter systems and point of entry filtration systems. With this solution, households, schools, clinics can save on their water bill in the rainy season while reducing the amount of run-off water that would otherwise cause flooding. </p>
 												<hr class="no_line" style="margin:0 auto 10px">
-												<hr class="no_line" style="margin:0 auto 10px"> <a class="button button_size_2 button_theme" href="service.html"><span class="button_label">Read More</span></a> </div>
+												<hr class="no_line" style="margin:0 auto 10px"> <a class="button button_size_2 button_theme" href="{% url 'service' %}"><span class="button_label">Read More</span></a> </div>
 										</div>
 									</div>
 								</div>
@@ -172,7 +172,7 @@
 												<hr class="no_line" style="margin:0 auto 15px">
 												<p style="color:#8e9aac;"> INUMA creates a borehole-fed micro-grid piped safe water network where purified safe water is available at public points and piped into households for private access. All water is purified through a treatment process, pumped using solar and AC and sold via pre-paid water meters activated through a token.<BR><br> </p>
 												<hr class="no_line" style="margin:0 auto 10px">
-												<hr class="no_line" style="margin:0 auto 10px"> <a class="button button_size_2 button_theme" href="service.html"><span class="button_label">Read More</span></a> </div>
+												<hr class="no_line" style="margin:0 auto 10px"> <a class="button button_size_2 button_theme" href="{% url 'service' %}"><span class="button_label">Read More</span></a> </div>
 										</div>
 									</div>
 								</div>
@@ -192,7 +192,7 @@ Our systems allow for reliable access to safe water anywhere, even when living f
 														Our team accompanies you from survey to maintenance.  </p>
 												<hr class="no_line" style="margin:0 auto 10px">
 												
-												<hr class="no_line" style="margin:0 auto 10px"> <a class="button button_size_2 button_theme" href="service.html"><span class="button_label">Read More</span></a> </div>
+												<hr class="no_line" style="margin:0 auto 10px"> <a class="button button_size_2 button_theme" href="{% url 'service' %}"><span class="button_label">Read More</span></a> </div>
 										</div>
 									</div>
 								</div>
@@ -222,7 +222,7 @@ Our systems allow for reliable access to safe water anywhere, even when living f
 												<hr class="no_line" style="margin:0 auto 10px">
 											</div>
 										</div>
-										<div class="column mcb-column mcb-item-z22mf0xsu one column_button"> <a class="button button_size_2 button_theme" href="service.html"><span class="button_label">Read More</h6></span></a> </div>
+										<div class="column mcb-column mcb-item-z22mf0xsu one column_button"> <a class="button button_size_2 button_theme" href="{% url 'service' %}"><span class="button_label">Read More</h6></span></a> </div>
 									</div>
 								</div>
 							</div>
@@ -246,7 +246,6 @@ Our systems allow for reliable access to safe water anywhere, even when living f
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-zyabt1q4n one column_icon_box">
 											<div class="icon_box icon_position_top no_border">
-												<div class="image_wrapper"><img src="{% static "web/images/scooterrental-home-icon1.png" %}" class="scale-with-grid"> </div>
 												<div class="desc_wrapper">
 													<h5 class="title">
 													<b>Hadidja Mukabaranga</b>
@@ -262,7 +261,6 @@ Our systems allow for reliable access to safe water anywhere, even when living f
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-7gg4rz0zd one column_icon_box">
 											<div class="icon_box icon_position_top no_border">
-												<div class="image_wrapper"><img src="{% static "web/images/scooterrental-home-icon2.png"%}" class="scale-with-grid"> </div>
 												<div class="desc_wrapper">
 													<h5 class="title">
 													<b>Andre Ndejuru</b><br>
@@ -277,7 +275,6 @@ We had 10 cows but the milk production was so low that its returns was not enoug
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-lutr7tatd one column_icon_box">
 											<div class="icon_box icon_position_top no_border">
-												<div class="image_wrapper"><img src="{% static "web/images/scooterrental-home-icon3.png" %}" class="scale-with-grid"> </div>
 												<div class="desc_wrapper">
 <h5 class="title">
 													<b>Wendy Davenport</b>
@@ -419,11 +416,10 @@ all our services. We charge less than half our competitors' prices</h5> </div>
 								<div style="text-align: center;">
 									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="about.html"> About us</a> </p>
-									<p> <a href="service.html">Service</a> </p>
-									<p> <a href="ijabo.html">How it works</a> </p>
-									<p> <a href="contact.html">Contact</a> </p>
-									<p> <a href="#">fAQs</a> </p>
+									<p> <a href="{% url 'about' %}"> About us</a> </p>
+									<p> <a href="{% url 'service' %}">Service</a> </p>
+									<p> <a href="{% url 'ijabo' %}">Ijabo</a> </p>
+									<p> <a href="{% url 'login' %}">LOGIN</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -439,7 +435,7 @@ all our services. We charge less than half our competitors' prices</h5> </div>
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="contact.html">CONTACT US <i class="icon-right-thin" style="color:#00d285"></i></a> </p>
+									<p> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00d285"></i></a> </p>
 									<hr class="no_line" style="margin:0 auto 80px"> </div>
 							</div>
 						</aside>
@@ -454,7 +450,6 @@ all our services. We charge less than half our competitors' prices</h5> </div>
 									<p> <a href="#">Amazi</a> </p>
 									<p> <a href="#">Uhira</a> </p>
 									<p> <a href="#">Voma</a> </p>
-									<p> <a href="#">Ijabo</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -473,7 +468,7 @@ all our services. We charge less than half our competitors' prices</h5> </div>
 	<div id="Side_slide" class="right dark" data-width="250">
 		<div class="close-wrapper"> <a href="#" class="close"><i class="icon-cancel-fine"></i></a> </div>
 		<div class="menu_wrapper"></div>
-		<div class="extras"> <a href="shop.html" class="action_button" target="_blank">BUY NOW</a>
+		<div class="extras"> <a href="{% url 'shopping' %}" class="action_button" target="_blank">BUY NOW</a>
 			<div class="extras-wrapper"></div>
 		</div>
 	</div>
