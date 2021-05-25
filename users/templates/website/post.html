@@ -67,7 +67,7 @@
 			</header>
 		</div>
         <div id="Content">
-            <div class="content_wrapper clearfix">singsing
+            <div class="content_wrapper clearfix">
                 <div class="sections_group">
                     <div class="post type-post format-standard has-post-thumbnail hentry category-single">
                         
@@ -140,7 +140,7 @@
                 </div>
             </div>
         </div>
-        <footer id="Footer" class="clearfix ">
+       <footer id="Footer" class="clearfix ">
 			<div class="widgets_wrapper ">
 				<div class="container">
 					<div class="column one-third">
@@ -149,11 +149,10 @@
 								<div style="text-align: center;">
 									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="about.html"> About us</a> </p>
-									<p> <a href="service.html">Service</a> </p>
-									<p> <a href="ijabo.html">How it works</a> </p>
-									<p> <a href="contact.html">Contact</a> </p>
-									<p> <a href="#">fAQs</a> </p>
+									<p> <a href="{% url 'about' %}"> About us</a> </p>
+									<p> <a href="{% url 'service' %}">Service</a> </p>
+									<p> <a href="{% url 'ijabo' %}">Ijabo</a> </p>
+									<p> <a href="{% url 'login' %}">LOGIN</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -169,7 +168,7 @@
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="contact.html">CONTACT US <i class="icon-right-thin" style="color:#00d285"></i></a> </p>
+									<p> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00d285"></i></a> </p>
 									<hr class="no_line" style="margin:0 auto 80px"> </div>
 							</div>
 						</aside>
@@ -184,7 +183,6 @@
 									<p> <a href="#">Amazi</a> </p>
 									<p> <a href="#">Uhira</a> </p>
 									<p> <a href="#">Voma</a> </p>
-									<p> <a href="#">Ijabo</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -198,8 +196,15 @@
 					</div>
 				</div>
 			</div>
-</footer>
+		</footer>
     </div>
+    <div id="Side_slide" class="right dark" data-width="250">
+		<div class="close-wrapper"> <a href="#" class="close"><i class="icon-cancel-fine"></i></a> </div>
+		<div class="menu_wrapper"></div>
+		<div class="extras"> <a href="{% url 'shopping' %}" class="action_button" target="_blank">BUY NOW</a>
+			<div class="extras-wrapper"></div>
+		</div>
+	</div>
 
 
     <!-- JS -->

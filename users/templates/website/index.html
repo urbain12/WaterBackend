@@ -24,6 +24,7 @@
 	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Sora:100,200,300,400,400italic,500,600,700,700italic,900'>
 	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Poppins:100,200,300,400,400italic,500,600,700,700italic,900'>
 	<!-- CSS -->
+	{% comment %} <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"> {% endcomment %}
 	<link rel='stylesheet' href="{% static "web/css/global.css" %}">
 	<link rel='stylesheet' href="{% static "web/css/structure.css" %}">
 	<link rel='stylesheet' href="{% static "web/css/scooterrental.css" %}">
@@ -31,6 +32,23 @@
 	<!-- Revolution Slider -->
 	<link rel="stylesheet" href="{% static "web/css/rs6.css" %}"> 	
 	 <link rel='stylesheet' href="{% static "web/css/style-demo.css" %}">
+	 <style>
+	 	#myVideo {
+  {% comment %} position: fixed; {% endcomment %}
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+.my_content {
+  {% comment %} position: fixed; {% endcomment %}
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #f1f1f1;
+  width: 100%;
+  padding: 20px;
+}
+	 </style>
 	 </head>
 
 <body class="home page-template-default page color-custom style-simple button-custom layout-full-width if-zoom if-border-hide no-content-padding no-shadows header-classic sticky-header sticky-tb-color ab-hide subheader-both-center menu-link-color menuo-right menuo-no-borders footer-copy-center mobile-tb-hide mobile-side-slide mobile-mini-mr-ll tablet-sticky mobile-sticky ">
@@ -74,36 +92,40 @@
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-284je0ofj one column_slider_plugin">
 											<div class="mfn-main-slider mfn-rev-slider">
-												<p class="rs-p-wp-fix"></p>
-												<rs-module-wrap id="rev_slider_1_1_wrapper" data-source="gallery" style="background:transparent;padding:0;margin:0px auto;margin-top:0;margin-bottom:0;">
-													<rs-module id="rev_slider_1_1"data-version="6.2.22">
-														<rs-slides>
-															<rs-slide data-key="rs-1" data-title="Slide" data-anim="ei:d;eo:d;s:1000;r:0;t:fade;sl:0;"> <img src="wp-content/plugins/revslider/public/assets/assets/transparent.png" alt="Slide" title="Home" class="rev-slidebg" data-no-retina>
-																<rs-layer id="slider-1-slide-1-layer-0" data-type="shape" data-rsp_ch="on" data-text="w:normal;s:20,20,9,9;l:0,0,11,11;" data-dim="w:730px,730px,100%,100%;h:750px,750px,450px,450px;" data-basealign="slide" data-border="bor:70px,30px,70px,30px;" data-frame_0="x:50,50,22,22;" data-frame_1="st:100;sp:1000;sR:100;" data-frame_999="o:0;st:w;sR:7900;" style="z-index:9;background-color:#000;">
-																	<rs-bg-elem style="background: url({% static 'web/images/scooterrental-slider-bg1.png' %}) no-repeat left top; background-size: contain;"></rs-bg-elem>
-																</rs-layer>
-																<rs-layer id="slider-1-slide-1-layer-1" data-type="text" data-rsp_ch="on" data-xy="x:l,l,c,c;xo:120px,120px,0,120px;yo:151px,151px,109px,109px;" data-text="w:normal;s:50,50,42,42;l:66,66,50,50;fw:600;a:left,left,center,center;" data-dim="w:550px,550px,500px,500px;" data-basealign="slide" data-frame_0="y:50,50,22,22;" data-frame_1="st:400;sp:900;sR:400;" data-frame_999="o:0;st:w;sR:7700;" style="z-index:14;font-family:Poppins;"> Clean Safe<span style="color: #00d285;">Water</span><br>Simple, Affordable and Reliable Access </rs-layer>
-																<rs-layer id="slider-1-slide-1-layer-2" data-type="shape" data-rsp_ch="on" data-xy="x:r;yo:0,0,450px,450px;" data-text="w:normal;s:20,20,9,9;l:0,0,11,11;" data-dim="w:80%,80%,100%,100%;h:750px,750px,450px,450px;" data-basealign="slide" data-border="bor:30px,30px,30px,30px;" data-frame_1="e:power4.inOut;sp:1500;" data-frame_999="o:0;st:w;sR:7500;" style="z-index:8;">
-																	<rs-bg-elem style="background: url({% static 'web/images/scooterrental-slider-bg2.jpg' %}) no-repeat center center; background-size: cover;"></rs-bg-elem>
-																</rs-layer>
-																<rs-layer id="slider-1-slide-1-layer-4" data-type="image" data-rsp_ch="on" data-xy="x:c;xo:440px,440px,203px,203px;y:b;" data-text="w:normal;s:20,20,9,9;l:0,0,11,11;" data-dim="w:308px,308px,142px,142px;h:577px,577px,266px,266px;" data-vbility="t,t,f,t" data-frame_0="rY:360deg;" data-frame_1="e:back.out;st:350;sp:500;sR:350;" data-frame_999="o:0;st:w;sR:8150;" style="z-index:10;"><img src="{% static "web/images/scooterrental-slider-pic1.png"%}" width="308" height="577" data-no-retina> </rs-layer>
-																<a id="slider-1-slide-1-layer-5" class="rs-layer" href="#" target="_self" rel="nofollow" data-type="image" data-rsp_ch="on" data-xy="x:l,l,c,c;xo:120px,120px,-95px,-95px;yo:550px,550px,304px,304px;" data-text="w:normal;s:20,20,9,9;l:0,0,11,11;" data-dim="w:['170px','170px','170px','170px'];h:['48px','48px','48px','48px'];" data-basealign="slide" data-frame_0="y:50,50,22,22;" data-frame_1="st:500;sp:900;sR:500;" data-frame_999="o:0;st:w;sR:7600;" style="z-index:16;"><img src="{% static "web/images/scooterrental-slider-pic2.png"%}" width="170" height="48" data-no-retina> </a>
-																<a id="slider-1-slide-1-layer-7" class="rs-layer" href="#" target="_self" rel="nofollow" data-type="image" data-rsp_ch="on" data-xy="x:l,l,c,c;xo:314px,314px,95px,95px;yo:550px,550px,304px,304px;" data-text="w:normal;s:20,20,9,9;l:0,0,11,11;" data-dim="w:['190px','190px','190px','190px'];h:['48px','48px','48px','48px'];" data-basealign="slide" data-frame_0="y:50,50,22,22;" data-frame_1="st:550;sp:900;sR:550;" data-frame_999="o:0;st:w;sR:7550;" style="z-index:17;"><img src="{% static "web/images/scooterrental-slider-pic3.png"%}" width="190" height="48" data-no-retina> </a>
-																<rs-layer id="slider-1-slide-1-layer-8" data-type="shape" data-bsh="c:rgba(0,0,0,0.3);v:10px,10px,4px,4px;b:30px,30px,13px,13px;" data-rsp_ch="on" data-xy="x:c;xo:582px,582px,268px,268px;y:m;yo:-152px,-152px,-69px,-69px;" data-text="w:normal;s:20,20,9,9;l:0,0,11,11;" data-dim="w:125px,125px,57px,57px;h:125px,125px,57px,57px;" data-vbility="t,t,f,t" data-border="bor:20px,20px,20px,20px;" data-frame_0="sX:0.8;sY:0.8;" data-frame_1="e:power4.out;st:400;sp:900;sR:400;" data-frame_999="o:0;st:w;sR:7700;" style="z-index:11;background-color:#f5f5f5;"></rs-layer>
-																<rs-layer id="slider-1-slide-1-layer-9" data-type="text" data-color="#00d285" data-rsp_ch="on" data-xy="xo:1389px,1389px,642px,642px;yo:290px,290px,133px,133px;" data-text="w:normal;s:15,15,6,6;l:20,20,9,9;fw:600;a:center;" data-vbility="t,t,f,t" data-frame_1="st:550;sp:900;sR:550;" data-frame_999="o:0;st:w;sR:7550;" style="z-index:13;font-family:Poppins;"> <i class="fa-star"></i><i class="fa-star"></i><i class="fa-star"></i><i class="fa-star"></i><i class="fa-star"></i> </rs-layer>
-																<rs-layer id="slider-1-slide-1-layer-10" data-type="text" data-color="#000000" data-rsp_ch="on" data-xy="xo:1387px,1387px,642px,642px;yo:239px,239px,110px,110px;" data-text="w:normal;s:15,15,6,6;l:20,20,9,9;ls:1px,1px,0px,0px;fw:600;a:center;" data-vbility="t,t,f,t" data-frame_1="st:500;sp:900;sR:500;" data-frame_999="o:0;st:w;sR:7600;" style="z-index:12;font-family:Poppins;"> <span style="color: #00d285;">4.6 STAR</span>
-																	<br> RATING </rs-layer>
-															</rs-slide>
-														</rs-slides>
-													</rs-module>
-												</rs-module-wrap>
+
+												<div class="wrap mcb-wrap mcb-wrap-2/3 one-second valign-top clearfix" style="padding:0 3%">
+													<div style="height: 500px;width: 550px;background:black;border-top-left-radius:100px;border-top-right-radius:30px;border-bottom-right-radius:100px;border-bottom-left-radius:30px ;font-family:Poppins;color:white;text-align:center;font-size:40px;font-weight:bold;padding-top:100px" >
+													<span>Clean safe</span>	 <span style="color:#00d285">Water</span>
+														<br>
+														<br>
+														Simple, Affordable 
+														<br>
+														<br>
+														 and Reliable Access
+														 <br>
+														 <br>
+
+													<div style="display:inline-block;height:48px;width:170px;margin-top:150px;background-image:url({% static 'web/images/scooterrental-slider-pic2.png' %})"></div>
+													<div style="display:inline-block;height:48px;width:190px;margin-top:150px;background-image:url({% static 'web/images/scooterrental-slider-pic3.png' %})"></div>
+													</div>
+												</div>
+
+												<div class="wrap mcb-wrap mcb-wrap-2/3 one-second valign-top clearfix" style="padding:0 3%">
+													<div style='overflow:hidden'>
+													<video autoplay muted loop style='width:1200px;height:600px; margin-left:-400px'>
+														<source src="{% static 'web/images/video2.mp4' type='video/mp4'%}" >
+													</video>
+													
+													</div>
+												</div>
+												
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-<div class="section mcb-section mcb-section-1lyu1tcvv full-width" id="pricing" style="padding-left:5%;padding-right:5%">
+<div class="section mcb-section mcb-section-1lyu1tcvv full-width" id="pricing" style="padding-left:5%;padding-right:5%;margin-top:100px">
 							<div class="section_wrapper mcb-section-inner">
 								<div class="wrap mcb-wrap mcb-wrap-ye5cw8npp one scooterrental-wrap-radius valign-top clearfix" style="padding:100px 5% 190px;background-color:#00d285">
 									<div class="mcb-wrap-inner">
@@ -134,7 +156,7 @@
 												<hr class="no_line" style="margin:0 auto 15px">
 												<p style="color:#8e9aac;"> To ensure all taps provide safe water and encourage rainwater harvesting,  Amazi provides first flush diverter systems and point of entry filtration systems. With this solution, households, schools, clinics can save on their water bill in the rainy season while reducing the amount of run-off water that would otherwise cause flooding. </p>
 												<hr class="no_line" style="margin:0 auto 10px">
-												<hr class="no_line" style="margin:0 auto 10px"> <a class="button button_size_2 button_theme" href="service.html"><span class="button_label">Read More</span></a> </div>
+												<hr class="no_line" style="margin:0 auto 10px"> <a class="button button_size_2 button_theme" href="{% url 'service' %}"><span class="button_label">Read More</span></a> </div>
 										</div>
 									</div>
 								</div>
@@ -150,7 +172,7 @@
 												<hr class="no_line" style="margin:0 auto 15px">
 												<p style="color:#8e9aac;"> INUMA creates a borehole-fed micro-grid piped safe water network where purified safe water is available at public points and piped into households for private access. All water is purified through a treatment process, pumped using solar and AC and sold via pre-paid water meters activated through a token.<BR><br> </p>
 												<hr class="no_line" style="margin:0 auto 10px">
-												<hr class="no_line" style="margin:0 auto 10px"> <a class="button button_size_2 button_theme" href="service.html"><span class="button_label">Read More</span></a> </div>
+												<hr class="no_line" style="margin:0 auto 10px"> <a class="button button_size_2 button_theme" href="{% url 'service' %}"><span class="button_label">Read More</span></a> </div>
 										</div>
 									</div>
 								</div>
@@ -170,7 +192,7 @@ Our systems allow for reliable access to safe water anywhere, even when living f
 														Our team accompanies you from survey to maintenance.  </p>
 												<hr class="no_line" style="margin:0 auto 10px">
 												
-												<hr class="no_line" style="margin:0 auto 10px"> <a class="button button_size_2 button_theme" href="service.html"><span class="button_label">Read More</span></a> </div>
+												<hr class="no_line" style="margin:0 auto 10px"> <a class="button button_size_2 button_theme" href="{% url 'service' %}"><span class="button_label">Read More</span></a> </div>
 										</div>
 									</div>
 								</div>
@@ -200,7 +222,7 @@ Our systems allow for reliable access to safe water anywhere, even when living f
 												<hr class="no_line" style="margin:0 auto 10px">
 											</div>
 										</div>
-										<div class="column mcb-column mcb-item-z22mf0xsu one column_button"> <a class="button button_size_2 button_theme" href="service.html"><span class="button_label">Read More</h6></span></a> </div>
+										<div class="column mcb-column mcb-item-z22mf0xsu one column_button"> <a class="button button_size_2 button_theme" href="{% url 'service' %}"><span class="button_label">Read More</h6></span></a> </div>
 									</div>
 								</div>
 							</div>
@@ -224,14 +246,13 @@ Our systems allow for reliable access to safe water anywhere, even when living f
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-zyabt1q4n one column_icon_box">
 											<div class="icon_box icon_position_top no_border">
-												<div class="image_wrapper"><img src="{% static "web/images/scooterrental-home-icon1.png" %}" class="scale-with-grid"> </div>
 												<div class="desc_wrapper">
 													<h5 class="title">
-													<b>Hadidja Mukabaranga</b>
-INUMA-Household Connected<br><br>
-Having INUMA in my house means
+													<b>Hadidja Mukabaranga</b> <br>
+													INUMA-Household Connected<br><br>
+													Having INUMA in my house means
 
-I can now clean the house and do laundry anytime I want. Before It was so complicated to find water, I would be angry with people who dirtied my floor and would watch the water I had. We used to wake up at 3 am to give our jerricans to a water collector we paid a lot of money to. </h5> </div>
+													I can now clean the house and do laundry anytime I want. Before It was so complicated to find water, I would be angry with people who dirtied my floor and would watch the water I had. We used to wake up at 3 am to give our jerricans to a water collector we paid a lot of money to. </h5> </div>
 											</div>
 										</div>
 									</div>
@@ -240,7 +261,6 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-7gg4rz0zd one column_icon_box">
 											<div class="icon_box icon_position_top no_border">
-												<div class="image_wrapper"><img src="{% static "web/images/scooterrental-home-icon2.png"%}" class="scale-with-grid"> </div>
 												<div class="desc_wrapper">
 													<h5 class="title">
 													<b>Andre Ndejuru</b><br>
@@ -255,10 +275,9 @@ We had 10 cows but the milk production was so low that its returns was not enoug
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-lutr7tatd one column_icon_box">
 											<div class="icon_box icon_position_top no_border">
-												<div class="image_wrapper"><img src="{% static "web/images/scooterrental-home-icon3.png" %}" class="scale-with-grid"> </div>
 												<div class="desc_wrapper">
 <h5 class="title">
-													<b>Wendy Davenport</b>
+													<b>Wendy Davenport</b> <br>
 Philanthropist<br><br>
 Having INUMA in my house means
 
@@ -297,23 +316,23 @@ I can now clean the house and do laundry anytime I want. Before It was so compli
 												</div>
 										</div>
 										<div class="column mcb-column mcb-item-rdxp6j57i one column_column">
-											<div class="column_attr clearfix" style="background-image:url({% static 'web/images/scooterrental-home-icon5.png' %});background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
+											<div class="column_attr clearfix" style="background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
 												<h5 style="color:#8e9aac;"><b style="color:black">Great Low Prices</b> - Competitive pricing on
 all our services. We charge less than half our competitors' prices</h5> </div>
 										</div>
 
 										<div class="column mcb-column mcb-item-rdxp6j57i one column_column">
-											<div class="column_attr clearfix" style="background-image:url({% static 'web/images/scooterrental-home-icon5.png' %});background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
+											<div class="column_attr clearfix" style="background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
 												<h5 style="color:#8e9aac;"><b style="color:black">Quality</b> – Our services and products are of the highest quality and done with durability in mind. </h5> </div>
 										</div>
 
 										<div class="column mcb-column mcb-item-rdxp6j57i one column_column">
-											<div class="column_attr clearfix" style="background-image:url({% static 'web/images/scooterrental-home-icon5.png' %});background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
+											<div class="column_attr clearfix" style="background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
 												<h5 style="color:#8e9aac;"><b style="color:black">Committed Staff</b> - Our staff is highly trained and committed to eradicating water scarcity in Rwanda.</h5> </div>
 										</div>
 
 										<div class="column mcb-column mcb-item-rdxp6j57i one column_column">
-											<div class="column_attr clearfix" style="background-image:url({% static 'web/images/scooterrental-home-icon5.png' %});background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
+											<div class="column_attr clearfix" style="background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
 												<h5 style="color:#8e9aac;"><b style="color:black">Support the Local Market</b> - At WARwanda, the majority of our supplies are obtained locally and local laborers make more than 90% our staff. Working with us, supports the local economy and provides jobs to young people.</h5> </div>
 										</div>
 										
@@ -397,11 +416,10 @@ all our services. We charge less than half our competitors' prices</h5> </div>
 								<div style="text-align: center;">
 									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="about.html"> About us</a> </p>
-									<p> <a href="service.html">Service</a> </p>
-									<p> <a href="ijabo.html">How it works</a> </p>
-									<p> <a href="contact.html">Contact</a> </p>
-									<p> <a href="#">fAQs</a> </p>
+									<p> <a href="{% url 'about' %}"> About us</a> </p>
+									<p> <a href="{% url 'service' %}">Service</a> </p>
+									<p> <a href="{% url 'ijabo' %}">Ijabo</a> </p>
+									<p> <a href="{% url 'login' %}">LOGIN</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -417,7 +435,7 @@ all our services. We charge less than half our competitors' prices</h5> </div>
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="contact.html">CONTACT US <i class="icon-right-thin" style="color:#00d285"></i></a> </p>
+									<p> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00d285"></i></a> </p>
 									<hr class="no_line" style="margin:0 auto 80px"> </div>
 							</div>
 						</aside>
@@ -432,7 +450,6 @@ all our services. We charge less than half our competitors' prices</h5> </div>
 									<p> <a href="#">Amazi</a> </p>
 									<p> <a href="#">Uhira</a> </p>
 									<p> <a href="#">Voma</a> </p>
-									<p> <a href="#">Ijabo</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -451,7 +468,7 @@ all our services. We charge less than half our competitors' prices</h5> </div>
 	<div id="Side_slide" class="right dark" data-width="250">
 		<div class="close-wrapper"> <a href="#" class="close"><i class="icon-cancel-fine"></i></a> </div>
 		<div class="menu_wrapper"></div>
-		<div class="extras"> <a href="shop.html" class="action_button" target="_blank">BUY NOW</a>
+		<div class="extras"> <a href="{% url 'shopping' %}" class="action_button" target="_blank">BUY NOW</a>
 			<div class="extras-wrapper"></div>
 		</div>
 	</div>

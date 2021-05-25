@@ -95,7 +95,7 @@
 													</h4>
 												<hr class="no_line" style="margin:0 auto 50px">
 												<h3 style="color:#FFF;"><i class="icon-mobile" style></i>+250 788 888 888</h3>
-												<h3 style="color:#FFF; word-wrap: break-word;"><i class="icon-mail" style></i><a href="#" >noreply@envato.com</a></h3> </div>
+												<h3 style="color:#FFF; word-wrap: break-word;"><i class="icon-mail" style></i><a href="#" style="color:white" >info@warwanda.com</a></h3> </div>
 										</div>
 										<div class="column mcb-column mcb-item-lw0uwepr5 one-third column_column">
 											<div class="column_attr clearfix align_center" style="background-color:#fff;padding:40px 10% 25px;border-radius: 20px; box-shadow: 0px 10px 30px 0px rgba(0,0,0,0.1);">
@@ -136,11 +136,10 @@
 								<div style="text-align: center;">
 									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="about.html"> About us</a> </p>
-									<p> <a href="service.html">Service</a> </p>
-									<p> <a href="ijabo.html">How it works</a> </p>
-									<p> <a href="contact.html">Contact</a> </p>
-									<p> <a href="#">fAQs</a> </p>
+									<p> <a href="{% url 'about' %}"> About us</a> </p>
+									<p> <a href="{% url 'service' %}">Service</a> </p>
+									<p> <a href="{% url 'ijabo' %}">Ijabo</a> </p>
+									<p> <a href="{% url 'login' %}">LOGIN</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -156,7 +155,7 @@
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="contact.html">CONTACT US <i class="icon-right-thin" style="color:#00d285"></i></a> </p>
+									<p> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00d285"></i></a> </p>
 									<hr class="no_line" style="margin:0 auto 80px"> </div>
 							</div>
 						</aside>
@@ -171,7 +170,6 @@
 									<p> <a href="#">Amazi</a> </p>
 									<p> <a href="#">Uhira</a> </p>
 									<p> <a href="#">Voma</a> </p>
-									<p> <a href="#">Ijabo</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -190,7 +188,7 @@
 	<div id="Side_slide" class="right dark" data-width="250">
 		<div class="close-wrapper"> <a href="#" class="close"><i class="icon-cancel-fine"></i></a> </div>
 		<div class="menu_wrapper"></div>
-		<div class="extras"> <a href="https://1.envato.market/9ZxXY" class="action_button" target="_blank">BUY NOW</a>
+		<div class="extras"> <a href="{% url 'shopping' %}" class="action_button" target="_blank">BUY NOW</a>
 			<div class="extras-wrapper"></div>
 		</div>
 	</div>
