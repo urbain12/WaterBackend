@@ -34,7 +34,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
-    'users'
+    'users',
+    'django_crontab'
 ]
 
 MIDDLEWARE = [
@@ -142,6 +143,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+CRONJOBS = [
+    ('0 0 */1 * *', 'users.cron.Notifications')
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

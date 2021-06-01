@@ -32,6 +32,10 @@ class CustomerSerializer(serializers.ModelSerializer):
         if data['Meternumber'] is not None:
             data['Meternumber'] = MetersSerializer(
                 Meters.objects.get(pk=data['Meternumber'])).data
+
+        if data['user'] is not None:
+            data['user'] = UserSerializer(
+                User.objects.get(pk=data['user'])).data
         return data
 
 class MetersSerializer(serializers.ModelSerializer):
