@@ -106,7 +106,7 @@ class Category(models.Model):
 class Subscriptions(models.Model):
     CustomerID = models.ForeignKey('Customer',on_delete=models.SET_NULL,null=True,blank=True)
     Category = models.ForeignKey('Category',on_delete=models.SET_NULL,null=True,blank=True)
-    From = models.DateField(blank=True, null=True)
+    From = models.DateTimeField(blank=True, null=True)
     To = models.DateField(blank=True, null=True)
     TotalBalance = models.CharField(max_length=255, null=True,blank=True)
     complete = models.BooleanField(default=False)
@@ -238,3 +238,10 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.Title
+
+class notification(models.Model):
+    Message=models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.Message
+    
