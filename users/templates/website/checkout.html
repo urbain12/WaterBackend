@@ -114,6 +114,12 @@ h1,h2,h3,h4,h5,h6{
 .hidden{
 	display: none!important;
 }
+.box{
+        color: #fff;
+        padding: 10px;
+        display: none;
+        margin-top: 20px;
+    }
 
     </style>
 </head>
@@ -154,21 +160,90 @@ h1,h2,h3,h4,h5,h6{
 						<p>Shipping Information:</p>
 						<hr>
 						<div class="form-field">
-							<input class="form-control" type="text" name="address" placeholder="Address..">
+							<input class="form-control" type="text" name="FirstName" placeholder="First Name..">
 						</div>
 						<div class="form-field">
-							<input class="form-control" type="text" name="city" placeholder="City..">
+							<input class="form-control" type="text" name="LastName" placeholder="Last Name..">
+						</div>
+
+						<div class="form-field">
+							<input class="form-control" type="text" name="Email" placeholder="Email..">
 						</div>
 						<div class="form-field">
-							<input class="form-control" type="text" name="state" placeholder="State..">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
+							<input class="form-control" type="text" name="PhoneNumber" placeholder="Phone Number..">
 						</div>
 						<div class="form-field">
 							<input class="form-control" type="text" name="country" placeholder="Country..">
 						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="address" placeholder="address..">
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="City" placeholder="City..">
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
+						</div>
 					</div>
+
+					<hr>
+						<p>Payment Method:</p>
+
+					<div class="form-field">
+						<div class="row">
+						<div class="col-sm-4">
+							<label><input type="radio" name="colorRadio" value="red"> MTN</label>
+						</div>
+						<div class="col-sm-8">
+							<label><input type="radio" name="colorRadio" value="green"> CREDIT CARD</label>
+						</div>
+						</div>
+					</div>
+					<div class="form-field red box">
+							<input class="form-control"  
+							type="tel" name="cnumber" placeholder="MOMO number">
+					</div>
+
+				<div class="green box">
+					<div class="row">
+
+					<div class="col-lg-6">
+
+					<div class="form-field">
+							<input class="form-control" 
+							type="tel" name="name" placeholder="Card holder Name">
+					</div>
+					</div>
+					<div class="col-lg-6">
+					<div class="form-field">
+							<input class="form-control" 
+							type="tel" name="tel" placeholder="Card Number">
+					</div>
+					</div>
+					<div class="col-lg-6">
+					<div class="form-field">
+							<input class="form-control"  
+							type="tel" name="CVV" placeholder="CVV">
+					</div>
+					</div>
+					<div class="col-lg-6">
+					<div class="form-field">
+							<input class="form-control" 
+							type="tel" name="expirydate" placeholder="•• / ••">
+					</div>
+					</div>
+					
+					</div>
+					
+					
+				</div>
+					
+
+
+
+
+
+					
 
 					<hr>
 					<input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
@@ -176,13 +251,11 @@ h1,h2,h3,h4,h5,h6{
 			</div>
 
 			<br>
-			<div class="box-element hidden" id="payment-info">
-				<small>Paypal Options</small>
-				<!--<button id="make-payment">Make payment</button>-->
-				<div id="paypal-button-container"></div>
-			</div>
+			
 			
 		</div>
+
+		
 
 		<div class="col-lg-6">
 			<div class="box-element">
@@ -267,5 +340,43 @@ h1,h2,h3,h4,h5,h6{
 			<div class="extras-wrapper"></div>
 		</div>
 	</div>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			$('input[type="radio"]').click(function(){
+				var inputValue = $(this).attr("value");
+				var targetBox = $("." + inputValue);
+				$(".box").not(targetBox).hide();
+				$(targetBox).show();
+			});
+		});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/3.0.0/jquery.payment.min.js"></script>
+<script>src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"</script>
+<script>
+
+$(function($) {
+$('[data-numeric]').payment('restrictNumeric');
+$('.cc-number').payment('formatCardNumber');
+$('.cc-exp').payment('formatCardExpiry');
+$('.cc-cvc').payment('formatCardCVC');
+$.fn.toggleInputError = function(erred) {
+this.parent('.form-group').toggleClass('has-error', erred);
+return this;
+};
+$('form').submit(function(e) {
+e.preventDefault();
+var cardType = $.payment.cardType($('.cc-number').val());
+$('.cc-number').toggleInputError(!$.payment.validateCardNumber($('.cc-number').val()));
+$('.cc-exp').toggleInputError(!$.payment.validateCardExpiry($('.cc-exp').payment('cardExpiryVal')));
+$('.cc-cvc').toggleInputError(!$.payment.validateCardCVC($('.cc-cvc').val(), cardType));
+$('.cc-brand').text(cardType);
+$('.validation').removeClass('text-danger text-success');
+$('.validation').addClass($('.has-error').length ? 'text-danger' : 'text-success');
+});
+});
+
+</script>
 </body>
 </html>
