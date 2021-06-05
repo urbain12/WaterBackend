@@ -151,29 +151,9 @@
     <!--NiftyJS [ RECOMMENDED ]-->
     <script src="{% static "js/nifty.min.js" %}"></script>
 
-   <script type="text/javascript">
-		var user = '{{request.user}}'
+    
 
-		function getToken(name) {
-		    var cookieValue = null;
-		    if (document.cookie && document.cookie !== '') {
-		        var cookies = document.cookie.split(';');
-		        for (var i = 0; i < cookies.length; i++) {
-		            var cookie = cookies[i].trim();
-		            // Does this cookie string begin with the name we want?
-		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-		                break;
-		            }
-		        }
-		    }
-		    return cookieValue;
-		}
-		var csrftoken = getToken('csrftoken')
-
-		
-	
-	</script>
+   
 
     <script>
         
@@ -414,6 +394,28 @@
                                             <i class="fa fa-wrench"></i>
                                             <span class="menu-title">
                                                 <strong>Tools</strong>
+                                                
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                    {% url 'products' as prod %}
+                                    <li {% if request.path == prod  %} class="active-sub"{% endif %}>
+                                        <a href="{% url 'products' %}">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            <span class="menu-title">
+                                                <strong>Products</strong>
+                                                
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                    {% url 'orders' as ord %}
+                                    <li {% if request.path == ord  %} class="active-sub"{% endif %}>
+                                        <a href="{% url 'orders' %}">
+                                            <i class="fa fa-shopping-basket"></i>
+                                            <span class="menu-title">
+                                                <strong>Orders</strong>
                                                 
                                             </span>
                                         </a>

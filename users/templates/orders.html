@@ -1,0 +1,83 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+
+ <div id="page-content">
+                    
+					<div class="panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Orders</h3>
+                        </div>
+                    
+                        <!--Data Table-->
+                        <!--===================================================-->
+                        <div class="panel-body">
+                            <div class="pad-btm form-inline">
+                                
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped" style="border: 1px">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">ID</th>
+                                            <th>Customer</th>
+                                            <th>Date Ordered</th>
+                                            <th>Total</th>
+                                            <th>Actions</th>
+                                            
+                                            
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                     {% for order in page_obj %}
+                                    <tr>
+                                            <td><a class="btn-link" href="#">{{order.id}}</a></td>
+                                            <td>{{order.customer.FirstName}} {{order.customer.LastName}}</td>
+                                            <td>{{order.date_ordered}}</td>
+                                            <td>{{order.get_cart_total}} Rwf</td>
+                                            
+                                            <td>
+                                                <div class="btn btn-success">Details</div>
+                                            </td>
+                                            
+                                        </tr>
+
+                                    {% endfor %}  
+                                        
+                                    
+                                        </tbody>
+                                </table>
+                            </div>
+                            <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a class="btn btn-primary mb-4" href="?page=1">&laquo; first</a>
+                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.next_page_number }}">next</a>
+                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+                        </div>
+                        <!--===================================================-->
+                        <!--End Data Table-->
+                    
+                    </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+
+{% endblock content%}

@@ -107,7 +107,7 @@ class Subscriptions(models.Model):
     CustomerID = models.ForeignKey('Customer',on_delete=models.SET_NULL,null=True,blank=True)
     Category = models.ForeignKey('Category',on_delete=models.SET_NULL,null=True,blank=True)
     From = models.DateTimeField(blank=True, null=True)
-    To = models.DateField(blank=True, null=True)
+    To = models.DateTimeField(blank=True, null=True)
     TotalBalance = models.CharField(max_length=255, null=True,blank=True)
     complete = models.BooleanField(default=False)
     @property

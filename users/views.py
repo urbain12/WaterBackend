@@ -13,7 +13,7 @@ from datetime import timedelta
 import json
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, OR
 from rest_framework import status
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -159,6 +159,26 @@ def customers(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'customers.html', {'Customers': Customers, 'page_obj': page_obj})
+
+@login_required(login_url='/login')
+def products(request):
+    products = Product.objects.all()
+    search_query = request.GET.get('search', '')
+    if search_query:
+        products = Product.objects.filter(
+            Q(name__icontains=search_query))
+    paginator = Paginator(products, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'products.html', {'products': products, 'page_obj': page_obj})
+
+@login_required(login_url='/login')
+def orders(request):
+    orders = Order.objects.all()
+    paginator = Paginator(orders, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'orders.html', {'orders': orders, 'page_obj': page_obj})
 
 
 @login_required(login_url='/login')
