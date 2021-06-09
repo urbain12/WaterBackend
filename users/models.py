@@ -158,7 +158,7 @@ class Service(models.Model):
 
 class Request(models.Model):
     Names = models.CharField(max_length=255, null=True,blank=True)
-    Idnumber = models.CharField(max_length=255, null=True,blank=True)
+    Message = models.TextField(blank=True, null=False)
     phonenumber = models.CharField(max_length=255, null=True,blank=True)
     Province = models.CharField(max_length=255, null=True, blank=True)
     District = models.CharField(max_length=255, null=True, blank=True)
