@@ -166,7 +166,7 @@ def products(request):
     search_query = request.GET.get('search', '')
     if search_query:
         products = Product.objects.filter(
-            Q(name__icontains=search_query))
+            Q(price__icontains=search_query))
     paginator = Paginator(products, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -240,6 +240,22 @@ def AddMeter(request):
         return redirect('Meters')
     else:
         return render(request, 'Addmeternumber.html')
+
+
+@login_required(login_url='/login')
+def AddProduct(request):
+    if request.method == 'POST':
+        Addproduct = Product()
+        Addproduct.name = request.POST['name']
+        Addproduct.price = request.POST['price']
+        Addproduct.image = request.FILES['images']
+        Addproduct.inStock = request.POST['instock']
+        Addproduct.save()
+        # Addproduct = True
+        return redirect('products')
+    else:
+        return render(request, 'Addnewproduct.html')
+
 
 
 @login_required(login_url='/login')
