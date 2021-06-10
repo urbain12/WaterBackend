@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 from django.db.models.base import Model
 from django.db.models.fields import CharField
 from django.db.models.fields.files import ImageField
+from django.http import request
 
 # Create your models here.
 
@@ -164,10 +165,16 @@ class Request(models.Model):
     District = models.CharField(max_length=255, null=True, blank=True)
     Sector = models.CharField(max_length=255, null=True, blank=True)
     Cell = models.CharField(max_length=255, null=True, blank=True)
+    replied = models.BooleanField(default=False)
     send_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.Names
+
+
+class Reply(models.Model):
+    requestid=models.ForeignKey('Request',on_delete=models.SET_NULL,null=True,blank=True)
+    replymsg=models.TextField(blank=True,null=True)
 
 class Product(models.Model):
 	name = models.CharField(max_length=200)
