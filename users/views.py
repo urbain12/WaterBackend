@@ -1,6 +1,7 @@
 from .utils import cartData
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView, UpdateAPIView
 from .models import *
+import requests
 from django.contrib.auth import authenticate, logout as django_logout, login as django_login
 from django.shortcuts import render, redirect
 from .serializers import *
@@ -18,6 +19,7 @@ from rest_framework import status
 from django.core.paginator import Paginator
 from django.db.models import Q
 from rest_framework.authtoken.models import Token
+
 
 #website
 def index(request):
@@ -56,6 +58,33 @@ def ijabo(request):
 def single_blog(request,blogID):
     blog = Blog.objects.get(id=blogID)
     return render(request,'website/post.html',{'blog': blog})
+
+def reply(request,requestID):
+    if request.method == 'POST':
+        reply = Reply()
+        reply.replymsg = request.POST['Msg']
+        req = Request.objects.only('id').get(
+            id=requestID)
+        reply.requestid = req
+        req.replied= True
+        req.save()
+        reply.save()
+
+        payload={'details':f' Dear {req.Names},\n {reply.replymsg} \n Please call us for any Problem through 0788333111 ','phone':f'25{req.phonenumber}'}
+        headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+        r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
+        # Addproduct = True
+        return redirect('requestor')
+    else:    
+        message = Request.objects.get(id=requestID)
+        return render(request,'reply.html',{'message': message})
+
+
+def repliedmsg(request,repliedID):
+    repliedmsg = Reply.objects.filter(requestid=repliedID)
+    name=repliedmsg[0].requestid.Names
+    number=repliedmsg[0].requestid.phonenumber
+    return render(request,'replied.html',{'repliedmsg': repliedmsg,'name':name,'number':number})
 
 # backend
 @login_required(login_url='/login')

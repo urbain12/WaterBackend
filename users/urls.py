@@ -48,6 +48,8 @@ urlpatterns = [
     path('Subscriptions/',subscriptions,name='Subscriptions'),
     path('instalment/',instalment,name='instalment'),
     path('requestor/',requestors,name='requestor'),
+    path('reply/<int:requestID>/',reply,name='reply'),
+    path('repliedmsg/<int:repliedID>/',repliedmsg,name='repliedmsg'),
     path('quotation/<int:SubscriptionsID>',quotation,name="quotation"),
 
 

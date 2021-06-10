@@ -35,7 +35,7 @@
                                         <tr>
                                             <th class="text-left">ID</th>
                                             <th>Names</th>
-                                            <th>ID Number</th>
+                                            <th>Message</th>
                                             <th>Phone Number</th>
                                             <th>Province</th>
                                             <th>District</th>
@@ -59,7 +59,17 @@
                                             <td>{{request.Sector}}</td>
                                             <td>{{request.Cell}}</td>
                                             <td>{{request.send_at}}</td>
-                                            <td><button class="btn btn-primary" style="border-radius:10px">Reply</button></td>
+                                            <td>
+                                            {% if request.replied %}
+                                            <a href="{% url 'repliedmsg' request.id %}">
+                                            <button class="btn btn-warning" style="border-radius:10px">Replied</button>
+                                            </a>
+                                            {% else %}
+                                            <a href="{% url 'reply' request.id %}">
+                                            <button class="btn btn-primary" style="border-radius:10px">Reply</button>
+                                            </a>
+                                            {% endif %}
+                                            </td>
 
                                            
                                             

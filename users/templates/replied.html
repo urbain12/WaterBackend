@@ -1,0 +1,45 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+
+ <div id="page-content">
+                    
+					<div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Replied to {{name}}</h3>
+                                </div>
+                    
+                                <!--Block Styled Form -->
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Phone Number</label>
+                                                    <p style="color:black;font-size:15px;" >{{number}} </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Message</label>
+                                {% for replies in repliedmsg %}
+                                                   <p style="color:black;font-size:15px;" >- {{replies.replymsg}}</p>
+                                {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                
+                                <!--===================================================-->
+                                <!--End Block Styled Form -->
+                    
+                            </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+
+{% endblock content%}
