@@ -18,7 +18,7 @@ class LanguageSerializer(serializers.ModelSerializer):
 class RequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Request
-        fields = ('Names', 'phonenumber', 'Idnumber',
+        fields = ('Names', 'phonenumber', 'Message',
                   'Province', 'District', 'Sector', 'Cell')
 
 
