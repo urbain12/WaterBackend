@@ -57,6 +57,12 @@ urlpatterns = [
 
     
     #MOBILE
+    path('Productlist/',ProductListView.as_view()),
+
+
+
+
+
     path('Language/',LanguageListView.as_view()),
     path('Language/create/',LanguageCreateView.as_view()),
     path('UpdateLanguage/<id>/', LanguageUpdateView.as_view()),
