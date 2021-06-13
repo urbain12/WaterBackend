@@ -545,6 +545,12 @@ def update_subscription(request,subID):
     return render(request,'update_subscription.html',{'subscription':subscription,'tools_ids':tools_ids,'tools':tools,'customers':customers})
 
 # mobile
+class ProductListView(ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+
 class LanguageListView(ListAPIView):
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer

@@ -15,6 +15,12 @@ class LanguageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+
 class RequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Request
