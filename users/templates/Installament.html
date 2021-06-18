@@ -2,6 +2,7 @@
 {% load static %}
 {% block content%}
 {% load humanize %}
+{% load mathfilters %}
 
  <div id="page-content">
                     
@@ -44,7 +45,6 @@
                                             <th>Balance Paid</th>
                                             <th>Overdue Balance</th>
                                             <th>Due date</th>
-                                            <th>Comment</th>
                                             <th>Month Overdue</th>
                                         </tr>
                                     </thead>
@@ -53,15 +53,14 @@
                                     {% widthratio sub.get_total_amount 12 1 as MonthlyPayment %}
                                     <tr>
                                             <td>{{sub.CustomerID.FirstName}} {{sub.CustomerID.LastName}}</td>
-                                            <td>{{sub.From}}</td>{% widthratio sub.get_total_amount 12 1 %}
+                                            <td>{{sub.From}}</td>
                                             <td>{{sub.Category.Title}}</td>
                                             <td>{{sub.get_total_amount|intcomma}} Rwf</td>
                                             <td> {{ MonthlyPayment|intcomma }} Rwf</td>                                           
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{sub.TotalBalance|intcomma }} Rwf</td>
+                                            <td>{{sub.get_total_amount| sub:sub.TotalBalance }}</td>
                                             <td></td>
                                             <td>{{sub.To}}</td>
-                                            <td></td>
                                             <td></td>
                                     </tr>
                                     {% endfor %}

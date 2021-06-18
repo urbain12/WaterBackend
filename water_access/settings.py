@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_auth',
     'users',
-    'django_crontab'
+    'django_crontab',
+    'mathfilters'
 ]
 
 MIDDLEWARE = [
@@ -144,7 +145,11 @@ USE_L10N = True
 USE_TZ = True
 
 CRONJOBS = [
-    ('0 0 */1 * *', 'users.cron.Notifications')
+    (
+     '0 0 */1 * *', 'users.cron.Notifications'
+     '0 0 */1 * *', 'users.cron.MonthlyNotification'
+    
+    )
 ]
 
 # Static files (CSS, JavaScript, Images)
