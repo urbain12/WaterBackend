@@ -45,7 +45,7 @@
                                             <th>Sector</th>
                                             <th>Cell</th>
                                             <th>created at</th>
-                                            <th>Status</th>
+                                            <th>Transactions</th>
                                             
                                         </tr>
                                     </thead>
@@ -56,7 +56,7 @@
                                             <td>{{customer.FirstName}} {{customer.LastName}}</td>
                                             <td>{{customer.Meternumber}}</td>
                                             <td><span class="text-muted"> {{customer.IDnumber}}</span></td>
-                                            <td>{{customer.Phone}}</td>
+                                            <td>{{customer.user.phone}}</td>
                                             <td>{{customer.Province}}</td>
                                             <td>{{customer.District}}</td>
                                             <td>{{customer.Sector}}</td>
@@ -64,7 +64,9 @@
                                             <td>{{customer.created_at}}</td>
 
                                             <td>
-                                                <div class="label label-table label-success">Paid</div>
+                                                <a href="{% url 'transactions' customer.id %}">
+                                                    <button class='btn btn-success'> <i class='fa fa-eye'></i> </button>
+                                                </a>
                                             </td>
                                             
                                         </tr>

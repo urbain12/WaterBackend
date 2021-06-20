@@ -2,6 +2,7 @@ from .utils import cartData
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView, UpdateAPIView
 from .models import *
 import requests
+import random
 from django.contrib.auth import authenticate, logout as django_logout, login as django_login
 from django.shortcuts import render, redirect
 from .serializers import *
@@ -48,7 +49,15 @@ def product(request,productID):
     data = cartData(request)
     cartItems = data['cartItems']
     product=Product.objects.get(id=productID)
-    return render(request,'website/product_page.html',{'product':product,'cartItems':cartItems})
+    products=Product.objects.all()
+    prod=[]
+    for p in products:
+        prod.append(p)
+    if len(prod)>5:
+        my_products=random.sample(prod, 5)
+    else:
+        my_products=random.sample(prod,len(prod))
+    return render(request,'website/product_page.html',{'product':product,'cartItems':cartItems,'my_products':my_products})
 def about(request):
     return render(request,'website/about.html')
 
@@ -79,6 +88,16 @@ def reply(request,requestID):
         message = Request.objects.get(id=requestID)
         return render(request,'reply.html',{'message': message})
 
+def notify(request,subID):
+    subscription=Subscriptions.objects.get(id=subID)
+    if subscription.Category.Title == 'AMAZI' :
+        payload={'details':f' Dear {subscription.CustomerID.FirstName},\n \n It is time to change your filter ','phone':f'25{subscription.CustomerID.Phone}'}
+    if subscription.Category.Title == 'UHIRA' :
+        payload={'details':f' Dear {subscription.CustomerID.FirstName},\n \n It is time to pay water ','phone':f'25{subscription.CustomerID.Phone}'}
+    headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+    r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
+    # Addproduct = True
+    return redirect('Subscriptions')
 
 def repliedmsg(request,repliedID):
     repliedmsg = Reply.objects.filter(requestid=repliedID)
@@ -89,8 +108,20 @@ def repliedmsg(request,repliedID):
 # backend
 @login_required(login_url='/login')
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    subscriptions=len(Subscriptions.objects.filter(complete=True))
+    my_subscriptions=Subscriptions.objects.filter(complete=True)
+    amount_invoiced=sum([int(sub.get_total_amount) for sub in my_subscriptions])
+    payments=SubscriptionsPayment.objects.all()
+    amount_paid=sum([int(payment.Paidamount) for payment in payments])
+    amount_outstanding=amount_invoiced-amount_paid
+    return render(request, 'dashboard.html',{'subscriptions':subscriptions,'amount_paid':amount_paid,'amount_invoiced':amount_invoiced,'amount_outstanding':amount_outstanding})
 
+@login_required(login_url='/login')
+def transactions(request,customerID):
+    subscription=Subscriptions.objects.get(CustomerID=customerID)
+    payments=SubscriptionsPayment.objects.filter(SubscriptionsID=subscription.id)
+    return render(request,'transactions.html',{'subscription':subscription,'payments':payments})
+    
 
 @login_required(login_url='/login')
 def user(request):
@@ -108,13 +139,17 @@ def operator(request):
     if request.method=='POST':
         if request.POST['password1']==request.POST['password2'] :
             try:
-                user=User.objects.get(phone=request.POST['phonenumber'])
-                return render(request,'operator.html',{'error':'The user  has already been taken'})
+                user1=User.objects.get(email=request.POST['email'])
+                return render(request,'operator.html',{'error':'The Email  has already been taken'})
             except User.DoesNotExist:
-                user=User.objects.create_user(
-                    email=request.POST['email'],
-                    phone=request.POST['phonenumber'],
-                    password=request.POST['password1'])
+                try:
+                    user2=User.objects.get(phone=request.POST['phonenumber'])
+                    return render(request,'operator.html',{'error':'The phone number  has already been taken'})
+                except User.DoesNotExist:
+                    user=User.objects.create_user(
+                        email=request.POST['email'],
+                        phone=request.POST['phonenumber'],
+                        password=request.POST['password1'])
                 return redirect('user')
     return render(request,'operator.html')
 
@@ -246,7 +281,6 @@ def Addcustomers(request):
         Addcustomers = Customer()
         Addcustomers.FirstName = request.POST['FirstName']
         Addcustomers.LastName = request.POST['LastName']
-        Addcustomers.Phone = request.POST['Phone']
         Addcustomers.IDnumber = request.POST['IDnumber']
         Addcustomers.Province = request.POST['Province']
         Addcustomers.District = request.POST['District']
@@ -608,8 +642,8 @@ class CustomerListView(ListAPIView):
 class GetCustomer(ListAPIView):
     serializer_class = CustomerSerializer
     def get_queryset(self):
-        meter=Meters.objects.get(Meternumber=self.kwargs['meter_number'])
-        return Customer.objects.filter(Meternumber=meter.id)
+        user=User.objects.get(phone=self.kwargs['phone_number'])
+        return Customer.objects.filter(user=user.id)
 
 class GetCustomerbyId(ListAPIView):
     serializer_class = CustomerSerializer
@@ -832,9 +866,9 @@ def pay_subscription(request):
         dump = json.dumps(data)
         return HttpResponse(dump, content_type='application/json')
 
-def get_balance(request,meter_number):
-    meter=Meters.objects.get(Meternumber=meter_number)
-    customer=Customer.objects.get(Meternumber=meter.id)
+def get_balance(request,phone_number):
+    user=User.objects.get(phone=phone_number)
+    customer=Customer.objects.get(user=user.id)
     subscription=Subscriptions.objects.get(CustomerID=customer.id)
     data={
         'balance':subscription.TotalBalance

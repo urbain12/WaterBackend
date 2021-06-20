@@ -28,6 +28,7 @@ urlpatterns = [
     path('customers/',customers,name='customers'),
     path('orders/',orders,name='orders'),
     path('products/',products,name='products'),
+    path('transactions/<int:customerID>/',transactions,name='transactions'),
     path('checkout/',checkout,name='checkout'),
     path('Checkout/<int:subID>/',Checkout,name='Checkout'),
     path('Checkout/',checkout2,name='checkout2'),
@@ -49,6 +50,7 @@ urlpatterns = [
     path('instalment/',instalment,name='instalment'),
     path('requestor/',requestors,name='requestor'),
     path('reply/<int:requestID>/',reply,name='reply'),
+    path('notify/<int:subID>/',notify,name='notify'),
     path('repliedmsg/<int:repliedID>/',repliedmsg,name='repliedmsg'),
     path('quotation/<int:SubscriptionsID>',quotation,name="quotation"),
 
@@ -68,8 +70,8 @@ urlpatterns = [
     path('UpdateLanguage/<id>/', LanguageUpdateView.as_view()),
     path('DeleteLanguage/<id>/', LanguageDeleteView.as_view()),
 
-    path('get_customer/<str:meter_number>/',GetCustomer.as_view(),name="get_customer"),
-    path('get_balance/<str:meter_number>/',get_balance,name="get_balance"),
+    path('get_customer/<str:phone_number>/',GetCustomer.as_view(),name="get_customer"),
+    path('get_balance/<str:phone_number>/',get_balance,name="get_balance"),
     path('getcustomerbyid/<int:user_id>/',GetCustomerbyId.as_view()),
     path('get_category/<int:user_id>/',get_category,name="get_category"),
 

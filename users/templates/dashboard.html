@@ -1,7 +1,7 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block content%}
-
+{% load humanize %}
 <div id="page-content">
                     
 					
@@ -20,7 +20,7 @@
 					                            </div>
 					                        </div>
 					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">148</p>
+										<p class="text-2x mar-no text-semibold">{{subscriptions}}</p>
 					                            <p class="mar-no">Total subscribers</p>
 					                        </div>
 					                    </div>
@@ -36,7 +36,7 @@
 					                            </div>
 					                        </div>
 					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">24,209,466.00 RWF</p>
+					                            <p class="text-2x mar-no text-semibold">{{amount_invoiced|intcomma}} RWF</p>
 					                            <p class="mar-no">Total Amount invoiced</p>
 					                        </div>
 					                    </div>
@@ -49,7 +49,7 @@
 					                            </div>
 					                        </div>
 					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">16,383,204.00 RWF</p>
+					                            <p class="text-2x mar-no text-semibold">{{amount_outstanding|intcomma}} RWF</p>
 					                            <p class="mar-no">Total Amount Outstanding </p>
 					                        </div>
 					                    </div>
@@ -67,7 +67,7 @@
 					                            </div>
 					                        </div>
 					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">8,016,461.00 RWF</p>
+					                            <p class="text-2x mar-no text-semibold">{{amount_paid|intcomma}} RWF</p>
 					                            <p class="mar-no">Total Amount Already Paid </p>
 					                        </div>
 					                    </div>
@@ -80,7 +80,7 @@
 					                            </div>
 					                        </div>
 					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">11,509,811.75 RWF</p>
+					                            <p class="text-2x mar-no text-semibold">3,800 RWF</p>
 					                            <p class="mar-no">Total Amount Overdue</p>
 					                        </div>
 					                    </div>

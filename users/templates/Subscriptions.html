@@ -42,6 +42,7 @@
                                             <th>From</th>
                                             <th>Total amount</th>
                                             <th>Action</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -53,7 +54,18 @@
                                             <td>{{sub.Category.Title}}</td>
                                             <td>{{sub.From}}</td>
                                             <td>{{sub.get_total_amount|intcomma}} Rwf</td>
-                                            <td> <a class="btn-link" href="{% url 'quotation' sub.id%}"><button class="btn btn-success">View</button></a></td>
+                                            <td> 
+                                            <a class="btn-link" href="{% url 'quotation' sub.id%}"><button class="btn btn-primary">View</button></a>
+                                            <a class="btn-link" href="{% url 'notify' sub.id%}"><button class="btn btn-warning">Notify</button></a>
+                                            </td>
+                                            <td> 
+                                            {% if sub.TotalBalance|add:0 %}
+                                                <button class="btn btn-purple">Paying</button>
+                                            {% else %}
+                                                <button class="btn btn-success">Paid</button>
+                                            {% endif %}
+                                            
+                                            </td>
                                     </tr>
                                     {% endfor %}
 

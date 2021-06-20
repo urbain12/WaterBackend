@@ -6,7 +6,7 @@ from .models import *
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'email', 'is_active', 'is_staff', 'is_admin')
+        fields = ('id', 'email','phone', 'is_active', 'is_staff', 'is_admin')
 
 
 class LanguageSerializer(serializers.ModelSerializer):

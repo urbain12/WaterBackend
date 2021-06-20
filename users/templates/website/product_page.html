@@ -316,23 +316,13 @@ h1,h2,h3,h4,h5,h6{
                     <div class="widget-area clearfix">
                     
                         <aside class="widget woocommerce widget_products">
-                            <h3>Related Products</h3>
+                            <h3>Other Products</h3>
                             <ul class="product_list_widget">
+                                {% for p in my_products %}
                                 <li>
-                                    <a href="product_page.html" title="Woo Single #2"> <img width="200" height="200" src="{% static "web/images/cd_6_angle-200x200.jpg"%}" class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" alt=""> <span class="product-title">Woo Single #2</span> </a><del><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>3.00</span></del><ins><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>2.00</span></ins>
+                                    <a href="{% url 'product' p.id %}" title="{{p.name}}"> <img style='width: 40px;height: 40px' src="{{p.imageURL}}" class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" alt=""> <span class="product-title">{{p.name}}</span> </a><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">Rwf </span>{{p.price}}</span>
                                 </li>
-                                <li>
-                                    <a href="product_page.html" title="Woo Album #4"> <img width="200" height="200" src="{% static "web/images/cd_5_angle-200x200.jpg"%}" class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" alt=""> <span class="product-title">Woo Album #4</span> </a><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>9.00</span>
-                                </li>
-                                <li>
-                                    <a href="product_page.html" title="Woo Single #1"> <img width="200" height="200" src="{% static "web/images/cd_4_angle-200x200.jpg"%}" class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" alt=""> <span class="product-title">Woo Single #1</span> </a><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>3.00</span>
-                                </li>
-                                <li>
-                                    <a href="product_page.html" title="Woo Album #3"> <img width="200" height="200" src="{% static "web/images/cd_3_angle-200x200.jpg"%}" class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" alt=""> <span class="product-title">Woo Album #3</span> </a><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>9.00</span>
-                                </li>
-                                <li>
-                                    <a href="product_page.html" title="Woo Album #2"> <img width="200" height="200" src="{% static "web/images/cd_2_angle-200x200.jpg"%}" class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" alt=""> <span class="product-title">Woo Album #2</span> </a><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>9.00</span>
-                                </li>
+                                {% endfor %}
                             </ul>
                         </aside>
                        

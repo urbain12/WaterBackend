@@ -2,8 +2,10 @@
 {% load static %}
 {% block content%}
 
-{% if error%}
-error
+{% if error %}
+<script>
+    alert('{{error}}')
+</script>
 {% endif %}
 
  <div id="page-content">

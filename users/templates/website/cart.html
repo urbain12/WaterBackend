@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Water Access Rwanda</title>
     <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 	<link rel='stylesheet' href="{% static "web/css/global.css"%}">
     <link rel='stylesheet' href="{% static "web/css/structure.css"%}">
     <link rel='stylesheet' href="{% static "web/css/betheme.css"%}">
@@ -225,6 +226,7 @@ h1,h2,h3,h4,h5,h6{
 					<div style="flex:1"><strong>Price</strong></div>
 					<div style="flex:1"><strong>Quantity</strong></div>
 					<div style="flex:1"><strong>Total</strong></div>
+					<div style="flex:1"><strong>Actions</strong></div>
 				</div>
 				{% for item in items %}
 				<div class="cart-row">
@@ -240,6 +242,9 @@ h1,h2,h3,h4,h5,h6{
 						</div>
 					</div>
 					<div style="flex:1"><p>${{item.get_total}}</p></div>
+					<div style="flex:1">
+						<button data-product="{{item.product.id}}" class='btn btn-danger removeItem'> <i class="fa fa-times" aria-hidden="true"></i> </button>
+					</div>
 				</div>
 				{% endfor %}
 			</div>
@@ -330,6 +335,8 @@ h1,h2,h3,h4,h5,h6{
 		}
 		var csrftoken = getToken('csrftoken')
         var updateBtns = document.getElementsByClassName('update-cart')
+        var removeBtns = document.getElementsByClassName('removeItem')
+		
 
 for (i = 0; i < updateBtns.length; i++) {
 	updateBtns[i].addEventListener('click', function(){
@@ -337,6 +344,19 @@ for (i = 0; i < updateBtns.length; i++) {
 		var action = this.dataset.action
 		console.log('productId:', productId, 'Action:', action)
 		addCookieItem(productId, action)
+		
+	})
+}
+
+for (i = 0; i < removeBtns.length; i++) {
+	removeBtns[i].addEventListener('click', function(){
+		var productId = this.dataset.product
+		delete cart[productId];
+		console.log('CART:', cart)
+		document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+	
+		location.reload()
+		
 		
 	})
 }

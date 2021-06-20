@@ -72,7 +72,6 @@ class Customer(models.Model):
     user=models.OneToOneField('User',on_delete=models.CASCADE,null=True,blank=True)
     FirstName = models.CharField(max_length=255,null=True,blank=True)
     LastName = models.CharField(max_length=255,null=True,blank=True)
-    Phone = models.CharField(max_length=255,null=True,blank=True)
     IDnumber = models.CharField(max_length=255, null=True,blank=True)
     Province = models.CharField(max_length=255, null=True, blank=True)
     District = models.CharField(max_length=255, null=True, blank=True)
