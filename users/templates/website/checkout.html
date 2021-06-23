@@ -154,7 +154,8 @@ h1,h2,h3,h4,h5,h6{
     <div class="row" style="margin-bottom:50px;">
 		<div class="col-lg-6">
 			<div class="box-element" id="form-wrapper">
-				<form id="form">
+				<form id="form" action="{% url 'pay'%}" method='POST'>
+				{% csrf_token %}
 					<div id="shipping-info">
 						<hr>
 						<p>Shipping Information:</p>
@@ -184,6 +185,9 @@ h1,h2,h3,h4,h5,h6{
 						<div class="form-field">
 							<input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
 						</div>
+						<div class="form-field" style='display:none'>
+							<input class="form-control" type="text" value='{{order.get_cart_total}}' name="amount" placeholder="Amount">
+						</div>
 					</div>
 
 					<hr>
@@ -192,19 +196,19 @@ h1,h2,h3,h4,h5,h6{
 					<div class="form-field">
 						<div class="row">
 						<div class="col-sm-4">
-							<label><input type="radio" name="colorRadio" value="red"> MTN</label>
+							<label><input type="radio" name="Radio" value="momo"> MTN</label>
 						</div>
 						<div class="col-sm-8">
-							<label><input type="radio" name="colorRadio" value="green"> CREDIT CARD</label>
+							<label><input type="radio" name="Radio" value="cc"> CREDIT CARD</label>
 						</div>
 						</div>
 					</div>
-					<div class="form-field red box">
+					<div class="form-field momo box">
 							<input class="form-control"  
 							type="tel" name="cnumber" placeholder="MOMO number">
 					</div>
 
-				<div class="green box">
+				{% comment %} <div class="green box">
 					<div class="row">
 
 					<div class="col-lg-6">
@@ -236,7 +240,7 @@ h1,h2,h3,h4,h5,h6{
 					</div>
 					
 					
-				</div>
+				</div> {% endcomment %}
 					
 
 
@@ -352,7 +356,7 @@ h1,h2,h3,h4,h5,h6{
 			});
 		});
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/3.0.0/jquery.payment.min.js"></script>
+{% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/3.0.0/jquery.payment.min.js"></script> {% endcomment %}
 <script>src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"</script>
 <script>
 

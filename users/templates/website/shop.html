@@ -279,7 +279,7 @@ h1,h2,h3,h4,h5,h6{
                                                     <span class="price">
                                                         <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">Rwf </span>{{product.price}}</span>
                                                     </span>
-                                                    <button data-product="{{product.id}}" data-action="add" class="single_add_to_cart_button button alt update-cart">
+                                                    <button data-product="{{product.id}}" data-stock="{{product.inStock}}" data-action="add" class="single_add_to_cart_button button alt update-cart">
                                                         Add to cart
                                                     </button>
                                                 </div>
@@ -428,22 +428,28 @@ h1,h2,h3,h4,h5,h6{
 for (i = 0; i < updateBtns.length; i++) {
 	updateBtns[i].addEventListener('click', function(){
 		var productId = this.dataset.product
+		var inStock = this.dataset.stock
 		var action = this.dataset.action
 		console.log('productId:', productId, 'Action:', action)
-		addCookieItem(productId, action)
+		addCookieItem(productId,inStock, action)
 		
 	})
 }
 
-function addCookieItem(productId, action){
+function addCookieItem(productId,inStock, action){
 	console.log('User is not authenticated')
 
 	if (action == 'add'){
 		if (cart[productId] == undefined){
-		cart[productId] = {'quantity':1}
+		cart[productId] = {'quantity':1,'inStock':inStock}
 
 		}else{
+			if(cart[productId]['quantity']<parseInt(inStock)){
 			cart[productId]['quantity'] += 1
+			}
+			else{
+				alert('Only '+inStock+' are available in our stock!')
+			}
 		}
 	}
 

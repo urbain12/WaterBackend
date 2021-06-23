@@ -294,7 +294,7 @@ h1,h2,h3,h4,h5,h6{
                                                         Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
                                                     </p>
                                                 </div>
-                                                    <button data-product="{{product.id}}" data-action="add" class="single_add_to_cart_button button alt update-cart">
+                                                    <button data-product="{{product.id}}" data-stock="{{product.inStock}}" data-action="add" class="single_add_to_cart_button button alt update-cart">
                                                         Add to cart
                                                     </button>
                                                 <div class="product_meta">
@@ -457,21 +457,27 @@ for (i = 0; i < updateBtns.length; i++) {
 	updateBtns[i].addEventListener('click', function(){
 		var productId = this.dataset.product
 		var action = this.dataset.action
+		var inStock = this.dataset.stock
 		console.log('productId:', productId, 'Action:', action)
-		addCookieItem(productId, action)
+		addCookieItem(productId,inStock, action)
 		
 	})
 }
 
-function addCookieItem(productId, action){
+function addCookieItem(productId,inStock, action){
 	console.log('User is not authenticated')
 
 	if (action == 'add'){
 		if (cart[productId] == undefined){
-		cart[productId] = {'quantity':1}
+		cart[productId] = {'quantity':1,'inStock':inStock}
 
 		}else{
+			if(cart[productId]['quantity']<parseInt(inStock)){
 			cart[productId]['quantity'] += 1
+			}
+			else{
+				alert('Only '+inStock+' are available in our stock!')
+			}
 		}
 	}
 

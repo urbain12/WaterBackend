@@ -3,6 +3,7 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView,
 from .models import *
 import requests
 import random
+import ast
 from django.contrib.auth import authenticate, logout as django_logout, login as django_login
 from django.shortcuts import render, redirect
 from .serializers import *
@@ -20,6 +21,7 @@ from rest_framework import status
 from django.core.paginator import Paginator
 from django.db.models import Q
 from rest_framework.authtoken.models import Token
+import requests
 
 
 #website
@@ -42,7 +44,7 @@ def shopping(request):
     cartItems = data['cartItems']
     order = data['order']
     items = data['items']
-    products=Product.objects.all()
+    products=Product.objects.filter(inStock__gte=1)
     return render(request,'website/shop.html',{'products':products,'cartItems':cartItems})
 
 def product(request,productID):
@@ -90,9 +92,9 @@ def reply(request,requestID):
 
 def notify(request,subID):
     subscription=Subscriptions.objects.get(id=subID)
-    if subscription.Category.Title == 'AMAZI' :
+    if subscription.Category.Title.upper() == 'AMAZI' :
         payload={'details':f' Dear {subscription.CustomerID.FirstName},\n \n It is time to change your filter ','phone':f'25{subscription.CustomerID.user.phone}'}
-    if subscription.Category.Title == 'UHIRA' :
+    if subscription.Category.Title.upper() == 'UHIRA' :
         payload={'details':f' Dear {subscription.CustomerID.FirstName},\n \n It is time to pay water ','phone':f'25{subscription.CustomerID.user.phone}'}
     headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
     r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
@@ -577,6 +579,35 @@ def update_subscription(request,subID):
     for tool in sub_tools:
         tools_ids.append(tool.ToolID.id)
     return render(request,'update_subscription.html',{'subscription':subscription,'tools_ids':tools_ids,'tools':tools,'customers':customers})
+
+def pay(request):
+    if request.method=='POST':
+        headers={
+            "Content-Type":"application/json",
+            "app-type":"none",
+            "app-version":"v1",
+            "app-device":"Postman",
+            "app-device-os":"Postman",
+            "app-device-id":"0",
+            "x-auth":"705d3a96-c5d7-11ea-87d0-0242ac130003"
+        }
+        
+        payload={
+            "msisdn":request.POST['PhoneNumber'],
+            "details" : "Water-Access-Rwanda",
+            "email" : request.POST['Email'],
+            "amount" : request.POST['amount'],
+            "cname" : request.POST['FirstName']+' '+request.POST['LastName'],
+            "cnumber" : "07542121",
+            "pmethod" : request.POST['Radio']
+        }
+
+        print(payload)
+
+        
+        r=requests.post('https://kwetu.t3ch.rw:5070/api/web/index.php?r=v1/app/get-payment-url',json=payload, headers=headers,verify=False).json()
+        res= json.loads(r)
+        return redirect(res['url'])
 
 # mobile
 class ProductListView(ListAPIView):

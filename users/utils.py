@@ -29,7 +29,8 @@ def cookieCart(request):
 				item = {
 				'id':product.id,
 				'product':{'id':product.id,'name':product.name, 'price':product.price, 
-				'imageURL':product.imageURL}, 'quantity':cart[i]['quantity'],
+				'imageURL':product.imageURL,'inStock':product.inStock}, 
+				'quantity':cart[i]['quantity'],
 				'get_total':total,
 				}
 				items.append(item)
@@ -40,16 +41,10 @@ def cookieCart(request):
 	return {'cartItems':cartItems ,'order':order, 'items':items}
 
 def cartData(request):
-	if request.user.is_authenticated:
-		customer = request.user.customer
-		order, created = Order.objects.get_or_create(customer=customer, complete=False)
-		items = order.orderitem_set.all()
-		cartItems = order.get_cart_items
-	else:
-		cookieData = cookieCart(request)
-		cartItems = cookieData['cartItems']
-		order = cookieData['order']
-		items = cookieData['items']
+	cookieData = cookieCart(request)
+	cartItems = cookieData['cartItems']
+	order = cookieData['order']
+	items = cookieData['items']
 
 	return {'cartItems':cartItems ,'order':order, 'items':items}
 

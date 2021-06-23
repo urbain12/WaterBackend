@@ -30,6 +30,7 @@ urlpatterns = [
     path('products/',products,name='products'),
     path('transactions/<int:customerID>/',transactions,name='transactions'),
     path('checkout/',checkout,name='checkout'),
+    path('pay/',pay,name='pay'),
     path('Checkout/<int:subID>/',Checkout,name='Checkout'),
     path('Checkout/',checkout2,name='checkout2'),
     path('confirm/<int:subID>/',confirm,name="confirm"),
