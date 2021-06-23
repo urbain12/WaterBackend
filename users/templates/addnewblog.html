@@ -1,0 +1,57 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+
+ <div id="page-content">
+                    
+					<div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Add new Blog</h3>
+                                </div>
+                    
+                                <!--Block Styled Form -->
+                                <!--===================================================-->
+                                <form enctype="multipart/form-data" action="{% url 'addBlog' %}" method="POST">
+                                {% csrf_token %}
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Title</label>
+                                                    <input type="text" class="form-control" name="Title"> 
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Details</label>
+                                                    <textarea name="details" class="form-control" ></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                         <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Select Image</label>
+                                                    <input type="file" class="form-control" name="images"> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer text-right">
+                                        <button class="btn btn-block btn-success" type="submit">Submit</button>
+                                    </div>
+                                </form>
+                                <!--===================================================-->
+                                <!--End Block Styled Form -->
+                    
+                            </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+
+{% endblock content%}

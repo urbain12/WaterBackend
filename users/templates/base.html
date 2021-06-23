@@ -421,6 +421,17 @@
                                         </a>
                                     </li>
 
+                                    {% url 'Viewblog' as bl %}
+                                    <li {% if request.path == bl  %} class="active-sub"{% endif %}>
+                                        <a href="{% url 'Viewblog' %}">
+                                            <i class="fa fa-newspaper-o"></i>
+                                            <span class="menu-title">
+                                                <strong>Blogs</strong>
+                                                
+                                            </span>
+                                        </a>
+                                    </li>
+
                                     {% url 'user' as users %}
                                     <li {% if request.path == users %} class="active-sub"{% endif %}>
                                         <a href="{% url 'user' %}">
