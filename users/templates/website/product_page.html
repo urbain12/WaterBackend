@@ -9,6 +9,7 @@
 
 <head>
 {% load static %}
+{% load humanize %}
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 
     <!-- Basic Page Needs -->
@@ -284,7 +285,7 @@ h1,h2,h3,h4,h5,h6{
                                                 
                                                 <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                                                     <p class="price">
-                                                    {{product.price}} Rwf
+                                                    {{product.price|intcomma}} Rwf
                                                     </p>
                                                     
                                                 </div>
@@ -320,7 +321,7 @@ h1,h2,h3,h4,h5,h6{
                             <ul class="product_list_widget">
                                 {% for p in my_products %}
                                 <li>
-                                    <a href="{% url 'product' p.id %}" title="{{p.name}}"> <img style='width: 40px;height: 40px' src="{{p.imageURL}}" class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" alt=""> <span class="product-title">{{p.name}}</span> </a><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">Rwf </span>{{p.price}}</span>
+                                    <a href="{% url 'product' p.id %}" title="{{p.name}}"> <img style='width: 40px;height: 40px' src="{{p.imageURL}}" class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" alt=""> <span class="product-title">{{p.name}}</span> </a><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">Rwf </span>{{p.price|intcomma}}</span>
                                 </li>
                                 {% endfor %}
                             </ul>

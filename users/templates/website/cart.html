@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     {% load static %}
+    {% load humanize %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -209,7 +210,7 @@ h1,h2,h3,h4,h5,h6{
 				<table class="table">
 					<tr>
 						<th><h5>Items: <strong>{{order.get_cart_items}}</strong></h5></th>
-						<th><h5>Total:<strong> ${{order.get_cart_total|floatformat:2}}</strong></h5></th>
+						<th><h5>Total:<strong> Rwf {{order.get_cart_total|intcomma}}</strong></h5></th>
 						<th>
 							<a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout2' %}">Checkout</a>
 						</th>
@@ -232,7 +233,7 @@ h1,h2,h3,h4,h5,h6{
 				<div class="cart-row">
 					<div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"></div>
 					<div style="flex:2"><p>{{item.product.name}}</p></div>
-					<div style="flex:1"><p>${{item.product.price|floatformat:2}}</p></div>
+					<div style="flex:1"><p>Rwf {{item.product.price|intcomma}}</p></div>
 					<div style="flex:1">
 						<p class="quantity">{{item.quantity}}</p>
 						<div class="quantity">
@@ -241,7 +242,7 @@ h1,h2,h3,h4,h5,h6{
 							<img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity update-cart" src="{% static  'img/arrow-down.png' %}">
 						</div>
 					</div>
-					<div style="flex:1"><p>${{item.get_total}}</p></div>
+					<div style="flex:1"><p>${{item.get_total|intcomma}}</p></div>
 					<div style="flex:1">
 						<button data-product="{{item.product.id}}" class='btn btn-danger removeItem'> <i class="fa fa-times" aria-hidden="true"></i> </button>
 					</div>

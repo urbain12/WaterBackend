@@ -61,7 +61,7 @@ urlpatterns = [
     
     #MOBILE
     path('Productlist/',ProductListView.as_view()),
-
+    path('api/change-password/', ChangePasswordView.as_view()),
 
 
 

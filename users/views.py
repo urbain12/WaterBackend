@@ -2,6 +2,8 @@ from .utils import cartData
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView, UpdateAPIView
 from .models import *
 import requests
+import secrets
+import string
 import random
 import ast
 from django.contrib.auth import authenticate, logout as django_logout, login as django_login
@@ -139,20 +141,25 @@ def user(request):
 
 def operator(request):
     if request.method=='POST':
-        if request.POST['password1']==request.POST['password2'] :
+        try:
+            user1=User.objects.get(email=request.POST['email'])
+            return render(request,'operator.html',{'error':'The Email  has already been taken'})
+        except User.DoesNotExist:
             try:
-                user1=User.objects.get(email=request.POST['email'])
-                return render(request,'operator.html',{'error':'The Email  has already been taken'})
+                user2=User.objects.get(phone=request.POST['phonenumber'])
+                return render(request,'operator.html',{'error':'The phone number  has already been taken'})
             except User.DoesNotExist:
-                try:
-                    user2=User.objects.get(phone=request.POST['phonenumber'])
-                    return render(request,'operator.html',{'error':'The phone number  has already been taken'})
-                except User.DoesNotExist:
-                    user=User.objects.create_user(
-                        email=request.POST['email'],
-                        phone=request.POST['phonenumber'],
-                        password=request.POST['password1'])
-                return redirect('user')
+                alphabet = string.ascii_letters + string.digits
+                password = ''.join(secrets.choice(alphabet) for i in range(6))
+                user=User.objects.create_user(
+                    email=request.POST['email'],
+                    phone=request.POST['phonenumber'],
+                    password=password)
+                my_phone=request.POST['phonenumber']
+                payload={'details':f' Dear Client,\n You have been registered successfully \n Your credentials to login in mobile app are: \n Phone:{my_phone} \n password:{password} ','phone':f'25{my_phone}'}
+                headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+                r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)  
+            return redirect('user')
     return render(request,'operator.html')
 
 
@@ -915,4 +922,38 @@ def get_category(request,user_id):
     }
     dump=json.dumps(data)
     return HttpResponse(dump,content_type='application/json')
+
+class ChangePasswordView(UpdateAPIView):
+    """
+    An endpoint for changing password.
+    """
+    serializer_class = ChangePasswordSerializer
+    model = User
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, queryset=None):
+        obj = self.request.user
+        return obj
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            # Check old password
+            if not self.object.check_password(serializer.data.get("old_password")):
+                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+            # set_password also hashes the password that the user will get
+            self.object.set_password(serializer.data.get("new_password"))
+            self.object.save()
+            response = {
+                'status': 'success',
+                'code': status.HTTP_200_OK,
+                'message': 'Password updated successfully',
+                'data': []
+            }
+
+            return Response(response)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         

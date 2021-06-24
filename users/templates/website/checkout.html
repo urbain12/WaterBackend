@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     {% load static %}
+    {% load humanize %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -276,7 +277,7 @@ h1,h2,h3,h4,h5,h6{
 				</div>
 				{% endfor %}
 				<h5>Items:   <b> {{order.get_cart_items}}</b></h5>
-				<h5>Total:  &nbsp; <u><b>{{order.get_cart_total}} Rwf</b></u>  </h5>
+				<h5>Total:  &nbsp; <u><b>{{order.get_cart_total|intcomma}} Rwf</b></u>  </h5>
 			</div>
 		</div>
 	</div>

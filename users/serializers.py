@@ -137,3 +137,12 @@ class SubscriptionsPaymentSerializer(serializers.ModelSerializer):
             data['SubscriptionsID'] = ToolsCategorySerializer(
                 Subscriptions.objects.get(pk=data['SubscriptionsID'])).data
         return data
+
+class ChangePasswordSerializer(serializers.Serializer):
+    model = User
+
+    """
+    Serializer for password change endpoint.
+    """
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
