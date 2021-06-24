@@ -37,6 +37,30 @@ def blog(request):
     blogs = Blog.objects.all()
     return render(request,'website/blog.html',{'blogs':blogs})
 
+@login_required(login_url='/login')
+def Viewblog(request):
+    adminblog = Blog.objects.all()
+    search_query = request.GET.get('search', '')
+    if search_query:
+        adminblog = Blog.objects.filter(Q(Title__icontains=search_query))
+    paginator = Paginator(adminblog, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'blogview.html', {'adminblog': adminblog, 'page_obj': page_obj})
+
+@login_required(login_url='/login')
+def addBlog(request):
+    if request.method == 'POST':
+        addBlog = Blog()
+        addBlog.Title = request.POST['Title']
+        addBlog.Details = request.POST['details']
+        addBlog.Image = request.FILES['images']
+        addBlog.save()
+
+        return redirect('Viewblog')
+    else:
+        return render(request, 'addnewblog.html')
+
 def contact_us(request):
     return render(request,'website/contact.html')
 
@@ -71,6 +95,9 @@ def ijabo(request):
 def single_blog(request,blogID):
     blog = Blog.objects.get(id=blogID)
     return render(request,'website/post.html',{'blog': blog})
+
+def success(request):
+    return render(request,'website/success.html')
 
 def reply(request,requestID):
     if request.method == 'POST':
