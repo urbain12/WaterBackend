@@ -178,6 +178,7 @@ class Reply(models.Model):
 class Product(models.Model):
 	name = models.CharField(max_length=200)
 	price = models.IntegerField(null=True,blank=True)
+	description = models.TextField(null=True,blank=True)
 	image = models.ImageField(null=True, blank=True)
 	inStock = models.IntegerField(null=True,blank=True)
 
