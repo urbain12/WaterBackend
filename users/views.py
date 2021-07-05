@@ -946,7 +946,8 @@ def get_category(request,user_id):
     subscription=Subscriptions.objects.get(CustomerID=customer.id)
     data={
         'category':subscription.Category.Title,
-        'subscription_date':str(subscription.From)
+        'subscription_date':str(subscription.From),
+        'balance':subscription.TotalBalance
     }
     dump=json.dumps(data)
     return HttpResponse(dump,content_type='application/json')
@@ -957,10 +958,10 @@ class ChangePasswordView(UpdateAPIView):
     """
     serializer_class = ChangePasswordSerializer
     model = User
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
     def get_object(self, queryset=None):
-        obj = self.request.user
+        obj = User.objects.get(id=request.data['user_id'])
         return obj
 
     def update(self, request, *args, **kwargs):
