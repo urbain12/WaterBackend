@@ -139,13 +139,53 @@ def repliedmsg(request,repliedID):
 # backend
 @login_required(login_url='/login')
 def dashboard(request):
+    d=datetime.now()
+    dateweek = datetime.now()
+    start_week = dateweek - timedelta(dateweek.weekday())
+    end_week = start_week + timedelta(7)
+
+    daily=len(Subscriptions.objects.filter(From__date=d.date() ,complete=True ))
+    daily_subscriptions=Subscriptions.objects.filter(From__date=d.date() ,complete=True)
+    paymentsdaily=SubscriptionsPayment.objects.filter(PaymentDate=d.date())
+
+    amount_invoiceddaily=sum([int(sub.get_total_amount) for sub in daily_subscriptions])
+    amount_paiddaily=sum([int(payment.Paidamount) for payment in paymentsdaily])
+    amount_outstandingdaily=amount_invoiceddaily-amount_paiddaily
+
+
+
     subscriptions=len(Subscriptions.objects.filter(complete=True))
     my_subscriptions=Subscriptions.objects.filter(complete=True)
     amount_invoiced=sum([int(sub.get_total_amount) for sub in my_subscriptions])
     payments=SubscriptionsPayment.objects.all()
     amount_paid=sum([int(payment.Paidamount) for payment in payments])
     amount_outstanding=amount_invoiced-amount_paid
-    return render(request, 'dashboard.html',{'subscriptions':subscriptions,'amount_paid':amount_paid,'amount_invoiced':amount_invoiced,'amount_outstanding':amount_outstanding})
+
+    weekly=len(Subscriptions.objects.filter(From__range=[start_week.date(), end_week.date()] ,complete=True ))
+    weekly_subscriptions=Subscriptions.objects.filter(From__date=d.date() ,complete=True)
+    paymentsweekly=SubscriptionsPayment.objects.filter(PaymentDate=d.date())
+
+    amount_invoicedweekly=sum([int(sub.get_total_amount) for sub in weekly_subscriptions])
+    amount_paidweekly=sum([int(payment.Paidamount) for payment in paymentsweekly])
+    amount_outstandingweekly=amount_invoicedweekly-amount_paidweekly
+    
+
+    return render(request, 'dashboard.html',{
+    'subscriptions':subscriptions,
+    'daily':daily,
+    'weekly':weekly,
+
+    'amount_paiddaily':amount_paiddaily,
+    'amount_invoiceddaily':amount_invoiceddaily,
+    'amount_outstandingdaily':amount_outstandingdaily,
+
+    'amount_paidweekly':amount_paidweekly,
+    'amount_invoicedweekly':amount_invoicedweekly,
+    'amount_outstandingweekly':amount_outstandingweekly,
+
+    'amount_paid':amount_paid,
+    'amount_invoiced':amount_invoiced,
+    'amount_outstanding':amount_outstanding})
 
 @login_required(login_url='/login')
 def transactions(request,customerID):
@@ -360,7 +400,18 @@ def AddProduct(request):
 @login_required(login_url='/login')
 def add_subscription(request):
     tools=Tools.objects.all()
-    customers=Customer.objects.all()
+    sub= Subscriptions.objects.all()
+    sub_customers = []
+    new_customers=[]
+    cust=Customer.objects.all()
+    for i in sub:
+        sub_customers.append(i.CustomerID)
+    for i in cust:
+        if i not in sub_customers:
+            new_customers.append(i)
+    print(new_customers)
+    
+    customers=new_customers
     categories=Category.objects.all()
     return render(request,'add_subscription.html',{'tools':tools,'customers':customers,'categories':categories})
 

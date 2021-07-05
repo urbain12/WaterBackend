@@ -80,6 +80,10 @@ class Customer(models.Model):
     created_at = models.DateField(auto_now_add=True)
     Meternumber = models.OneToOneField('Meters',on_delete=models.SET_NULL,null=True,blank=True)
 
+
+    def __str__(self):
+        return self.FirstName +' '+ self.LastName+' '+ str(self.id)
+
 class Meters(models.Model):
     created_at = models.DateField(auto_now_add=True)
     Meternumber = models.CharField(max_length=255, null=True,blank=True,unique=True)
