@@ -581,8 +581,8 @@ def processOrder(request):
     if request.user.is_authenticated:
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
-    else:
-        customer, order = guestOrder(request, data)
+    # else:
+    #     customer, order = guestOrder(request, data)
 
     total = float(data['form']['total'])
     order.transaction_id = transaction_id
@@ -945,7 +945,8 @@ def get_category(request,user_id):
     customer=Customer.objects.get(user=user_id)
     subscription=Subscriptions.objects.get(CustomerID=customer.id)
     data={
-        'category':subscription.Category.Title
+        'category':subscription.Category.Title,
+        'subscription_date':str(subscription.From)
     }
     dump=json.dumps(data)
     return HttpResponse(dump,content_type='application/json')
@@ -983,4 +984,27 @@ class ChangePasswordView(UpdateAPIView):
             return Response(response)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CreateOrder(CreateAPIView):
+    def create(self,request):
+        print(request.data)
+        customer = Customer.objects.only('id').get(id=int(request.data['customerID']))
+        order = Order()
+        order.customer = customer
+        order.save()
+        for item in request.data['order']:
+            print(item['id'])
+            product = Product.objects.only('id').get(id=int(item['id']))
+            order_item=OrderItem()
+            order_item.product=product
+            order_item.order=order
+            order_item.quantity=item['qty']
+            order_item.save()
+        response = {
+            'status': 'success',
+            'code': status.HTTP_200_OK,
+            'message': 'Order created successfully!!!',
+            'data': []
+        }
+        return Response(response)
         
