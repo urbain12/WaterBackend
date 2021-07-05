@@ -30,6 +30,7 @@ urlpatterns = [
     path('logout/',logout,name='logout'),
     path('customers/',customers,name='customers'),
     path('orders/',orders,name='orders'),
+    path('create_order/',CreateOrder.as_view(),name='create_order'),
     path('products/',products,name='products'),
     path('transactions/<int:customerID>/',transactions,name='transactions'),
     path('checkout/',checkout,name='checkout'),
