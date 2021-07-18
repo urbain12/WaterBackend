@@ -97,8 +97,8 @@ class WaterBuyHistory(models.Model):
     Meternumber = models.ForeignKey('Meters',on_delete=models.SET_NULL,null=True,blank=True)
     Token = models.CharField(max_length=255, null=True,blank=True)
     created_at = models.DateField(auto_now_add=True)
-    Expired_at = models.DateField(null=True,blank=True)
 
+    
 class Category(models.Model):
     Title = models.CharField(max_length=255, null=True,blank=True)
     Description = models.CharField(max_length=255, null=True,blank=True)
@@ -136,7 +136,6 @@ class ToolsCategory(models.Model):
 class Tools(models.Model):
     Title = models.CharField(max_length=255, null=True,blank=True,unique=True)
     Description = models.CharField(max_length=255, null=True,blank=True)
-    SerialNumber = models.CharField(max_length=255, null=True,blank=True)
     Amount = models.IntegerField(default=0, null=True,blank=True)
     CategoryID = models.ForeignKey('ToolsCategory',on_delete=models.SET_NULL,null=True,blank=True)
     created_at = models.DateField(auto_now_add=True)
@@ -168,6 +167,7 @@ class Request(models.Model):
     District = models.CharField(max_length=255, null=True, blank=True)
     Sector = models.CharField(max_length=255, null=True, blank=True)
     Cell = models.CharField(max_length=255, null=True, blank=True)
+    service = models.CharField(max_length=255, null=True, blank=True)
     replied = models.BooleanField(default=False)
     send_at = models.DateField(auto_now_add=True)
 

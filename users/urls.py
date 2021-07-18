@@ -58,6 +58,7 @@ urlpatterns = [
     path('notify/<int:subID>/',notify,name='notify'),
     path('repliedmsg/<int:repliedID>/',repliedmsg,name='repliedmsg'),
     path('quotation/<int:SubscriptionsID>',quotation,name="quotation"),
+    url(r'^export/csv/$',export_users_csv, name='export_users_csv'),
 
 
 

@@ -24,7 +24,11 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from rest_framework.authtoken.models import Token
 import requests
-
+import xlwt
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+import csv
+from django.contrib.auth.models import *
 
 #website
 def index(request):
@@ -517,7 +521,6 @@ def add_tool(request):
             'id').get(id=int(request.POST['category']))
         tool = Tools()
         tool.Title = request.POST['Title']
-        tool.SerialNumber = request.POST['SerialNumber']
         tool.Description = request.POST['description']
         tool.Amount = request.POST['amount']
         tool.CategoryID = category
@@ -982,6 +985,26 @@ def pay_subscription(request):
         dump = json.dumps(data)
         return HttpResponse(dump, content_type='application/json')
 
+# def pay_Water(request):
+#     if request.method=='POST':
+#         body_unicode = request.body.decode('utf-8')
+#         body = json.loads(body_unicode)
+#         today=datetime.today()
+#         print(body)
+#         customers=Customer.objects.get(Meternumber=body['meternumber'])
+#         customers.TotalBalance=int(body['amount'])
+#         subscription.save()
+#         payment=SubscriptionsPayment()
+#         payment.SubscriptionsID=subscription
+#         payment.Paidamount=int(body['amount'])
+#         payment.PaymentDate=today
+#         payment.save()
+#         data = {
+#             'result': 'Payment done successfully!!!',
+#         }
+#         dump = json.dumps(data)
+#         return HttpResponse(dump, content_type='application/json')
+
 def get_balance(request,phone_number):
     user=User.objects.get(phone=phone_number)
     customer=Customer.objects.get(user=user.id)
@@ -1012,7 +1035,7 @@ class ChangePasswordView(UpdateAPIView):
     # permission_classes = (IsAuthenticated,)
 
     def get_object(self, queryset=None):
-        obj = User.objects.get(id=request.data['user_id'])
+        obj = User.objects.get(id=self.request.data['user_id'])
         return obj
 
     def update(self, request, *args, **kwargs):
@@ -1059,4 +1082,37 @@ class CreateOrder(CreateAPIView):
             'data': []
         }
         return Response(response)
+
+def export_users_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="Instalments.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['FirstName','LastName','From','Subscriptions','Invoice Total','Mothly payment','Outstanding amount','Balance paid','overdue balance','Due date','Month overdue'])
+
+    subscriptions = Subscriptions.objects.all()
+    instalments=[]
+    for sub in subscriptions:
+
+        my_instalment= [
+            sub.CustomerID.FirstName,
+            sub.CustomerID.LastName,
+            sub.From,
+            sub.Category.Title,
+            sub.get_total_amount,
+            round(sub.get_total_amount / 12),
+            sub.TotalBalance,
+            sub.get_total_amount - int(sub.TotalBalance),
+            "-",
+            sub.To,
+            "0"
+            ]
+            
+        print(my_instalment)
+        print(type(my_instalment))
+        instalments.append(my_instalment)
+    for user in instalments:
+        writer.writerow(user)
+
+    return response
         
