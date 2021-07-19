@@ -29,6 +29,8 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 import csv
 from django.contrib.auth.models import *
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 #website
 def index(request):
@@ -105,16 +107,13 @@ def success(request):
 
 def reply(request,requestID):
     if request.method == 'POST':
-        reply = Reply()
-        reply.replymsg = request.POST['Msg']
         req = Request.objects.only('id').get(
             id=requestID)
-        reply.requestid = req
+        req.reply= request.POST['Msg']
         req.replied= True
         req.save()
-        reply.save()
 
-        payload={'details':f' Dear {req.Names},\n {reply.replymsg} \n Please call us for any Problem through 0788333111 ','phone':f'25{req.phonenumber}'}
+        payload={'details':f' Dear {req.Names},\n {req.reply} \n Please call us for any Problem through 0788333111 ','phone':f'25{req.phonenumber}'}
         headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
         # Addproduct = True

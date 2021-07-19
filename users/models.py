@@ -163,6 +163,7 @@ class Request(models.Model):
     Names = models.CharField(max_length=255, null=True,blank=True)
     Message = models.TextField(blank=True, null=False)
     phonenumber = models.CharField(max_length=255, null=True,blank=True)
+    reply=models.TextField(blank=True,null=True,default="Please wait for the response")
     Province = models.CharField(max_length=255, null=True, blank=True)
     District = models.CharField(max_length=255, null=True, blank=True)
     Sector = models.CharField(max_length=255, null=True, blank=True)
@@ -175,9 +176,9 @@ class Request(models.Model):
         return self.Names
 
 
-class Reply(models.Model):
-    requestid=models.ForeignKey('Request',on_delete=models.SET_NULL,null=True,blank=True)
-    replymsg=models.TextField(blank=True,null=True)
+# class Reply(models.Model):
+#     requestid=models.ForeignKey('Request',on_delete=models.SET_NULL,null=True,blank=True)
+#     replymsg=models.TextField(blank=True,null=True)
 
 class Product(models.Model):
 	name = models.CharField(max_length=200)
