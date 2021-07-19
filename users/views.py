@@ -59,7 +59,7 @@ def Receipts(request):
     waterhistory = WaterBuyHistory.objects.all()
     search_query = request.GET.get('search', '')
     if search_query:
-        waterhistory = WaterBuyHistory.objects.filter(Q(Meternumber__icontains=search_query))
+        waterhistory = Meters.objects.filter(Q(Meternumber__icontains=search_query))
     paginator = Paginator(waterhistory, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
