@@ -25,7 +25,7 @@ class RequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Request
         fields = ('Names', 'phonenumber', 'Message',
-                  'Province', 'District', 'Sector', 'Cell')
+                  'Province', 'District', 'Sector', 'Cell','service')
 
 
 class ServiceSerializer(serializers.ModelSerializer):
