@@ -29,6 +29,8 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 import csv
 from django.contrib.auth.models import *
+from django.contrib.auth import get_user_model
+User= get_user_model()
 
 #website
 def index(request):
@@ -51,6 +53,31 @@ def Viewblog(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'blogview.html', {'adminblog': adminblog, 'page_obj': page_obj})
+
+@login_required(login_url='/login')
+def Receipts(request):
+    waterhistory = WaterBuyHistory.objects.all()
+    search_query = request.GET.get('search', '')
+    if search_query:
+        waterhistory = WaterBuyHistory.objects.filter(Q(Meternumber__icontains=search_query))
+    paginator = Paginator(waterhistory, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'Receipt.html', {'waterhistory': waterhistory, 'page_obj': page_obj})
+
+
+def sendToken(request,tokenID):
+    waterreceipt=WaterBuyHistory.objects.get(id=tokenID)
+    alphabet = string.ascii_letters + string.digits
+    token = ''.join(secrets.choice(alphabet) for i in range(20))
+    waterreceipt.Token=token
+    waterreceipt.save()
+    customer=Customer.objects.get(Meternumber=waterreceipt.Meternumber)
+    payload={'details':f' Dear {customer.FirstName},\n \n Your Token is : {token} ','phone':f'25{customer.user.phone}'}
+    headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+    r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
+    # Addproduct = True
+    return redirect('Receipts')
 
 @login_required(login_url='/login')
 def addBlog(request):

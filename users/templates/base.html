@@ -359,8 +359,9 @@
                                             </span>
                                         </a>
                                     </li>
-                                    <li >
-                                        <a href="#">
+                                    {% url 'Receipts' as recu %}
+                                    <li {% if request.path == recu  %} class="active-sub"{% endif %}>
+                                        <a href="{% url 'Receipts' %}">
                                             <i class="fa fa-money"></i>
                                             <span class="menu-title">
                                                 <strong>Receipts</strong>

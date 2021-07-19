@@ -93,7 +93,6 @@ class Meters(models.Model):
 
 class WaterBuyHistory(models.Model):
     Amount = models.CharField(max_length=255, null=True,blank=True)
-    NumberofLitres = models.CharField(max_length=255, null=True,blank=True)
     Meternumber = models.ForeignKey('Meters',on_delete=models.SET_NULL,null=True,blank=True)
     Token = models.CharField(max_length=255, null=True,blank=True)
     created_at = models.DateField(auto_now_add=True)
