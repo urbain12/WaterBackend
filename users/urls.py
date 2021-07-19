@@ -86,6 +86,7 @@ urlpatterns = [
 
     #SubscriberRequest
     path('Request/create/',RequestCreateView.as_view()),
+    path('Request/list/',RequestListView.as_view()),
 
 
     path('Service/',ServiceListView.as_view()),

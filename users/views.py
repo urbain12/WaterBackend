@@ -755,6 +755,9 @@ class RequestCreateView(CreateAPIView):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
 
+class RequestListView(ListAPIView):
+    queryset = Request.objects.all()
+    serializer_class = RequestSerializer
 
 class ServiceListView(ListAPIView):
     queryset = Service.objects.all()
