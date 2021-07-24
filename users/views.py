@@ -717,7 +717,7 @@ def pay(request):
         print(payload)
 
         
-        r=requests.post('https://kwetu.t3ch.rw:5070/api/web/index.php?r=v1/app/get-payment-url',json=payload, headers=headers,verify=False).json()
+        r=requests.post('http://kwetu.t3ch.rw:5070/api/web/index.php?r=v1/app/get-payment-url',json=payload, headers=headers,verify=False).json()
         res= json.loads(r)
         return redirect(res['url'])
 
