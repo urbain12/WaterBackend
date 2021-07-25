@@ -796,6 +796,12 @@ class GetCustomerbyId(ListAPIView):
     def get_queryset(self):
         return Customer.objects.filter(user=self.kwargs['user_id'])
 
+class GetCustomerbymeter(ListAPIView):
+    serializer_class = CustomerSerializer
+    def get_queryset(self):
+        meternumber=Meters.objects.get(Meternumber=self.kwargs['meter_number'])
+        return Customer.objects.filter(Meternumber=meternumber.id)
+
 
 class CustomerCreateView(CreateAPIView):
     queryset = Customer.objects.all()

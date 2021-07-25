@@ -81,6 +81,7 @@ urlpatterns = [
     path('get_customer/<str:phone_number>/',GetCustomer.as_view(),name="get_customer"),
     path('get_balance/<str:phone_number>/',get_balance,name="get_balance"),
     path('getcustomerbyid/<int:user_id>/',GetCustomerbyId.as_view()),
+    path('getcustomerbymeters/<str:meter_number>/',GetCustomerbymeter.as_view(), name="getcustomerbymeters"),
     path('get_category/<int:user_id>/',get_category,name="get_category"),
 
 
