@@ -103,8 +103,8 @@ DATABASES = {
         'NAME': 'Wateraccess',
         'USER': 'DotDigs',
         'PASSWORD': "2021@Kigali",
-        'HOST': "http://wateraccess.t3ch.rw/",
-        'PORT': "8234",
+        'HOST': "",
+        'PORT': "",
         'OPTIONS': {
         'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
