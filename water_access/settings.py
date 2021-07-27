@@ -56,15 +56,15 @@ ROOT_URLCONF = 'water_access.urls'
 
 SITE_ID=1
 
-CORS_ALLOWED_ORIGINS=[
-    'http://t3ch.rw/ussd.php',
-    'http://t3ch.rw/',
-    'https://t3ch.rw/ussd.php',
-    'https://t3ch.rw/',
-    'http://t3ch.rw/ussd.php',
-    'http://t3ch.rw:8234',
+# CORS_ALLOWED_ORIGINS=[
+#     'http://t3ch.rw/ussd.php',
+#     'http://t3ch.rw/',
+#     'https://t3ch.rw/ussd.php',
+#     'https://t3ch.rw/',
+#     'http://t3ch.rw/ussd.php',
+#     'http://t3ch.rw:8234',
     
-]
+# ]
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
