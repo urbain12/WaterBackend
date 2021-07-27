@@ -816,6 +816,12 @@ class GetCustomerbyId(ListAPIView):
     def get_queryset(self):
         return Customer.objects.filter(user=self.kwargs['user_id'])
 
+class GetCustomerbymeter(ListAPIView):
+    serializer_class = CustomerSerializer
+    def get_queryset(self):
+        meternumber=Meters.objects.get(Meternumber=self.kwargs['meter_number'])
+        return Customer.objects.filter(Meternumber=meternumber.id)
+
 
 class CustomerCreateView(CreateAPIView):
     queryset = Customer.objects.all()
@@ -1032,25 +1038,24 @@ def pay_subscription(request):
         dump = json.dumps(data)
         return HttpResponse(dump, content_type='application/json')
 
-# def pay_Water(request):
-#     if request.method=='POST':
-#         body_unicode = request.body.decode('utf-8')
-#         body = json.loads(body_unicode)
-#         today=datetime.today()
-#         print(body)
-#         customers=Customer.objects.get(Meternumber=body['meternumber'])
-#         customers.TotalBalance=int(body['amount'])
-#         subscription.save()
-#         payment=SubscriptionsPayment()
-#         payment.SubscriptionsID=subscription
-#         payment.Paidamount=int(body['amount'])
-#         payment.PaymentDate=today
-#         payment.save()
-#         data = {
-#             'result': 'Payment done successfully!!!',
-#         }
-#         dump = json.dumps(data)
-#         return HttpResponse(dump, content_type='application/json')
+def pay_Water(request):
+    if request.method=='POST':
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        print(body)
+        customers=Meters.objects.only('id').get(id=body['Meternumber'])
+        Amount=int(body['Amount'])
+        Token=int(body['Token'])
+        pay = WaterBuyHistory()
+        pay.Meternumber = customers
+        pay.Amount = Amount
+        pay.Token = Token
+        pay.save()
+        data = {
+            'result': 'Payment done successfully!!!',
+        }
+        dump = json.dumps(data)
+        return HttpResponse(dump, content_type='application/json')
 
 def get_balance(request,phone_number):
     user=User.objects.get(phone=phone_number)
