@@ -159,7 +159,7 @@ h1,h2,h3,h4,h5,h6{
 				{% csrf_token %}
 					<div id="shipping-info">
 						<hr>
-						<p>Shipping Information:</p>
+						<p>Shipping Information:</p> 
 						<hr>
 						<div class="form-field">
 							<input class="form-control" type="text" name="FirstName" placeholder="First Name.." required>
@@ -169,26 +169,23 @@ h1,h2,h3,h4,h5,h6{
 						</div>
 
 						<div class="form-field">
-							<input class="form-control" type="text" name="Email" placeholder="Email.." required>
+							<input class="form-control" type="text" name="email" placeholder="Email.." required>
 						</div>
 						<div class="form-field">
-							<input class="form-control" type="text" name="PhoneNumber" placeholder="Phone Number.."required>
+							<input class="form-control" type="text" name="phone" placeholder="Phone Number.."required>
 						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="country" placeholder="Country.."required>
-						</div>
+						
 						<div class="form-field">
 							<input class="form-control" type="text" name="address" placeholder="address.."required>
 						</div>
 						<div class="form-field">
-							<input class="form-control" type="text" name="City" placeholder="City.." required>
+							<input class="form-control" type="text" name="city" placeholder="City.." required>
 						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="zipcode" placeholder="Zip code.."required>
-						</div>
+						
 						<div class="form-field" style='display:none'>
-							<input class="form-control" type="text" value='{{order.get_cart_total}}' name="amount" placeholder="Amount" required>
+							<input class="form-control" type="text" value='{{order.get_cart_total}}' name="amount" placeholder="Amount" >
 						</div>
+						
 					</div>
 
 					<hr>
@@ -206,7 +203,7 @@ h1,h2,h3,h4,h5,h6{
 					</div>
 					<div class="form-field momo box">
 							<input class="form-control"  
-							type="tel" name="cnumber" placeholder="MOMO number">
+							type="tel" name="momo_number" placeholder="MOMO number">
 					</div>
 
 				{% comment %} <div class="green box">

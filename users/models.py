@@ -198,7 +198,6 @@ class Product(models.Model):
 		return url
 
 class Order(models.Model):
-	customer = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, blank=True)
 	date_ordered = models.DateTimeField(auto_now_add=True)
 	complete = models.BooleanField(default=False)
 	transaction_id = models.CharField(max_length=100, null=True)
@@ -232,10 +231,11 @@ class OrderItem(models.Model):
 
 class ShippingAddress(models.Model):
 	order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
-	address = models.CharField(max_length=200, null=False)
-	city = models.CharField(max_length=200, null=False)
-	state = models.CharField(max_length=200, null=False)
-	zipcode = models.CharField(max_length=200, null=False)
+	address = models.CharField(max_length=200, null=True)
+	city = models.CharField(max_length=200, null=True)
+	email = models.CharField(max_length=200, null=True)
+	names = models.CharField(max_length=200, null=True)
+	phone = models.CharField(max_length=200, null=True)
 	date_added = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
