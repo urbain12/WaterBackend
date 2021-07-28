@@ -33,11 +33,14 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
     'rest_auth',
     'users',
     'django_crontab',
     'mathfilters'
 ]
+
+CORS_ORIGIN_ALLOW_ALL=True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -52,6 +55,16 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'water_access.urls'
 
 SITE_ID=1
+
+# CORS_ALLOWED_ORIGINS=[
+#     'http://t3ch.rw/ussd.php',
+#     'http://t3ch.rw/',
+#     'https://t3ch.rw/ussd.php',
+#     'https://t3ch.rw/',
+#     'http://t3ch.rw/ussd.php',
+#     'http://t3ch.rw:8234',
+    
+# ]
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,

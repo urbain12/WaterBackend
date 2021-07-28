@@ -30,6 +30,17 @@ def MonthlyNotification():
             r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)            
             
     
+# def overdueMonth():
+#     subscriptions=Subscriptions.objects.filter(TotalBalance__gte=1)
+#     for sub in subscriptions:
+#         sub_day=datetime.strptime(sub.From.strftime('%Y-%m-%d %H:%M'),'%Y-%m-%d %H:%M').day
+#         now_day=datetime.strptime(datetime.today().strftime('%Y-%m-%d %H:%M'),'%Y-%m-%d %H:%M').day
+#         sub_date=datetime.strptime(sub.From.strftime('%Y-%m-%d'),'%Y-%m-%d')
+#         now_date=datetime.strptime(datetime.today().strftime('%Y-%m-%d'),'%Y-%m-%d')
+#         if sub_day==now_day and sub_date!=now_date:
+
+
+
     
 
     

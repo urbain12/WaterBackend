@@ -3,6 +3,7 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView,
 from .models import *
 import requests
 import secrets
+import threading
 import string
 import random
 import ast
@@ -718,6 +719,28 @@ def update_subscription(request,subID):
         tools_ids.append(tool.ToolID.id)
     return render(request,'update_subscription.html',{'subscription':subscription,'tools_ids':tools_ids,'tools':tools,'customers':customers})
 
+def check_payment(transID):
+    headers={
+            "Content-Type":"application/json",
+            "app-type":"none",
+            "app-version":"v1",
+            "app-device":"Postman",
+            "app-device-os":"Postman",
+            "app-device-id":"0",
+            "x-auth":"705d3a96-c5d7-11ea-87d0-0242ac130003"
+        }
+    t=threading.Timer(10.0, check_payment,[transID])
+    t.start()
+    url=f'http://kwetu.t3ch.rw:5070/api/web/index.php?r=v1/app/get-transaction-status&transactionID={transID}'
+    r=requests.get(f'http://kwetu.t3ch.rw:5070/api/web/index.php?r=v1/app/get-transaction-status&transactionID={transID}',headers=headers,verify=False).json()
+    res=json.loads(r)
+    print(res[0]['payment_status'])
+    if res[0]['payment_status']=='SUCCESSFUL':
+        t.cancel()
+        print('vyarangiye')
+    
+    
+
 def pay(request):
     if request.method=='POST':
         headers={
@@ -731,21 +754,18 @@ def pay(request):
         }
         
         payload={
-            "msisdn":request.POST['PhoneNumber'],
-            "details" : "Water-Access-Rwanda",
-            "email" : request.POST['Email'],
-            "amount" : request.POST['amount'],
-            "cname" : request.POST['FirstName']+' '+request.POST['LastName'],
-            "cnumber" : "07542121",
-            "pmethod" : request.POST['Radio']
+            "phone_number":request.POST['PhoneNumber'],
+            "amount" : int(request.POST['amount']),
+            "payment_code" : "1010",
         }
 
         print(payload)
 
         
-        r=requests.post('http://kwetu.t3ch.rw:5070/api/web/index.php?r=v1/app/get-payment-url',json=payload, headers=headers,verify=False).json()
-        res= json.loads(r)
-        return redirect(res['url'])
+        r=requests.post('http://kwetu.t3ch.rw:5070/api/web/index.php?r=v1/app/send-transaction',json=payload, headers=headers,verify=False).json()
+        res=json.loads(r)
+        check_payment(res['transactionid'])
+        return HttpResponse(res)
 
 # mobile
 class ProductListView(ListAPIView):
