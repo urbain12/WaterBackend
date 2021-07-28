@@ -16,6 +16,7 @@ from django.core import serializers
 from datetime import datetime
 from datetime import timedelta
 import json
+from django.contrib import messages
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.permissions import IsAuthenticated, OR
@@ -26,6 +27,7 @@ from rest_framework.authtoken.models import Token
 import requests
 import xlwt
 import urllib3
+import os
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 import csv
 from django.contrib.auth.models import *
@@ -76,7 +78,6 @@ def sendToken(request,tokenID):
     payload={'details':f' Dear {customer.FirstName},\n \n Your Token is : {token} ','phone':f'25{customer.user.phone}'}
     headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
     r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
-    # Addproduct = True
     return redirect('Receipts')
 
 @login_required(login_url='/login')
@@ -117,6 +118,33 @@ def product(request,productID):
     else:
         my_products=random.sample(prod,len(prod))
     return render(request,'website/product_page.html',{'product':product,'cartItems':cartItems,'my_products':my_products})
+
+def delete_product(request,productID):
+    products=Product.objects.get(id=productID)
+    products.delete()
+    return redirect('products')
+
+@login_required(login_url='/login')
+def updateProduct(request,updateID):
+    Updateproduct = Product.objects.get(id=updateID)
+    if request.method == 'POST':
+        if len(request.FILES) !=0:
+            if len(Updateproduct.image) > 0:
+                os.remove(Updateproduct.image.path)
+            Updateproduct.image = request.FILES['images']
+        Updateproduct.name = request.POST['name']
+        Updateproduct.price = request.POST['price']
+        Updateproduct.inStock = request.POST['instock']
+        Updateproduct.description = request.POST['description']
+        Updateproduct.save()
+        # Addproduct = True
+        messages.success(request, "Product updated successfuly")
+        return redirect('products')
+    else:
+        return render(request, 'Updateproduct.html',{'Updateproduct':Updateproduct})
+
+
+
 def about(request):
     return render(request,'website/about.html')
 
@@ -141,7 +169,6 @@ def reply(request,requestID):
         payload={'details':f' Dear {req.Names},\n {req.reply} \n Please call us for any Problem through 0788333111 ','phone':f'25{req.phonenumber}'}
         headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
-        # Addproduct = True
         return redirect('requestor')
     else:    
         message = Request.objects.get(id=requestID)
@@ -155,7 +182,6 @@ def notify(request,subID):
         payload={'details':f' Dear {subscription.CustomerID.FirstName},\n \n It is time to pay water ','phone':f'25{subscription.CustomerID.user.phone}'}
     headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
     r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
-    # Addproduct = True
     return redirect('Subscriptions')
 
 def repliedmsg(request,repliedID):
@@ -417,8 +443,8 @@ def AddProduct(request):
         Addproduct.price = request.POST['price']
         Addproduct.image = request.FILES['images']
         Addproduct.inStock = request.POST['instock']
+        Addproduct.description = request.POST['description']
         Addproduct.save()
-        # Addproduct = True
         return redirect('products')
     else:
         return render(request, 'Addnewproduct.html')
