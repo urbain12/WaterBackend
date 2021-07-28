@@ -242,7 +242,7 @@ h1,h2,h3,h4,h5,h6{
 							<img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity update-cart" src="{% static  'img/arrow-down.png' %}">
 						</div>
 					</div>
-					<div style="flex:1"><p>${{item.get_total|intcomma}}</p></div>
+					<div style="flex:1"><p>{{item.get_total|intcomma}} Rwf</p></div>
 					<div style="flex:1">
 						<button data-product="{{item.product.id}}" class='btn btn-danger removeItem'> <i class="fa fa-times" aria-hidden="true"></i> </button>
 					</div>
