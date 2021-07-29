@@ -1176,13 +1176,15 @@ class ChangePasswordView(UpdateAPIView):
 class CreateOrder(CreateAPIView):
     def create(self,request):
         print(request.data)
-        customer = Customer.objects.only('id').get(id=int(request.data['customerID']))
+        transaction_id = datetime.now().timestamp()
         order = Order()
-        order.customer = customer
+        order.transaction_id = transaction_id
+        order.complete=True
         order.save()
         for item in request.data['order']:
             print(item['id'])
             product = Product.objects.only('id').get(id=int(item['id']))
+            product.inStock=product.inStock-item['qty']
             order_item=OrderItem()
             order_item.product=product
             order_item.order=order
