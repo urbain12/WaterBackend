@@ -1,4 +1,4 @@
-from .utils import cartData
+from .utils import cartData,check_transaction
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView, UpdateAPIView
 from .models import *
 import requests
@@ -1080,43 +1080,14 @@ class SubscriptionsPaymentUpdateView(UpdateAPIView):
     lookup_field = 'id'
 
 
-def check_transaction(trans_id,meter_number,amount):
-    headers={
-        "Content-Type":"application/json",
-        "app-type":"none",
-        "app-version":"v1",
-        "app-device":"Postman",
-        "app-device-os":"Postman",
-        "app-device-id":"0",
-        "x-auth":"705d3a96-c5d7-11ea-87d0-0242ac130003"
-    }
-    t=threading.Timer(10.0, check_transaction,[trans_id,meter_number,amount])
-    t.start()
-    r=requests.get(f'http://kwetu.t3ch.rw:5070/api/web/index.php?r=v1/app/get-transaction-status&transactionID={trans_id}',headers=headers,verify=False).json()
-    res=json.loads(r)
-    print(res[0]['payment_status'])
-    
-    if res[0]['payment_status']=='SUCCESSFUL':
-        t.cancel()
-        meter=Meters.objects.get(Meternumber=meter_number)
-        buy=WaterBuyHistory()
-        alphabet = string.ascii_letters + string.digits
-        token = ''.join(secrets.choice(alphabet) for i in range(20))
-        buy.Token=token
-        buy.Amount=amount
-        buy.Meternumber=meter
-        buy.save()
-        customer=Customer.objects.get(Meternumber=meter.id)
-        payload={'details':f' Dear {customer.FirstName},\n \n Your Payment of {amount} Rwf  have been successfully received!!! \n \n Your Token is : {token} ','phone':f'25{customer.user.phone}'}
-        headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-        r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
+
 
 def post_transaction(request):
     if request.method=='POST':
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         print(body)
-        # check_transaction(body['trans_id'],body['meter_number'],body['amount'])
+        check_transaction(body['trans_id'],body['meter_number'],body['amount'])
         data = {
             'result': 'Checking transaction status...',
         }
