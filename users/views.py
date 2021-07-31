@@ -1095,6 +1095,7 @@ def check_transaction(trans_id,meter_number,amount):
     r=requests.get(f'http://kwetu.t3ch.rw:5070/api/web/index.php?r=v1/app/get-transaction-status&transactionID={trans_id}',headers=headers,verify=False).json()
     res=json.loads(r)
     print(res[0]['payment_status'])
+    print(trans_id)
     
     if res[0]['payment_status']=='SUCCESSFUL':
         t.cancel()
@@ -1116,7 +1117,10 @@ def post_transaction(request):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         print(body)
-        # check_transaction(body['trans_id'],body['meter_number'],body['amount'])
+        check_transaction(body['trans_id'],body['meter_number'],body['amount'])
+        print(body['amount'])
+        print(body['trans_id'])
+        print(body['meter_number'])
         data = {
             'result': 'Checking transaction status...',
         }
