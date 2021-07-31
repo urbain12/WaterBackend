@@ -727,8 +727,7 @@ def check_payment(transID,items,amount,email,address,city,names,phone):
         }
     t=threading.Timer(10.0, check_payment,[transID,items,amount,email,address,city,names,phone])
     t.start()
-    url=f'http://kwetu.t3ch.rw:5070/api/web/index.php?r=v1/app/get-transaction-status&transactionID={transID}'
-    r=requests.get(f'http://kwetu.t3ch.rw:5070/api/web/index.php?r=v1/app/get-transaction-status&transactionID={transID}',headers=headers,verify=False).json()
+    r=requests.get(f'http://localhost:5070/api/web/index.php?r=v1/app/get-transaction-status&transactionID={transID}',headers=headers,verify=False).json()
     res=json.loads(r)
     print(res[0]['payment_status'])
     
@@ -741,6 +740,10 @@ def check_payment(transID,items,amount,email,address,city,names,phone):
         order.transaction_id=transaction_id
         order.complete=True
         order.save()
+        payload={'details':f' Dear {names},\n \n Your order of : {amount} have been completed ','phone':f'25{phone}'}
+        headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+        r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
+
 
         for item in items:
             print(item)
@@ -797,7 +800,7 @@ def pay(request):
         
 
         
-        r=requests.post('http://kwetu.t3ch.rw:5070/api/web/index.php?r=v1/app/send-transaction',json=payload, headers=headers,verify=False).json()
+        r=requests.post('http://localhost:5070/api/web/index.php?r=v1/app/send-transaction',json=payload, headers=headers,verify=False).json()
         res=json.loads(r)
         check_payment(res['transactionid'],items,amount,email,address,city,names,phone)
         return redirect('index')
