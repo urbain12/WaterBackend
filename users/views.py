@@ -1081,7 +1081,6 @@ class SubscriptionsPaymentUpdateView(UpdateAPIView):
 
 
 
-
 def post_transaction(request):
     if request.method=='POST':
         body_unicode = request.body.decode('utf-8')
