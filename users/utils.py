@@ -94,7 +94,7 @@ def check_transaction(trans_id,meter_number,amount):
     }
     t=threading.Timer(10.0, check_transaction,[trans_id,meter_number,amount])
     t.start()
-    r=requests.get(f'http://kwetu.t3ch.rw:5070/api/web/index.php?r=v1/app/get-transaction-status&transactionID={trans_id}',headers=headers,verify=False).json()
+    r=requests.get(f'http://localhost:5070/api/web/index.php?r=v1/app/get-transaction-status&transactionID={trans_id}',headers=headers,verify=False).json()
     res=json.loads(r)
     print(res[0]['payment_status'])
     
