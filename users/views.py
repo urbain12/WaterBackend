@@ -1,4 +1,4 @@
-from .utils import cartData,check_transaction
+from .utils import cartData,check_transaction,check_instalment
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView, UpdateAPIView
 from .models import *
 import requests
@@ -1089,6 +1089,19 @@ def post_transaction(request):
         check_transaction(body['trans_id'],body['meter_number'],body['amount'])
         data = {
             'result': 'Checking transaction status...',
+        }
+        dump = json.dumps(data)
+        return HttpResponse(dump, content_type='application/json')
+        
+
+def ussd_pay_subscription(request):
+    if request.method=='POST':
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        print(body)
+        check_instalment(body['trans_id'],body['meter_number'],body['amount'],body['customer_id'])
+        data = {
+            'result': 'Checking instalment payment...',
         }
         dump = json.dumps(data)
         return HttpResponse(dump, content_type='application/json')
