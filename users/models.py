@@ -112,6 +112,7 @@ class Subscriptions(models.Model):
     From = models.DateTimeField(blank=True, null=True)
     To = models.DateTimeField(blank=True, null=True)
     TotalBalance = models.CharField(max_length=255, null=True,blank=True)
+    Extra = models.IntegerField(null=True,blank=True,default=0)
     complete = models.BooleanField(default=False)
     @property
     def get_total_amount(self):
