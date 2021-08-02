@@ -150,6 +150,6 @@ def check_instalment(trans_id,meter_number,amount,customer_id):
         payment.PaymentDate=today
         payment.save()
         customer=Customer.objects.get(id=customer_id)
-        payload={'details':f' Dear {customer.FirstName},\n \n You have paid {format(int(amount), ",.0f")} Rwf successfully !!! \n \n Your new balance is : {subprice} ','phone':f'25{customer.user.phone}'}
+        payload={'details':f' Dear {customer.FirstName},\n \nYou have paid {format(int(amount), ",.0f")} Rwf successfully !!! \n \n Your new balance is : {subprice} Rwf','phone':f'25{customer.user.phone}'}
         headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
