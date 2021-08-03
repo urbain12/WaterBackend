@@ -21,6 +21,8 @@
                                         <tr>
                                             <th class="text-left">ID</th>
                                             <th>Customer</th>
+                                            <th>Phone</th>
+                                            <th>Address</th>
                                             <th>Date Ordered</th>
                                             <th>Total</th>
                                             <th>Actions</th>
@@ -33,12 +35,16 @@
                                      {% for order in page_obj %}
                                     <tr>
                                             <td><a class="btn-link" href="#">{{order.id}}</a></td>
-                                            <td>{{order.customer.FirstName}} {{order.customer.LastName}}</td>
+                                            <td>{{order.shippingaddress.names}} </td>
+                                            <td>{{order.shippingaddress.phone}} </td>
+                                            <td>{{order.shippingaddress.address}} - {{order.shippingaddress.city}}</td>
                                             <td>{{order.date_ordered}}</td>
                                             <td>{{order.get_cart_total}} Rwf</td>
                                             
                                             <td>
+                                                <a href="{% url 'order_details' order.id%}">
                                                 <div class="btn btn-success">Details</div>
+                                                </a>
                                             </td>
                                             
                                         </tr>

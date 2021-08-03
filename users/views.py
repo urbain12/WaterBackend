@@ -589,6 +589,12 @@ def quotation(request,SubscriptionsID):
     subscription=Subscriptions.objects.get(id=SubscriptionsID)
     return render(request, 'quotation.html',{'sub_tools':sub_tools,'subscription':subscription})
 
+@login_required(login_url='/login')
+def order_details(request,orderID):
+    order_items = OrderItem.objects.filter(order=orderID)
+    order=Order.objects.get(id=orderID)
+    return render(request, 'order_details.html',{'order_items':order_items,'order':order})
+
 
 @login_required(login_url='/login')
 def instalment(request):

@@ -63,6 +63,7 @@ urlpatterns = [
     path('sendToken/<int:tokenID>/',sendToken,name='sendToken'),
     path('repliedmsg/<int:repliedID>/',repliedmsg,name='repliedmsg'),
     path('quotation/<int:SubscriptionsID>',quotation,name="quotation"),
+    path('order_details/<int:orderID>',order_details,name="order_details"),
     path('delete_product/<int:productID>',delete_product,name="delete_product"),
     path('updateProduct/<int:updateID>',updateProduct,name="updateProduct"),
     url(r'^export/csv/$',export_users_csv, name='export_users_csv'),
