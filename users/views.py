@@ -71,12 +71,8 @@ def Receipts(request):
 
 def sendToken(request,tokenID):
     waterreceipt=WaterBuyHistory.objects.get(id=tokenID)
-    alphabet = string.ascii_letters + string.digits
-    token = ''.join(secrets.choice(alphabet) for i in range(20))
-    waterreceipt.Token=token
-    waterreceipt.save()
     customer=Customer.objects.get(Meternumber=waterreceipt.Meternumber)
-    payload={'details':f' Dear {customer.FirstName},\n \n Your Token is : {token} ','phone':f'25{customer.user.phone}'}
+    payload={'details':f' Dear {customer.FirstName},\n \n Your Token is : {waterreceipt.Token} ','phone':f'25{customer.user.phone}'}
     headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
     r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
     return redirect('Receipts')
@@ -1211,6 +1207,7 @@ class CreateOrder(CreateAPIView):
         order.transaction_id = transaction_id
         order.complete=True
         order.save()
+        customer=Customer.objects.get(id=int(request.data['customerID']))
         for item in request.data['order']:
             print(item['id'])
             product = Product.objects.only('id').get(id=int(item['id']))
@@ -1226,6 +1223,14 @@ class CreateOrder(CreateAPIView):
             'message': 'Order created successfully!!!',
             'data': []
         }
+        ShippingAddress.objects.create(
+        order=order,
+        address=customer.District+" "+customer.Sector+" "+customer.Cell,
+        city=customer.Province,
+        names=customer.FirstName+" "+customer.LastName,
+        phone=customer.user.phone,
+        email=customer.user.email,
+        )
         return Response(response)
 
 def export_users_csv(request):

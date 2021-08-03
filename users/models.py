@@ -107,7 +107,7 @@ class Category(models.Model):
     
 
 class Subscriptions(models.Model):
-    CustomerID = models.ForeignKey('Customer',on_delete=models.SET_NULL,null=True,blank=True)
+    CustomerID = models.ForeignKey('Customer',on_delete=models.CASCADE,null=True,blank=True)
     Category = models.ForeignKey('Category',on_delete=models.SET_NULL,null=True,blank=True)
     From = models.DateTimeField(blank=True, null=True)
     To = models.DateTimeField(blank=True, null=True)
@@ -122,7 +122,7 @@ class Subscriptions(models.Model):
 
 
 class SubscriptionsPayment(models.Model):
-    SubscriptionsID = models.ForeignKey('Subscriptions',on_delete=models.SET_NULL,null=True,blank=True)
+    SubscriptionsID = models.ForeignKey('Subscriptions',on_delete=models.CASCADE,null=True,blank=True)
     Paidamount = models.CharField(max_length=255, null=True,blank=True)
     PaymentDate = models.DateField(blank=True, null=True)
 
