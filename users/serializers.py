@@ -14,6 +14,11 @@ class LanguageSerializer(serializers.ModelSerializer):
         model = Language
         fields = '__all__'
 
+class CustomerMeterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomerMeter
+        fields = '__all__'
+
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
