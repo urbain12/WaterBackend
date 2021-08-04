@@ -954,6 +954,7 @@ def GetCustomer(request,phone_number):
                 'id':customer.id,
                 'Meternumber':customer.Meternumber.Meternumber,
                 'phone':customer.user.phone,
+                'language':customer.Language,
                 'status':status.HTTP_200_OK,
             }
         else:
@@ -961,6 +962,7 @@ def GetCustomer(request,phone_number):
                 'id':customer.id,
                 'Meternumber':customer.Meternumber,
                 'phone':customer.user.phone,
+                'language':customer.Language,
                 'status':status.HTTP_200_OK,
                 
                 
