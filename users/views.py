@@ -57,6 +57,13 @@ def Viewblog(request):
     page_obj = paginator.get_page(page_number)
     return render(request, 'blogview.html', {'adminblog': adminblog, 'page_obj': page_obj})
 
+def imgbackgroundview(request):
+    imgview = background.objects.all()
+    paginator = Paginator(imgview, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'imagebackground.html', {'imgview': imgview, 'page_obj': page_obj})
+
 @login_required(login_url='/login')
 def Receipts(request):
     waterhistory = WaterBuyHistory.objects.all()
@@ -72,7 +79,12 @@ def Receipts(request):
 def sendToken(request,tokenID):
     waterreceipt=WaterBuyHistory.objects.get(id=tokenID)
     customer=Customer.objects.get(Meternumber=waterreceipt.Meternumber)
-    payload={'details':f' Dear {customer.FirstName},\n \n Your Token is : {waterreceipt.Token} ','phone':f'25{customer.user.phone}'}
+    if customer.Language == 'English':
+        payload={'details':f' Dear {customer.FirstName},\nYour Token is : {waterreceipt.Token} ','phone':f'25{customer.user.phone}'}
+    if customer.Language == 'Français':
+        payload={'details':f' Cher {customer.FirstName},\nVotre jeton est : {waterreceipt.Token} ','phone':f'25{customer.user.phone}'}
+    else:
+        payload={'details':f' Muraho {customer.FirstName},\nMwinjizemo imibare ikirukira muri konteri : {waterreceipt.Token} ','phone':f'25{customer.user.phone}'}
     headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
     r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
     return redirect('Receipts')
@@ -90,6 +102,33 @@ def addBlog(request):
     else:
         return render(request, 'addnewblog.html')
 
+@login_required(login_url='/login')
+def backgroundchange(request):
+    if request.method == 'POST':
+        addback = background()
+        addback.Image = request.FILES['images']
+        addback.save()
+
+        return redirect('imgbackgroundview')
+    else:
+        return render(request, 'changesbackground.html')
+    
+@login_required(login_url='/login')
+def updateimagebackground(request,imageID):
+    updatedimage = background.objects.get(id=imageID)
+    if request.method == 'POST':
+        if len(request.FILES) !=0:
+            if len(updatedimage.Image) > 0:
+                os.remove(updatedimage.Image.path)
+            updatedimage.Image = request.FILES['images']
+        updatedimage.save()
+        # Addproduct = True
+        messages.success(request, "Product updateupdatePrd successfuly")
+        return redirect('imgbackgroundview')
+    else:
+        return render(request, 'updateimagebackground.html',{'updatedimage':updatedimage})
+
+
 def contact_us(request):
     return render(request,'website/contact.html')
 
@@ -99,8 +138,25 @@ def shopping(request):
     cartItems = data['cartItems']
     order = data['order']
     items = data['items']
-    products=Product.objects.filter(inStock__gte=1)
+    products=Product.objects.filter(inStock__gte=1,Disable=False)
     return render(request,'website/shop.html',{'products':products,'cartItems':cartItems})
+
+@login_required(login_url='/login')
+def disable_product(request,DisabledID):
+    disableproduct = Product.objects.get(id=DisabledID)
+    disableproduct.Disable= True
+    disableproduct.save()
+    return redirect('products')
+
+@login_required(login_url='/login')
+def enable_product(request,enabledID):
+    enableproduct = Product.objects.get(id=enabledID)
+    enableproduct.Disable= False
+    enableproduct.save()
+    return redirect('products')
+
+
+
 
 def product(request,productID):
     data = cartData(request)
@@ -135,7 +191,7 @@ def updateProduct(request,updateID):
         Updateproduct.description = request.POST['description']
         Updateproduct.save()
         # Addproduct = True
-        messages.success(request, "Product updated successfuly")
+        messages.success(request, "Product updateupdatePrd successfuly")
         return redirect('products')
     else:
         return render(request, 'Updateproduct.html',{'Updateproduct':Updateproduct})
@@ -155,6 +211,9 @@ def single_blog(request,blogID):
 def success(request):
     return render(request,'website/success.html')
 
+def pleasewait(request):
+    return render(request,'website/waiting.html')
+
 def reply(request,requestID):
     if request.method == 'POST':
         req = Request.objects.only('id').get(
@@ -162,8 +221,12 @@ def reply(request,requestID):
         req.reply= request.POST['Msg']
         req.replied= True
         req.save()
-
-        payload={'details':f' Dear {req.Names},\n {req.reply} \n Please call us for any Problem through 0788333111 ','phone':f'25{req.phonenumber}'}
+        if req.Language == 'English':
+            payload={'details':f' Dear {req.Names},\n {req.reply} \nPlease call us for any Problem through 0788333111 ','phone':f'25{req.phonenumber}'}
+        if req.Language == 'Français':
+            payload={'details':f' Cher {req.Names},\n {req.reply} \nVeuillez nous appeler pour tout probleme via 0788333111 ','phone':f'25{req.phonenumber}'}
+        else:
+            payload={'details':f' Muraho {req.Names},\n {req.reply} \nMugize ikibazo mwaduhamagara kuri 0788333111 ','phone':f'25{req.phonenumber}'}
         headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
         return redirect('requestor')
@@ -173,7 +236,7 @@ def reply(request,requestID):
 
 def notify(request,subID):
     subscription=Subscriptions.objects.get(id=subID)
-    if subscription.Category.Title.upper() == 'AMAZI' :
+    if subscription.Category.Title.upper() == 'AMAZI'  :
         payload={'details':f' Dear {subscription.CustomerID.FirstName},\n \n It is time to change your filter ','phone':f'25{subscription.CustomerID.user.phone}'}
     if subscription.Category.Title.upper() == 'UHIRA' :
         payload={'details':f' Dear {subscription.CustomerID.FirstName},\n \n It is time to pay water ','phone':f'25{subscription.CustomerID.user.phone}'}
@@ -274,7 +337,7 @@ def operator(request):
                     phone=request.POST['phonenumber'],
                     password=password)
                 my_phone=request.POST['phonenumber']
-                payload={'details':f' Dear Client,\n You have been registered successfully \n Your credentials to login in mobile app are: \n Phone:{my_phone} \n password:{password} ','phone':f'25{my_phone}'}
+                payload={'details':f' Dear Client,\nYou have been registered successfully \n Your credentials to login in mobile app are: \n Phone:{my_phone} \n password:{password} ','phone':f'25{my_phone}'}
                 headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
                 r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)  
             return redirect('user')
@@ -413,6 +476,7 @@ def Addcustomers(request):
         Addcustomers.District = request.POST['District']
         Addcustomers.Sector = request.POST['Sector']
         Addcustomers.Cell = request.POST['Cell']
+        Addcustomers.Language = request.POST['Language']
         Addcustomers.Meternumber = meter
         Addcustomers.user = user
         Addcustomers.save()
@@ -729,7 +793,7 @@ def check_payment(transID,items,amount,email,address,city,names,phone):
         }
     t=threading.Timer(10.0, check_payment,[transID,items,amount,email,address,city,names,phone])
     t.start()
-    r=requests.get(f'http://localhost:5070/api/web/index.php?r=v1/app/get-transaction-status&transactionID={transID}',headers=headers,verify=False).json()
+    r=requests.get(f'http://kwetu.t3ch.rw:5070/api/web/index.php?r=v1/app/get-transaction-status&transactionID={transID}',headers=headers,verify=False).json()
     res=json.loads(r)
     print(res[0]['payment_status'])
     
@@ -745,7 +809,6 @@ def check_payment(transID,items,amount,email,address,city,names,phone):
         payload={'details':f' Dear {names},\n \n Your order of : {amount} have been completed ','phone':f'25{phone}'}
         headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
-
 
         for item in items:
             print(item)
@@ -767,6 +830,9 @@ def check_payment(transID,items,amount,email,address,city,names,phone):
         phone=phone,
         email=email,
         )
+        print("doneeee paid")
+
+
         
         
 
@@ -797,20 +863,26 @@ def pay(request):
             "amount" : int(request.POST['amount']),
             "payment_code" : "1010",
         }
+        
 
         print(payload)
         
 
         
-        r=requests.post('http://localhost:5070/api/web/index.php?r=v1/app/send-transaction',json=payload, headers=headers,verify=False).json()
+        r=requests.post('http://kwetu.t3ch.rw:5070/api/web/index.php?r=v1/app/send-transaction',json=payload, headers=headers,verify=False).json()
         res=json.loads(r)
         check_payment(res['transactionid'],items,amount,email,address,city,names,phone)
-        return redirect('index')
+        return redirect('success')
+
 
 # mobile
 class ProductListView(ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    
+class backgroundListView(ListAPIView):
+    queryset = background.objects.all()
+    serializer_class = backgroundSerializer
 
 
 

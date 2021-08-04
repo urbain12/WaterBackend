@@ -7,53 +7,57 @@ from django.http import request
 
 # Create your models here.
 
+
 class UserManager(BaseUserManager):
-    def create_user(self,email,phone=None,password=None,is_active=True,is_staff=False,is_admin=False):
+    def create_user(self, email, phone=None, password=None, is_active=True, is_staff=False, is_admin=False):
         if not email:
             raise ValueError('Users must have a valid email')
         if not phone:
             raise ValueError('Users must have a valid phone number')
         if not password:
             raise ValueError("You must enter a password")
-        
-        email=self.normalize_email(email)
-        user_obj=self.model(email=email)
+
+        email = self.normalize_email(email)
+        user_obj = self.model(email=email)
         user_obj.set_password(password)
-        user_obj.staff=is_staff
-        user_obj.phone=phone
-        user_obj.admin=is_admin
-        user_obj.active=is_active
+        user_obj.staff = is_staff
+        user_obj.phone = phone
+        user_obj.admin = is_admin
+        user_obj.active = is_active
         user_obj.save(using=self._db)
         return user_obj
 
-    def create_staffuser(self,email,phone=None,password=None):
-        user=self.create_user(email,phone=None,password=password,is_staff=True)
+    def create_staffuser(self, email, phone=None, password=None):
+        user = self.create_user(
+            email, phone=None, password=password, is_staff=True)
         return user
 
-    def create_superuser(self,email,phone=None,password=None):
-        user=self.create_user(email,phone='0787018287',password=password,is_staff=True,is_admin=True)
+    def create_superuser(self, email, phone=None, password=None):
+        user = self.create_user(email, phone='0787018287',
+                                password=password, is_staff=True, is_admin=True)
         return user
-        
+
 
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(max_length=255,unique=True)
-    phone = models.CharField(max_length=255,unique=True,null=True,blank=True)
-    active=models.BooleanField(default=True)
-    staff=models.BooleanField(default=False)
-    admin=models.BooleanField(default=False)
+    email = models.EmailField(max_length=255, unique=True)
+    phone = models.CharField(
+        max_length=255, unique=True, null=True, blank=True)
+    active = models.BooleanField(default=True)
+    staff = models.BooleanField(default=False)
+    admin = models.BooleanField(default=False)
 
-    objects= UserManager()
+    objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS=[]
+    REQUIRED_FIELDS = []
 
     def __str__(self):
         return self.email
 
-    def has_perm(self,perm,obj=None):
+    def has_perm(self, perm, obj=None):
         return True
 
-    def has_module_perms(self,app_label):
+    def has_module_perms(self, app_label):
         return True
 
     @property
@@ -68,106 +72,128 @@ class User(AbstractBaseUser, PermissionsMixin):
     def is_active(self):
         return self.active
 
+
 class Customer(models.Model):
-    user=models.OneToOneField('User',on_delete=models.CASCADE,null=True,blank=True)
-    FirstName = models.CharField(max_length=255,null=True,blank=True)
-    LastName = models.CharField(max_length=255,null=True,blank=True)
-    IDnumber = models.CharField(max_length=255, null=True,blank=True)
+    user = models.OneToOneField(
+        'User', on_delete=models.CASCADE, null=True, blank=True)
+    FirstName = models.CharField(max_length=255, null=True, blank=True)
+    LastName = models.CharField(max_length=255, null=True, blank=True)
+    IDnumber = models.CharField(max_length=255, null=True, blank=True)
     Province = models.CharField(max_length=255, null=True, blank=True)
     District = models.CharField(max_length=255, null=True, blank=True)
     Sector = models.CharField(max_length=255, null=True, blank=True)
     Cell = models.CharField(max_length=255, null=True, blank=True)
+    Language = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateField(auto_now_add=True)
-    Meternumber = models.OneToOneField('Meters',on_delete=models.SET_NULL,null=True,blank=True)
-
+    Meternumber = models.OneToOneField(
+        'Meters', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return self.FirstName +' '+ self.LastName+' '+ str(self.id)
+        return self.FirstName + ' ' + self.LastName+' ' + str(self.id)
+
 
 class Meters(models.Model):
     created_at = models.DateField(auto_now_add=True)
-    Meternumber = models.CharField(max_length=255, null=True,blank=True,unique=True)
+    Meternumber = models.CharField(
+        max_length=255, null=True, blank=True, unique=True)
 
     def __str__(self):
         return self.Meternumber
 
+
 class WaterBuyHistory(models.Model):
-    Amount = models.CharField(max_length=255, null=True,blank=True)
-    Meternumber = models.ForeignKey('Meters',on_delete=models.SET_NULL,null=True,blank=True)
-    Token = models.CharField(max_length=255, null=True,blank=True)
+    Amount = models.CharField(max_length=255, null=True, blank=True)
+    Meternumber = models.ForeignKey(
+        'Meters', on_delete=models.SET_NULL, null=True, blank=True)
+    Token = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateField(auto_now_add=True)
 
-    
+
 class Category(models.Model):
-    Title = models.CharField(max_length=255, null=True,blank=True)
-    Description = models.CharField(max_length=255, null=True,blank=True)
+    Title = models.CharField(max_length=255, null=True, blank=True)
+    Description = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.Title
-    
+
 
 class Subscriptions(models.Model):
-    CustomerID = models.ForeignKey('Customer',on_delete=models.CASCADE,null=True,blank=True)
-    Category = models.ForeignKey('Category',on_delete=models.SET_NULL,null=True,blank=True)
+    CustomerID = models.ForeignKey(
+        'Customer', on_delete=models.CASCADE, null=True, blank=True)
+    Category = models.ForeignKey(
+        'Category', on_delete=models.SET_NULL, null=True, blank=True)
     From = models.DateTimeField(blank=True, null=True)
     To = models.DateTimeField(blank=True, null=True)
-    TotalBalance = models.CharField(max_length=255, null=True,blank=True)
-    Extra = models.IntegerField(null=True,blank=True,default=0)
+    TotalBalance = models.CharField(max_length=255, null=True, blank=True)
+    Extra = models.IntegerField(null=True, blank=True, default=0)
     complete = models.BooleanField(default=False)
+
     @property
     def get_total_amount(self):
-        tools=self.subscriptionstools_set.all()
-        total= sum([tool.get_total for tool in tools])
+        tools = self.subscriptionstools_set.all()
+        total = sum([tool.get_total for tool in tools])
         return total
 
 
 class SubscriptionsPayment(models.Model):
-    SubscriptionsID = models.ForeignKey('Subscriptions',on_delete=models.CASCADE,null=True,blank=True)
-    Paidamount = models.CharField(max_length=255, null=True,blank=True)
+    SubscriptionsID = models.ForeignKey(
+        'Subscriptions', on_delete=models.CASCADE, null=True, blank=True)
+    Paidamount = models.CharField(max_length=255, null=True, blank=True)
     PaymentDate = models.DateField(blank=True, null=True)
 
+
 class ToolsCategory(models.Model):
-    Description = models.CharField(max_length=255, null=True,blank=True)
+    Description = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.Description
-    
+
 
 class Tools(models.Model):
-    Title = models.CharField(max_length=255, null=True,blank=True,unique=True)
-    Description = models.CharField(max_length=255, null=True,blank=True)
-    Amount = models.IntegerField(default=0, null=True,blank=True)
-    CategoryID = models.ForeignKey('ToolsCategory',on_delete=models.SET_NULL,null=True,blank=True)
+    Title = models.CharField(max_length=255, null=True,
+                             blank=True, unique=True)
+    Description = models.CharField(max_length=255, null=True, blank=True)
+    Amount = models.IntegerField(default=0, null=True, blank=True)
+    CategoryID = models.ForeignKey(
+        'ToolsCategory', on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateField(auto_now_add=True)
 
+
 class SubscriptionsTools(models.Model):
-    ToolID = models.ForeignKey('Tools',on_delete=models.SET_NULL,null=True,blank=True)
+    ToolID = models.ForeignKey(
+        'Tools', on_delete=models.SET_NULL, null=True, blank=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
-    SubscriptionsID = models.ForeignKey('Subscriptions',on_delete=models.CASCADE,null=True,blank=True)
+    SubscriptionsID = models.ForeignKey(
+        'Subscriptions', on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateField(auto_now_add=True)
 
     @property
     def get_total(self):
-        total=int(self.ToolID.Amount*self.quantity)
+        total = int(self.ToolID.Amount*self.quantity)
         return total
 
+
 class Language(models.Model):
-    Language = models.CharField(max_length=255, null=True,blank=True)
+    Language = models.CharField(max_length=255, null=True, blank=True)
+
 
 class Service(models.Model):
-    Title = models.CharField(max_length=255, null=True,blank=True)
-    Description = models.CharField(max_length=255, null=True,blank=True)
+    Title = models.CharField(max_length=255, null=True, blank=True)
+    Description = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateField(auto_now_add=True)
 
+
 class Request(models.Model):
-    Names = models.CharField(max_length=255, null=True,blank=True)
+    Names = models.CharField(max_length=255, null=True, blank=True)
     Message = models.TextField(blank=True, null=False)
-    phonenumber = models.CharField(max_length=255, null=True,blank=True)
-    reply=models.TextField(blank=True,null=True,default="Please wait for the response")
+    phonenumber = models.CharField(max_length=255, null=True, blank=True)
+    reply = models.TextField(blank=True, null=True,
+                             default="Please wait for the response")
     Province = models.CharField(max_length=255, null=True, blank=True)
     District = models.CharField(max_length=255, null=True, blank=True)
     Sector = models.CharField(max_length=255, null=True, blank=True)
     Cell = models.CharField(max_length=255, null=True, blank=True)
+    Language = models.CharField(max_length=255, null=True, blank=True)
     service = models.CharField(max_length=255, null=True, blank=True)
     replied = models.BooleanField(default=False)
     send_at = models.DateField(auto_now_add=True)
@@ -181,79 +207,87 @@ class Request(models.Model):
 #     replymsg=models.TextField(blank=True,null=True)
 
 class Product(models.Model):
-	name = models.CharField(max_length=200)
-	price = models.IntegerField(null=True,blank=True)
-	description = models.TextField(null=True,blank=True)
-	image = models.ImageField(null=True, blank=True)
-	inStock = models.IntegerField(null=True,blank=True)
+    name = models.CharField(max_length=200)
+    price = models.IntegerField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)
+    Disable = models.BooleanField(default=False)
+    inStock = models.IntegerField(null=True, blank=True)
 
-	def __str__(self):
-		return self.name
+    def __str__(self):
+        return self.name
 
-	@property
-	def imageURL(self):
-		try:
-			url = self.image.url
-		except:
-			url = ''
-		return url
+    @property
+    def imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
+
 
 class Order(models.Model):
-	date_ordered = models.DateTimeField(auto_now_add=True)
-	complete = models.BooleanField(default=False)
-	transaction_id = models.CharField(max_length=100, null=True)
+    date_ordered = models.DateTimeField(auto_now_add=True)
+    complete = models.BooleanField(default=False)
+    transaction_id = models.CharField(max_length=100, null=True)
 
-	def __str__(self):
-		return str(self.id)
-		
-	
-	@property
-	def get_cart_total(self):
-		orderitems = self.orderitem_set.all()
-		total = sum([item.get_total for item in orderitems])
-		return total 
+    def __str__(self):
+        return str(self.id)
 
-	@property
-	def get_cart_items(self):
-		orderitems = self.orderitem_set.all()
-		total = sum([item.quantity for item in orderitems])
-		return total 
+    @property
+    def get_cart_total(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.get_total for item in orderitems])
+        return total
+
+    @property
+    def get_cart_items(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.quantity for item in orderitems])
+        return total
+
 
 class OrderItem(models.Model):
-	product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
-	order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
-	quantity = models.IntegerField(default=0, null=True, blank=True)
-	date_added = models.DateTimeField(auto_now_add=True)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
+    quantity = models.IntegerField(default=0, null=True, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
 
-	@property
-	def get_total(self):
-		total = self.product.price * self.quantity
-		return total
+    @property
+    def get_total(self):
+        total = self.product.price * self.quantity
+        return total
+
 
 class ShippingAddress(models.Model):
-	order = models.OneToOneField(Order, on_delete=models.CASCADE, null=True)
-	address = models.CharField(max_length=200, null=True)
-	city = models.CharField(max_length=200, null=True)
-	email = models.CharField(max_length=200, null=True)
-	names = models.CharField(max_length=200, null=True)
-	phone = models.CharField(max_length=200, null=True)
-	date_added = models.DateTimeField(auto_now_add=True)
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, null=True)
+    address = models.CharField(max_length=200, null=True)
+    city = models.CharField(max_length=200, null=True)
+    email = models.CharField(max_length=200, null=True)
+    names = models.CharField(max_length=200, null=True)
+    phone = models.CharField(max_length=200, null=True)
+    date_added = models.DateTimeField(auto_now_add=True)
 
-	def __str__(self):
-		return self.address
+    def __str__(self):
+        return self.address
+
 
 class Blog(models.Model):
     Title = models.CharField(max_length=200, null=False)
     Details = models.TextField(blank=True, null=False)
-    Image = models.ImageField(null=True,blank=True)
+    Image = models.ImageField(null=True, blank=True)
     Published_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.Title
 
+
 class notification(models.Model):
-    Message=models.CharField(max_length=200)
+    Message = models.CharField(max_length=200)
 
     def __str__(self):
         return self.Message
-    
+
+
+class background(models.Model):
+    Image = models.ImageField(null=True, blank=True)

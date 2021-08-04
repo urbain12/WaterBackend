@@ -1,0 +1,50 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+
+ <div id="page-content">
+                    
+					<div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Update Image background</h3>
+                                </div>
+                    
+                                <!--Block Styled Form -->
+                                <!--===================================================-->
+                                <form enctype="multipart/form-data" action="{% url 'updateimagebackground'  updatedimage.id %}" method="POST">
+                                {% csrf_token %}
+                                    <div class="panel-body">
+                                        
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                {% if  updatedimage.Image %}
+                                                  <img src="{{updatedimage.Image.url}}" height=80 width=80/>
+                                                {% endif %}
+                                                <br>
+                                                    <label class="control-label">Background Image</label>
+                                                    <input type="file" class="form-control" name="images">  
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="panel-footer text-right">
+                                        <button class="btn btn-block btn-success" type="submit">Submit</button>
+                                    </div>
+                                </form>
+                                <!--===================================================-->
+                                <!--End Block Styled Form -->
+                    
+                            </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+
+{% endblock content%}

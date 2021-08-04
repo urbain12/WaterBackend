@@ -10,6 +10,9 @@ urlpatterns = [
     path('blog/',blog,name='blog'),
     path('Viewblog/',Viewblog,name='Viewblog'),
     path('addBlog/',addBlog,name='addBlog'),
+    path('imgbackgroundview/',imgbackgroundview,name='imgbackgroundview'),
+    path('backgroundchange/',backgroundchange,name='backgroundchange'),
+    path('updateimagebackground/<int:imageID>',updateimagebackground,name="updateimagebackground"),
     path('contact_us/',contact_us,name='contact_us'),
     path('shopping/',shopping,name='shopping'),
     path('product/<int:productID>/',product,name='product'),
@@ -26,6 +29,7 @@ urlpatterns = [
     path('user/',user,name='user'),
     path('login/',login,name='login'),
     path('success/',success,name='success'),
+    path('pleasewait/',pleasewait,name='pleasewait'),
     path('customer_login/',csrf_exempt(customer_login),name='customer_login'),
     path('logout/',logout,name='logout'),
     path('customers/',customers,name='customers'),
@@ -65,6 +69,8 @@ urlpatterns = [
     path('quotation/<int:SubscriptionsID>',quotation,name="quotation"),
     path('order_details/<int:orderID>',order_details,name="order_details"),
     path('delete_product/<int:productID>',delete_product,name="delete_product"),
+    path('disable_product/<int:DisabledID>',disable_product,name="disable_product"),
+    path('enable_product/<int:enabledID>',enable_product,name="enable_product"),
     path('updateProduct/<int:updateID>',updateProduct,name="updateProduct"),
     url(r'^export/csv/$',export_users_csv, name='export_users_csv'),
 
@@ -74,6 +80,7 @@ urlpatterns = [
     
     #MOBILE
     path('Productlist/',ProductListView.as_view()),
+    path('backgroundlist/',backgroundListView.as_view()),
     path('api/change-password/', ChangePasswordView.as_view()),
 
 

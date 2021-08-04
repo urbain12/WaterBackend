@@ -95,7 +95,7 @@ def check_transaction(trans_id,meter_number,amount):
     }
     t=threading.Timer(10.0, check_transaction,[trans_id,meter_number,amount])
     t.start()
-    r=requests.get(f'http://localhost:5070/api/web/index.php?r=v1/app/get-transaction-status&transactionID={trans_id}',headers=headers,verify=False).json()
+    r=requests.get(f'http://kwetu.t3ch.rw:5070/api/web/index.php?r=v1/app/get-transaction-status&transactionID={trans_id}',headers=headers,verify=False).json()
     res=json.loads(r)
     print(res[0]['payment_status'])
     
@@ -110,7 +110,12 @@ def check_transaction(trans_id,meter_number,amount):
         buy.Meternumber=meter
         buy.save()
         customer=Customer.objects.get(Meternumber=meter.id)
-        payload={'details':f' Dear {customer.FirstName},\n \nYour Payment of {format(int(amount), ",.0f")} Rwf  have been successfully received!!! \n \n Your Token is : {token} ','phone':f'25{customer.user.phone}'}
+        if customer.Language == 'English':
+            payload={'details':f' Dear {customer.FirstName},\nYour Payment of {format(int(amount), ",.0f")} Rwf  have been successfully received!!! \nYour Token is : {token} ','phone':f'25{customer.user.phone}'}
+        if customer.Language == 'Français':
+            payload={'details':f' Cher {customer.FirstName},\nVotre paiement de {format(int(amount), ",.0f")} Rwf a ete recu avec succes!!! \nVotre jeton est : {token} ','phone':f'25{customer.user.phone}'}
+        else:
+            payload={'details':f' Muraho {customer.FirstName},\nWishyuye {format(int(amount), ",.0f")} Rwf byagenze!!! \nMwinjizemo imibare ikirukira muri konteri : {token} ','phone':f'25{customer.user.phone}'}
         headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
 
@@ -150,6 +155,11 @@ def check_instalment(trans_id,meter_number,amount,customer_id):
         payment.PaymentDate=today
         payment.save()
         customer=Customer.objects.get(id=customer_id)
-        payload={'details':f' Dear {customer.FirstName},\n \nYou have paid {format(int(amount), ",.0f")} Rwf successfully !!! \n \n Your new balance is : {subprice} Rwf','phone':f'25{customer.user.phone}'}
+        if customer.Language == 'English':
+            payload={'details':f' Dear {customer.FirstName},\nYou have paid {format(int(amount), ",.0f")} Rwf successfully !!! \nYour new balance is : {subprice} Rwf','phone':f'25{customer.user.phone}'}
+        if customer.Language == 'Français':
+            payload={'details':f' Cher {customer.FirstName},\nVous avez paye {format(int(amount), ",.0f")} Rwf avec succes !!! \nVotre nouveau solde est : {subprice} Rwf','phone':f'25{customer.user.phone}'}
+        else:
+            payload={'details':f' Muraho {customer.FirstName},\nMumaze kwishyura {format(int(amount), ",.0f")} Rwf byagenze neza !!! \nMusigaje kwishyura : {subprice} Rwf','phone':f'25{customer.user.phone}'}
         headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)

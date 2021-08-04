@@ -433,6 +433,17 @@
                                         </a>
                                     </li>
 
+                                    {% url 'imgbackgroundview' as imgview %}
+                                    <li {% if request.path == imgview  %} class="active-sub"{% endif %}>
+                                        <a href="{% url 'imgbackgroundview' %}">
+                                            <i class="fa fa-mobile"></i>
+                                            <span class="menu-title">
+                                                <strong>Image background</strong>
+                                                
+                                            </span>
+                                        </a>
+                                    </li>
+
                                     {% url 'user' as users %}
                                     <li {% if request.path == users %} class="active-sub"{% endif %}>
                                         <a href="{% url 'user' %}">

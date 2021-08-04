@@ -1,12 +1,13 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block content%}
+{% load humanize %}
 
  <div id="page-content">
                     
 					<div class="panel">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Products</h3>
+                            <h3 class="panel-title">Mobile Background</h3>
                         </div>
                     
                         <!--Data Table-->
@@ -16,15 +17,10 @@
                                 <div class="row">
                                     
                                     <div class="col-sm-12 table-toolbar-right">
-                                        <a href="{% url 'AddProduct' %}" id="demo-btn-addrow" class="btn btn-purple"><i class="demo-pli-add"></i> Add new</a>
+                                    <a href="{% url 'backgroundchange' %}" id="demo-btn-addrow" class="btn btn-purple"><i class="demo-pli-add"></i> Add new</a>
 
                                         <div class="btn-group">
-                                            <div class="form-group">
-                                        <form class="form-inline my-2 my-lg-0" action="{% url 'customers'%}">
-                                        <input id="demo-input-search2" type="text" name="search" placeholder="Search by name" class="form-control" autocomplete="off">
-                                        <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></buttn>
-                                        </form>
-                                        </div>
+                                            
                                    
                                             
                                         </div>
@@ -36,47 +32,29 @@
                                     <thead>
                                         <tr>
                                             <th class="text-left">ID</th>
-                                            <th>Image</th>
-                                            <th>Name</th>
-                                            <th>Price</th>
-                                            <th>InStock</th>
-                                            <th>Actions</th>
+                                            <th>Images</th>
+                                            <th>Action</th>
+                                           
+                                            
                                             
                                             
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for product in page_obj %}
+                                    {% for imgview in page_obj %}
                                     <tr>
-                                            <td><a class="btn-link" href="#">{{product.id}}</a></td>
+                                            <td><a class="btn-link" href="#">{{imgview.id}}</a></td>
+                                            <td> <img src="{{imgview.Image.url}}" alt="" style="height:80px;widht:80px"></td>
                                             <td>
-                                                <img src="{{product.imageURL}}" height=50 width=50/>
-                                            </td>
-                                            <td>{{product.name}}</td>
-                                            <td>{{product.price}} Rwf</td>
-                                            <td>{{product.inStock}}</td>
                                             
-                                            <td>
-                                            {% if  product.Disable %}
-                                                <a onclick="return confirm('Are you sure you want to enable this?')" href="{% url 'enable_product' product.id %}">
-                                                <button class="btn btn-success">Enable</button>
-                                                </a>
-                                            {% else %}
-                                                <a onclick="return confirm('Are you sure you want to disable this?')" href="{% url 'disable_product' product.id %}">
-                                                <button class="btn btn-warning">Disable</button>
-                                                </a>
-                                            {% endif %}
-                                                <a href="{% url 'updateProduct' product.id %}">
+                                                <a href="{% url 'updateimagebackground' imgview.id %}">
                                                 <button class="btn btn-primary">Update</button>
                                                 </a>
-                                                <a onclick="return confirm('Are you sure you want to delete this?')" href="{% url 'delete_product' product.id %}">
-                                                <button class="btn btn-danger">Delete</button>
-                                                </a>
+                                                
                                             </td>
-                                            
                                         </tr>
 
-                                    {% endfor %} 
+                                    {% endfor %}
                                         
                                     
                                         </tbody>
