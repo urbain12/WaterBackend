@@ -954,16 +954,21 @@ def GetCustomer(request,phone_number):
                 'id':customer.id,
                 'Meternumber':customer.Meternumber.Meternumber,
                 'phone':customer.user.phone,
+                'status':status.HTTP_200_OK,
             }
         else:
             data={
                 'id':customer.id,
                 'Meternumber':customer.Meternumber,
                 'phone':customer.user.phone,
+                'status':status.HTTP_200_OK,
+                
+                
             }
     else:
         data={
-            'data':'Not registered!'
+            'data':'Not registered!',
+            'status':status.HTTP_400_BAD_REQUEST
         }
     dump=json.dumps(data)
     return HttpResponse(dump,content_type='application/json')
