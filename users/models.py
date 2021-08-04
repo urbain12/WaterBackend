@@ -299,3 +299,6 @@ class notification(models.Model):
 
 class background(models.Model):
     Image = models.ImageField(null=True, blank=True)
+    
+    def __str__(self):
+        return self.Image.url
