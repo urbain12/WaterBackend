@@ -88,13 +88,15 @@ urlpatterns = [
 
     path('Language/',LanguageListView.as_view()),
     path('Language/create/',LanguageCreateView.as_view()),
+    path('customer_meter/create/',CustomerMeterCreateView.as_view()),
     path('UpdateLanguage/<id>/', LanguageUpdateView.as_view()),
     path('DeleteLanguage/<id>/', LanguageDeleteView.as_view()),
 
-    path('get_customer/<str:phone_number>/',GetCustomer.as_view(),name="get_customer"),
+    path('get_customer/<str:phone_number>/',GetCustomer,name="get_customer"),
     path('get_balance/<str:phone_number>/',get_balance,name="get_balance"),
     path('getcustomerbyid/<int:user_id>/',GetCustomerbyId.as_view()),
     path('getcustomerbymeters/<str:meter_number>/',GetCustomerbymeter.as_view(), name="getcustomerbymeters"),
+    path('get_meters/<str:phone_number>/',GetCustomerMetersList.as_view(), name="get_meters"),
     path('get_category/<int:user_id>/',get_category,name="get_category"),
 
 

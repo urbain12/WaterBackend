@@ -943,11 +943,40 @@ class CustomerListView(ListAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
-class GetCustomer(ListAPIView):
-    serializer_class = CustomerSerializer
+def GetCustomer(request,phone_number):
+    user=User.objects.filter(phone=phone_number).exists()
+    print(user)
+    if user:
+        my_user=User.objects.get(phone=phone_number)
+        customer=Customer.objects.get(user=my_user.id)
+        if customer.Meternumber:
+            data={
+                'id':customer.id,
+                'Meternumber':customer.Meternumber.Meternumber,
+                'phone':customer.user.phone,
+            }
+        else:
+            data={
+                'id':customer.id,
+                'Meternumber':customer.Meternumber,
+                'phone':customer.user.phone,
+            }
+    else:
+        data={
+            'data':'Not registered!'
+        }
+    dump=json.dumps(data)
+    return HttpResponse(dump,content_type='application/json')
+
+class GetCustomerMetersList(ListAPIView):
+    serializer_class = CustomerMeterSerializer
     def get_queryset(self):
-        user=User.objects.get(phone=self.kwargs['phone_number'])
-        return Customer.objects.filter(user=user.id)
+        return CustomerMeter.objects.filter(customer_phone=self.kwargs['phone_number'])
+
+class CustomerMeterCreateView(CreateAPIView):
+    queryset = CustomerMeter.objects.all()
+    serializer_class = CustomerMeterSerializer
+
 
 class GetCustomerbyId(ListAPIView):
     serializer_class = CustomerSerializer

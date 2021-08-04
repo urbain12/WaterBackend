@@ -101,6 +101,14 @@ class Meters(models.Model):
         return self.Meternumber
 
 
+class CustomerMeter(models.Model):
+    customer_phone = models.CharField(max_length=255, null=True,blank=True)
+    meter = models.CharField(max_length=255, null=True,blank=True)
+    last_update = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.customer
+
 class WaterBuyHistory(models.Model):
     Amount = models.CharField(max_length=255, null=True, blank=True)
     Meternumber = models.ForeignKey(
