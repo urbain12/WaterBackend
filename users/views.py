@@ -81,10 +81,8 @@ def sendToken(request,tokenID):
     customer=Customer.objects.get(Meternumber=waterreceipt.Meternumber)
     if customer.Language == 'English':
         payload={'details':f' Dear {customer.FirstName},\nYour Token is : {waterreceipt.Token} ','phone':f'25{customer.user.phone}'}
-    if customer.Language == 'Français':
-        payload={'details':f' Cher {customer.FirstName},\nVotre jeton est : {waterreceipt.Token} ','phone':f'25{customer.user.phone}'}
-    else:
-        payload={'details':f' Muraho {customer.FirstName},\nMwinjizemo imibare ikirukira muri konteri : {waterreceipt.Token} ','phone':f'25{customer.user.phone}'}
+    if customer.Language == 'Kinyarwanda':
+        payload={'details':f' Mukiriya wacu {customer.FirstName},\nToken yanyu ni: {waterreceipt.Token} ','phone':f'25{customer.user.phone}'}
     headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
     r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
     return redirect('Receipts')
@@ -223,10 +221,8 @@ def reply(request,requestID):
         req.save()
         if req.Language == 'English':
             payload={'details':f' Dear {req.Names},\n {req.reply} \nPlease call us for any Problem through 0788333111 ','phone':f'25{req.phonenumber}'}
-        if req.Language == 'Français':
-            payload={'details':f' Cher {req.Names},\n {req.reply} \nVeuillez nous appeler pour tout probleme via 0788333111 ','phone':f'25{req.phonenumber}'}
-        else:
-            payload={'details':f' Muraho {req.Names},\n {req.reply} \nMugize ikibazo mwaduhamagara kuri 0788333111 ','phone':f'25{req.phonenumber}'}
+        if req.Language == 'Kinyarwanda':
+            payload={'details':f' Mukiriya wacu {req.Names},\n {req.reply} \nMugize ikibazo mwaduhamagara kuri 0788333111 ','phone':f'25{req.phonenumber}'}
         headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
         return redirect('requestor')
@@ -806,7 +802,7 @@ def check_payment(transID,items,amount,email,address,city,names,phone):
         order.transaction_id=transaction_id
         order.complete=True
         order.save()
-        payload={'details':f' Dear {names},\n \n Your order of : {amount} have been completed ','phone':f'25{phone}'}
+        payload={'details':f' Dear {names},\n \n Your order of : {amount} have been completed\n we will contact you later ','phone':f'25{phone}'}
         headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
 
@@ -943,37 +939,7 @@ class CustomerListView(ListAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
-def GetCustomer(request,phone_number):
-    user=User.objects.filter(phone=phone_number).exists()
-    print(user)
-    if user:
-        my_user=User.objects.get(phone=phone_number)
-        customer=Customer.objects.get(user=my_user.id)
-        if customer.Meternumber:
-            data={
-                'id':customer.id,
-                'Meternumber':customer.Meternumber.Meternumber,
-                'phone':customer.user.phone,
-                'language':customer.Language,
-                'status':status.HTTP_200_OK,
-            }
-        else:
-            data={
-                'id':customer.id,
-                'Meternumber':customer.Meternumber,
-                'phone':customer.user.phone,
-                'language':customer.Language,
-                'status':status.HTTP_200_OK,
-                
-                
-            }
-    else:
-        data={
-            'data':'Not registered!',
-            'status':status.HTTP_400_BAD_REQUEST
-        }
-    dump=json.dumps(data)
-    return HttpResponse(dump,content_type='application/json')
+
 
 class GetCustomerMetersList(ListAPIView):
     serializer_class = CustomerMeterSerializer
@@ -1258,13 +1224,61 @@ def pay_Water(request):
         dump = json.dumps(data)
         return HttpResponse(dump, content_type='application/json')
 
+def GetCustomer(request,phone_number):
+    user=User.objects.filter(phone=phone_number).exists()
+    print(user)
+    if user:
+        my_user=User.objects.get(phone=phone_number)
+        customer=Customer.objects.get(user=my_user.id)
+        if customer.Meternumber:
+            data={
+                'id':customer.id,
+                'Meternumber':customer.Meternumber.Meternumber,
+                'phone':customer.user.phone,
+                'language':customer.Language,
+                'status':status.HTTP_200_OK,
+            }
+        else:
+            data={
+                'id':customer.id,
+                'Meternumber':customer.Meternumber,
+                'phone':customer.user.phone,
+                'language':customer.Language,
+                'status':status.HTTP_200_OK,
+                
+                
+            }
+    else:
+        data={
+            'data':'Not registered!',
+            'status':status.HTTP_400_BAD_REQUEST
+        }
+    dump=json.dumps(data)
+    return HttpResponse(dump,content_type='application/json')
+
 def get_balance(request,phone_number):
-    user=User.objects.get(phone=phone_number)
-    customer=Customer.objects.get(user=user.id)
-    subscription=Subscriptions.objects.get(CustomerID=customer.id)
-    data={
-        'balance':subscription.TotalBalance
-    }
+    user=User.objects.filter(phone=phone_number).exists()
+    if user:
+        users =User.objects.get(phone=phone_number)
+        customer=Customer.objects.get(user=users.id)
+        subscription=Subscriptions.objects.get(CustomerID=customer.id)
+        if subscription.CustomerID:
+            data={
+                'balance':subscription.TotalBalance,
+                'status':status.HTTP_200_OK,
+                
+            }
+        else:
+            data={
+                'balance':subscription.TotalBalance,
+                'status':status.HTTP_200_OK,
+                
+            }
+    else:
+        data={
+            'data':'Phone is not registered!',
+            'status':status.HTTP_400_BAD_REQUEST
+        }
     dump=json.dumps(data)
     return HttpResponse(dump,content_type='application/json')
 
