@@ -147,6 +147,8 @@ class SubscriptionsPayment(models.Model):
     SubscriptionsID = models.ForeignKey(
         'Subscriptions', on_delete=models.CASCADE, null=True, blank=True)
     Paidamount = models.CharField(max_length=255, null=True, blank=True)
+    Paid = models.BooleanField(default=False)
+    PaidMonth = models.DateField(blank=True, null=True)
     PaymentDate = models.DateField(blank=True, null=True)
 
 

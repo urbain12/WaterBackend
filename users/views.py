@@ -4,6 +4,8 @@ from .models import *
 import requests
 import secrets
 import threading
+import math
+from dateutil.relativedelta import *
 import string
 import random
 import ast
@@ -588,6 +590,12 @@ def confirm(request,subID):
     subscription.complete=True
     subscription.TotalBalance=subscription.get_total_amount
     subscription.save()
+    for i in range(0,12):
+        payment=SubscriptionsPayment()
+        payment.SubscriptionsID=subscription
+        payment.PaidMonth=subscription.From.date()+relativedelta(months=+i)
+        payment.Paidamount=math.ceil(subscription.get_total_amount/12)
+        payment.save()
     return redirect('Subscriptions')
 
 @login_required(login_url='/login')
