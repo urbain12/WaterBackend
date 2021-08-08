@@ -242,11 +242,11 @@ def notify(request,subID):
     r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
     return redirect('Subscriptions')
 
-def repliedmsg(request,repliedID):
-    repliedmsg = Reply.objects.filter(requestid=repliedID)
-    name=repliedmsg[0].requestid.Names
-    number=repliedmsg[0].requestid.phonenumber
-    return render(request,'replied.html',{'repliedmsg': repliedmsg,'name':name,'number':number})
+# def repliedmsg(request,repliedID):
+#     repliedmsg = Reply.objects.filter(requestid=repliedID)
+#     name=repliedmsg[0].requestid.Names
+#     number=repliedmsg[0].requestid.phonenumber
+#     return render(request,'replied.html',{'repliedmsg': repliedmsg,'name':name,'number':number})
 
 # backend
 @login_required(login_url='/login')
@@ -752,29 +752,29 @@ def updateItem2(request):
 
     return JsonResponse('Item was added', safe=False)
 
-def processOrder(request):
-    transaction_id = datetime.datetime.now().timestamp()
+# def processOrder(request):
+#     transaction_id = datetime.datetime.now().timestamp()
 
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+#     order, created = Order.objects.get_or_create(customer=customer, complete=False)
     
 
-    total = float(data['form']['total'])
-    order.transaction_id = transaction_id
+#     total = float(data['form']['total'])
+#     order.transaction_id = transaction_id
 
-    if total == order.get_cart_total:
-        order.complete = True
-    order.save()
+#     if total == order.get_cart_total:
+#         order.complete = True
+#     order.save()
 
-    ShippingAddress.objects.create(
-    customer=customer,
-    order=order,
-    address=data['shipping']['address'],
-    city=data['shipping']['city'],
-    state=data['shipping']['state'],
-    zipcode=data['shipping']['zipcode'],
-    )
+#     ShippingAddress.objects.create(
+#     customer=customer,
+#     order=order,
+#     address=data['shipping']['address'],
+#     city=data['shipping']['city'],
+#     state=data['shipping']['state'],
+#     zipcode=data['shipping']['zipcode'],
+#     )
 
-    return JsonResponse('Payment submitted..', safe=False)
+#     return JsonResponse('Payment submitted..', safe=False)
 
 
 @login_required(login_url='/login')
