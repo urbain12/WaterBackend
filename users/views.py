@@ -954,9 +954,37 @@ class GetCustomerMetersList(ListAPIView):
     def get_queryset(self):
         return CustomerMeter.objects.filter(customer_phone=self.kwargs['phone_number'])
 
-class CustomerMeterCreateView(CreateAPIView):
-    queryset = CustomerMeter.objects.all()
-    serializer_class = CustomerMeterSerializer
+# class CustomerMeterCreateView(CreateAPIView):
+#     queryset = CustomerMeter.objects.all()
+#     serializer_class = CustomerMeterSerializer
+
+def CustomerMeterCreateView(request):
+    if request.method=='POST':
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        print(body)
+        alreadyExist=CustomerMeter.objects.filter(customer_phone=body['customer_phone'],meter=body['meter']).exists()
+        if alreadyExist:
+            _customer=CustomerMeter.objects.filter(customer_phone=body['customer_phone'],meter=body['meter'])
+            _customer[0].last_update=datetime.now()
+            _customer[0].save()
+            data = {
+            'message':'Meter updated',
+            'exist':True,
+            }
+        else:
+            customer_meter=CustomerMeter()
+            customer_meter.customer_phone=body['customer_phone']
+            customer_meter.meter=body['meter']
+            customer_meter.save()
+            data={
+                'message':'Meter created',
+                'exist':False
+            }
+
+        
+        dump = json.dumps(data)
+        return HttpResponse(dump, content_type='application/json')
 
 
 class GetCustomerbyId(ListAPIView):
