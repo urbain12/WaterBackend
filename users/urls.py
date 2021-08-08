@@ -88,7 +88,7 @@ urlpatterns = [
 
     path('Language/',LanguageListView.as_view()),
     path('Language/create/',LanguageCreateView.as_view()),
-    path('customer_meter/create/',CustomerMeterCreateView.as_view()),
+    path('customer_meter/create/',csrf_exempt(CustomerMeterCreateView),name='customer_meter'),
     path('UpdateLanguage/<id>/', LanguageUpdateView.as_view()),
     path('DeleteLanguage/<id>/', LanguageDeleteView.as_view()),
 
