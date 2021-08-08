@@ -13,7 +13,7 @@
 				<br>
 				<table class="table">
 					<tr>
-						<th><h5>Total:<strong> Rwf {{subscription.get_total_amount|intcomma}}</strong></h5></th>
+						<th><h5>Total:<strong> {{subscription.get_total_amount|intcomma}} Rwf</strong></h5></th>
 						<th>
 							<a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'confirm' subscription.id %}">confirm</a>
 							<a  style="float:right; margin:5px;" class="btn btn-danger" href="{% url 'cancel' subscription.id %}">cancel</a>
@@ -36,7 +36,7 @@
 				<div class="cart-row">
 					<div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"></div>
 					<div style="flex:2"><p>{{item.ToolID.Title}}</p></div>
-					<div style="flex:1"><p>Rwf {{item.ToolID.Amount|intcomma}}</p></div>
+					<div style="flex:1"><p>{{item.ToolID.Amount|intcomma}} Rwf </p></div>
 					<div style="flex:1">
 						<p class="quantity">{{item.quantity}}</p>
 						<div class="quantity">
@@ -45,7 +45,7 @@
 							<img data-product="{{item.id}}" data-action="remove" class="chg-quantity update-cart" src="{% static  'img/arrow-down.png' %}">
 						</div>
 					</div>
-					<div style="flex:1"><p>${{item.get_total|intcomma}}</p></div>
+					<div style="flex:1"><p>{{item.get_total|intcomma}} Rwf</p></div>
 				</div>
 				{% endfor %}
 			</div>
