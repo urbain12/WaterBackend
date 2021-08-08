@@ -107,7 +107,7 @@ class CustomerMeter(models.Model):
     last_update = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.customer
+        return self.customer_phone
 
 class WaterBuyHistory(models.Model):
     Amount = models.CharField(max_length=255, null=True, blank=True)

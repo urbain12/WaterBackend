@@ -52,19 +52,24 @@
                                     </thead>
                                     <tbody>
                                     {% for sub in subscriptions %}
-                                    {% widthratio sub.get_total_amount 12 1 as MonthlyPayment %}
+                                    {% with payment=sub.get_total_amount|div:12 %}
                                     <tr>
                                             <td>{{sub.CustomerID.FirstName}} {{sub.CustomerID.LastName}}</td>
                                             <td>{{sub.From}}</td>
                                             <td>{{sub.Category.Title}}</td>
                                             <td>{{sub.get_total_amount|intcomma}} Rwf</td>
-                                            <td> {{ MonthlyPayment|intcomma }} Rwf</td>                                           
+                                            {% if sub.get_total_amount|divisibleby:12%}
+                                            <td> {{ payment|intcomma }} Rwf</td>                                           
+                                            {% else %}
+                                            <td> {{ payment|add:1|intcomma }} Rwf</td>                                           
+                                            {% endif %}
                                             <td>{{sub.TotalBalance|intcomma }} Rwf</td>
                                             <td>{{sub.get_total_amount| sub:sub.TotalBalance }}</td>
                                             <td>0</td>
                                             <td>{{sub.To}}</td>
                                             <td>0</td>
                                     </tr>
+                                    {% endwith %}
                                     {% endfor %}
                                     
                                 
