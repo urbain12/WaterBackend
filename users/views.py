@@ -258,7 +258,7 @@ def dashboard(request):
 
     daily=len(Subscriptions.objects.filter(From__date=d.date() ,complete=True ))
     daily_subscriptions=Subscriptions.objects.filter(From__date=d.date() ,complete=True)
-    paymentsdaily=SubscriptionsPayment.objects.filter(PaymentDate=d.date())
+    paymentsdaily=SubscriptionsPayment.objects.filter(PaymentDate=d.date(),Paid=True)
 
     amount_invoiceddaily=sum([int(sub.get_total_amount) for sub in daily_subscriptions])
     amount_paiddaily=sum([int(payment.Paidamount) for payment in paymentsdaily])
@@ -270,13 +270,13 @@ def dashboard(request):
     subscriptions=len(Subscriptions.objects.filter(complete=True))
     my_subscriptions=Subscriptions.objects.filter(complete=True)
     amount_invoiced=sum([int(sub.get_total_amount) for sub in my_subscriptions])
-    payments=SubscriptionsPayment.objects.all()
+    payments=SubscriptionsPayment.objects.filter(Paid=True)
     amount_paid=sum([int(payment.Paidamount) for payment in payments])
     amount_outstanding=amount_invoiced-amount_paid
 
     weekly=len(Subscriptions.objects.filter(From__range=[start_week.date(), end_week.date()] ,complete=True ))
     weekly_subscriptions=Subscriptions.objects.filter(From__date=d.date() ,complete=True)
-    paymentsweekly=SubscriptionsPayment.objects.filter(PaymentDate=d.date())
+    paymentsweekly=SubscriptionsPayment.objects.filter(PaymentDate=d.date(),Paid=True)
 
     amount_invoicedweekly=sum([int(sub.get_total_amount) for sub in weekly_subscriptions])
     amount_paidweekly=sum([int(payment.Paidamount) for payment in paymentsweekly])
@@ -1178,7 +1178,7 @@ class SubscriptionsPaymentListView(ListAPIView):
     def get_queryset(self):
         customer=Customer.objects.get(user=self.kwargs['user_id'])
         subscription=Subscriptions.objects.get(CustomerID=customer.id)
-        return SubscriptionsPayment.objects.filter(SubscriptionsID=subscription.id)
+        return SubscriptionsPayment.objects.filter(SubscriptionsID=subscription.id,Paid=True)
 
 
 class SubscriptionsPaymentCreateView(CreateAPIView):
