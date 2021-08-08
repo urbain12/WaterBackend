@@ -4,6 +4,9 @@ from django.db.models.base import Model
 from django.db.models.fields import CharField
 from django.db.models.fields.files import ImageField
 from django.http import request
+import datetime
+from dateutil.relativedelta import *
+
 
 # Create your models here.
 
@@ -141,6 +144,12 @@ class Subscriptions(models.Model):
         tools = self.subscriptionstools_set.all()
         total = sum([tool.get_total for tool in tools])
         return total
+    
+    @property
+    def get_overdue_months(self):
+        overdue_months = self.subscriptionspayment_set.filter(Paid=False,PaidMonth__lte=datetime.datetime.now()+relativedelta(months=-1))
+        total_months = len(overdue_months)
+        return total_months
 
 
 class SubscriptionsPayment(models.Model):

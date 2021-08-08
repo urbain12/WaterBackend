@@ -3,6 +3,7 @@ from .models import *
 import requests
 import secrets
 import threading
+import math
 import string
 from datetime import date, datetime
 
@@ -109,11 +110,14 @@ def check_transaction(trans_id,meter_number,amount):
         buy.Amount=amount
         buy.Meternumber=meter
         buy.save()
+        # print(buy.created_at)
+        mydate = buy.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        print(mydate)
         customer=Customer.objects.get(Meternumber=meter.id)
         if customer.Language == 'English':
-            payload={'details':f' Dear {customer.FirstName},\nYour Payment of {format(int(amount), ",.0f")} Rwf  for Amazi with token has been successfully received at {buy.created_at}  \nYour Token is : {token} ','phone':f'25{customer.user.phone}'}
+            payload={'details':f' Dear {customer.FirstName},\nYour Payment of {format(int(amount), ",.0f")} Rwf  for Amazi with token has been successfully received at {mydate}  \nYour Token is : {token} ','phone':f'25{customer.user.phone}'}
         if customer.Language == 'Kinyarwanda':
-            payload={'details':f' Mukiriya wacu {customer.FirstName},\n\nAmafaranga {format(int(amount), ",.0f")} Rwf mwishyuye y’Amazi Mukoresheje Mtn MoMo yakiriwe neza kuri {buy.created_at} \nToken yanyu ni: {token} ','phone':f'25{customer.user.phone}'}
+            payload={'details':f' Mukiriya wacu {customer.FirstName},\n\nAmafaranga {format(int(amount), ",.0f")} Rwf mwishyuye y’Amazi Mukoresheje Mtn MoMo yakiriwe neza kuri {mydate} \nToken yanyu ni: {token} ','phone':f'25{customer.user.phone}'}
         headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
 
@@ -144,14 +148,24 @@ def check_instalment(trans_id,meter_number,amount,customer_id):
             subscription.TotalBalance = 0
         else:
             subscription.TotalBalance=int(subscription.TotalBalance)-int(amount)
+            
         subprice = format(subscription.TotalBalance, ",.0f")
         print(subprice)
         subscription.save()
-        payment=SubscriptionsPayment()
-        payment.SubscriptionsID=subscription
-        payment.Paidamount=int(amount)
-        payment.PaymentDate=today
-        payment.save()
+        payments=SubscriptionsPayment.objects.filter(Paid=False,SubscriptionsID=subscription.id).order_by('id')
+        payment=payments[0]
+        num_of_months=math.floor(int(amount)/int(payment.Paidamount))
+        extra=int(amount)%int(payment.Paidamount)
+        subscription.Extra=subscription.Extra + extra
+        subscription.save()
+        for p in payments:
+            print(p.id)
+        for i in range(0,num_of_months):
+            print(payments[i].id)
+            p=SubscriptionsPayment.objects.get(id=payments[i].id)
+            p.Paid=True
+            p.save()
+        
         customer=Customer.objects.get(id=customer_id)
         if customer.Language == 'English':
             payload={'details':f' Dear {customer.FirstName},\n\nYour payment of {format(int(amount), ",.0f")} Rwf has been successfully completed! \nYour due balance is : {subprice} Rwf','phone':f'25{customer.user.phone}'}

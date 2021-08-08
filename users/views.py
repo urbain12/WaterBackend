@@ -242,11 +242,11 @@ def notify(request,subID):
     r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
     return redirect('Subscriptions')
 
-def repliedmsg(request,repliedID):
-    repliedmsg = Reply.objects.filter(requestid=repliedID)
-    name=repliedmsg[0].requestid.Names
-    number=repliedmsg[0].requestid.phonenumber
-    return render(request,'replied.html',{'repliedmsg': repliedmsg,'name':name,'number':number})
+# def repliedmsg(request,repliedID):
+#     repliedmsg = Reply.objects.filter(requestid=repliedID)
+#     name=repliedmsg[0].requestid.Names
+#     number=repliedmsg[0].requestid.phonenumber
+#     return render(request,'replied.html',{'repliedmsg': repliedmsg,'name':name,'number':number})
 
 # backend
 @login_required(login_url='/login')
@@ -258,24 +258,25 @@ def dashboard(request):
 
     daily=len(Subscriptions.objects.filter(From__date=d.date() ,complete=True ))
     daily_subscriptions=Subscriptions.objects.filter(From__date=d.date() ,complete=True)
-    paymentsdaily=SubscriptionsPayment.objects.filter(PaymentDate=d.date())
+    paymentsdaily=SubscriptionsPayment.objects.filter(PaymentDate=d.date(),Paid=True)
 
     amount_invoiceddaily=sum([int(sub.get_total_amount) for sub in daily_subscriptions])
     amount_paiddaily=sum([int(payment.Paidamount) for payment in paymentsdaily])
     amount_outstandingdaily=amount_invoiceddaily-amount_paiddaily
 
-
+    overdue_months=SubscriptionsPayment.objects.filter(Paid=False,PaidMonth__lte=datetime.now()+relativedelta(months=-1))
+    overdue_amount=sum([int(overdue.Paidamount) for overdue in overdue_months])
 
     subscriptions=len(Subscriptions.objects.filter(complete=True))
     my_subscriptions=Subscriptions.objects.filter(complete=True)
     amount_invoiced=sum([int(sub.get_total_amount) for sub in my_subscriptions])
-    payments=SubscriptionsPayment.objects.all()
+    payments=SubscriptionsPayment.objects.filter(Paid=True)
     amount_paid=sum([int(payment.Paidamount) for payment in payments])
     amount_outstanding=amount_invoiced-amount_paid
 
     weekly=len(Subscriptions.objects.filter(From__range=[start_week.date(), end_week.date()] ,complete=True ))
     weekly_subscriptions=Subscriptions.objects.filter(From__date=d.date() ,complete=True)
-    paymentsweekly=SubscriptionsPayment.objects.filter(PaymentDate=d.date())
+    paymentsweekly=SubscriptionsPayment.objects.filter(PaymentDate=d.date(),Paid=True)
 
     amount_invoicedweekly=sum([int(sub.get_total_amount) for sub in weekly_subscriptions])
     amount_paidweekly=sum([int(payment.Paidamount) for payment in paymentsweekly])
@@ -286,6 +287,8 @@ def dashboard(request):
     'subscriptions':subscriptions,
     'daily':daily,
     'weekly':weekly,
+    
+    'overdue_amount':overdue_amount,
 
     'amount_paiddaily':amount_paiddaily,
     'amount_invoiceddaily':amount_invoiceddaily,
@@ -749,29 +752,29 @@ def updateItem2(request):
 
     return JsonResponse('Item was added', safe=False)
 
-def processOrder(request):
-    transaction_id = datetime.datetime.now().timestamp()
+# def processOrder(request):
+#     transaction_id = datetime.datetime.now().timestamp()
 
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+#     order, created = Order.objects.get_or_create(customer=customer, complete=False)
     
 
-    total = float(data['form']['total'])
-    order.transaction_id = transaction_id
+#     total = float(data['form']['total'])
+#     order.transaction_id = transaction_id
 
-    if total == order.get_cart_total:
-        order.complete = True
-    order.save()
+#     if total == order.get_cart_total:
+#         order.complete = True
+#     order.save()
 
-    ShippingAddress.objects.create(
-    customer=customer,
-    order=order,
-    address=data['shipping']['address'],
-    city=data['shipping']['city'],
-    state=data['shipping']['state'],
-    zipcode=data['shipping']['zipcode'],
-    )
+#     ShippingAddress.objects.create(
+#     customer=customer,
+#     order=order,
+#     address=data['shipping']['address'],
+#     city=data['shipping']['city'],
+#     state=data['shipping']['state'],
+#     zipcode=data['shipping']['zipcode'],
+#     )
 
-    return JsonResponse('Payment submitted..', safe=False)
+#     return JsonResponse('Payment submitted..', safe=False)
 
 
 @login_required(login_url='/login')
@@ -1175,7 +1178,7 @@ class SubscriptionsPaymentListView(ListAPIView):
     def get_queryset(self):
         customer=Customer.objects.get(user=self.kwargs['user_id'])
         subscription=Subscriptions.objects.get(CustomerID=customer.id)
-        return SubscriptionsPayment.objects.filter(SubscriptionsID=subscription.id)
+        return SubscriptionsPayment.objects.filter(SubscriptionsID=subscription.id,Paid=True)
 
 
 class SubscriptionsPaymentCreateView(CreateAPIView):
@@ -1227,14 +1230,47 @@ def pay_subscription(request):
         body = json.loads(body_unicode)
         today=datetime.today()
         print(body)
-        subscription=Subscriptions.objects.get(CustomerID=body['customerID'])
-        subscription.TotalBalance=int(subscription.TotalBalance)-int(body['amount'])
+        customer_id=body['customerID']
+        subscription=Subscriptions.objects.get(CustomerID=customer_id)
+        amount=int(body['amount'])
+        if int(amount) > int(subscription.TotalBalance):
+            subscription.Extra=subscription.Extra + (int(amount)-int(subscription.TotalBalance))
+            subscription.TotalBalance = 0
+        else:
+            subscription.TotalBalance=int(subscription.TotalBalance)-int(amount)
+            
+        subprice = format(subscription.TotalBalance, ",.0f")
+        print(subprice)
         subscription.save()
-        payment=SubscriptionsPayment()
-        payment.SubscriptionsID=subscription
-        payment.Paidamount=int(body['amount'])
-        payment.PaymentDate=today
-        payment.save()
+        payments=SubscriptionsPayment.objects.filter(Paid=False,SubscriptionsID=subscription.id).order_by('id')
+        payment=payments[0]
+        num_of_months=math.floor(int(amount)/int(payment.Paidamount))
+        extra=int(amount)%int(payment.Paidamount)
+        subscription.Extra=subscription.Extra + extra
+        subscription.save()
+        for p in payments:
+            print(p.id)
+        for i in range(0,num_of_months):
+            print(payments[i].id)
+            p=SubscriptionsPayment.objects.get(id=payments[i].id)
+            p.Paid=True
+            p.save()
+        
+        customer=Customer.objects.get(id=customer_id)
+        if customer.Language == 'English':
+            payload={'details':f' Dear {customer.FirstName},\n\nYour payment of {format(int(amount), ",.0f")} Rwf has been successfully completed! \nYour due balance is : {subprice} Rwf','phone':f'25{customer.user.phone}'}
+        if customer.Language == 'Kinyarwanda':
+            payload={'details':f' Mukiriya wacu  {customer.FirstName},\n\nAmafaranga {format(int(amount), ",.0f")} Rwf mwishyuye yakiriwe neza! \nUmwenda musigaje ni : {subprice} Rwf','phone':f'25{customer.user.phone}'}
+        headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+        r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
+        # subscription=Subscriptions.objects.get(CustomerID=body['customerID'])
+        # subscription.TotalBalance=int(subscription.TotalBalance)-int(body['amount'])
+        # subscription.save()
+        # payment=SubscriptionsPayment()
+        # payment.SubscriptionsID=subscription
+        # payment.Paidamount=int(body['amount'])
+        # payment.PaymentDate=today
+        # payment.save()
         data = {
             'result': 'Payment done successfully!!!',
         }
@@ -1246,14 +1282,23 @@ def pay_Water(request):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         print(body)
-        customers=Meters.objects.only('id').get(id=body['Meternumber'])
+        meter=Meters.objects.only('id').get(id=body['Meternumber'])
         Amount=int(body['Amount'])
-        Token=int(body['Token'])
+        alphabet = string.ascii_letters + string.digits
+        token = ''.join(secrets.choice(alphabet) for i in range(20))
         pay = WaterBuyHistory()
-        pay.Meternumber = customers
+        pay.Meternumber = meter
         pay.Amount = Amount
-        pay.Token = Token
+        pay.Token = token
         pay.save()
+        mydate = pay.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        customer=Customer.objects.get(Meternumber=meter.id)
+        if customer.Language == 'English':
+            payload={'details':f' Dear {customer.FirstName},\nYour Payment of {format(int(Amount), ",.0f")} Rwf  for Amazi with token has been successfully received at {mydate}  \nYour Token is : {token} ','phone':f'25{customer.user.phone}'}
+        if customer.Language == 'Kinyarwanda':
+            payload={'details':f' Mukiriya wacu {customer.FirstName},\n\nAmafaranga {format(int(Amount), ",.0f")} Rwf mwishyuye y’Amazi Mukoresheje Mtn MoMo yakiriwe neza kuri {mydate} \nToken yanyu ni: {token} ','phone':f'25{customer.user.phone}'}
+        headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+        r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
         data = {
             'result': 'Payment done successfully!!!',
         }
@@ -1321,10 +1366,12 @@ def get_balance(request,phone_number):
 def get_category(request,user_id):
     customer=Customer.objects.get(user=user_id)
     subscription=Subscriptions.objects.get(CustomerID=customer.id)
+    paidAmount=math.ceil(subscription.get_total_amount/12)
     data={
         'category':subscription.Category.Title,
         'subscription_date':str(subscription.From),
-        'balance':subscription.TotalBalance
+        'balance':subscription.TotalBalance,
+        'paidAmount':paidAmount
     }
     dump=json.dumps(data)
     return HttpResponse(dump,content_type='application/json')

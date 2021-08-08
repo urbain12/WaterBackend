@@ -46,13 +46,15 @@
                                             <th>Outstanding Amount</th>
                                             <th>Balance Paid</th>
                                             <th>Overdue Balance</th>
-                                            <th>Due date</th>
                                             <th>Month Overdue</th>
+                                            <th>Due date</th>
                                         </tr>
                                     </thead>
+                                    
                                     <tbody>
                                     {% for sub in subscriptions %}
                                     {% with payment=sub.get_total_amount|div:12 %}
+                                    {% widthratio sub.get_overdue_months 1 payment as overdueBalance %}
                                     <tr>
                                             <td>{{sub.CustomerID.FirstName}} {{sub.CustomerID.LastName}}</td>
                                             <td>{{sub.From}}</td>
@@ -65,9 +67,13 @@
                                             {% endif %}
                                             <td>{{sub.TotalBalance|intcomma }} Rwf</td>
                                             <td>{{sub.get_total_amount| sub:sub.TotalBalance }}</td>
-                                            <td>0</td>
+                                            {% if sub.get_total_amount|divisibleby:12%}
+                                            <td>{{overdueBalance}} Rwf</td>                                           
+                                            {% else %}
+                                            <td> {{ payment|add:1|mul:sub.get_overdue_months|intcomma }} Rwf</td>                                           
+                                            {% endif %}
+                                            <td>{{sub.get_overdue_months}}</td>
                                             <td>{{sub.To}}</td>
-                                            <td>0</td>
                                     </tr>
                                     {% endwith %}
                                     {% endfor %}
