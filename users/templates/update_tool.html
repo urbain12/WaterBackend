@@ -30,12 +30,11 @@
                                                     <select class="form-control" name="category">
                                                        <option value="Select meter number">Select Category</option> 
                                                     {% for category in categories %}
-                                                        {% if category.Description == updatetool.Description %}
+                                                        {% if category.Description == updatetool.CategoryID.Description %}
                                                         <option value={{category.id}} selected>{{category.Description}}</option> 
                                                        {% else %}
                                                       <option value={{category.id}} >{{category.Description}}</option>
                                                        {% endif %}
-                                                       <option value="{{category.id}}">{{category.Description}}</option> 
                                                     {% endfor %}
                                                        
                                                     </select>  
@@ -51,7 +50,7 @@
                                             <div class="col-sm-12">
                                                 <div class="form-group">
                                                     <label class="control-label">Description</label>
-                                                    <textarea class="form-control" name="description" value={{updatetool.Description}}></textarea> 
+                                                    <textarea class="form-control" name="description" >{{updatetool.Description}}</textarea> 
                                                 </div>
                                             </div>
                                         </div>
