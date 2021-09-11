@@ -232,6 +232,17 @@ def reply(request,requestID):
         message = Request.objects.get(id=requestID)
         return render(request,'reply.html',{'message': message})
 
+
+def customer_update(request,customerID):
+    if request.method == 'POST':
+        customer = Customer.objects.get(id=customerID)
+        customer.reply= request.POST['Msg']
+        
+        return redirect('requestor')
+    else:    
+        message = Request.objects.get(id=requestID)
+        return render(request,'reply.html',{'message': message})
+
 def notify(request,subID):
     subscription=Subscriptions.objects.get(id=subID)
     if subscription.Category.Title.upper() == 'AMAZI'  :
@@ -434,6 +445,20 @@ def orders(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'orders.html', {'orders': orders, 'page_obj': page_obj})
+
+
+@login_required(login_url='/login')
+def reset_password(request,userID):
+    user = User.objects.get(id=userID)
+    alphabet = string.ascii_letters + string.digits
+    password = ''.join(secrets.choice(alphabet) for i in range(6))
+    my_phone=user.phone
+    user.set_password(password)
+    user.save()
+    payload={'details':f' Dear Client,\nYour password have been changed successfully \n Your credentials to login in mobile app are: \n Phone:{my_phone} \n password:{password} ','phone':f'25{my_phone}'}
+    headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+    r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
+    return render(request, 'operator.html')
 
 
 @login_required(login_url='/login')

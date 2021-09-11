@@ -42,6 +42,7 @@ urlpatterns = [
     path('Checkout/<int:subID>/',Checkout,name='Checkout'),
     path('Checkout/',checkout2,name='checkout2'),
     path('confirm/<int:subID>/',confirm,name="confirm"),
+    path('reset_password/<int:userID>/',reset_password,name="reset_password"),
     path('cancel/<int:subID>/',cancel,name="cancel"),
     url(r'checkout_page/(?P<pk>\d+)/$', checkout_page, name='checkout_page'),
     path('tools/',tools,name='tools'),
