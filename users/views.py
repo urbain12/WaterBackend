@@ -249,7 +249,8 @@ def update_customer(request,customerID):
         return redirect('customers')
     else:    
         updatecustomer = Customer.objects.get(id=customerID)
-        return render(request,'update_customer.html',{'updatecustomer': updatecustomer})
+        english= updatecustomer.Language=='English'
+        return render(request,'update_customer.html',{'updatecustomer': updatecustomer,'english':english})
 
 def notify(request,subID):
     subscription=Subscriptions.objects.get(id=subID)

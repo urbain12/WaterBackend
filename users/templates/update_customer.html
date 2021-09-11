@@ -63,10 +63,16 @@
                                              <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Language</label>
-                                                    <select class="form-control" name="Language"required value={{updatecustomer.Language}}>
+                                                    <select class="form-control" name="Language" required >
                                                        <option value="">Select preferably Language</option> 
+                                                       {% if english %}
+                                                        <option value="English" selected>English</option> 
+                                                       <option value="Kinyarwanda">Kinyarwanda</option>
+                                                       {% else %}
                                                        <option value="English">English</option> 
-                                                       <option value="Kinyarwanda">Kinyarwanda</option> 
+                                                       <option value="Kinyarwanda" selected>Kinyarwanda</option>
+                                                       {% endif %}
+                                                        
                                                     </select>                                                
                                             </div>
                                             </div>
