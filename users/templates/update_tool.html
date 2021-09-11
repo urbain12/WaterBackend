@@ -1,0 +1,76 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+
+ <div id="page-content">
+                    
+					<div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Update tool</h3>
+                                </div>
+                    
+                                <!--Block Styled Form -->
+                                <!--===================================================-->
+                                <form enctype="multipart/form-data" action="{% url 'update_tool'  updatetool.id %}" method="POST">
+                                {% csrf_token %}
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Title</label>
+                                                    <input type="text" class="form-control" name="Title" value={{updatetool.Title}}> 
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Category</label>
+                                                    <select class="form-control" name="category">
+                                                       <option value="Select meter number">Select Category</option> 
+                                                    {% for category in categories %}
+                                                        {% if category.Description == updatetool.Description %}
+                                                        <option value={{category.id}} selected>{{category.Description}}</option> 
+                                                       {% else %}
+                                                      <option value={{category.id}} >{{category.Description}}</option>
+                                                       {% endif %}
+                                                       <option value="{{category.id}}">{{category.Description}}</option> 
+                                                    {% endfor %}
+                                                       
+                                                    </select>  
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Amount</label>
+                                                    <input type="number" class="form-control" name="amount" value={{updatetool.Amount}}>
+                                                </div>
+                                            </div>
+                                           
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Description</label>
+                                                    <textarea class="form-control" name="description" value={{updatetool.Description}}></textarea> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer text-right">
+                                        <button class="btn btn-block btn-success" type="submit">Submit</button>
+                                    </div>
+                                </form>
+                                <!--===================================================-->
+                                <!--End Block Styled Form -->
+                    
+                            </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+
+{% endblock content%}

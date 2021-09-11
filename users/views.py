@@ -177,6 +177,11 @@ def delete_product(request,productID):
     products.delete()
     return redirect('products')
 
+def delete_tools(request,toolID):
+    tools=Tools.objects.get(id=toolID)
+    tools.delete()
+    return redirect('tools')
+
 @login_required(login_url='/login')
 def updateProduct(request,updateID):
     Updateproduct = Product.objects.get(id=updateID)

@@ -71,6 +71,7 @@ urlpatterns = [
     path('quotation/<int:SubscriptionsID>',quotation,name="quotation"),
     path('order_details/<int:orderID>',order_details,name="order_details"),
     path('delete_product/<int:productID>',delete_product,name="delete_product"),
+    path('delete_tools/<int:toolID>',delete_tools,name="delete_tools"),
     path('disable_product/<int:DisabledID>',disable_product,name="disable_product"),
     path('enable_product/<int:enabledID>',enable_product,name="enable_product"),
     path('updateProduct/<int:updateID>',updateProduct,name="updateProduct"),
