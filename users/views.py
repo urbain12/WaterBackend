@@ -232,16 +232,24 @@ def reply(request,requestID):
         message = Request.objects.get(id=requestID)
         return render(request,'reply.html',{'message': message})
 
-
-def customer_update(request,customerID):
+@login_required(login_url='/login')
+def update_customer(request,customerID):
     if request.method == 'POST':
         customer = Customer.objects.get(id=customerID)
-        customer.reply= request.POST['Msg']
+        customer.FirstName= request.POST['FirstName']
+        customer.LastName= request.POST['LastName']
+        customer.IDnumber= request.POST['IDnumber']
+        customer.Province= request.POST['Province']
+        customer.District= request.POST['District']
+        customer.Sector= request.POST['Sector']
+        customer.Cell= request.POST['Cell']
+        customer.Language= request.POST['Language']
+        customer.save()
         
-        return redirect('requestor')
+        return redirect('customers')
     else:    
-        message = Request.objects.get(id=requestID)
-        return render(request,'reply.html',{'message': message})
+        updatecustomer = Customer.objects.get(id=customerID)
+        return render(request,'update_customer.html',{'updatecustomer': updatecustomer})
 
 def notify(request,subID):
     subscription=Subscriptions.objects.get(id=subID)
@@ -458,7 +466,7 @@ def reset_password(request,userID):
     payload={'details':f' Dear Client,\nYour password have been changed successfully \n Your credentials to login in mobile app are: \n Phone:{my_phone} \n password:{password} ','phone':f'25{my_phone}'}
     headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
     r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
-    return render(request, 'operator.html')
+    return redirect('user')
 
 
 @login_required(login_url='/login')

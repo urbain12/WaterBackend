@@ -47,8 +47,8 @@
                                             <td><a class="btn-link" href="#">{{user.id}}</a></td>
                                             <td>{{user.email}}</td>
                                             <td>{{user.phone}}</td>
-                                            <td><a onclick="return confirm('Are you sure you want to disable this?')" href="{% url 'reset_password' user.id %}">
-                                                <button class="btn btn-warning">Disable</button>
+                                            <td><a onclick="return confirm('Are you sure you want to reset password?')" href="{% url 'reset_password' user.id %}">
+                                                <button class="btn btn-primary">Reset password</button>
                                                 </a>
                                             </td>
                                     </tr>
