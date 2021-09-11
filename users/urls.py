@@ -55,6 +55,7 @@ urlpatterns = [
     path('post_transaction/',csrf_exempt(post_transaction),name='post_transaction'),
     path('add_customer/',add_customer,name='add_customer'),
     path('update_customer/<int:customerID>/',update_customer,name='update_customer'),
+    path('update_tool/<int:toolID>/',update_tool,name='update_tool'),
     path('add_subscription/',add_subscription,name='add_subscription'),
     path('Addcustomers/',Addcustomers,name='Addcustomers'),
     path('Meters/',meters,name='Meters'),
