@@ -1,0 +1,92 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+
+ <div id="page-content">
+                    
+					<div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Update customers</h3>
+                                </div>
+                    
+                                <!--Block Styled Form -->
+                                <!--===================================================-->
+                                <form enctype="multipart/form-data" action="{% url 'update_customer' updatecustomer.id %}" method="POST">
+                                {% csrf_token %}
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Firstname</label>
+                                                    <input type="text" class="form-control" name="FirstName" required value={{updatecustomer.FirstName}}> 
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Lastname</label>
+                                                    <input type="text" class="form-control" name="LastName" required value={{updatecustomer.LastName}}> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">ID number</label>
+                                                    <input type="number" class="form-control" name="IDnumber" required value={{updatecustomer.IDnumber}}>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Province</label>
+                                                    <input type="text" class="form-control" name="Province" required value={{updatecustomer.IDnumber}}>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">District</label>
+                                                    <input type="text" class="form-control" name="District"required value={{updatecustomer.IDnumber}}>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Sector</label>
+                                                    <input type="text" class="form-control"name="Sector"required value={{updatecustomer.IDnumber}}>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Cell</label>
+                                                    <input type="text" class="form-control" name="Cell"required value={{updatecustomer.IDnumber}}>
+                                                </div>
+                                            </div>
+                                             <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Language</label>
+                                                    <select class="form-control" name="Language"required value={{updatecustomer.Language}}>
+                                                       <option value="">Select preferably Language</option> 
+                                                       <option value="English">English</option> 
+                                                       <option value="Kinyarwanda">Kinyarwanda</option> 
+                                                    </select>                                                
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer text-right">
+                                        <button class="btn btn-block btn-success" type="submit">Submit</button>
+                                    </div>
+                                </form>
+                                <!--===================================================-->
+                                <!--End Block Styled Form -->
+                    
+                            </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+
+{% endblock content%}

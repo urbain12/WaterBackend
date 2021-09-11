@@ -46,6 +46,7 @@
                                             <th>Cell</th>
                                             <th>created at</th>
                                             <th>Transactions</th>
+                                            <th>Action</th>
                                             
                                         </tr>
                                     </thead>
@@ -67,6 +68,12 @@
                                                 <a href="{% url 'transactions' customer.id %}">
                                                     <button class='btn btn-success'> <i class='fa fa-eye'></i> </button>
                                                 </a>
+                                            </td>
+                                            <td>
+                                            <a href="{% url 'update_customer' customer.id %}">
+                                                <button class="btn btn-primary">Update</button>
+                                                </a>
+                                            
                                             </td>
                                             
                                         </tr>
