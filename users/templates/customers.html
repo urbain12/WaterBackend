@@ -45,7 +45,6 @@
                                             <th>Sector</th>
                                             <th>Cell</th>
                                             <th>created at</th>
-                                            <th>Transactions</th>
                                             <th>Action</th>
                                             
                                         </tr>
@@ -66,12 +65,11 @@
 
                                             <td>
                                                 <a href="{% url 'transactions' customer.id %}">
-                                                    <button class='btn btn-success'> <i class='fa fa-eye'></i> </button>
+                                                    <button class='btn btn-success' title="Transactions"> <i class='fa fa-eye'></i> </button>
                                                 </a>
-                                            </td>
-                                            <td>
-                                            <a href="{% url 'update_customer' customer.id %}">
-                                                <button class="btn btn-primary">Update</button>
+                                            
+                                            <a href=" {% url 'update_customer' customer.id %}">
+                                                <button class="btn btn-primary" title="Update"><i class='fa fa-pencil'></i></button>
                                                 </a>
                                             
                                             </td>
