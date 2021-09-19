@@ -219,6 +219,23 @@ class Request(models.Model):
 
     def __str__(self):
         return self.Names
+    
+class subRequest(models.Model):
+    Names = models.CharField(max_length=255, null=True, blank=True)
+    Message = models.TextField(blank=True, null=False)
+    Subscriptions = models.CharField(max_length=255,blank=True, null=False)
+    category = models.CharField(max_length=255,blank=True, null=False)
+    phonenumber = models.CharField(max_length=255, null=True, blank=True)
+    Province = models.CharField(max_length=255, null=True, blank=True)
+    District = models.CharField(max_length=255, null=True, blank=True)
+    Sector = models.CharField(max_length=255, null=True, blank=True)
+    Cell = models.CharField(max_length=255, null=True, blank=True)
+    Language = models.CharField(max_length=255, null=True, blank=True)
+    send_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.Names
+
 
 
 # class Reply(models.Model):

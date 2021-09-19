@@ -6,7 +6,7 @@
                     
 					<div class="panel">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Customer Queries</h3>
+                            <h3 class="panel-title">Subscription Request</h3>
                         </div>
                     
                         <!--Data Table-->
@@ -18,7 +18,7 @@
                                     <div class="col-sm-12 table-toolbar-right">
                                         <div class="btn-group">
                                             <div class="form-group">
-                                        <form class="form-inline my-2 my-lg-0" action="{% url 'requestor'%}">
+                                        <form class="form-inline my-2 my-lg-0" action="{% url 'subrequest'%}">
                                         <input id="demo-input-search2" type="text" name="search" placeholder="Search by Names" class="form-control" autocomplete="off">
                                         <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
                                         </form>
@@ -35,15 +35,14 @@
                                         <tr>
                                             <th class="text-left">ID</th>
                                             <th>Names</th>
-                                            <th>Service</th>
+                                            <th>Subscribed in</th>
+                                            <th>Request in</th>
                                             <th>Message</th>
                                             <th>Province</th>
                                             <th>District</th>
                                             <th>Sector</th>
                                             <th>Cell</th>
-                                            <th>Reply</th>
                                             <th>Send at</th>
-                                            <th>Action</th>
                                             
                                             
                                         </tr>
@@ -53,25 +52,15 @@
                                     <tr>
                                             <td><a class="btn-link" href="#">{{request.id}}</a></td>
                                             <td>{{request.Names}}</td>
-                                            <td>{{request.service}}</td>
+                                            <td>{{request.category}}</td>
+                                            <td>{{request.Subscriptions}}</td>
                                             <td>{{request.Message}}</td>
                                             <td>{{request.Province}}</td>
                                             <td>{{request.District}}</td>
                                             <td>{{request.Sector}}</td>
                                             <td>{{request.Cell}}</td>
-                                            <td>{{request.reply}}</td>
                                             <td>{{request.send_at}}</td>
-                                            <td>
-                                            {% if request.replied %}
-                                            <a href="#">
-                                            <button class="btn btn-warning" style="border-radius:10px">Replied</button>
-                                            </a>
-                                            {% else %}
-                                            <a href="{% url 'reply' request.id %}">
-                                            <button class="btn btn-primary" style="border-radius:10px">Reply</button>
-                                            </a>
-                                            {% endif %}
-                                            </td>
+                                           
 
                                            
                                             
