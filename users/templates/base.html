@@ -369,16 +369,6 @@
                                             </span>
                                         </a>
                                     </li>
-                                    {% url 'requestor' as req %}
-                                    <li {% if request.path == req  %} class="active-sub"{% endif %}>
-                                        <a href="{% url 'requestor' %}">
-                                            <i class="fa fa-paper-plane-o"></i>
-                                            <span class="menu-title">
-                                                <strong>Requests</strong>
-                                                
-                                            </span>
-                                        </a>
-                                    </li>
                                     {% url 'Meters' as url2 %}
                                     <li {% if request.path == url2  %} class="active-sub"{% endif %}>
                                         <a href="{% url 'Meters' %}">
@@ -420,6 +410,40 @@
                                                 
                                             </span>
                                         </a>
+                                    </li>
+                                    <li >
+                                         <a href="">
+                                                <i class="fa fa-archive"></i>
+                                                <span class="menu-title"> 
+                                               <strong>Requests</strong>
+                                               </span>
+                                                <i class="arrow"></i>
+                                            </a>
+                                        <ul class="collapse">
+                                        <li {% if request.path == req  %} class="active-sub"{% endif %}>
+                                            <a href="{% url 'requestor' %}">
+                                                <i class="fa fa-commenting-o"></i>
+                                                <span class="menu-title">
+                                                    <strong>Query</strong>
+                                                    
+                                                </span>
+                                                
+                                            </a>
+                                        </li>
+                                        {% url 'subrequest' as req1 %}
+                                        <li {% if request.path == req1  %} class="active-sub"{% endif %}>
+                                            <a href="{% url 'subrequest' %}">
+                                                <i class="fa fa-paper-plane-o"></i>
+                                                <span class="menu-title">
+                                                    <strong>Request</strong>
+                                                    
+                                                </span>
+                                                
+                                            </a>
+                                        </li>
+                                        </ul>
+
+
                                     </li>
 
                                     {% url 'Viewblog' as bl %}
