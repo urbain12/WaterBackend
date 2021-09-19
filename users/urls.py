@@ -46,6 +46,7 @@ urlpatterns = [
     path('cancel/<int:subID>/',cancel,name="cancel"),
     url(r'checkout_page/(?P<pk>\d+)/$', checkout_page, name='checkout_page'),
     path('tools/',tools,name='tools'),
+    path('not_authorized/',not_authorized,name='not_authorized'),
     path('add_tool/',add_tool,name='add_tool'),
     path('update_item/',updateItem,name='update_item'),
     path('update_subscription/<int:subID>/',update_subscription,name='update_subscription'),

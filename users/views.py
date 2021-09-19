@@ -44,6 +44,9 @@ def index(request):
 def service(request):
     return render(request,'website/service.html')
 
+def not_authorized(request):
+    return render(request,'not_authorized.html')
+
 def blog(request):
     blogs = Blog.objects.all()
     return render(request,'website/blog.html',{'blogs':blogs})
@@ -358,11 +361,20 @@ def operator(request):
             except User.DoesNotExist:
                 alphabet = string.ascii_letters + string.digits
                 password = ''.join(secrets.choice(alphabet) for i in range(6))
-                user=User.objects.create_user(
-                    email=request.POST['email'],
-                    phone=request.POST['phonenumber'],
-                    password=password)
-                my_phone=request.POST['phonenumber']
+
+                if request.POST['permission']=='client':
+                    user=User.objects.create_user(
+                        email=request.POST['email'],
+                        phone=request.POST['phonenumber'],
+                        password=password)
+                    my_phone=request.POST['phonenumber']
+                elif request.POST['permission']=='staff':
+                    user=User.objects.create_staffuser(
+                        email=request.POST['email'],
+                        phone=request.POST['phonenumber'],
+                        password=password)
+                    my_phone=request.POST['phonenumber']
+
                 payload={'details':f' Dear Client,\nYou have been registered successfully \n Your credentials to login in mobile app are: \n Phone:{my_phone} \n password:{password} ','phone':f'25{my_phone}'}
                 headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
                 r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)  
@@ -374,9 +386,11 @@ def login(request):
     if request.method == "POST":
         customer = authenticate(
             email=request.POST['email'], password=request.POST['password'])
-        if customer is not None:
+        if customer is not None and customer.staff:
             django_login(request, customer)
             return redirect('dashboard')
+        elif customer is not None and not customer.staff:
+            return redirect('not_authorized')
         else:
             return render(request, 'login.html')
     else:
