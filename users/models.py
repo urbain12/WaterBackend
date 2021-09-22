@@ -138,6 +138,7 @@ class Subscriptions(models.Model):
     TotalBalance = models.CharField(max_length=255, null=True, blank=True)
     Extra = models.IntegerField(null=True, blank=True, default=0)
     complete = models.BooleanField(default=False)
+    customer_exception = models.BooleanField(default=False)
 
     @property
     def get_total_amount(self):
