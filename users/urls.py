@@ -148,7 +148,7 @@ urlpatterns = [
 
 
     path('subscriptions/',SubscriptionsListView.as_view()),
-    path('subscriptions_by_customer/<int:customer_id>/',SubscriptionsByCustomerID.as_view()),
+    path('subscriptions_by_customer/<int:user_id>/',SubscriptionsByCustomerID.as_view()),
     path('Subscriptions/create/',SubscriptionsCreateView.as_view()),
     path('Subscription/<id>/',SubscriptionRetrieveView.as_view()),
     path('UpdateSubscriptions/<id>/', SubscriptionsUpdateView.as_view()),

@@ -1315,7 +1315,8 @@ class SubscriptionsPaymentList(ListAPIView):
 class SubscriptionsByCustomerID(ListAPIView):
     serializer_class = SubscriptionsSerializer
     def get_queryset(self):
-        return Subscriptions.objects.filter(CustomerID=self.kwargs['customer_id'])    
+        customer=Customer.objects.get(user=self.kwargs['user_id'])
+        return Subscriptions.objects.filter(CustomerID=customer.id)    
 
 
 class SubscriptionsPaymentCreateView(CreateAPIView):
