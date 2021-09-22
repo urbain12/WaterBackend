@@ -260,6 +260,23 @@ def update_customer(request,customerID):
         english= updatecustomer.Language=='English'
         return render(request,'update_customer.html',{'updatecustomer': updatecustomer,'english':english})
 
+@login_required(login_url='/login')
+def changeuserpassword(request,userID):
+    if request.method == 'POST':
+        if request.POST['newpassword']==request.POST['confirmpassword']:
+            user = User.objects.get(id=userID)
+            if user.check_password(request.POST['password']):
+                password= request.POST['newpassword']
+                user.set_password(password)
+            user.save()
+            return redirect('user')
+        else:
+            alert=True
+            return render(request,'changepassword.html',{'alert':alert})
+    else:
+        alert=False
+        return render(request,'changepassword.html',{'alert':alert})
+
 def notify(request,subID):
     subscription=Subscriptions.objects.get(id=subID)
     if subscription.Category.Title.upper() == 'AMAZI'  :
@@ -487,6 +504,7 @@ def reset_password(request,userID):
     headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
     r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
     return redirect('user')
+
 
 
 @login_required(login_url='/login')
@@ -1521,7 +1539,7 @@ class ChangePasswordView(UpdateAPIView):
             response = {
                 'status': 'success',
                 'code': status.HTTP_200_OK,
-                'message': 'Password updated successfully',
+                'message': 'Password ChangePasswupdated successfully',
                 'data': []
             }
 
@@ -1592,6 +1610,34 @@ def export_users_csv(request):
         print(type(my_instalment))
         instalments.append(my_instalment)
     for user in instalments:
+        writer.writerow(user)
+
+    return response
+        
+        
+def export_orders(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="orders.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Customer','Phone','Address','Date ordered','Total'])
+
+    orders = Order.objects.all()
+    order=[]
+    for sub in orders:
+
+        list_orders= [
+            sub.shippingaddress.names,
+            sub.shippingaddress.phone,
+            sub.shippingaddress.address+' '+sub.shippingaddress.city,
+            sub.date_ordered,
+            sub.get_cart_total,
+            ]
+            
+        print(list_orders)
+        print(type(list_orders))
+        order.append(list_orders)
+    for user in order:
         writer.writerow(user)
 
     return response

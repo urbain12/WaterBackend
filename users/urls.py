@@ -79,7 +79,9 @@ urlpatterns = [
     path('disable_product/<int:DisabledID>',disable_product,name="disable_product"),
     path('enable_product/<int:enabledID>',enable_product,name="enable_product"),
     path('updateProduct/<int:updateID>',updateProduct,name="updateProduct"),
+    path('changeuserpassword/<int:userID>',changeuserpassword,name="changeuserpassword"),
     url(r'^export/csv/$',export_users_csv, name='export_users_csv'),
+    url(r'^export/order/$',export_orders, name='export_orders'),
 
 
 
