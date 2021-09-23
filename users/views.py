@@ -403,11 +403,11 @@ def login(request):
     if request.method == "POST":
         customer = authenticate(
             email=request.POST['email'], password=request.POST['password'])
-        if customer is not None:
+        if customer is not None and customer.staff:
             django_login(request, customer)
             return redirect('dashboard')
-        # elif customer is not None and not customer.staff:
-        #     return redirect('not_authorized')
+        elif customer is not None and not customer.staff:
+            return redirect('not_authorized')
         else:
             return render(request, 'login.html')
     else:
