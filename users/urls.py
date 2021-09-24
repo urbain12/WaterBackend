@@ -43,6 +43,7 @@ urlpatterns = [
     path('Checkout/',checkout2,name='checkout2'),
     path('confirm/<int:subID>/',confirm,name="confirm"),
     path('reset_password/<int:userID>/',reset_password,name="reset_password"),
+    path('add_new_sub/<int:customerID>/',add_new_sub,name="add_new_sub"),
     path('cancel/<int:subID>/',cancel,name="cancel"),
     url(r'checkout_page/(?P<pk>\d+)/$', checkout_page, name='checkout_page'),
     path('tools/',tools,name='tools'),
@@ -146,8 +147,10 @@ urlpatterns = [
     path('DeleteCategory/<id>/', CategoryDeleteView.as_view()),
 
 
-    path('Subscriptions/',SubscriptionsListView.as_view()),
+    path('subscriptions/',SubscriptionsListView.as_view()),
+    path('subscriptions_by_customer/<int:user_id>/',SubscriptionsByCustomerID.as_view()),
     path('Subscriptions/create/',SubscriptionsCreateView.as_view()),
+    path('Subscription/<id>/',SubscriptionRetrieveView.as_view()),
     path('UpdateSubscriptions/<id>/', SubscriptionsUpdateView.as_view()),
     path('DeleteSubscriptions/<id>/', SubscriptionsDeleteView.as_view()),
 
@@ -171,6 +174,7 @@ urlpatterns = [
 
 
     path('SubscriptionsPayment/<int:user_id>/',SubscriptionsPaymentListView.as_view()),
+    path('payments/<int:sub_id>/',SubscriptionsPaymentList.as_view()),
     path('SubscriptionsPayment/create/',SubscriptionsPaymentCreateView.as_view()),
     path('UpdateSubscriptionsPayment/<id>/', SubscriptionsPaymentUpdateView.as_view()),
     path('DeleteSubscriptionsPayment/<id>/', SubscriptionsPaymentDeleteView.as_view()),

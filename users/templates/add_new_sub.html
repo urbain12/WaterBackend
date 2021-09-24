@@ -1,0 +1,82 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+
+ <div id="page-content">
+                    
+					<div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Add new subscription to {{customer_names}}</h3>
+                                </div>
+                    
+                                <!--Block Styled Form -->
+                                <!--===================================================-->
+                                <form enctype="multipart/form-data" action="{% url 'checkout' %}" method="POST">
+                                {% csrf_token %}
+                                    <div class="panel-body">
+
+                                        <div class="row">
+                                            <div class="col-sm-6" style="display:none">
+                                                    <div class="form-group">
+                                                    <label class="control-label">Customer</label>
+                                                    <select class="form-control" name="customer" required>
+                                                       <option value="{{customerID}}" selected>customer</option> 
+                                                    </select>  
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                    <label class="control-label">Service</label>
+                                                    <select class="form-control" name="category" required>
+                                                       <option value="">Select Service</option> 
+                                                    {% for category in new_categories %}
+
+                                                       <option value="{{category.id}}">{{category.Title}}</option> 
+                                                    {% endfor %}
+                                                       
+                                                    </select>  
+                                                </div>
+                                            </div>
+                                           
+                                            
+                                            
+                                            <h3>Tools</h3>
+                                            <div class="row" style="margin:10px">
+                                            {% for tool in tools%}
+                                            <div class="col-sm-2">
+                                                <div class="checkbox">
+                                                    <input id="demo-remember-me" value={{tool.Title}} class="magic-checkbox" type="checkbox">
+                                                    <label for="demo-remember-me">{{tool.Title}}</label>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                            </div>
+
+
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="demo-inline-inputmail" class="sr-only">Tools</label>
+                                                    <input type="text" name="tools" id="tools" class="form-control">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer text-right">
+                                        <button class="btn btn-block btn-success" type="submit">Checkout</button>
+                                    </div>
+                                </form>
+                                <!--===================================================-->
+                                <!--End Block Styled Form -->
+                    
+                            </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+
+{% endblock content%}

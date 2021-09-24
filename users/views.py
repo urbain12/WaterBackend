@@ -613,6 +613,28 @@ def add_subscription(request):
     categories=Category.objects.all()
     return render(request,'add_subscription.html',{'tools':tools,'customers':customers,'categories':categories})
 
+
+
+@login_required(login_url='/login')
+def add_new_sub(request,customerID):
+    customer=Customer.objects.get(id=customerID)
+    customer_names=customer.FirstName+' '+customer.LastName
+    categories=Category.objects.all()
+    customer_subscriptions=Subscriptions.objects.filter(CustomerID=customerID)
+    customer_categories=[]
+    all_categories=[]
+    for cat in categories:
+        all_categories.append(cat)
+
+    for sub in customer_subscriptions:
+        category=Category.objects.get(id=sub.Category.id)
+        customer_categories.append(category)
+
+    new_categories=list(set(all_categories)-set(customer_categories))
+
+    tools=Tools.objects.all()
+    return render(request, 'add_new_sub.html', {'tools':tools,'new_categories':new_categories,'customerID':customerID,'customer_names':customer_names})
+
 @login_required(login_url='/login')
 def checkout(request):
     if request.method=='POST':
@@ -1206,6 +1228,11 @@ class SubscriptionsUpdateView(UpdateAPIView):
     serializer_class = SubscriptionsSerializer
     lookup_field = 'id'
 
+class SubscriptionRetrieveView(RetrieveAPIView):
+    queryset = Subscriptions.objects.all()
+    serializer_class = SubscriptionsSerializer
+    lookup_field = 'id'
+
 
 class SubscriptionsToolsListView(ListAPIView):
     queryset = SubscriptionsTools.objects.all()
@@ -1279,6 +1306,17 @@ class SubscriptionsPaymentListView(ListAPIView):
         customer=Customer.objects.get(user=self.kwargs['user_id'])
         subscription=Subscriptions.objects.get(CustomerID=customer.id)
         return SubscriptionsPayment.objects.filter(SubscriptionsID=subscription.id,Paid=True)
+
+class SubscriptionsPaymentList(ListAPIView):
+    serializer_class = SubscriptionsPaymentSerializer
+    def get_queryset(self):
+        return SubscriptionsPayment.objects.filter(SubscriptionsID=self.kwargs['sub_id'],Paid=True)
+
+class SubscriptionsByCustomerID(ListAPIView):
+    serializer_class = SubscriptionsSerializer
+    def get_queryset(self):
+        customer=Customer.objects.get(user=self.kwargs['user_id'])
+        return Subscriptions.objects.filter(CustomerID=customer.id)    
 
 
 class SubscriptionsPaymentCreateView(CreateAPIView):
