@@ -1582,6 +1582,25 @@ class CreateOrder(CreateAPIView):
         )
         return Response(response)
 
+
+class subscribe(CreateAPIView):
+    def create(self,request):
+        print(request.data)
+        customer=Customer.objects.get(id=int(request.data['customerID']))
+        category=Category.objects.get(Title=request.data['category'])
+        subscription=Subscriptions()
+        subscription.CustomerID=customer
+        subscription.Category=category
+        subscription.save()
+        response = {
+            'status': 'success',
+            'code': status.HTTP_200_OK,
+            'message': 'Subscribed successfully!!!',
+            'data': []
+        }
+        
+        return Response(response)
+
 class register(CreateAPIView):
     def create(self,request):
         print(request.data)
