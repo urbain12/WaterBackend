@@ -485,7 +485,7 @@ def products(request):
 
 @login_required(login_url='/login')
 def orders(request):
-    orders = Order.objects.all()
+    orders = Order.objects.all().order_by('-id')
     paginator = Paginator(orders, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
