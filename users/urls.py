@@ -114,9 +114,7 @@ urlpatterns = [
 
 
     path('register/',register.as_view()),
-    
-    path('subrequest/create/',RequestCreateView.as_view()),
-    
+        
     path('subrequest/create/',subRequestCreateView.as_view()),
     path('subrequest/list/',subRequestListView.as_view()),
 
