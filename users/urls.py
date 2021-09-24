@@ -67,6 +67,7 @@ urlpatterns = [
     path('Subscriptions/',subscriptions,name='Subscriptions'),
     path('instalment/',instalment,name='instalment'),
     path('requestor/',requestors,name='requestor'),
+    path('subrequest/',subrequestors,name='subrequest'),
     path('reply/<int:requestID>/',reply,name='reply'),
     path('notify/<int:subID>/',notify,name='notify'),
     path('sendToken/<int:tokenID>/',sendToken,name='sendToken'),
@@ -114,9 +115,10 @@ urlpatterns = [
 
 
     path('register/',register.as_view()),
-        
+    
     path('subrequest/create/',subRequestCreateView.as_view()),
     path('subrequest/list/',subRequestListView.as_view()),
+    
 
 
     path('Service/',ServiceListView.as_view()),
