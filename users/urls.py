@@ -65,6 +65,7 @@ urlpatterns = [
     path('AddMeter/',AddMeter,name='AddMeter'),
     path('AddProduct/',AddProduct,name='AddProduct'),
     path('Subscriptions/',subscriptions,name='Subscriptions'),
+    path('new_subscriptions/',new_subscriptions,name='new_subscriptions'),
     path('instalment/',instalment,name='instalment'),
     path('requestor/',requestors,name='requestor'),
     path('subrequest/',subrequestors,name='subrequest'),
