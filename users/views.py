@@ -532,16 +532,16 @@ def requestors(request):
     page_obj = paginator.get_page(page_number)
     return render(request, 'requestor.html', {'requests': requests, 'page_obj': page_obj})
 
-@login_required(login_url='/login')
-def subrequestors(request):
-    subrequests = subRequest.objects.all()
-    search_query = request.GET.get('search', '')
-    if search_query:
-        subrequests = Request.objects.filter(Q(Names__icontains=search_query))
-    paginator = Paginator(subrequests, 6)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(request, 'subrequest.html', {'subrequests': subrequests, 'page_obj': page_obj})
+# @login_required(login_url='/login')
+# def subrequestors(request):
+#     subrequests = subRequest.objects.all()
+#     search_query = request.GET.get('search', '')
+#     if search_query:
+#         subrequests = Request.objects.filter(Q(Names__icontains=search_query))
+#     paginator = Paginator(subrequests, 6)
+#     page_number = request.GET.get('page')
+#     page_obj = paginator.get_page(page_number)
+#     return render(request, 'subrequest.html', {'subrequests': subrequests, 'page_obj': page_obj})
 
 
 @login_required(login_url='/login')
@@ -1045,6 +1045,14 @@ class RequestCreateView(CreateAPIView):
 class RequestListView(ListAPIView):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
+    
+class subRequestCreateView(CreateAPIView):
+    queryset = subRequest.objects.all()
+    serializer_class = SubRequestSerializer
+    
+class subRequestListView(ListAPIView):
+    queryset = subRequest.objects.all()
+    serializer_class = SubRequestSerializer
 
 class ServiceListView(ListAPIView):
     queryset = Service.objects.all()
