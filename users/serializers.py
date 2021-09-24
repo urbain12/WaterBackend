@@ -34,8 +34,7 @@ class backgroundSerializer(serializers.ModelSerializer):
 class RequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Request
-        fields = ('Names', 'phonenumber', 'Message',
-                  'Province', 'District', 'Sector', 'Cell','service','reply')
+        fields = '__all__'
 
 
 class ServiceSerializer(serializers.ModelSerializer):
