@@ -1582,6 +1582,61 @@ class CreateOrder(CreateAPIView):
         )
         return Response(response)
 
+class register(CreateAPIView):
+    def create(self,request):
+        print(request.data)
+        alphabet = string.ascii_letters + string.digits
+        password = ''.join(secrets.choice(alphabet) for i in range(6))
+        try:
+            user1=User.objects.get(email=request.data['email'])
+            response = {
+            'status': 'Failure',
+            'code': status.HTTP_400_BAD_REQUEST,
+            'message': 'A user with that email already exists!',
+            'data': []
+            }
+            
+            return Response(response)
+        except User.DoesNotExist:
+            try:
+                user2=User.objects.get(phone=request.data['phone'])
+                response = {
+                'status': 'Failure',
+                'code': status.HTTP_400_BAD_REQUEST,
+                'message': 'A user with that phone number already exists!',
+                'data': []
+                }
+                
+                return Response(response)
+            except User.DoesNotExist:
+                user=User.objects.create_user(
+                email=request.data['email'],
+                phone=request.data['phone'],
+                password=password)
+                my_phone=request.data['phone']
+                payload={'details':f' Dear Client,\nYou have been registered successfully \n Your credentials to login in mobile app are: \n Phone:{my_phone} \n password:{password} ','phone':f'25{my_phone}'}
+                headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+                r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
+                customer=Customer()
+                customer.user=user
+                customer.FirstName=request.data['FirstName']
+                customer.LastName=request.data['LastName']
+                customer.IDnumber=request.data['IDnumber']
+                customer.Province=request.data['Province']
+                customer.District=request.data['District']
+                customer.Sector=request.data['Sector']
+                customer.Cell=request.data['Cell']
+                customer.Language=request.data['Language']
+                customer.save()
+                response = {
+                    'status': 'success',
+                    'code': status.HTTP_200_OK,
+                    'message': 'Customer created successfully!!!',
+                    'data': []
+                }
+                
+                return Response(response)
+
 def export_users_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="Instalments.csv"'
