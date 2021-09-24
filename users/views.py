@@ -231,7 +231,7 @@ def reply(request,requestID):
         req.save()
         if req.Language.upper() == 'ENGLISH':
             payload={'details':f' Dear {req.Names},\n {req.reply} \nPlease call us for any Problem through 0788333111 ','phone':f'25{req.phonenumber}'}
-        if req.Language.upper() == 'KINYARWANDAT':
+        if req.Language.upper() == 'KINYARWANDA':
             payload={'details':f' Mukiriya wacu {req.Names},\n {req.reply} \nMugize ikibazo mwaduhamagara kuri 0788333111 ','phone':f'25{req.phonenumber}'}
         headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
@@ -1045,6 +1045,14 @@ class RequestCreateView(CreateAPIView):
 class RequestListView(ListAPIView):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
+    
+class subRequestCreateView(CreateAPIView):
+    queryset = subRequest.objects.all()
+    serializer_class = SubRequestSerializer
+    
+class subRequestListView(ListAPIView):
+    queryset = subRequest.objects.all()
+    serializer_class = SubRequestSerializer
 
 class ServiceListView(ListAPIView):
     queryset = Service.objects.all()
