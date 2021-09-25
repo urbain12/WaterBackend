@@ -30,6 +30,7 @@ from rest_framework import status
 from django.core.paginator import Paginator
 from django.db.models import Q
 from rest_framework.authtoken.models import Token
+from rest_framework.parsers import MultiPartParser
 import requests
 import xlwt
 import urllib3
@@ -1713,6 +1714,7 @@ class subscribe(CreateAPIView):
 
 
 class register(CreateAPIView):
+    parser_classes = (MultiPartParser, )
     def create(self, request):
         print(request.data)
         alphabet = string.ascii_letters + string.digits
@@ -1758,7 +1760,7 @@ class register(CreateAPIView):
                 customer.Sector = request.data['Sector']
                 customer.Cell = request.data['Cell']
                 customer.Language = request.data['Language']
-                customer.Image = request.FILES['Image']
+                customer.Image = request.data['Image']
                 customer.save()
                 response = {
                     'status': 'success',
