@@ -30,7 +30,7 @@ from rest_framework import status
 from django.core.paginator import Paginator
 from django.db.models import Q
 from rest_framework.authtoken.models import Token
-from rest_framework.parsers import MultiPartParser
+from rest_framework.parsers import MultiPartParser,FormParser,JSONParser
 import requests
 import xlwt
 import urllib3
@@ -1714,7 +1714,7 @@ class subscribe(CreateAPIView):
 
 
 class register(CreateAPIView):
-    parser_classes = (MultiPartParser, )
+    parser_classes = (MultiPartParser,FormParser,JSONParser )
 
     def create(self, request):
         print(request.data)
