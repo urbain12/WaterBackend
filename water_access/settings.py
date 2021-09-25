@@ -37,10 +37,12 @@ INSTALLED_APPS = [
     'rest_auth',
     'users',
     'django_crontab',
-    'mathfilters'
+    'mathfilters',
+
+
 ]
 
-CORS_ORIGIN_ALLOW_ALL=True
+CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -54,7 +56,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'water_access.urls'
 
-SITE_ID=1
+SITE_ID = 1
 
 # CORS_ALLOWED_ORIGINS=[
 #     'http://t3ch.rw/ussd.php',
@@ -63,7 +65,7 @@ SITE_ID=1
 #     'https://t3ch.rw/',
 #     'http://t3ch.rw/ussd.php',
 #     'http://t3ch.rw:8234',
-    
+
 # ]
 
 REST_FRAMEWORK = {
@@ -74,6 +76,11 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # 'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
     ]
 }
 
@@ -84,7 +91,8 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 
-REST_AUTH_SERIALIZERS = { 'USER_DETAILS_SERIALIZER':'users.serializers.UserSerializer' }
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'users.serializers.UserSerializer'}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
@@ -119,7 +127,7 @@ DATABASES = {
         'HOST': "",
         'PORT': "",
         'OPTIONS': {
-        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
     }
 }
@@ -159,20 +167,20 @@ USE_I18N = True
 
 CRONJOBS = [
     (
-     '0 0 */1 * *', 'users.cron.Notifications'
-     '0 0 */1 * *', 'users.cron.MonthlyNotification'
-    
+        '0 0 */1 * *', 'users.cron.Notifications'
+        '0 0 */1 * *', 'users.cron.MonthlyNotification'
+
     )
 ]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATICFILES_DIRS=[
-    os.path.join(BASE_DIR,'water_access/static/')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'water_access/static/')
 ]
-STATIC_ROOT=os.path.join(BASE_DIR,'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
- 
-MEDIA_ROOT=os.path.join(BASE_DIR,'media')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
