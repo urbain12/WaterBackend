@@ -1715,6 +1715,7 @@ class subscribe(CreateAPIView):
 
 class register(CreateAPIView):
     parser_classes = (MultiPartParser, )
+
     def create(self, request):
         print(request.data)
         alphabet = string.ascii_letters + string.digits
