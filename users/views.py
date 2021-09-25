@@ -1713,8 +1713,8 @@ class subscribe(CreateAPIView):
         return Response(response)
 
 
-class reset_passwordView(UpdateAPIView):
-    def create(request):
+class reset_passwordView(CreateAPIView):
+    def create(self, request):
         user = User.objects.get(phone=request.data['phone'])
         alphabet = string.ascii_letters + string.digits
         password = ''.join(secrets.choice(alphabet) for i in range(6))
