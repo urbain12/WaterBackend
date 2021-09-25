@@ -1714,8 +1714,8 @@ class subscribe(CreateAPIView):
 
 
 class reset_passwordView(UpdateAPIView):
-    def create(request, userID):
-        user = User.objects.get(phone=userID)
+    def create(request):
+        user = User.objects.get(phone=request.data['phone'])
         alphabet = string.ascii_letters + string.digits
         password = ''.join(secrets.choice(alphabet) for i in range(6))
         my_phone = request.data['phone']
