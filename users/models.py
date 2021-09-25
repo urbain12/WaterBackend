@@ -86,6 +86,7 @@ class Customer(models.Model):
     District = models.CharField(max_length=255, null=True, blank=True)
     Sector = models.CharField(max_length=255, null=True, blank=True)
     Cell = models.CharField(max_length=255, null=True, blank=True)
+    Image = models.ImageField(null=True, blank=True)
     Language = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateField(auto_now_add=True)
     Meternumber = models.OneToOneField(
@@ -105,12 +106,13 @@ class Meters(models.Model):
 
 
 class CustomerMeter(models.Model):
-    customer_phone = models.CharField(max_length=255, null=True,blank=True)
-    meter = models.CharField(max_length=255, null=True,blank=True)
+    customer_phone = models.CharField(max_length=255, null=True, blank=True)
+    meter = models.CharField(max_length=255, null=True, blank=True)
     last_update = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.customer_phone
+
 
 class WaterBuyHistory(models.Model):
     Amount = models.CharField(max_length=255, null=True, blank=True)
@@ -145,10 +147,11 @@ class Subscriptions(models.Model):
         tools = self.subscriptionstools_set.all()
         total = sum([tool.get_total for tool in tools])
         return total
-    
+
     @property
     def get_overdue_months(self):
-        overdue_months = self.subscriptionspayment_set.filter(Paid=False,PaidMonth__lte=datetime.datetime.now()+relativedelta(months=-1))
+        overdue_months = self.subscriptionspayment_set.filter(
+            Paid=False, PaidMonth__lte=datetime.datetime.now()+relativedelta(months=-1))
         total_months = len(overdue_months)
         return total_months
 
@@ -220,12 +223,13 @@ class Request(models.Model):
 
     def __str__(self):
         return self.Names
-    
+
+
 class subRequest(models.Model):
     Names = models.CharField(max_length=255, null=True, blank=True)
     Message = models.TextField(blank=True, null=False)
-    Subscriptions = models.CharField(max_length=255,blank=True, null=False)
-    category = models.CharField(max_length=255,blank=True, null=False)
+    Subscriptions = models.CharField(max_length=255, blank=True, null=False)
+    category = models.CharField(max_length=255, blank=True, null=False)
     phonenumber = models.CharField(max_length=255, null=True, blank=True)
     Province = models.CharField(max_length=255, null=True, blank=True)
     District = models.CharField(max_length=255, null=True, blank=True)
@@ -236,7 +240,6 @@ class subRequest(models.Model):
 
     def __str__(self):
         return self.Names
-
 
 
 # class Reply(models.Model):
@@ -328,6 +331,6 @@ class notification(models.Model):
 
 class background(models.Model):
     Image = models.ImageField(null=True, blank=True)
-    
+
     def __str__(self):
         return self.Image.url

@@ -92,6 +92,7 @@ urlpatterns = [
     path('Productlist/',ProductListView.as_view()),
     path('backgroundlist/',backgroundListView.as_view()),
     path('api/change-password/', ChangePasswordView.as_view()),
+    path('api/resetpassword/', reset_passwordView.as_view()),
 
 
 
