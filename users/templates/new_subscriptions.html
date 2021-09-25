@@ -7,7 +7,7 @@
                     
 					<div class="panel">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Subscribers</h3>
+                            <h3 class="panel-title">Approve new Subscribers</h3>
                         </div>
                     
                         <!--Data Table-->
@@ -17,8 +17,7 @@
                                 <div class="row">
                                     
                                     <div class="col-sm-12 table-toolbar-right">
-                                        <a href="{% url 'new_subscriptions'%}" id="demo-btn-addrow" class="btn btn-success">New subscriptions</a>
-                                        <a href="{% url 'add_subscription'%}" id="demo-btn-addrow" class="btn btn-purple"><i class="demo-pli-add"></i> Add new</a>
+                                        
 
                                         <div class="btn-group">
                                             <div class="form-group">
@@ -39,11 +38,10 @@
                                         <tr>
                                             <th class="text-left">ID</th>
                                             <th>Customer</th>
+                                            <th>Phone</th>
+                                            <th>Email</th>
                                             <th>Subscribed in</th>
-                                            <th>From</th>
-                                            <th>Total amount</th>
                                             <th>Action</th>
-                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -52,21 +50,13 @@
                                     <tr>
                                             <td><a class="btn-link" href="#">{{sub.id}}</a></td>
                                             <td>{{sub.CustomerID.FirstName}} {{sub.CustomerID.LastName}}</td>
+                                            <td>{{sub.CustomerID.user.email}}</td>
+                                            <td>{{sub.CustomerID.user.phone}}</td>
                                             <td>{{sub.Category.Title}}</td>
-                                            <td>{{sub.From}}</td>
-                                            <td>{{sub.get_total_amount|intcomma}} Rwf</td>
                                             <td> 
-                                            <a class="btn-link" href="{% url 'quotation' sub.id%}"><button class="btn btn-primary">View</button></a>
-                                            <a class="btn-link" href="{% url 'notify' sub.id%}"><button class="btn btn-warning">Notify</button></a>
+                                            <a class="btn-link" href="#"><button class="btn btn-primary">Approve</button></a>
                                             </td>
-                                            <td> 
-                                            {% if sub.TotalBalance|add:0 %}
-                                                <button class="btn btn-purple">Paying</button>
-                                            {% else %}
-                                                <button class="btn btn-success">Paid</button>
-                                            {% endif %}
-                                            
-                                            </td>
+                                           
                                     </tr>
                                     {% endfor %}
 
