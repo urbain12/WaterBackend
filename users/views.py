@@ -1654,6 +1654,7 @@ class register(CreateAPIView):
                 customer.Sector=request.data['Sector']
                 customer.Cell=request.data['Cell']
                 customer.Language=request.data['Language']
+                customer.Image = request.data['Image']
                 customer.save()
                 response = {
                     'status': 'success',
