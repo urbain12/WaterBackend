@@ -777,11 +777,6 @@ def subscriptions(request):
     return render(request,'Subscriptions.html',{'subscriptions':subscriptions})
 
 @login_required(login_url='/login')
-def new_subscriptions(request):
-    subscriptions=Subscriptions.objects.filter(complete=False)
-    return render(request,'new_subscriptions.html',{'subscriptions':subscriptions})
-
-@login_required(login_url='/login')
 def quotation(request,SubscriptionsID):
     sub_tools = SubscriptionsTools.objects.filter(SubscriptionsID=SubscriptionsID)
     subscription=Subscriptions.objects.get(id=SubscriptionsID)
