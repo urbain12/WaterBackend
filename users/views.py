@@ -1475,7 +1475,8 @@ def pay_subscription(request):
         today = datetime.today()
         print(body)
         customer_id = body['customerID']
-        subscription = Subscriptions.objects.get(CustomerID=customer_id)
+        sub_id = body['sub_id']
+        subscription = Subscriptions.objects.get(id=sub_id)
         amount = int(body['amount'])
         if int(amount) > int(subscription.TotalBalance):
             subscription.Extra = subscription.Extra + \
