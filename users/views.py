@@ -1233,6 +1233,7 @@ class CustomerDeleteView(DestroyAPIView):
 
 
 class CustomerUpdateView(UpdateAPIView):
+    parser_classes = (MultiPartParser, FormParser, JSONParser)
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     lookup_field = 'id'
