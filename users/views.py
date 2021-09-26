@@ -544,6 +544,14 @@ def orders(request):
     page_obj = paginator.get_page(page_number)
     return render(request, 'orders.html', {'orders': orders, 'page_obj': page_obj})
 
+@login_required(login_url='/login')
+def pay_later_orders(request):
+    orders = Order.objects.filter(pay_later=True).order_by('-id')
+    paginator = Paginator(orders, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'pay_later_orders.html', {'orders': orders, 'page_obj': page_obj})
+
 
 @login_required(login_url='/login')
 def reset_password(request, userID):
@@ -1010,6 +1018,7 @@ def check_payment(transID, items, amount, email, address, city, names, phone):
         order = Order()
         order.transaction_id = transaction_id
         order.complete = True
+        order.paid = True
         order.save()
         payload = {'details': f' Dear {names},\n \n Your order of : {amount} have been completed\n we will contact you later ', 'phone': f'25{phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
@@ -1666,6 +1675,42 @@ class CreateOrder(CreateAPIView):
         order = Order()
         order.transaction_id = transaction_id
         order.complete = True
+        order.paid = True
+        order.save()
+        customer = Customer.objects.get(id=int(request.data['customerID']))
+        for item in request.data['order']:
+            print(item['id'])
+            product = Product.objects.only('id').get(id=int(item['id']))
+            product.inStock = product.inStock-item['qty']
+            order_item = OrderItem()
+            order_item.product = product
+            order_item.order = order
+            order_item.quantity = item['qty']
+            order_item.save()
+        response = {
+            'status': 'success',
+            'code': status.HTTP_200_OK,
+            'message': 'Order created successfully!!!',
+            'data': []
+        }
+        ShippingAddress.objects.create(
+            order=order,
+            address=customer.District+" "+customer.Sector+" "+customer.Cell,
+            city=customer.Province,
+            names=customer.FirstName+" "+customer.LastName,
+            phone=customer.user.phone,
+            email=customer.user.email,
+        )
+        return Response(response)
+
+class PayLaterOrder(CreateAPIView):
+    def create(self, request):
+        print(request.data)
+        transaction_id = datetime.now().timestamp()
+        order = Order()
+        order.transaction_id = transaction_id
+        order.complete = False
+        order.pay_later = True
         order.save()
         customer = Customer.objects.get(id=int(request.data['customerID']))
         for item in request.data['order']:
