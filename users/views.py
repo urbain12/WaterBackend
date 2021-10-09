@@ -1756,6 +1756,41 @@ class CreateOrder(CreateAPIView):
         )
         return Response(response)
 
+class CreateOrderTool(CreateAPIView):
+    def create(self, request):
+        print(request.data)
+        transaction_id = datetime.now().timestamp()
+        order = OrderTools()
+        order.transaction_id = transaction_id
+        order.complete = True
+        order.paid = True
+        order.save()
+        customer = Customer.objects.get(id=int(request.data['customerID']))
+        for item in request.data['order']:
+            print(item['id'])
+            product = Product.objects.only('id').get(id=int(item['id']))
+            product.inStock = product.inStock-item['qty']
+            order_item = OrderItemTool()
+            order_item.product = product
+            order_item.order = order
+            order_item.quantity = item['qty']
+            order_item.save()
+        response = {
+            'status': 'success',
+            'code': status.HTTP_200_OK,
+            'message': 'Order created successfully!!!',
+            'data': []
+        }
+        ToolShippingAddress.objects.create(
+            order=order,
+            address=customer.District+" "+customer.Sector+" "+customer.Cell,
+            city=customer.Province,
+            names=customer.FirstName+" "+customer.LastName,
+            phone=customer.user.phone,
+            email=customer.user.email,
+        )
+        return Response(response)
+
 class PayLaterOrder(CreateAPIView):
     def create(self, request):
         print(request.data)
