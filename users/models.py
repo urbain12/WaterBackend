@@ -292,6 +292,29 @@ class Order(models.Model):
         orderitems = self.orderitem_set.all()
         total = sum([item.quantity for item in orderitems])
         return total
+    
+class OrderTools(models.Model):
+    date_ordered = models.DateTimeField(auto_now_add=True)
+    complete = models.BooleanField(default=False)
+    pay_later = models.BooleanField(default=False)
+    paid = models.BooleanField(default=False)
+    transaction_id = models.CharField(max_length=100, null=True)
+
+    def __str__(self):
+        return str(self.id)
+
+    @property
+    def get_cart_total(self):
+        orderitemstool = self.orderitemtool_set.all()
+        total = sum([item.get_total for item in orderitemstool])
+        return total
+
+    @property
+    def get_cart_items(self):
+        orderitemstool = self.orderitemtool_set.all()
+        total = sum([item.quantity for item in orderitemstool])
+        return total
+
 
 
 class OrderItem(models.Model):
@@ -304,10 +327,33 @@ class OrderItem(models.Model):
     def get_total(self):
         total = self.product.price * self.quantity
         return total
+    
+class OrderItemTool(models.Model):
+    Tool = models.ForeignKey(Tools, on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(OrderTools, on_delete=models.CASCADE, null=True)
+    quantity = models.IntegerField(default=0, null=True, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def get_total(self):
+        total = self.Tool.Amount * self.quantity
+        return total
 
 
 class ShippingAddress(models.Model):
     order = models.OneToOneField(Order, on_delete=models.CASCADE, null=True)
+    address = models.CharField(max_length=200, null=True)
+    city = models.CharField(max_length=200, null=True)
+    email = models.CharField(max_length=200, null=True)
+    names = models.CharField(max_length=200, null=True)
+    phone = models.CharField(max_length=200, null=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.address
+    
+class ToolShippingAddress(models.Model):
+    order = models.OneToOneField(OrderTools, on_delete=models.CASCADE, null=True)
     address = models.CharField(max_length=200, null=True)
     city = models.CharField(max_length=200, null=True)
     email = models.CharField(max_length=200, null=True)
