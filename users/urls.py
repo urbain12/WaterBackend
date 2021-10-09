@@ -37,6 +37,7 @@ urlpatterns = [
     path('create_order/',CreateOrder.as_view(),name='create_order'),
     path('create_order_tool/',CreateOrderTool.as_view(),name='create_order_tool'),
     path('pay_later_order/create/',PayLaterOrder.as_view(),name='pay_later_order'),
+    path('pay_later_order_tool/create/',PayLaterOrderTool.as_view(),name='pay_later_order_tool'),
     path('pay_later_orders/',pay_later_orders,name='pay_later_orders'),
     path('products/',products,name='products'),
     path('transactions/<int:customerID>/',transactions,name='transactions'),
