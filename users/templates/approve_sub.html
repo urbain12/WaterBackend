@@ -11,28 +11,18 @@
                     
                                 <!--Block Styled Form -->
                                 <!--===================================================-->
-                                <form enctype="multipart/form-data" action="{% url 'checkout' %}" method="POST">
+                                <form enctype="multipart/form-data" action="{% url 'approve_subscription' subscription.id %}" method="POST">
                                 {% csrf_token %}
                                     <div class="panel-body">
 
                                         <div class="row">
-                                            <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                    <label class="control-label">Customer</label>
-                                                    <select class="form-control" name="customer" required>
-                                                       <option value="">Select customer</option> 
-                                                    {% for customer in customers%}
-
-                                                       <option value="{{customer.id}}">{{customer.FirstName}} {{customer.LastName}}</option> 
-                                                    {% endfor %}
-                                                       
-                                                    </select>  
-                                                </div>
-                                            </div>
+     
+                                                    <input style="display:none" type="text" name="customer" value={{subscription.CustomerID.id}}> 
+                                                
                                             <div class="col-sm-6">
                                                     <div class="form-group">
                                                     <label class="control-label">Service</label>
-                                                    <select class="form-control" name="category" id='category' onchange="populate(this.id,'system')" required>
+                                                    <select class="form-control" value={{subscription.Category.Title}} name="category" id='category' onchange="populate(this.id,'system')" required>
                                                        <option value="Select meter number">Select Service</option> 
                                                     {% for category in categories%}
 
@@ -52,7 +42,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-12">
                                                     <div class="form-group">
                                                     <label class="control-label">Users</label>
                                                     <select class="form-control" name="users" id='users' onchange="my_func()" required>

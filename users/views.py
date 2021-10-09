@@ -793,6 +793,31 @@ def approve_subscription(request,subID):
             SubscriptionsID=subscription.id)
         return redirect('checkout_page', pk=subscription.id)
 
+@login_required(login_url='/login')
+def approve_sub(request,subID):
+    subscription = Subscriptions.objects.get(id=subID)
+    categories = Category.objects.all()
+    systs = System.objects.all()
+    systems=[]
+    for sys in systs:
+        sys_obj={
+            "category":sys.Category.Title,
+            "title":sys.title,
+            "id":sys.id
+        }
+        systems.append(sys_obj)
+    tools_am = SystemTool.objects.all()
+    amazi_tools=[]
+    for tool in tools_am:
+        tool_obj={
+            "system":tool.system.title,
+            "title":tool.tool.Title,
+            "id":tool.id
+        }
+        amazi_tools.append(tool_obj)
+        print(amazi_tools)
+    return render(request, 'approve_sub.html', {'amazi_tools': amazi_tools,'subscription': subscription,'categories':categories,'systems':systems})
+
 
 @login_required(login_url='/login')
 def Checkout(request, subID):
