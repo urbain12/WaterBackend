@@ -165,6 +165,7 @@ urlpatterns = [
 
 
     path('SubscriptionsTools/',SubscriptionsToolsListView.as_view()),
+    path('SubscriptionsTools/<int:user_id>/',SubscriptionsTools1.as_view()),
     path('SubscriptionsTools/create/',SubscriptionsToolsCreateView.as_view()),
     path('UpdateSubscriptionsTools/<id>/', SubscriptionsToolsUpdateView.as_view()),
     path('DeleteSubscriptionsTools/<id>/', SubscriptionsToolsDeleteView.as_view()),

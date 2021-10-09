@@ -129,12 +129,12 @@ class ToolsSerializer(serializers.ModelSerializer):
         model = Tools
         fields = '__all__'
 
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        if data['CategoryID'] is not None:
-            data['CategoryID'] = ToolsCategorySerializer(
-                ToolsCategory.objects.get(pk=data['CategoryID'])).data
-        return data
+    # def to_representation(self, instance):
+    #     data = super().to_representation(instance)
+    #     if data['CategoryID'] is not None:
+    #         data['CategoryID'] = ToolsCategorySerializer(
+    #             ToolsCategory.objects.get(pk=data['CategoryID'])).data
+    #     return data
 
 
 class ToolsCategorySerializer(serializers.ModelSerializer):

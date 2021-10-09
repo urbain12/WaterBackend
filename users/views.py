@@ -657,6 +657,8 @@ def AddProduct(request):
 @login_required(login_url='/login')
 def add_subscription(request):
     tools = Tools.objects.all()
+    amazi_system=System.objects.get(title="Amazi FUV")
+    tools_am = SystemTool.objects.all()
     sub = Subscriptions.objects.all()
     sub_customers = []
     new_customers = []
@@ -670,7 +672,41 @@ def add_subscription(request):
 
     customers = new_customers
     categories = Category.objects.all()
-    return render(request, 'add_subscription.html', {'tools': tools, 'customers': customers, 'categories': categories})
+    uhira_sys = System.objects.filter(Category=2)
+    inuma_sys = System.objects.filter(Category=4)
+    amazi_sys = System.objects.filter(Category=3)
+    amazi_systems=[]
+    inuma_systems=[]
+    uhira_systems=[]
+    inuma_tools=[]
+    amazi_tools=[]
+    for tool in tools_am:
+        tool_obj={
+            "system":tool.system.title,
+            "title":tool.tool.Title,
+            "id":tool.id
+        }
+        amazi_tools.append(tool_obj)
+        print(amazi_tools)
+    for sys in amazi_sys:
+        sys_obj={
+            "title":sys.title,
+            "id":sys.id
+        }
+        amazi_systems.append(sys_obj)
+    for sys in inuma_sys:
+        sys_obj={
+            "title":sys.title,
+            "id":sys.id
+        }
+        inuma_systems.append(sys_obj)
+    for sys in uhira_sys:
+        sys_obj={
+            "title":sys.title,
+            "id":sys.id
+        }
+        uhira_systems.append(sys_obj)
+    return render(request, 'add_subscription.html', {'amazi_tools': amazi_tools,'uhira_systems': uhira_systems,'amazi_systems': amazi_systems,'inuma_systems': inuma_systems,'tools': tools, 'customers': customers, 'categories': categories})
 
 
 @login_required(login_url='/login')
@@ -702,11 +738,15 @@ def checkout(request):
         subscription = Subscriptions()
         customer = Customer.objects.only('id').get(
             id=int(request.POST['customer']))
-        category = Category.objects.only('id').get(
-            id=int(request.POST['category']))
+        category = Category.objects.get(
+            Title=request.POST['category'])
+        system = System.objects.get(
+            title=request.POST['system'])
         subscription.CustomerID = customer
         subscription.From = today
         subscription.Category = category
+        subscription.System = system
+        subscription.users=request.POST['users']
         subscription.To = today + timedelta(days=365)
         subscription.save()
         tools = request.POST['tools'].split(',')[:-1]
@@ -1421,6 +1461,17 @@ class SubscriptionsByCustomerID(ListAPIView):
     def get_queryset(self):
         customer = Customer.objects.get(user=self.kwargs['user_id'])
         return Subscriptions.objects.filter(CustomerID=customer.id)
+
+class SubscriptionsTools1(ListAPIView):
+    serializer_class = SubscriptionsToolsSerializer
+
+    def get_queryset(self):
+        customer = Customer.objects.get(user=self.kwargs['user_id'])
+        subscriptions=Subscriptions.objects.filter(CustomerID=customer.id)
+        subscriptions_ids=[]
+        for sub in subscriptions:
+            subscriptions_ids.append(sub.id)
+        return SubscriptionsTools.objects.filter(SubscriptionsID__in=subscriptions_ids)
 
 
 class SubscriptionsPaymentCreateView(CreateAPIView):

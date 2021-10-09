@@ -20,7 +20,7 @@
                                                     <div class="form-group">
                                                     <label class="control-label">Customer</label>
                                                     <select class="form-control" name="customer" required>
-                                                       <option value="Select meter number">Select customer</option> 
+                                                       <option value="">Select customer</option> 
                                                     {% for customer in customers%}
 
                                                        <option value="{{customer.id}}">{{customer.FirstName}} {{customer.LastName}}</option> 
@@ -32,12 +32,36 @@
                                             <div class="col-sm-6">
                                                     <div class="form-group">
                                                     <label class="control-label">Service</label>
-                                                    <select class="form-control" name="category" required>
+                                                    <select class="form-control" name="category" id='category' onchange="populate(this.id,'system')" required>
                                                        <option value="Select meter number">Select Service</option> 
                                                     {% for category in categories%}
 
-                                                       <option value="{{category.id}}">{{category.Title}}</option> 
+                                                       <option value="{{category.Title}}">{{category.Title}}</option> 
                                                     {% endfor %}
+                                                       
+                                                    </select>  
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                    <label class="control-label">System</label>
+                                                    <select class="form-control" name="system" id='system' onchange="populate2(this.id,'tools');check();" required>
+                                                       <option value="">Select System</option> 
+                                                    </select>  
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                    <label class="control-label">Users</label>
+                                                    <select class="form-control" name="users" id='users' onchange="my_func()" required>
+                                                       <option value="">Select number of users</option> 
+                                                       <option value="Under 100">Under 100</option> 
+                                                       <option value="101-500">101-500</option> 
+                                                       <option value="500-1500">500-1500</option> 
+                                                       <option value="Above 1500">Above 1500</option> 
+                                                    
                                                        
                                                     </select>  
                                                 </div>
@@ -45,16 +69,18 @@
                                            
                                             
                                             
-                                            <h3>Tools</h3>
-                                            <div class="row" style="margin:10px">
-                                            {% for tool in tools%}
+                                            <h3 id='my_title'></h3>
+                                            <div class="row" style="margin:10px" id='tools1'>
+                                            
+                                             {% comment %} {% for tool in tools%}
                                             <div class="col-sm-2">
                                                 <div class="checkbox">
                                                     <input id="demo-remember-me" value={{tool.Title}} class="magic-checkbox" type="checkbox">
                                                     <label for="demo-remember-me">{{tool.Title}}</label>
                                                 </div>
                                             </div>
-                                            {% endfor %}
+                                            {% endfor %}  {% endcomment %}
+
                                             </div>
 
 
@@ -83,5 +109,117 @@
 					
 					
                 </div>
+<script>
+//var my_func=()=>{
+ //   var tools= "{{ my_tools }}" 
+ //   var tii=JSON.parse(tools.replace(/&#x27;/g,'"'));
+ //   console.log(tii)
+//}
+function populate(s1,s2){
+    var s1 = document.getElementById(s1);
+    var s2 = document.getElementById(s2);
+    s2.innerHTML = "";
+    if(s1.value == "AMAZI"){
+        var optionArray = ["|"];
+        var systems= "{{ amazi_systems }}" 
+        var sys=JSON.parse(systems.replace(/&#x27;/g,'"'));
+        for(var i=0;i<sys.length;i++){
+        optionArray.push(sys[i].title+'|'+sys[i].title)
+        }
+    } else if(s1.value == "INUMA"){
+        var optionArray = ["|"];
+        var systems= "{{ inuma_systems }}" 
+        var sys=JSON.parse(systems.replace(/&#x27;/g,'"'));
+        for(var i=0;i<sys.length;i++){
+        optionArray.push(sys[i].title+'|'+sys[i].title)
+        }
+    } else if(s1.value == "UHIRA"){
+        var optionArray = ["|"];
+        var systems= "{{ uhira_systems }}" 
+        var sys=JSON.parse(systems.replace(/&#x27;/g,'"'));
+        for(var i=0;i<sys.length;i++){
+        optionArray.push(sys[i].title+'|'+sys[i].title)
+        }
+    }
+    
+    for(var option in optionArray){
+        var pair = optionArray[option].split("|");
+        var newOption = document.createElement("option");
+        newOption.value = pair[0];
+        newOption.innerHTML = pair[1];
+        s2.options.add(newOption);
+    }
+}
+function populate2(s1,s2){
+    var s1 = document.getElementById(s1);
+    var s2 = document.getElementById(s2);
+    s2.innerHTML = "";
+    console.log(s1.value)
+    if(s1.value){
+        console.log('ok')
+        var optionArray = [];
+        var sys_tools= "{{ amazi_tools }}" 
+        var tools=JSON.parse(sys_tools.replace(/&#x27;/g,'"')).filter(tool => s1.value==tool.system)
+        for(var i=0;i<tools.length;i++){
+            console.log('ok')
+        optionArray.push(tools[i])
+        }
 
+     console.log(optionArray)
+    } 
+    else {
+        console.log('ok')
+        var optionArray = [];
+        var myDiv = document.getElementById("tools1");
+        myDiv.innerHTML=""
+     console.log(optionArray)
+    } 
+    var inp = document.getElementById("tools");
+    inp.value=""
+    for(var option in optionArray){
+        console.log(optionArray[option])
+            var myDiv = document.getElementById("tools1");
+            //myDiv.className='checkbox'
+            var myTitle = document.getElementById("my_title");
+             myTitle.innerHTML='TOOLS'
+            // creating checkbox element
+            var checkbox = document.createElement('input');
+             
+            // Assigning the attributes
+            // to created checkbox
+            checkbox.type = "checkbox";
+            checkbox.className="magic-checkbox";
+            checkbox.name = 'tools';
+            checkbox.value = optionArray[option].title;
+            checkbox.id = "demo-remember-me";
+            
+             
+            // creating label for checkbox
+            var label = document.createElement('label');
+             
+            // assigning attributes for
+            // the created label tag
+            label.htmlFor = "demo-remember-me";
+            label.style = "margin-right:10px";
+             
+            // appending the created text to
+            // the created label tag
+            label.appendChild(document.createTextNode(optionArray[option].title));
+             
+            // appending the checkbox
+            // and label to div
+            myDiv.appendChild(checkbox);
+            myDiv.appendChild(label);
+    }
+}
+ var check=()=>{
+            $('.magic-checkbox').click(function(){
+                var text="";
+                $('.magic-checkbox:checked').each(function(){
+                    text+=$(this).val()+','
+                });
+                $('#tools').val(text);
+            })
+        }
+</script>
 {% endblock content%}

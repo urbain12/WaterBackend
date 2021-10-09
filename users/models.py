@@ -127,7 +127,7 @@ class Category(models.Model):
     Description = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
-        return self.Title
+        return self.Title+' '+str(self.id)
 
 
 class Subscriptions(models.Model):
@@ -135,12 +135,16 @@ class Subscriptions(models.Model):
         'Customer', on_delete=models.CASCADE, null=True, blank=True)
     Category = models.ForeignKey(
         'Category', on_delete=models.SET_NULL, null=True, blank=True)
+    System = models.ForeignKey(
+        'System', on_delete=models.SET_NULL, null=True, blank=True)
     From = models.DateTimeField(blank=True, null=True)
     To = models.DateTimeField(blank=True, null=True)
     TotalBalance = models.CharField(max_length=255, null=True, blank=True)
     Extra = models.IntegerField(null=True, blank=True, default=0)
     complete = models.BooleanField(default=False)
     customer_exception = models.BooleanField(default=False)
+    users = models.CharField(max_length=100, null=True,blank=True)
+
 
     @property
     def get_total_amount(self):
@@ -177,9 +181,10 @@ class Tools(models.Model):
                              blank=True, unique=True)
     Description = models.CharField(max_length=255, null=True, blank=True)
     Amount = models.IntegerField(default=0, null=True, blank=True)
-    CategoryID = models.ForeignKey(
-        'ToolsCategory', on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.Title
 
 
 class SubscriptionsTools(models.Model):
@@ -336,3 +341,30 @@ class background(models.Model):
 
     def __str__(self):
         return self.Image.url
+
+
+class System(models.Model):
+    title = models.CharField(max_length=100, null=True,blank=True)
+    Category = models.ForeignKey(
+        'Category', on_delete=models.CASCADE, null=True, blank=True)
+    inches = models.CharField(max_length=100, null=True,blank=True)
+    
+    def __str__(self):
+        return str(self.title)
+
+    @property
+    def get_total_amount(self):
+        tools = self.tools_set.all()
+        total = sum([item.Amount for item in tools])
+        return total
+
+class SystemTool(models.Model):
+    tool=models.ForeignKey(
+        'Tools', on_delete=models.CASCADE, null=True, blank=True)
+    system=models.ForeignKey(
+        'System', on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.id)
+
+    
