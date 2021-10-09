@@ -29,6 +29,7 @@ urlpatterns = [
     path('user/',user,name='user'),
     path('login/',login,name='login'),
     path('success/',success,name='success'),
+    path('approve_subscription/<int:subID>/',approve_subscription,name='approve_subscription'),
     path('pleasewait/',pleasewait,name='pleasewait'),
     path('customer_login/',csrf_exempt(customer_login),name='customer_login'),
     path('logout/',logout,name='logout'),

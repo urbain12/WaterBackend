@@ -765,6 +765,34 @@ def checkout(request):
             SubscriptionsID=subscription.id)
         return redirect('checkout_page', pk=subscription.id)
 
+@login_required(login_url='/login')
+def approve_subscription(request,subID):
+    if request.method == 'POST':
+        today = datetime.today()
+        subscription = Subscriptions.objects.get(id=subID)
+        system = System.objects.get(
+            title=request.POST['system'])
+        subscription.From = today
+        subscription.System = system
+        subscription.users=request.POST['users']
+        subscription.To = today + timedelta(days=365)
+        subscription.save()
+        tools = request.POST['tools'].split(',')[:-1]
+
+        for tool in tools:
+            my_tool = Tools.objects.get(Title=tool)
+            subscriptionTool = SubscriptionsTools()
+            subscriptionTool.ToolID = my_tool
+            subscriptionTool.SubscriptionsID = subscription
+            subscriptionTool.quantity = 1
+            subscriptionTool.save()
+
+        subscription.TotalBalance = subscription.get_total_amount
+        subscription.save()
+        my_tools = SubscriptionsTools.objects.filter(
+            SubscriptionsID=subscription.id)
+        return redirect('checkout_page', pk=subscription.id)
+
 
 @login_required(login_url='/login')
 def Checkout(request, subID):
