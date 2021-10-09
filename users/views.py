@@ -674,11 +674,10 @@ def add_subscription(request):
     categories = Category.objects.all()
     uhira_sys = System.objects.filter(Category=2)
     inuma_sys = System.objects.filter(Category=4)
-    amazi_sys = System.objects.filter(Category=3)
-    amazi_systems=[]
+    systs = System.objects.all()
+    systems=[]
     inuma_systems=[]
     uhira_systems=[]
-    inuma_tools=[]
     amazi_tools=[]
     for tool in tools_am:
         tool_obj={
@@ -688,12 +687,13 @@ def add_subscription(request):
         }
         amazi_tools.append(tool_obj)
         print(amazi_tools)
-    for sys in amazi_sys:
+    for sys in systs:
         sys_obj={
+            "category":sys.Category.Title,
             "title":sys.title,
             "id":sys.id
         }
-        amazi_systems.append(sys_obj)
+        systems.append(sys_obj)
     for sys in inuma_sys:
         sys_obj={
             "title":sys.title,
@@ -706,7 +706,7 @@ def add_subscription(request):
             "id":sys.id
         }
         uhira_systems.append(sys_obj)
-    return render(request, 'add_subscription.html', {'amazi_tools': amazi_tools,'uhira_systems': uhira_systems,'amazi_systems': amazi_systems,'inuma_systems': inuma_systems,'tools': tools, 'customers': customers, 'categories': categories})
+    return render(request, 'add_subscription.html', {'amazi_tools': amazi_tools,'systems': systems,'inuma_systems': inuma_systems,'tools': tools, 'customers': customers, 'categories': categories})
 
 
 @login_required(login_url='/login')

@@ -119,24 +119,10 @@ function populate(s1,s2){
     var s1 = document.getElementById(s1);
     var s2 = document.getElementById(s2);
     s2.innerHTML = "";
-    if(s1.value == "AMAZI"){
+    if(s1.value){
         var optionArray = ["|"];
-        var systems= "{{ amazi_systems }}" 
-        var sys=JSON.parse(systems.replace(/&#x27;/g,'"'));
-        for(var i=0;i<sys.length;i++){
-        optionArray.push(sys[i].title+'|'+sys[i].title)
-        }
-    } else if(s1.value == "INUMA"){
-        var optionArray = ["|"];
-        var systems= "{{ inuma_systems }}" 
-        var sys=JSON.parse(systems.replace(/&#x27;/g,'"'));
-        for(var i=0;i<sys.length;i++){
-        optionArray.push(sys[i].title+'|'+sys[i].title)
-        }
-    } else if(s1.value == "UHIRA"){
-        var optionArray = ["|"];
-        var systems= "{{ uhira_systems }}" 
-        var sys=JSON.parse(systems.replace(/&#x27;/g,'"'));
+        var systems= "{{ systems }}" 
+        var sys=JSON.parse(systems.replace(/&#x27;/g,'"')).filter(sys=>s1.value==sys.category)
         for(var i=0;i<sys.length;i++){
         optionArray.push(sys[i].title+'|'+sys[i].title)
         }
@@ -153,9 +139,11 @@ function populate(s1,s2){
 function populate2(s1,s2){
     var s1 = document.getElementById(s1);
     var s2 = document.getElementById(s2);
-    s2.innerHTML = "";
+    var myDiv = document.getElementById("tools1");
+    myDiv.innerHTML = "";
     console.log(s1.value)
     if(s1.value){
+        
         console.log('ok')
         var optionArray = [];
         var sys_tools= "{{ amazi_tools }}" 
