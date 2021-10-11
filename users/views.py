@@ -793,6 +793,31 @@ def approve_subscription(request,subID):
             SubscriptionsID=subscription.id)
         return redirect('checkout_page', pk=subscription.id)
 
+
+
+@login_required(login_url='/login')
+def create_system(request):
+    if request.method == 'POST':
+        category = Category.objects.get(
+            Title=request.POST['category'])
+        system = System()
+        system.Category = category
+        system.title=request.POST['title']
+        system.inches=request.POST['inches']
+        system.save()
+        tools = request.POST['tools'].split(',')[:-1]
+
+        for tool in tools:
+            my_tool = Tools.objects.get(Title=tool)
+            systemTool = SystemTool()
+            systemTool.tool = my_tool
+            systemTool.system = system
+            systemTool.save()
+
+        
+        
+        return redirect('system')
+
 @login_required(login_url='/login')
 def approve_sub(request,subID):
     subscription = Subscriptions.objects.get(id=subID)

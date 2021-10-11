@@ -29,6 +29,7 @@ urlpatterns = [
     path('user/',user,name='user'),
     path('login/',login,name='login'),
     path('success/',success,name='success'),
+    path('create_system/',create_system,name='create_system'),
     path('approve_subscription/<int:subID>/',approve_subscription,name='approve_subscription'),
     path('approve_sub/<int:subID>/',approve_sub,name='approve_sub'),
     path('pleasewait/',pleasewait,name='pleasewait'),
