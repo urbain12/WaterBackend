@@ -380,16 +380,41 @@
                                             </span>
                                         </a>
                                     </li>
-                                    {% url 'tools' as toolls %}
-                                    <li {% if request.path == toolls  %} class="active-sub"{% endif %}>
-                                        <a href="{% url 'tools' %}">
-                                            <i class="fa fa-wrench"></i>
-                                            <span class="menu-title">
-                                                <strong>Tools</strong>
-                                                
-                                            </span>
-                                        </a>
+                                    <li >
+                                         <a href="">
+                                                <i class="fa fa-archive"></i>
+                                                <span class="menu-title"> 
+                                               <strong>System</strong>
+                                               </span>
+                                                <i class="arrow"></i>
+                                            </a>
+                                        <ul class="collapse">
+                                        {% url 'system' as sys %}
+                                        <li {% if request.path == sys  %} class="active-sub"{% endif %}>
+                                            <a href="#">
+                                                <i class="fa fa-sliders"></i>
+                                                <span class="menu-title">
+                                                    <strong>Systems</strong>
+                                                    
+                                                </span>
+                                            </a>
+                                        </li>
+                                        {% url 'tools' as toolls %}
+                                        <li {% if request.path == toolls  %} class="active-sub"{% endif %}>
+                                            <a href="{% url 'tools' %}">
+                                                <i class="fa fa-wrench"></i>
+                                                <span class="menu-title">
+                                                    <strong>Catridges</strong>
+                                                    
+                                                </span>
+                                            </a>
+                                        </li>
+                                        
+                                        </ul>
+
+
                                     </li>
+                                    
 
                                     {% url 'products' as prod %}
                                     <li {% if request.path == prod  %} class="active-sub"{% endif %}>

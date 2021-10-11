@@ -204,6 +204,12 @@ def delete_tools(request, toolID):
     tools.delete()
     return redirect('tools')
 
+def delete_system(request, sysID):
+    sys = System.objects.get(id=sysID)
+    sys.delete()
+    return redirect('system')
+
+
 
 @login_required(login_url='/login')
 def updateProduct(request, updateID):
@@ -891,6 +897,17 @@ def tools(request):
     page_obj = paginator.get_page(page_number)
     return render(request, 'tools.html', {'tools': tools, 'page_obj': page_obj})
 
+@login_required(login_url='/login')
+def system(request):
+    sys = System.objects.all()
+    search_query = request.GET.get('search', '')
+    if search_query:
+        sys = System.objects.filter(Q(title__icontains=search_query))
+    paginator = Paginator(sys, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'system.html', {'sys': sys, 'page_obj': page_obj})
+
 
 @login_required(login_url='/login')
 def add_customer(request):
@@ -932,6 +949,23 @@ def update_tool(request, toolID):
         categories = ToolsCategory.objects.all()
         updatetool = Tools.objects.get(id=toolID)
         return render(request, 'update_tool.html', {'categories': categories, 'updatetool': updatetool})
+    
+
+@login_required(login_url='/login')
+def update_system(request, sysID):
+    if request.method == 'POST':
+        category = Category.objects.only(
+            'id').get(id=int(request.POST['category']))
+        syst = System.objects.get(id=sysID)
+        syst.title = request.POST['title']
+        syst.inches = request.POST['inches']
+        syst.Category = category
+        syst.save()
+        return redirect('system')
+    else:
+        categories = Category.objects.all()
+        updatesystem = System.objects.get(id=sysID)
+        return render(request, 'update_system.html', {'categories': categories, 'updatesystem': updatesystem})
 
 
 @login_required(login_url='/login')

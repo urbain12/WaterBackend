@@ -1,0 +1,75 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+
+ <div id="page-content">
+                    
+					<div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Update System</h3>
+                                </div>
+                    
+                                <!--Block Styled Form -->
+                                <!--===================================================-->
+                                <form enctype="multipart/form-data" action="{% url 'update_system'  updatesystem.id %}" method="POST">
+                                {% csrf_token %}
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Title</label>
+                                                    <input type="text" class="form-control" name="Title" value={{updatesystem.title}}> 
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Category</label>
+                                                    <select class="form-control" name="category">
+                                                       <option value="Select meter number">Select Category</option> 
+                                                    {% for category in categories %}
+                                                        {% if category.Title == updatesystem.Category.Title %}
+                                                        <option value={{category.id}} selected>{{category.Title}}</option> 
+                                                       {% else %}
+                                                      <option value={{category.id}} >{{category.Title}}</option>
+                                                       {% endif %}
+                                                    {% endfor %}
+                                                       
+                                                    </select>  
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Amount</label>
+                                                    <input type="number" class="form-control" name="amount" value={{updatesystem.Amount}}>
+                                                </div>
+                                            </div>
+                                           
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Description</label>
+                                                    <textarea class="form-control" name="description" >{{updatesystem.Description}}</textarea> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer text-right">
+                                        <button class="btn btn-block btn-success" type="submit">Submit</button>
+                                    </div>
+                                </form>
+                                <!--===================================================-->
+                                <!--End Block Styled Form -->
+                    
+                            </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+
+{% endblock content%}
