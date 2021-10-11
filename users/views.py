@@ -982,6 +982,14 @@ def update_tool(request, toolID):
 
 
 @login_required(login_url='/login')
+def view_system(request, systemID):
+    sys_tools = SystemTool.objects.filter(
+        system=systemID)
+    system = System.objects.get(id=systemID)
+    return render(request, 'system_details.html', {'sys_tools': sys_tools, 'system': system})
+
+
+@login_required(login_url='/login')
 def update_system(request, sysID):
     if request.method == 'POST':
         category = Category.objects.only(

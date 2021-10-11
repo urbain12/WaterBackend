@@ -52,6 +52,9 @@
                                             <td>{{sy.Category.Title}}</td>
                                             <td>{{sy.inches}}</td>
                                             <td>
+                                                <a href="{% url 'view_system' sy.id %}">
+                                                    <button class="btn btn-success" title="View"><i class='fa fa-eye'></i></button>
+                                                </a> 
                                                 <a href="{% url 'update_system' sy.id %}">
                                                     <button class="btn btn-primary" title="Update"><i class='fa fa-pencil'></i></button>
                                                 </a>

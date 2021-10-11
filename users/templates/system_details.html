@@ -1,0 +1,81 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+{% load humanize %}
+ <div id="page-content">
+                    
+					<div class="panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{{system.title}} Catridges</h3>
+                        </div>
+                    
+                        <!--Data Table-->
+                        <!--===================================================-->
+                        <div class="panel-body">
+                            <div class="pad-btm form-inline">
+                                <div class="row">
+                                    
+                                    <div class="col-sm-12 table-toolbar-right">
+
+                                        <div class="btn-group">
+                                            <div class="form-group">
+                                        </div>
+                                   
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped" style="border: 1px">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">ID</th>
+                                            <th>Tool</th>
+                                            <th>Price</th>
+                                            
+                                            
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for tool in sys_tools %}
+                                        <tr>
+                                            <td><a class="btn-link" href="#">{{tool.id}}</a></td>
+                                            <td>{{tool.tool.Title}}</td>
+                                            <td>{{tool.tool.Amount|intcomma}} Rwf</td>
+                                        </tr>
+                                       
+
+                                    {% endfor %}
+
+                                     
+                                        {% comment %} <tr>
+                                            <td> <strong>Total</strong> </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><strong><u>{{subscription.get_total_amount|intcomma}} Rwf</u></strong></td>
+                                           
+                                        </tr> {% endcomment %}
+                                        
+                                    
+                                        </tbody>
+                                </table>
+                            </div>
+                      
+                        </div>
+                        <!--===================================================-->
+                        <!--End Data Table-->
+                    
+                    </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+
+{% endblock content%}
