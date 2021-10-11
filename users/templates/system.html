@@ -20,7 +20,7 @@
 
                                         <div class="btn-group">
                                             <div class="form-group">
-                                        <form class="form-inline my-2 my-lg-0" action="{% url 'sys'%}">
+                                        <form class="form-inline my-2 my-lg-0" action="{% url 'system' %}">
                                         <input id="demo-input-search2" type="text" name="search" placeholder="Search by Fisrtname" class="form-control" autocomplete="off">
                                         <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                                         </form>
@@ -38,9 +38,7 @@
                                             <th class="text-left">ID</th>
                                             <th>Title</th>
                                             <th>Category</th>
-                                            <th>Amount</th>
-                                            <th>Description</th>
-                                            <th>created at</th>
+                                            <th>Inches</th>
                                             <th>Actions</th>
                                             
                                             
@@ -57,7 +55,7 @@
                                                 <a href="{% url 'update_system' sy.id %}">
                                                     <button class="btn btn-primary" title="Update"><i class='fa fa-pencil'></i></button>
                                                 </a>
-                                                 <a href=onclick="return confirm('Are you sure you want to delete this?')" href="{% url 'delete_system' sys.id %}">
+                                                 <a onclick="return confirm('Are you sure you want to delete this?')" href="{% url 'delete_system' sy.id %}">
                                                     <button class="btn btn-danger" title="Delete"><i class='fa fa-trash'></i></button>
                                                 </a> 
                                             </td>
