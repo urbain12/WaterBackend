@@ -15,29 +15,10 @@
                                 {% csrf_token %}
                                     <div class="panel-body">
                                         <div class="row">
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Title</label>
                                                     <input type="text" class="form-control" name="Title" value={{updatetool.Title}}> 
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label class="control-label">Category</label>
-                                                    <select class="form-control" name="category">
-                                                       <option value="Select meter number">Select Category</option> 
-                                                    {% for category in categories %}
-                                                        {% if category.Description == updatetool.CategoryID.Description %}
-                                                        <option value={{category.id}} selected>{{category.Description}}</option> 
-                                                       {% else %}
-                                                      <option value={{category.id}} >{{category.Description}}</option>
-                                                       {% endif %}
-                                                    {% endfor %}
-                                                       
-                                                    </select>  
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
@@ -46,6 +27,10 @@
                                                     <input type="number" class="form-control" name="amount" value={{updatetool.Amount}}>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="row">
+                                            
+                                            
                                            
                                             <div class="col-sm-12">
                                                 <div class="form-group">

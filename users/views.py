@@ -949,36 +949,30 @@ def add_customer(request):
 @login_required(login_url='/login')
 def add_tool(request):
     if request.method == 'POST':
-        category = ToolsCategory.objects.only(
-            'id').get(id=int(request.POST['category']))
+        
         tool = Tools()
         tool.Title = request.POST['Title']
         tool.Description = request.POST['description']
         tool.Amount = request.POST['amount']
-        tool.CategoryID = category
         tool.save()
         return redirect('tools')
     else:
-        categories = ToolsCategory.objects.all()
-        return render(request, 'add_tool.html', {'categories': categories})
+        return render(request, 'add_tool.html')
 
 
 @login_required(login_url='/login')
 def update_tool(request, toolID):
     if request.method == 'POST':
-        category = ToolsCategory.objects.only(
-            'id').get(id=int(request.POST['category']))
+        
         tool = Tools.objects.get(id=toolID)
         tool.Title = request.POST['Title']
         tool.Description = request.POST['description']
         tool.Amount = request.POST['amount']
-        tool.CategoryID = category
         tool.save()
         return redirect('tools')
     else:
-        categories = ToolsCategory.objects.all()
         updatetool = Tools.objects.get(id=toolID)
-        return render(request, 'update_tool.html', {'categories': categories, 'updatetool': updatetool})
+        return render(request, 'update_tool.html', {'updatetool': updatetool})
 
 
 @login_required(login_url='/login')
