@@ -204,11 +204,11 @@ def delete_tools(request, toolID):
     tools.delete()
     return redirect('tools')
 
+
 def delete_system(request, sysID):
     sys = System.objects.get(id=sysID)
     sys.delete()
     return redirect('system')
-
 
 
 @login_required(login_url='/login')
@@ -550,6 +550,7 @@ def orders(request):
     page_obj = paginator.get_page(page_number)
     return render(request, 'orders.html', {'orders': orders, 'page_obj': page_obj})
 
+
 @login_required(login_url='/login')
 def pay_later_orders(request):
     orders = Order.objects.filter(pay_later=True).order_by('-id')
@@ -663,7 +664,7 @@ def AddProduct(request):
 @login_required(login_url='/login')
 def add_subscription(request):
     tools = Tools.objects.all()
-    amazi_system=System.objects.get(title="Amazi FUV")
+    amazi_system = System.objects.get(title="Amazi FUV")
     tools_am = SystemTool.objects.all()
     sub = Subscriptions.objects.all()
     sub_customers = []
@@ -681,38 +682,38 @@ def add_subscription(request):
     uhira_sys = System.objects.filter(Category=2)
     inuma_sys = System.objects.filter(Category=4)
     systs = System.objects.all()
-    systems=[]
-    inuma_systems=[]
-    uhira_systems=[]
-    amazi_tools=[]
+    systems = []
+    inuma_systems = []
+    uhira_systems = []
+    amazi_tools = []
     for tool in tools_am:
-        tool_obj={
-            "system":tool.system.title,
-            "title":tool.tool.Title,
-            "id":tool.id
+        tool_obj = {
+            "system": tool.system.title,
+            "title": tool.tool.Title,
+            "id": tool.id
         }
         amazi_tools.append(tool_obj)
         print(amazi_tools)
     for sys in systs:
-        sys_obj={
-            "category":sys.Category.Title,
-            "title":sys.title,
-            "id":sys.id
+        sys_obj = {
+            "category": sys.Category.Title,
+            "title": sys.title,
+            "id": sys.id
         }
         systems.append(sys_obj)
     for sys in inuma_sys:
-        sys_obj={
-            "title":sys.title,
-            "id":sys.id
+        sys_obj = {
+            "title": sys.title,
+            "id": sys.id
         }
         inuma_systems.append(sys_obj)
     for sys in uhira_sys:
-        sys_obj={
-            "title":sys.title,
-            "id":sys.id
+        sys_obj = {
+            "title": sys.title,
+            "id": sys.id
         }
         uhira_systems.append(sys_obj)
-    return render(request, 'add_subscription.html', {'amazi_tools': amazi_tools,'systems': systems,'inuma_systems': inuma_systems,'tools': tools, 'customers': customers, 'categories': categories})
+    return render(request, 'add_subscription.html', {'amazi_tools': amazi_tools, 'systems': systems, 'inuma_systems': inuma_systems, 'tools': tools, 'customers': customers, 'categories': categories})
 
 
 @login_required(login_url='/login')
@@ -752,7 +753,7 @@ def checkout(request):
         subscription.From = today
         subscription.Category = category
         subscription.System = system
-        subscription.users=request.POST['users']
+        subscription.users = request.POST['users']
         subscription.To = today + timedelta(days=365)
         subscription.save()
         tools = request.POST['tools'].split(',')[:-1]
@@ -771,8 +772,9 @@ def checkout(request):
             SubscriptionsID=subscription.id)
         return redirect('checkout_page', pk=subscription.id)
 
+
 @login_required(login_url='/login')
-def approve_subscription(request,subID):
+def approve_subscription(request, subID):
     if request.method == 'POST':
         today = datetime.today()
         subscription = Subscriptions.objects.get(id=subID)
@@ -780,7 +782,7 @@ def approve_subscription(request,subID):
             title=request.POST['system'])
         subscription.From = today
         subscription.System = system
-        subscription.users=request.POST['users']
+        subscription.users = request.POST['users']
         subscription.To = today + timedelta(days=365)
         subscription.save()
         tools = request.POST['tools'].split(',')[:-1]
@@ -798,7 +800,6 @@ def approve_subscription(request,subID):
         my_tools = SubscriptionsTools.objects.filter(
             SubscriptionsID=subscription.id)
         return redirect('checkout_page', pk=subscription.id)
-
 
 
 @login_required(login_url='/login')
@@ -808,8 +809,8 @@ def create_system(request):
             Title=request.POST['category'])
         system = System()
         system.Category = category
-        system.title=request.POST['title']
-        system.inches=request.POST['inches']
+        system.title = request.POST['title']
+        system.inches = request.POST['inches']
         system.save()
         tools = request.POST['tools'].split(',')[:-1]
 
@@ -820,34 +821,33 @@ def create_system(request):
             systemTool.system = system
             systemTool.save()
 
-        
-        
         return redirect('system')
 
+
 @login_required(login_url='/login')
-def approve_sub(request,subID):
+def approve_sub(request, subID):
     subscription = Subscriptions.objects.get(id=subID)
     categories = Category.objects.all()
     systs = System.objects.all()
-    systems=[]
+    systems = []
     for sys in systs:
-        sys_obj={
-            "category":sys.Category.Title,
-            "title":sys.title,
-            "id":sys.id
+        sys_obj = {
+            "category": sys.Category.Title,
+            "title": sys.title,
+            "id": sys.id
         }
         systems.append(sys_obj)
     tools_am = SystemTool.objects.all()
-    amazi_tools=[]
+    amazi_tools = []
     for tool in tools_am:
-        tool_obj={
-            "system":tool.system.title,
-            "title":tool.tool.Title,
-            "id":tool.id
+        tool_obj = {
+            "system": tool.system.title,
+            "title": tool.tool.Title,
+            "id": tool.id
         }
         amazi_tools.append(tool_obj)
         print(amazi_tools)
-    return render(request, 'approve_sub.html', {'amazi_tools': amazi_tools,'subscription': subscription,'categories':categories,'systems':systems})
+    return render(request, 'approve_sub.html', {'amazi_tools': amazi_tools, 'subscription': subscription, 'categories': categories, 'systems': systems})
 
 
 @login_required(login_url='/login')
@@ -922,16 +922,17 @@ def tools(request):
     page_obj = paginator.get_page(page_number)
     return render(request, 'tools.html', {'tools': tools, 'page_obj': page_obj})
 
+
 @login_required(login_url='/login')
 def system(request):
-    sys = System.objects.all()
+    system = System.objects.all()
     search_query = request.GET.get('search', '')
     if search_query:
-        sys = System.objects.filter(Q(title__icontains=search_query))
-    paginator = Paginator(sys, 6)
+        system = System.objects.filter(Q(title__icontains=search_query))
+    paginator = Paginator(system, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'system.html', {'sys': sys, 'page_obj': page_obj})
+    return render(request, 'system.html', {'system': system, 'page_obj': page_obj})
 
 
 @login_required(login_url='/login')
@@ -974,7 +975,7 @@ def update_tool(request, toolID):
         categories = ToolsCategory.objects.all()
         updatetool = Tools.objects.get(id=toolID)
         return render(request, 'update_tool.html', {'categories': categories, 'updatetool': updatetool})
-    
+
 
 @login_required(login_url='/login')
 def update_system(request, sysID):
@@ -1574,13 +1575,14 @@ class SubscriptionsByCustomerID(ListAPIView):
         customer = Customer.objects.get(user=self.kwargs['user_id'])
         return Subscriptions.objects.filter(CustomerID=customer.id)
 
+
 class SubscriptionsTools1(ListAPIView):
     serializer_class = SubscriptionsToolsSerializer
 
     def get_queryset(self):
         customer = Customer.objects.get(user=self.kwargs['user_id'])
-        subscriptions=Subscriptions.objects.filter(CustomerID=customer.id)
-        subscriptions_ids=[]
+        subscriptions = Subscriptions.objects.filter(CustomerID=customer.id)
+        subscriptions_ids = []
         for sub in subscriptions:
             subscriptions_ids.append(sub.id)
         return SubscriptionsTools.objects.filter(SubscriptionsID__in=subscriptions_ids)
@@ -1868,6 +1870,7 @@ class CreateOrder(CreateAPIView):
         )
         return Response(response)
 
+
 class CreateOrderTool(CreateAPIView):
     def create(self, request):
         print(request.data)
@@ -1902,6 +1905,7 @@ class CreateOrderTool(CreateAPIView):
             email=customer.user.email,
         )
         return Response(response)
+
 
 class PayLaterOrder(CreateAPIView):
     def create(self, request):

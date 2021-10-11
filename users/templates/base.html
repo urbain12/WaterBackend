@@ -391,7 +391,7 @@
                                         <ul class="collapse">
                                         {% url 'system' as sys %}
                                         <li {% if request.path == sys  %} class="active-sub"{% endif %}>
-                                            <a href="#">
+                                            <a href=" {% url 'system' %}">
                                                 <i class="fa fa-sliders"></i>
                                                 <span class="menu-title">
                                                     <strong>Systems</strong>
