@@ -823,6 +823,10 @@ def create_system(request):
         
         
         return redirect('system')
+    else:
+        categories=Category.objects.all()
+        tools=Tools.objects.all()
+        return render(request,'create_system.html',{'categories':categories,'tools':tools})
 
 @login_required(login_url='/login')
 def approve_sub(request,subID):
