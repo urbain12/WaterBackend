@@ -67,9 +67,9 @@
                                                 <a href="{% url 'transactions' customer.id %}">
                                                     <button class='btn btn-success' title="Transactions"> <i class='fa fa-eye'></i> </button>
                                                 </a>
-                                            <a href="{% url 'add_new_sub' customer.id %}">
+                                            {% comment %} <a href="{% url 'add_new_sub' customer.id %}">
                                                     <button class='btn btn-warning' title="Add new subscription"> <i class='fa fa-plus'></i> </button>
-                                                </a>
+                                                </a> {% endcomment %}
                                             <a href=" {% url 'update_customer' customer.id %}">
                                                 <button class="btn btn-primary" title="Update"><i class='fa fa-pencil'></i></button>
                                                 </a>
