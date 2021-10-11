@@ -59,9 +59,9 @@
                                                 <a href="{% url 'update_tool' tool.id %}">
                                                     <button class="btn btn-primary" title="Update"><i class='fa fa-pencil'></i></button>
                                                 </a>
-                                                {% comment %} <a href=onclick="return confirm('Are you sure you want to delete this?')" href="{% url 'delete_tools' tool.id %}">
+                                                 <a onclick="return confirm('Are you sure you want to delete this?')" href="{% url 'delete_tools' tool.id %}">
                                                     <button class="btn btn-danger" title="Delete"><i class='fa fa-trash'></i></button>
-                                                </a> {% endcomment %}
+                                                </a> 
                                             </td>
 
                                            
