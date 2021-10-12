@@ -1959,7 +1959,7 @@ class PayLaterOrderTool(CreateAPIView):
         order.save()
         customer = Customer.objects.get(id=int(request.data['customerID']))
         for item in request.data['order']:
-            print(item['id'])
+            print(item['ToolID']['id'])
             product = Tools.objects.only('id').get(id=int(item['ToolID']['id']))
             order_item = OrderItemTool()
             order_item.Tool = product
