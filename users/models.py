@@ -233,8 +233,6 @@ class Request(models.Model):
 class subRequest(models.Model):
     Names = models.CharField(max_length=255, null=True, blank=True)
     Message = models.TextField(blank=True, null=False)
-    Subscriptions = models.CharField(max_length=255, blank=True, null=False)
-    category = models.CharField(max_length=255, blank=True, null=False)
     phonenumber = models.CharField(max_length=255, null=True, blank=True)
     Province = models.CharField(max_length=255, null=True, blank=True)
     District = models.CharField(max_length=255, null=True, blank=True)
