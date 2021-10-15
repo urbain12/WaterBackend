@@ -54,7 +54,7 @@
                                             <td>{{sub.CustomerID.FirstName}} {{sub.CustomerID.LastName}}</td>
                                             <td>{{sub.Category.Title}}</td>
                                             <td>{{sub.From}}</td>
-                                            <td>{{sub.get_total_amount|intcomma}} Rwf</td>
+                                            <td>{{sub.System.total|intcomma}} Rwf</td>
                                             <td> 
                                             <a class="btn-link" href="{% url 'quotation' sub.id%}"><button class="btn btn-primary">View</button></a>
                                             <a class="btn-link" href="{% url 'notify' sub.id%}"><button class="btn btn-warning">Notify</button></a>
