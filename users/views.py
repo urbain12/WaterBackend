@@ -664,7 +664,6 @@ def AddProduct(request):
 @login_required(login_url='/login')
 def add_subscription(request):
     tools = Tools.objects.all()
-    amazi_system = System.objects.get(title="Amazi FUV")
     tools_am = SystemTool.objects.all()
     sub = Subscriptions.objects.all()
     sub_customers = []
@@ -679,12 +678,10 @@ def add_subscription(request):
 
     customers = new_customers
     categories = Category.objects.all()
-    uhira_sys = System.objects.filter(Category=2)
-    inuma_sys = System.objects.filter(Category=4)
+    
     systs = System.objects.all()
     systems = []
-    inuma_systems = []
-    uhira_systems = []
+
     amazi_tools = []
     for tool in tools_am:
         tool_obj = {
@@ -701,19 +698,8 @@ def add_subscription(request):
             "id": sys.id
         }
         systems.append(sys_obj)
-    for sys in inuma_sys:
-        sys_obj = {
-            "title": sys.title,
-            "id": sys.id
-        }
-        inuma_systems.append(sys_obj)
-    for sys in uhira_sys:
-        sys_obj = {
-            "title": sys.title,
-            "id": sys.id
-        }
-        uhira_systems.append(sys_obj)
-    return render(request, 'add_subscription.html', {'amazi_tools': amazi_tools, 'systems': systems, 'inuma_systems': inuma_systems, 'tools': tools, 'customers': customers, 'categories': categories})
+    
+    return render(request, 'add_subscription.html', {'amazi_tools': amazi_tools, 'systems': systems,  'tools': tools, 'customers': customers, 'categories': categories})
 
 
 @login_required(login_url='/login')
