@@ -32,9 +32,8 @@
                                         <tr>
                                             <th class="text-left">ID</th>
                                             <th>Tool</th>
-                                            <th>Price</th>
+                                            {% comment %} <th>Price</th> {% endcomment %}
                                             <th>Quantity</th>
-                                            <th>Amount</th>
                                             
                                             
                                             
@@ -45,9 +44,8 @@
                                     <tr>
                                             <td><a class="btn-link" href="#">{{tool.id}}</a></td>
                                             <td>{{tool.ToolID.Title}}</td>
-                                            <td>{{tool.ToolID.Amount|intcomma}} Rwf</td>
+                                            {% comment %} <td>{{tool.ToolID.Amount|intcomma}} Rwf</td> {% endcomment %}
                                             <td>{{tool.quantity}}</td>
-                                            <td>{{tool.get_total|intcomma}} Rwf</td>
 
                                            
                                             
@@ -60,16 +58,14 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            
                                            
                                         </tr>
                                         <tr>
                                             <td> <strong>Total</strong> </td>
                                             <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td><strong><u>{{subscription.get_total_amount|intcomma}} Rwf</u></strong></td>
+
+                                            <td><strong><u>{{subscription.System.total|intcomma}} Rwf</u></strong></td>
                                            
                                         </tr>
                                         

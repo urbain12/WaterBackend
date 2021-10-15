@@ -15,35 +15,44 @@
                                 {% csrf_token %}
                                     <div class="panel-body">
 
-                                        <div class="row">
-                                            
+                                            <div class="row">
+                                            <div class="col-sm-6">
                                                     <div class="form-group">
-                                                    <label class="control-label">Service</label>
                                                     <select class="form-control" name="category" id='category' onchange="populate(this.id,'system')" required>
-                                                       <option value="Select meter number">Select Service</option> 
+                                                       <option value="">Select Service</option> 
                                                     {% for category in categories%}
 
                                                        <option value="{{category.Title}}">{{category.Title}}</option> 
                                                     {% endfor %}
                                                        
                                                     </select>  
+                                                    </div>
+                                            </div>
+
+                                                <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                        <input type="text" name='title' class='form-control' placeholder="Title" required>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            
+                                            <div class="row">
+
+                                            <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                    <input type="text" name='inches' class='form-control' placeholder="inches" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                    <input type="number" name='total' class='form-control' placeholder="Total Price" required>
+                                                </div>
+                                            </div>
+
 
                                             
-
-                                            <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                    <input type="text" name='title' class='form-control' placeholder="Title">
-                                                </div>
-                                            </div>
-
-
-                                            <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                    <input type="text" name='inches' class='form-control' placeholder="inches">
-                                                </div>
-                                            </div>
+                                           </div>
                                            
                                             
                                             
@@ -53,7 +62,7 @@
                                               {% for tool in tools%}
                                             <div class="col-sm-2">
                                                 <div class="checkbox">
-                                                    <input id="demo-remember-me" value={{tool.Title}} class="magic-checkbox" type="checkbox">
+                                                    <input id="demo-remember-me" value={{tool.id}} class="magic-checkbox" type="checkbox" required>
                                                     <label for="demo-remember-me">{{tool.Title}}</label>
                                                 </div>
                                             </div>
@@ -65,11 +74,10 @@
                                             <div class="col-sm-12">
                                                 <div class="form-group">
                                                     <label for="demo-inline-inputmail" class="sr-only">Tools</label>
-                                                    <input type="text" name="tools" id="tools" class="form-control">
+                                                    <input style="display:none" type="text" name="tools" id="tools" class="form-control">
                                                 </div>
                                             </div>
 
-                                        </div>
                                     </div>
                                     <div class="panel-footer text-right">
                                         <button class="btn btn-block btn-success" type="submit">Checkout</button>

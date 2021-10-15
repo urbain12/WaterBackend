@@ -146,11 +146,11 @@ class Subscriptions(models.Model):
     users = models.CharField(max_length=100, null=True,blank=True)
 
 
-    @property
-    def get_total_amount(self):
-        tools = self.subscriptionstools_set.all()
-        total = sum([tool.get_total for tool in tools])
-        return total
+    # @property
+    # def get_total_amount(self):
+    #     tools = self.subscriptionstools_set.all()
+    #     total = sum([tool.get_total for tool in tools])
+    #     return total
 
     @property
     def get_overdue_months(self):
@@ -189,7 +189,7 @@ class Tools(models.Model):
 
 class SubscriptionsTools(models.Model):
     ToolID = models.ForeignKey(
-        'Tools', on_delete=models.SET_NULL, null=True, blank=True)
+        'Tools', on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     SubscriptionsID = models.ForeignKey(
         'Subscriptions', on_delete=models.CASCADE, null=True, blank=True)
@@ -392,15 +392,16 @@ class System(models.Model):
     Category = models.ForeignKey(
         'Category', on_delete=models.CASCADE, null=True, blank=True)
     inches = models.CharField(max_length=100, null=True,blank=True)
+    total=models.IntegerField(null=True,blank=True)
     
     def __str__(self):
         return str(self.title)
 
-    @property
-    def get_total_amount(self):
-        tools = self.tools_set.all()
-        total = sum([item.Amount for item in tools])
-        return total
+    # @property
+    # def get_total_amount(self):
+    #     tools = self.tools_set.all()
+    #     total = sum([item.Amount for item in tools])
+    #     return total
 
 class SystemTool(models.Model):
     tool=models.ForeignKey(

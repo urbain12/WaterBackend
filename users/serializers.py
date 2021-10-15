@@ -90,22 +90,32 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class SystemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = System
+        fields = '__all__'
+
+
 class SubscriptionsSerializer(serializers.ModelSerializer):
     get_overdue_months = serializers.ReadOnlyField()
-    get_total_amount = serializers.ReadOnlyField()
     class Meta:
         model = Subscriptions
-        fields = ['id','CustomerID','Category','From','To','TotalBalance','Extra','complete','customer_exception','get_overdue_months','get_total_amount']
+        fields = ['id','CustomerID','system','Category','From','To','TotalBalance','Extra','complete','customer_exception','get_overdue_months']
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
         if data['CustomerID'] is not None:
             data['CustomerID'] = CustomerSerializer(
                 Customer.objects.get(pk=data['CustomerID'])).data
+        if data['system'] is not None:
+            data['system'] = SystemSerializer(
+                System.objects.get(pk=data['system'])).data
         if data['Category'] is not None:
             data['Category'] = CategorySerializer(
                 Category.objects.get(pk=data['Category'])).data
         return data
+
+
 
 
 class SubscriptionsToolsSerializer(serializers.ModelSerializer):

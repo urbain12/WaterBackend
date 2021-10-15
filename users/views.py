@@ -349,7 +349,7 @@ def dashboard(request):
     paymentsdaily = SubscriptionsPayment.objects.filter(
         PaymentDate=d.date(), Paid=True)
 
-    amount_invoiceddaily = sum([int(sub.get_total_amount)
+    amount_invoiceddaily = sum([int(sub.System.total)
                                for sub in daily_subscriptions])
     amount_paiddaily = sum([int(payment.Paidamount)
                            for payment in paymentsdaily])
@@ -362,7 +362,7 @@ def dashboard(request):
 
     subscriptions = len(Subscriptions.objects.filter(complete=True))
     my_subscriptions = Subscriptions.objects.filter(complete=True)
-    amount_invoiced = sum([int(sub.get_total_amount)
+    amount_invoiced = sum([int(sub.System.total)
                           for sub in my_subscriptions])
     payments = SubscriptionsPayment.objects.filter(Paid=True)
     amount_paid = sum([int(payment.Paidamount) for payment in payments])
@@ -375,7 +375,7 @@ def dashboard(request):
     paymentsweekly = SubscriptionsPayment.objects.filter(
         PaymentDate=d.date(), Paid=True)
 
-    amount_invoicedweekly = sum([int(sub.get_total_amount)
+    amount_invoicedweekly = sum([int(sub.System.total)
                                 for sub in weekly_subscriptions])
     amount_paidweekly = sum([int(payment.Paidamount)
                             for payment in paymentsweekly])
@@ -748,7 +748,7 @@ def checkout(request):
         category = Category.objects.get(
             Title=request.POST['category'])
         system = System.objects.get(
-            title=request.POST['system'])
+            id=int(request.POST['system']))
         subscription.CustomerID = customer
         subscription.From = today
         subscription.Category = category
@@ -756,17 +756,17 @@ def checkout(request):
         subscription.users = request.POST['users']
         subscription.To = today + timedelta(days=365)
         subscription.save()
-        tools = request.POST['tools'].split(',')[:-1]
+        tools = SystemTool.objects.filter(system=system.id)
 
         for tool in tools:
-            my_tool = Tools.objects.get(Title=tool)
+            my_tool = Tools.objects.get(id=tool.tool.id)
             subscriptionTool = SubscriptionsTools()
             subscriptionTool.ToolID = my_tool
             subscriptionTool.SubscriptionsID = subscription
             subscriptionTool.quantity = 1
             subscriptionTool.save()
 
-        subscription.TotalBalance = subscription.get_total_amount
+        subscription.TotalBalance = system.total
         subscription.save()
         my_tools = SubscriptionsTools.objects.filter(
             SubscriptionsID=subscription.id)
@@ -777,25 +777,25 @@ def checkout(request):
 def approve_subscription(request, subID):
     if request.method == 'POST':
         today = datetime.today()
-        subscription = Subscriptions.objects.get(id=subID)
+        subscription = Subscriptions.objects.get(id=subID) 
         system = System.objects.get(
-            title=request.POST['system'])
+            id=int(request.POST['system']))
         subscription.From = today
         subscription.System = system
         subscription.users = request.POST['users']
         subscription.To = today + timedelta(days=365)
         subscription.save()
-        tools = request.POST['tools'].split(',')[:-1]
+        tools = SystemTool.objects.filter(system=system.id)
 
         for tool in tools:
-            my_tool = Tools.objects.get(Title=tool)
+            my_tool = Tools.objects.get(id=tool.tool.id)
             subscriptionTool = SubscriptionsTools()
             subscriptionTool.ToolID = my_tool
             subscriptionTool.SubscriptionsID = subscription
             subscriptionTool.quantity = 1
             subscriptionTool.save()
 
-        subscription.TotalBalance = subscription.get_total_amount
+        subscription.TotalBalance = system.total
         subscription.save()
         my_tools = SubscriptionsTools.objects.filter(
             SubscriptionsID=subscription.id)
@@ -811,11 +811,12 @@ def create_system(request):
         system.Category = category
         system.title = request.POST['title']
         system.inches = request.POST['inches']
+        system.total = request.POST['total']
         system.save()
         tools = request.POST['tools'].split(',')[:-1]
 
         for tool in tools:
-            my_tool = Tools.objects.get(Title=tool)
+            my_tool = Tools.objects.get(id=tool)
             systemTool = SystemTool()
             systemTool.tool = my_tool
             systemTool.system = system
@@ -854,30 +855,30 @@ def approve_sub(request, subID):
     return render(request, 'approve_sub.html', {'amazi_tools': amazi_tools, 'subscription': subscription, 'categories': categories, 'systems': systems})
 
 
-@login_required(login_url='/login')
-def Checkout(request, subID):
-    if request.method == 'POST':
-        today = datetime.today()
-        subscription = Subscriptions.objects.get(id=subID)
-        customer = Customer.objects.only('id').get(
-            id=int(request.POST['customer']))
-        subscription.CustomerID = customer
-        subscription.From = today
-        subscription.save()
-        SubscriptionsTools.objects.filter(SubscriptionsID=subID).delete()
-        tools = request.POST['tools'].split(',')[:-1]
+# @login_required(login_url='/login')
+# def Checkout(request, subID):
+#     if request.method == 'POST':
+#         today = datetime.today()
+#         subscription = Subscriptions.objects.get(id=subID)
+#         customer = Customer.objects.only('id').get(
+#             id=int(request.POST['customer']))
+#         subscription.CustomerID = customer
+#         subscription.From = today
+#         subscription.save()
+#         SubscriptionsTools.objects.filter(SubscriptionsID=subID).delete()
+#         tools = SystemTool.objects.filter(system=subscription.id)
 
-        for tool in tools:
-            my_tool = Tools.objects.get(Title=tool)
-            subscriptionTool = SubscriptionsTools()
-            subscriptionTool.ToolID = my_tool
-            subscriptionTool.SubscriptionsID = subscription
-            subscriptionTool.quantity = 1
-            subscriptionTool.save()
+#         for tool in tools:
+#             my_tool = Tools.objects.get(Title=tool)
+#             subscriptionTool = SubscriptionsTools()
+#             subscriptionTool.ToolID = my_tool
+#             subscriptionTool.SubscriptionsID = subscription
+#             subscriptionTool.quantity = 1
+#             subscriptionTool.save()
 
-        my_tools = SubscriptionsTools.objects.filter(
-            SubscriptionsID=subscription.id)
-        return redirect('checkout_page', pk=subscription.id)
+#         my_tools = SubscriptionsTools.objects.filter(
+#             SubscriptionsID=subscription.id)
+#         return redirect('checkout_page', pk=subscription.id)
 
 
 @login_required(login_url='/login')
@@ -891,13 +892,12 @@ def checkout_page(request, pk):
 def confirm(request, subID):
     subscription = Subscriptions.objects.get(id=subID)
     subscription.complete = True
-    subscription.TotalBalance = subscription.get_total_amount
     subscription.save()
     for i in range(0, 12):
         payment = SubscriptionsPayment()
         payment.SubscriptionsID = subscription
         payment.PaidMonth = subscription.From.date()+relativedelta(months=+i)
-        payment.Paidamount = math.ceil(subscription.get_total_amount/12)
+        payment.Paidamount = math.ceil(subscription.System.total/12)
         payment.save()
     return redirect('Subscriptions')
 
@@ -991,6 +991,7 @@ def update_system(request, sysID):
         syst = System.objects.get(id=sysID)
         syst.title = request.POST['title']
         syst.inches = request.POST['inches']
+        syst.total = request.POST['total']
         syst.Category = category
         syst.save()
         return redirect('system')
@@ -1795,7 +1796,7 @@ def get_balance(request, phone_number):
 def get_category(request, user_id):
     customer = Customer.objects.get(user=user_id)
     subscription = Subscriptions.objects.get(CustomerID=customer.id)
-    paidAmount = math.ceil(subscription.get_total_amount/12)
+    paidAmount = math.ceil(subscription.System.total/12)
     data = {
         'category': subscription.Category.Title,
         'subscription_date': str(subscription.From),
@@ -2107,10 +2108,10 @@ def export_users_csv(request):
             sub.CustomerID.LastName,
             sub.From,
             sub.Category.Title,
-            sub.get_total_amount,
-            round(sub.get_total_amount / 12),
+            sub.System.total,
+            round(sub.System.total / 12),
             sub.TotalBalance,
-            sub.get_total_amount - int(sub.TotalBalance),
+            sub.System.total - int(sub.TotalBalance),
             "-",
             sub.To,
             "0"

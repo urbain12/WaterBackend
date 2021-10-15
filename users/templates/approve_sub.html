@@ -6,7 +6,7 @@
                     
 					<div class="panel">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Approve subscription</h3>
+                                    <h3 class="panel-title">Approve {{subscription.CustomerID.FirstName}}'s subscription in {{subscription.Category.Title}}</h3>
                                 </div>
                     
                                 <!--Block Styled Form -->
@@ -17,26 +17,12 @@
 
                                         <div class="row">
      
-                                                    <input style="display:none" type="text" name="customer" value={{subscription.CustomerID.id}}> 
-                                                
-                                            <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                    <label class="control-label">Service</label>
-                                                    <select class="form-control" value={{subscription.Category.Title}} name="category" id='category' onchange="populate(this.id,'system')" required>
-                                                       <option value="Select meter number">Select Service</option> 
-                                                    {% for category in categories%}
+                                                 
 
-                                                       <option value="{{category.Title}}">{{category.Title}}</option> 
-                                                    {% endfor %}
-                                                       
-                                                    </select>  
-                                                </div>
-                                            </div>
-
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-12">
                                                     <div class="form-group">
                                                     <label class="control-label">System</label>
-                                                    <select class="form-control" name="system" id='system' onchange="populate2(this.id,'tools');check();" required>
+                                                    <select class="form-control" name="system" id='system' required>
                                                        <option value="">Select System</option> 
                                                     </select>  
                                                 </div>
@@ -59,17 +45,17 @@
                                            
                                             
                                             
-                                            <h3 id='my_title'></h3>
+                                           {% comment %} <h3 id='my_title'></h3>
                                             <div class="row" style="margin:10px" id='tools1'>
                                             
-                                             {% comment %} {% for tool in tools%}
+                                              {% for tool in tools%}
                                             <div class="col-sm-2">
                                                 <div class="checkbox">
                                                     <input id="demo-remember-me" value={{tool.Title}} class="magic-checkbox" type="checkbox">
                                                     <label for="demo-remember-me">{{tool.Title}}</label>
                                                 </div>
                                             </div>
-                                            {% endfor %}  {% endcomment %}
+                                            {% endfor %}  
 
                                             </div>
 
@@ -79,7 +65,7 @@
                                                     <label for="demo-inline-inputmail" class="sr-only">Tools</label>
                                                     <input type="text" name="tools" id="tools" class="form-control">
                                                 </div>
-                                            </div>
+                                            </div>{% endcomment %}
 
                                         </div>
                                     </div>
@@ -105,16 +91,18 @@
  //   var tii=JSON.parse(tools.replace(/&#x27;/g,'"'));
  //   console.log(tii)
 //}
-function populate(s1,s2){
-    var s1 = document.getElementById(s1);
-    var s2 = document.getElementById(s2);
+window.onload=function (){
+    var s2 = document.getElementById('system');
     s2.innerHTML = "";
-    if(s1.value){
-        var optionArray = ["|"];
+    if(true){
+        console.log('haha')
+        var optionArray = ["|Select system"];
+        var system="{{subscription.Category.Title}}"
+        console.log(system)
         var systems= "{{ systems }}" 
-        var sys=JSON.parse(systems.replace(/&#x27;/g,'"')).filter(sys=>s1.value==sys.category)
+        var sys=JSON.parse(systems.replace(/&#x27;/g,'"')).filter(sys=>system==sys.category)
         for(var i=0;i<sys.length;i++){
-        optionArray.push(sys[i].title+'|'+sys[i].title)
+        optionArray.push(sys[i].id+'|'+sys[i].title)
         }
     }
     
@@ -126,7 +114,7 @@ function populate(s1,s2){
         s2.options.add(newOption);
     }
 }
-function populate2(s1,s2){
+/*function populate2(s1,s2){
     var s1 = document.getElementById(s1);
     var s2 = document.getElementById(s2);
     var myDiv = document.getElementById("tools1");
@@ -189,7 +177,7 @@ function populate2(s1,s2){
             myDiv.appendChild(checkbox);
             myDiv.appendChild(label);
     }
-}
+}*/
  var check=()=>{
             $('.magic-checkbox').click(function(){
                 var text="";

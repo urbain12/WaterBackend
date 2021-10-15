@@ -1,7 +1,7 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block content%}
-
+{% load humanize %}
  <div id="page-content">
                     
 					<div class="panel">
@@ -39,6 +39,7 @@
                                             <th>Title</th>
                                             <th>Category</th>
                                             <th>Inches</th>
+                                            <th>Total Price</th>
                                             <th>Actions</th>
                                             
                                             
@@ -51,6 +52,7 @@
                                             <td>{{sy.title}}</td>
                                             <td>{{sy.Category.Title}}</td>
                                             <td>{{sy.inches}}</td>
+                                            <td>{{sy.total|intcomma}} Rwf</td>
                                             <td>
                                                 <a href="{% url 'view_system' sy.id %}">
                                                     <button class="btn btn-success" title="View"><i class='fa fa-eye'></i></button>

@@ -69,27 +69,27 @@
                                            
                                             
                                             
-                                            <h3 id='my_title'></h3>
+                                            {% comment %}<h3 id='my_title'></h3>
                                             <div class="row" style="margin:10px" id='tools1'>
                                             
-                                             {% comment %} {% for tool in tools%}
+                                              {% for tool in tools%}
                                             <div class="col-sm-2">
                                                 <div class="checkbox">
                                                     <input id="demo-remember-me" value={{tool.Title}} class="magic-checkbox" type="checkbox">
                                                     <label for="demo-remember-me">{{tool.Title}}</label>
                                                 </div>
                                             </div>
-                                            {% endfor %}  {% endcomment %}
+                                            {% endfor %}  
 
-                                            </div>
+                                            </div>{% endcomment %}
 
 
-                                            <div class="col-sm-12">
+                                            {% comment %} <div class="col-sm-12">
                                                 <div class="form-group">
                                                     <label for="demo-inline-inputmail" class="sr-only">Tools</label>
                                                     <input type="text" name="tools" id="tools" class="form-control">
                                                 </div>
-                                            </div>
+                                            </div> {% endcomment %}
 
                                         </div>
                                     </div>
@@ -120,11 +120,11 @@ function populate(s1,s2){
     var s2 = document.getElementById(s2);
     s2.innerHTML = "";
     if(s1.value){
-        var optionArray = ["|"];
+        var optionArray = ["|Select system"];
         var systems= "{{ systems }}" 
         var sys=JSON.parse(systems.replace(/&#x27;/g,'"')).filter(sys=>s1.value==sys.category)
         for(var i=0;i<sys.length;i++){
-        optionArray.push(sys[i].title+'|'+sys[i].title)
+        optionArray.push(sys[i].id+'|'+sys[i].title)
         }
     }
     
@@ -136,7 +136,7 @@ function populate(s1,s2){
         s2.options.add(newOption);
     }
 }
-function populate2(s1,s2){
+/*function populate2(s1,s2){
     var s1 = document.getElementById(s1);
     var s2 = document.getElementById(s2);
     var myDiv = document.getElementById("tools1");
@@ -199,15 +199,15 @@ function populate2(s1,s2){
             myDiv.appendChild(checkbox);
             myDiv.appendChild(label);
     }
-}
- var check=()=>{
-            $('.magic-checkbox').click(function(){
-                var text="";
-                $('.magic-checkbox:checked').each(function(){
-                    text+=$(this).val()+','
-                });
-                $('#tools').val(text);
-            })
-        }
+}*/
+ //var check=()=>{
+ //           $('.magic-checkbox').click(function(){
+ //               var text="";
+ //               $('.magic-checkbox:checked').each(function(){
+ //                   text+=$(this).val()+','
+ //               });
+ //               $('#tools').val(text);
+ //           })
+ //       }
 </script>
 {% endblock content%}
