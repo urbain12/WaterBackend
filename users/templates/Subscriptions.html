@@ -54,7 +54,7 @@
                                             <td>{{sub.CustomerID.FirstName}} {{sub.CustomerID.LastName}}</td>
                                             <td>{{sub.Category.Title}}</td>
                                             <td>{{sub.From}}</td>
-                                            {% if sub.Category.Title == "Amazi" %}
+                                            {% if sub.Category.Title|upper == "AMAZI" %}
                                                 <td>{{sub.System.total|intcomma}} Rwf</td>
                                             {% else %}
                                                 <td>{{sub.Total|intcomma}} Rwf</td>
