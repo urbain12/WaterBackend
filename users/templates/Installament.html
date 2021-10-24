@@ -84,9 +84,7 @@
                                                     <td> {{ payment|add:1|mul:sub.get_overdue_months|intcomma }} Rwf</td>                   
                                                      <td>{{sub.get_overdue_months}}</td>
                                             <td>{{sub.To}}</td>
-                                            <td>
-                                                <button class="btn btn-primary" title="Update"><i class='fa fa-pencil'></i></button>
-                                            </td>                        
+                                            <td>{{sub.Downpayment}}</td>                        
                                                     {% endif %}
                                                                                 {% endwith %}
                                                                                 {% endwith %}
@@ -123,9 +121,8 @@
                                                     {% endif %}
                                                      <td>{{sub.get_overdue_months}}</td>
                                             <td>{{sub.To}}</td>
-                                            <td>
-                                                <button class="btn btn-primary" title="Update"><i class='fa fa-pencil'></i></button>
-                                            </td>
+                                            <td>{{sub.Downpayment}}</td>                        
+
                                                 </tr> 
 
                                     {% endwith %}
