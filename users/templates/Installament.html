@@ -48,34 +48,94 @@
                                             <th>Overdue Balance</th>
                                             <th>Month Overdue</th>
                                             <th>Due date</th>
+                                            <th>Down Payment</th>
                                         </tr>
                                     </thead>
                                     
                                     <tbody>
                                     {% for sub in subscriptions %}
-                                    {% with payment=sub.System.total|div:12 %}
-                                    {% widthratio sub.get_overdue_months 1 payment as overdueBalance %}
+                                    
+
+                                            {% if sub.Category.Title == "Amazi" %}
                                     <tr>
-                                            <td>{{sub.CustomerID.FirstName}} {{sub.CustomerID.LastName}}</td>
-                                            <td>{{sub.From}}</td>
-                                            <td>{{sub.Category.Title}}</td>
-                                            <td>{{sub.System.total|intcomma}} Rwf</td>
-                                            {% if sub.System.total|divisibleby:12%}
-                                            <td> {{ payment|intcomma }} Rwf</td>                                           
-                                            {% else %}
-                                            <td> {{ payment|add:1|intcomma }} Rwf</td>                                           
-                                            {% endif %}
-                                            <td>{{sub.TotalBalance|intcomma }} Rwf</td>
-                                            <td>{{sub.System.total| sub:sub.TotalBalance }}</td>
-                                            {% if sub.System.total|divisibleby:12%}
-                                            <td>{{overdueBalance}} Rwf</td>                                           
-                                            {% else %}
-                                            <td> {{ payment|add:1|mul:sub.get_overdue_months|intcomma }} Rwf</td>                                           
-                                            {% endif %}
-                                            <td>{{sub.get_overdue_months}}</td>
+                                    {% with my_payment=sub.System.total|sub:sub.Downpayment %}
+                                    {% with payment=my_payment|div:12 %}
+                                    {% widthratio sub.get_overdue_months 1 payment as overdueBalance %}
+                                            
+                                                    <td>{{sub.CustomerID.FirstName}} {{sub.CustomerID.LastName}}</td>
+                                                    <td>{{sub.From}}</td>
+                                                    <td>{{sub.Category.Title}}</td>
+
+                                                    <td>{{sub.System.total|intcomma}} Rwf</td>
+
+                                                    {% if sub.System.total|divisibleby:12%}
+                                                    <td> {{ payment|intcomma }} Rwf</td>                                           
+                                                    {% else %}
+                                                    <td> {{ payment|add:1|intcomma }} Rwf</td>                                           
+                                                    {% endif %}
+
+                                                    <td>{{sub.TotalBalance|intcomma }} Rwf</td>
+                                                    <td>{{sub.System.total| sub:sub.TotalBalance }}</td>
+                                                    {% if sub.System.total|divisibleby:12%}
+                                                    <td>{{overdueBalance}} Rwf</td>                                           
+                                                    {% else %}
+
+
+                                                    <td> {{ payment|add:1|mul:sub.get_overdue_months|intcomma }} Rwf</td>                   
+                                                     <td>{{sub.get_overdue_months}}</td>
                                             <td>{{sub.To}}</td>
-                                    </tr>
+                                            <td>
+                                                <button class="btn btn-primary" title="Update"><i class='fa fa-pencil'></i></button>
+                                            </td>                        
+                                                    {% endif %}
+                                                                                {% endwith %}
+                                                                                {% endwith %}
+                                            </tr>
+
+                                            {% else %}
+                                            {% with my_payment1=sub.Total|sub:sub.Downpayment %}
+                                            {% with payment1=my_payment1|div:12 %}
+                                             {% widthratio sub.get_overdue_months 1 payment1 as overdueBalance1 %}
+
+                                             <tr>
+                                            
+                                                    <td>{{sub.CustomerID.FirstName}} {{sub.CustomerID.LastName}}</td>
+                                                    <td>{{sub.From}}</td>
+                                                    <td>{{sub.Category.Title}}</td>
+
+                                                    <td>{{sub.Total|intcomma}} Rwf</td>
+
+                                                    {% if sub.Total|divisibleby:12%}
+                                                    <td> {{ payment1|intcomma }} Rwf</td>                                           
+                                                    {% else %}
+                                                    <td> {{ payment1|add:1|intcomma }} Rwf</td>                                           
+                                                    {% endif %}
+
+                                                    <td>{{sub.TotalBalance|intcomma }} Rwf</td>
+                                                    <td>{{sub.Total| sub:sub.TotalBalance }}</td>
+                                                    {% if sub.Total|divisibleby:12%}
+                                                    <td>{{overdueBalance1}} Rwf</td>                                           
+                                                    {% else %}
+
+
+                                                    <td> {{ payment1|add:1|mul:sub.get_overdue_months|intcomma }} Rwf</td>                                           
+                                                   
+                                                    {% endif %}
+                                                     <td>{{sub.get_overdue_months}}</td>
+                                            <td>{{sub.To}}</td>
+                                            <td>
+                                                <button class="btn btn-primary" title="Update"><i class='fa fa-pencil'></i></button>
+                                            </td>
+                                                </tr> 
+
                                     {% endwith %}
+                                    {% endwith %}
+
+                                            {% endif %}
+
+
+                                            
+                                    </tr>
                                     {% endfor %}
                                     
                                 

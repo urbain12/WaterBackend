@@ -158,7 +158,7 @@ def shopping(request):
     cartItems = data['cartItems']
     order = data['order']
     items = data['items']
-    products = Product.objects.filter(inStock__gte=1, Disable=False)
+    products = Product.objects.filter(inStock__gdef, disablete=1, Disable=False)
     return render(request, 'website/shop.html', {'products': products, 'cartItems': cartItems})
 
 
@@ -739,6 +739,7 @@ def checkout(request):
         subscription.From = today
         subscription.Category = category
         subscription.System = system
+        subscription.Downpayment = int(request.POST['downpayment'])
         subscription.users = request.POST['users']
         subscription.To = today + timedelta(days=365)
         subscription.save()
@@ -751,8 +752,8 @@ def checkout(request):
             subscriptionTool.SubscriptionsID = subscription
             subscriptionTool.quantity = 1
             subscriptionTool.save()
-
-        subscription.TotalBalance = system.total
+        new_balance=int(subscription.System.Total)-int(request.POST['downpayment'])
+        subscription.TotalBalance = new_balance
         subscription.save()
         my_tools = SubscriptionsTools.objects.filter(
             SubscriptionsID=subscription.id)
@@ -768,6 +769,7 @@ def approve_subscription(request, subID):
             id=int(request.POST['system']))
         subscription.From = today
         subscription.System = system
+        subscription.Downpayment = int(request.POST['downpayment'])
         subscription.users = request.POST['users']
         subscription.To = today + timedelta(days=365)
         subscription.save()
@@ -780,12 +782,35 @@ def approve_subscription(request, subID):
             subscriptionTool.SubscriptionsID = subscription
             subscriptionTool.quantity = 1
             subscriptionTool.save()
-
-        subscription.TotalBalance = system.total
+        new_balance=int(system.total)-int(request.POST['downpayment'])
+        subscription.TotalBalance = new_balance
         subscription.save()
         my_tools = SubscriptionsTools.objects.filter(
             SubscriptionsID=subscription.id)
         return redirect('checkout_page', pk=subscription.id)
+    
+@login_required(login_url='/login')
+def approvesubscription(request, subID):
+    if request.method == 'POST':
+        today = datetime.today()
+        subscription = Subscriptions.objects.get(id=subID) 
+        subscription.From = today
+        subscription.Total = int(request.POST['amount'])
+        subscription.Downpayment = int(request.POST['downpayment'])
+        subscription.Tools = request.POST['tools']
+        subscription.To = today + timedelta(days=365)
+        subscription.save()
+        new_balance=int(request.POST['amount'])-int(request.POST['downpayment'])
+        subscription.TotalBalance = str(new_balance)
+        subscription.complete = True
+        subscription.save()
+        for i in range(0, 12):
+            payment = SubscriptionsPayment()
+            payment.SubscriptionsID = subscription
+            payment.PaidMonth = subscription.From.date()+relativedelta(months=+i)
+            payment.Paidamount = math.ceil(new_balance/12)
+            payment.save()
+        return redirect('Subscriptions')
 
 
 @login_required(login_url='/login')
@@ -840,6 +865,12 @@ def approve_sub(request, subID):
         print(amazi_tools)
     return render(request, 'approve_sub.html', {'amazi_tools': amazi_tools, 'subscription': subscription, 'categories': categories, 'systems': systems})
 
+@login_required(login_url='/login')
+def approvesubs(request, subID):
+    subscription = Subscriptions.objects.get(id=subID)
+    categories = Category.objects.all()
+    return render(request, 'approveothersystem.html', {'subscription': subscription, 'categories': categories})
+
 
 # @login_required(login_url='/login')
 # def Checkout(request, subID):
@@ -883,7 +914,7 @@ def confirm(request, subID):
         payment = SubscriptionsPayment()
         payment.SubscriptionsID = subscription
         payment.PaidMonth = subscription.From.date()+relativedelta(months=+i)
-        payment.Paidamount = math.ceil(subscription.System.total/12)
+        payment.Paidamount = math.ceil((subscription.System.total-subscription.Downpayment)/12)
         payment.save()
     return redirect('Subscriptions')
 
@@ -958,6 +989,18 @@ def update_tool(request, toolID):
         return redirect('tools')
     else:
         updatetool = Tools.objects.get(id=toolID)
+        return render(request, 'update_tool.html', {'updatetool': updatetool})
+    
+@login_required(login_url='/login')
+def downpayment(request, subid):
+    if request.method == 'POST':
+        
+        payment = Tools.objects.get(id=subid)
+        payment.Downpayment = request.POST['Downpayment']
+        payment.save()
+        return redirect('tools')
+    else:
+        updatetool = Tools.objects.get(id=subid)
         return render(request, 'update_tool.html', {'updatetool': updatetool})
 
 

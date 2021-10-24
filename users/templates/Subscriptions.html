@@ -18,7 +18,7 @@
                                     
                                     <div class="col-sm-12 table-toolbar-right">
                                         <a href="{% url 'new_subscriptions'%}" id="demo-btn-addrow" class="btn btn-success">New subscriptions</a>
-                                        <a href="{% url 'add_subscription'%}" id="demo-btn-addrow" class="btn btn-purple"><i class="demo-pli-add"></i> Add new</a>
+                                        {% comment %} <a href="{% url 'add_subscription'%}" id="demo-btn-addrow" class="btn btn-purple"><i class="demo-pli-add"></i> Add new</a> {% endcomment %}
 
                                         <div class="btn-group">
                                             <div class="form-group">
@@ -54,7 +54,11 @@
                                             <td>{{sub.CustomerID.FirstName}} {{sub.CustomerID.LastName}}</td>
                                             <td>{{sub.Category.Title}}</td>
                                             <td>{{sub.From}}</td>
-                                            <td>{{sub.System.total|intcomma}} Rwf</td>
+                                            {% if sub.Category.Title == "Amazi" %}
+                                                <td>{{sub.System.total|intcomma}} Rwf</td>
+                                            {% else %}
+                                                <td>{{sub.Total|intcomma}} Rwf</td>
+                                            {% endif %}
                                             <td> 
                                             <a class="btn-link" href="{% url 'quotation' sub.id%}"><button class="btn btn-primary">View</button></a>
                                             <a class="btn-link" href="{% url 'notify' sub.id%}"><button class="btn btn-warning">Notify</button></a>

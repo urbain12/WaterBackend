@@ -53,10 +53,17 @@
                                             <td>{{sub.CustomerID.user.email}}</td>
                                             <td>{{sub.CustomerID.user.phone}}</td>
                                             <td>{{sub.Category.Title}}</td>
-                                            <td> 
-                                            <a class="btn-link" href={% url 'approve_sub' sub.id %}><button class="btn btn-primary">Approve</button></a>
-                                            </td>
-                                           
+
+                                            {% if sub.Category.Title == "Amazi" %}
+                                                    <td> 
+                                                    <a class="btn-link" href={% url 'approve_sub' sub.id %}><button class="btn btn-primary">Approve</button></a>
+                                                    </td>
+
+                                            {% else %}
+                                                    <td> 
+                                                    <a class="btn-link" href={% url 'approvesubs' sub.id %}><button class="btn btn-primary">Approve</button></a>
+                                                    </td>
+                                            {% endif %}
                                     </tr>
                                     {% endfor %}
 
