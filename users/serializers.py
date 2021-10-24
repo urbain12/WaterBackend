@@ -100,7 +100,7 @@ class SubscriptionsSerializer(serializers.ModelSerializer):
     get_overdue_months = serializers.ReadOnlyField()
     class Meta:
         model = Subscriptions
-        fields = ['id','CustomerID','System','Category','From','To','TotalBalance','Extra','complete','customer_exception','get_overdue_months','Downpayment']
+        fields = ['id','CustomerID','System','Category','From','To','TotalBalance','Extra','complete','customer_exception','get_overdue_months','Downpayment','Total']
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
