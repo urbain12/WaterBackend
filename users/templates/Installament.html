@@ -56,7 +56,7 @@
                                     {% for sub in subscriptions %}
                                     
 
-                                            {% if sub.Category.Title == "Amazi" %}
+                                            {% if sub.Category.Title|upper == "AMAZI" %}
                                     <tr>
                                     {% with my_payment=sub.System.total|sub:sub.Downpayment %}
                                     {% with payment=my_payment|div:12 %}

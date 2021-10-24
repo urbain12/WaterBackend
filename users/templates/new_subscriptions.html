@@ -54,7 +54,7 @@
                                             <td>{{sub.CustomerID.user.phone}}</td>
                                             <td>{{sub.Category.Title}}</td>
 
-                                            {% if sub.Category.Title == "Amazi" %}
+                                            {% if sub.Category.Title|upper == "AMAZI" %}
                                                     <td> 
                                                     <a class="btn-link" href={% url 'approve_sub' sub.id %}><button class="btn btn-primary">Approve</button></a>
                                                     </td>
