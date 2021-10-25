@@ -361,9 +361,18 @@ def dashboard(request):
                          for overdue in overdue_months])
 
     subscriptions = len(Subscriptions.objects.filter(complete=True))
-    my_subscriptions = Subscriptions.objects.filter(complete=True)
+    category_amazi=Category.objects.get(Title="AMAZI")
+    category_uhira=Category.objects.get(Title="UHIRA")
+    category_inuma=Category.objects.get(Title="INUMA")
+    my_subscriptions = Subscriptions.objects.filter(complete=True,Category=category_amazi)
+    my_subscriptions1 = Subscriptions.objects.filter(complete=True,Category=category_uhira)
+    my_subscriptions2 = Subscriptions.objects.filter(complete=True,Category=category_inuma)
     amount_invoiced = sum([int(sub.System.total)
                           for sub in my_subscriptions])
+    amount_invoiced1 = sum([int(sub.Total)
+                          for sub in my_subscriptions1])
+    amount_invoiced2 = sum([int(sub.Total)
+                          for sub in my_subscriptions2])
     payments = SubscriptionsPayment.objects.filter(Paid=True)
     amount_paid = sum([int(payment.Paidamount) for payment in payments])
     amount_outstanding = amount_invoiced-amount_paid
@@ -397,7 +406,7 @@ def dashboard(request):
         'amount_outstandingweekly': amount_outstandingweekly,
 
         'amount_paid': amount_paid,
-        'amount_invoiced': amount_invoiced,
+        'amount_invoiced': amount_invoiced+amount_invoiced1+amount_invoiced2,
         'amount_outstanding': amount_outstanding})
 
 
