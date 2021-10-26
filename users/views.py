@@ -341,16 +341,26 @@ def dashboard(request):
     dateweek = datetime.now()
     start_week = dateweek - timedelta(dateweek.weekday())
     end_week = start_week + timedelta(7)
-
+    category_amazi=Category.objects.get(Title="AMAZI")
+    category_uhira=Category.objects.get(Title="UHIRA")
+    category_inuma=Category.objects.get(Title="INUMA")
     daily = len(Subscriptions.objects.filter(
         From__date=d.date(), complete=True))
     daily_subscriptions = Subscriptions.objects.filter(
-        From__date=d.date(), complete=True)
+        From__date=d.date(), complete=True,Category=category_amazi)
+    daily_subscriptions1 = Subscriptions.objects.filter(
+        From__date=d.date(), complete=True,Category=category_uhira)
+    daily_subscriptions2 = Subscriptions.objects.filter(
+        From__date=d.date(), complete=True,Category=category_inuma)
     paymentsdaily = SubscriptionsPayment.objects.filter(
         PaymentDate=d.date(), Paid=True)
 
     amount_invoiceddaily = sum([int(sub.System.total)
                                for sub in daily_subscriptions])
+    amount_invoiceddaily1 = sum([int(sub.Total)
+                               for sub in daily_subscriptions1])
+    amount_invoiceddaily2 = sum([int(sub.Total)
+                               for sub in daily_subscriptions2])
     amount_paiddaily = sum([int(payment.Paidamount)
                            for payment in paymentsdaily])
     amount_outstandingdaily = amount_invoiceddaily-amount_paiddaily
@@ -361,9 +371,7 @@ def dashboard(request):
                          for overdue in overdue_months])
 
     subscriptions = len(Subscriptions.objects.filter(complete=True))
-    category_amazi=Category.objects.get(Title="AMAZI")
-    category_uhira=Category.objects.get(Title="UHIRA")
-    category_inuma=Category.objects.get(Title="INUMA")
+    
     my_subscriptions = Subscriptions.objects.filter(complete=True,Category=category_amazi)
     my_subscriptions1 = Subscriptions.objects.filter(complete=True,Category=category_uhira)
     my_subscriptions2 = Subscriptions.objects.filter(complete=True,Category=category_inuma)
@@ -380,12 +388,20 @@ def dashboard(request):
     weekly = len(Subscriptions.objects.filter(
         From__range=[start_week.date(), end_week.date()], complete=True))
     weekly_subscriptions = Subscriptions.objects.filter(
-        From__date=d.date(), complete=True)
+        From__date=d.date(), complete=True,Category=category_amazi)
+    weekly_subscriptions1 = Subscriptions.objects.filter(
+        From__date=d.date(), complete=True,Category=category_uhira)
+    weekly_subscriptions2 = Subscriptions.objects.filter(
+        From__date=d.date(), complete=True,Category=category_inuma)
     paymentsweekly = SubscriptionsPayment.objects.filter(
         PaymentDate=d.date(), Paid=True)
 
     amount_invoicedweekly = sum([int(sub.System.total)
                                 for sub in weekly_subscriptions])
+    amount_invoicedweekly1 = sum([int(sub.Total)
+                                for sub in weekly_subscriptions1])
+    amount_invoicedweekly2 = sum([int(sub.Total)
+                                for sub in weekly_subscriptions2])
     amount_paidweekly = sum([int(payment.Paidamount)
                             for payment in paymentsweekly])
     amount_outstandingweekly = amount_invoicedweekly-amount_paidweekly
@@ -398,11 +414,11 @@ def dashboard(request):
         'overdue_amount': overdue_amount,
 
         'amount_paiddaily': amount_paiddaily,
-        'amount_invoiceddaily': amount_invoiceddaily,
+        'amount_invoiceddaily': amount_invoiceddaily+amount_invoiceddaily1+amount_invoiceddaily2,
         'amount_outstandingdaily': amount_outstandingdaily,
 
         'amount_paidweekly': amount_paidweekly,
-        'amount_invoicedweekly': amount_invoicedweekly,
+        'amount_invoicedweekly': amount_invoicedweekly+amount_invoicedweekly1+amount_invoicedweekly2,
         'amount_outstandingweekly': amount_outstandingweekly,
 
         'amount_paid': amount_paid,
