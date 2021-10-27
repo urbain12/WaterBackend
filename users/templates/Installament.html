@@ -42,6 +42,7 @@
                                             <th>StartDate</th>
                                             <th>Description</th>
                                             <th>Invoice Total</th>
+                                            <th>Amount under Installments</th>
                                             <th>Monthly payment</th>
                                             <th>Outstanding Amount</th>
                                             <th>Balance Paid</th>
@@ -67,6 +68,7 @@
                                                     <td>{{sub.Category.Title}}</td>
 
                                                     <td>{{sub.System.total|intcomma}} Rwf</td>
+                                                    <td>{{sub.System.total|sub:sub.Downpayment|intcomma}}
 
                                                     {% if sub.System.total|divisibleby:12%}
                                                     <td> {{ payment|intcomma }} Rwf</td>                                           
@@ -102,6 +104,7 @@
                                                     <td>{{sub.Category.Title}}</td>
 
                                                     <td>{{sub.Total|intcomma}} Rwf</td>
+                                                    <td>{{sub.Total|sub:sub.Downpayment|intcomma}} Rwf</td>
 
                                                     {% if sub.Total|divisibleby:12%}
                                                     <td> {{ payment1|intcomma }} Rwf</td>                                           
