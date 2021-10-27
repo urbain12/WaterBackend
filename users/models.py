@@ -137,8 +137,8 @@ class Subscriptions(models.Model):
         'Category', on_delete=models.SET_NULL, null=True, blank=True)
     System = models.ForeignKey(
         'System', on_delete=models.SET_NULL, null=True, blank=True)
-    From = models.DateTimeField(blank=True, null=True)
-    To = models.DateTimeField(blank=True, null=True)
+    From = models.DateField(blank=True, null=True)
+    To = models.DateField(blank=True, null=True)
     Tools = models.CharField(max_length=200, blank=True, null=True)
     Total = models.IntegerField(blank=True, null=True)
     Downpayment = models.IntegerField(blank=True, null=True, default=0)

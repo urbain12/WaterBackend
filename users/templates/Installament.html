@@ -64,11 +64,11 @@
                                     {% widthratio sub.get_overdue_months 1 payment as overdueBalance %}
                                             
                                                     <td>{{sub.CustomerID.FirstName}} {{sub.CustomerID.LastName}}</td>
-                                                    <td>{{sub.From}}</td>
+                                                    <td>{{sub.From|slice:"0:1"}}</td>
                                                     <td>{{sub.Category.Title}}</td>
 
                                                     <td>{{sub.System.total|intcomma}} Rwf</td>
-                                                    <td>{{sub.System.total|sub:sub.Downpayment|intcomma}}
+                                                    <td>{{sub.System.total|sub:sub.Downpayment|intcomma}} Rwf</td>
 
                                                     {% if sub.System.total|divisibleby:12%}
                                                     <td> {{ payment|intcomma }} Rwf</td>                                           
@@ -86,7 +86,7 @@
                                                     <td> {{ payment|add:1|mul:sub.get_overdue_months|intcomma }} Rwf</td>                   
                                                      <td>{{sub.get_overdue_months}}</td>
                                             <td>{{sub.To}}</td>
-                                            <td>{{sub.Downpayment}}</td>                        
+                                            <td>{{sub.Downpayment|intcomma}} Rwf</td>                        
                                                     {% endif %}
                                                                                 {% endwith %}
                                                                                 {% endwith %}
@@ -124,7 +124,7 @@
                                                     {% endif %}
                                                      <td>{{sub.get_overdue_months}}</td>
                                             <td>{{sub.To}}</td>
-                                            <td>{{sub.Downpayment}}</td>                        
+                                            <td>{{sub.Downpayment|intcomma}} Rwf</td>                        
 
                                                 </tr> 
 
