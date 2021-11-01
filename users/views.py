@@ -383,7 +383,7 @@ def dashboard(request):
                           for sub in my_subscriptions2])
     payments = SubscriptionsPayment.objects.filter(Paid=True)
     amount_paid = sum([int(payment.Paidamount) for payment in payments])
-    amount_outstanding = amount_invoiced-amount_paid
+    amount_outstanding = amount_invoiced+amount_invoiced1+amount_invoiced2-amount_paid
 
     weekly = len(Subscriptions.objects.filter(
         From__range=[start_week.date(), end_week.date()], complete=True))

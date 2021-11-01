@@ -64,7 +64,7 @@
                                     {% widthratio sub.get_overdue_months 1 payment as overdueBalance %}
                                             
                                                     <td>{{sub.CustomerID.FirstName}} {{sub.CustomerID.LastName}}</td>
-                                                    <td>{{sub.From|slice:"0:1"}}</td>
+                                                    <td>{{sub.From|date:'d/m/Y'}}</td>
                                                     <td>{{sub.Category.Title}}</td>
 
                                                     <td>{{sub.System.total|intcomma}} Rwf</td>
@@ -77,15 +77,15 @@
                                                     {% endif %}
 
                                                     <td>{{sub.TotalBalance|intcomma }} Rwf</td>
-                                                    <td>{{my_payment| sub:sub.TotalBalance }} Rwf</td>
+                                                    <td>{{my_payment| sub:sub.TotalBalance|intcomma }} Rwf</td>
                                                     {% if sub.System.total|divisibleby:12%}
-                                                    <td>{{overdueBalance}} Rwf</td>                                           
+                                                    <td>{{overdueBalance|intcomma}} Rwf</td>                                           
                                                     {% else %}
 
 
                                                     <td> {{ payment|add:1|mul:sub.get_overdue_months|intcomma }} Rwf</td>                   
                                                      <td>{{sub.get_overdue_months}}</td>
-                                            <td>{{sub.To}}</td>
+                                            <td>{{sub.To|date:'d/m/Y'}}</td>
                                             <td>{{sub.Downpayment|intcomma}} Rwf</td>                        
                                                     {% endif %}
                                                                                 {% endwith %}
@@ -100,7 +100,7 @@
                                              <tr>
                                             
                                                     <td>{{sub.CustomerID.FirstName}} {{sub.CustomerID.LastName}}</td>
-                                                    <td>{{sub.From}}</td>
+                                                    <td>{{sub.From|date:'d/m/Y'}}</td>
                                                     <td>{{sub.Category.Title}}</td>
 
                                                     <td>{{sub.Total|intcomma}} Rwf</td>
@@ -113,9 +113,9 @@
                                                     {% endif %}
 
                                                     <td>{{sub.TotalBalance|intcomma }} Rwf</td>
-                                                    <td>{{my_payment1 | sub:sub.TotalBalance }} Rwf</td>
+                                                    <td>{{my_payment1| sub:sub.TotalBalance|intcomma }} Rwf</td>
                                                     {% if sub.Total|divisibleby:12%}
-                                                    <td>{{overdueBalance1}} Rwf</td>                                           
+                                                    <td>{{overdueBalance1|intcomma}} Rwf</td>                                           
                                                     {% else %}
 
 
@@ -123,7 +123,7 @@
                                                    
                                                     {% endif %}
                                                      <td>{{sub.get_overdue_months}}</td>
-                                            <td>{{sub.To}}</td>
+                                            <td>{{sub.To|date:'d/m/Y'}}</td>
                                             <td>{{sub.Downpayment|intcomma}} Rwf</td>                        
 
                                                 </tr> 
