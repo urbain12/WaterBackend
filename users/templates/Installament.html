@@ -114,7 +114,7 @@
 
                                                     <td>{{sub.TotalBalance|intcomma }} Rwf</td>
                                                     <td>{{my_payment1| sub:sub.TotalBalance|intcomma }} Rwf</td>
-                                                    {% if sub.Total|divisibleby:12%}
+                                                    {% if sub.Total|divisibleby:sub.InstallmentPeriod%}
                                                     <td>{{overdueBalance1|intcomma}} Rwf</td>                                           
                                                     {% else %}
 

@@ -793,7 +793,7 @@ def approve_subscription(request, subID):
         system = System.objects.get(
             id=int(request.POST['system']))
         subscription.From = today
-        subscription.Total = int(request.POST['total'])
+        subscription.Total = int(request.POST['total'])+system.total
         subscription.System = system
         subscription.Downpayment = int(request.POST['downpayment'])
         subscription.InstallmentPeriod = int(request.POST['period'])
@@ -809,7 +809,7 @@ def approve_subscription(request, subID):
             subscriptionTool.SubscriptionsID = subscription
             subscriptionTool.quantity = 1
             subscriptionTool.save()
-        new_balance=int(request.POST['total'])-int(request.POST['downpayment'])
+        new_balance=int(request.POST['total'])+system.total-int(request.POST['downpayment'])
         subscription.TotalBalance = new_balance
         subscription.save()
         my_tools = SubscriptionsTools.objects.filter(
