@@ -1,0 +1,95 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+{% load humanize %}
+ <div id="page-content">
+                    
+					<div class="panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Catridges Order Details</h3>
+                        </div>
+                    
+                        <!--Data Table-->
+                        <!--===================================================-->
+                        <div class="panel-body">
+                            <div class="pad-btm form-inline">
+                                <div class="row">
+                                    
+                                    <div class="col-sm-12 table-toolbar-right">
+
+                                        <div class="btn-group">
+                                            <div class="form-group">
+                                        </div>
+                                   
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped" style="border: 1px">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">ID</th>
+                                            <th>Product</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Amount</th>
+                                            
+                                            
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for item in order_items %}
+                                    <tr>
+                                            <td><a class="btn-link" href="#">{{item.id}}</a></td>
+                                            <td>{{item.Tool.Title}}</td>
+                                            <td>{{item.Tool.Amount|intcomma}} Rwf</td>
+                                            <td>{{item.quantity}}</td>
+                                            <td>{{item.get_total|intcomma}} Rwf</td>
+
+                                           
+                                            
+                                        </tr>
+                                       
+
+                                    {% endfor %}
+
+                                     <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                           
+                                        </tr>
+                                        <tr>
+                                            <td> <strong>Total</strong> </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><strong><u>{{order.get_cart_total|intcomma}} Rwf</u></strong></td>
+                                           
+                                        </tr>
+                                        
+                                    
+                                        </tbody>
+                                </table>
+                            </div>
+                      
+                        </div>
+                        <!--===================================================-->
+                        <!--End Data Table-->
+                    
+                    </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+
+{% endblock content%}

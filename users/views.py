@@ -575,6 +575,14 @@ def orders(request):
     page_obj = paginator.get_page(page_number)
     return render(request, 'orders.html', {'orders': orders, 'page_obj': page_obj})
 
+@login_required(login_url='/login')
+def Catrdigesorders(request):
+    Catridgeorders = OrderTools.objects.all().order_by('-id')
+    paginator = Paginator(Catridgeorders, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'catridgesorder.html', {'Catridgeorders': Catridgeorders, 'page_obj': page_obj})
+
 
 @login_required(login_url='/login')
 def pay_later_orders(request):
@@ -1077,6 +1085,12 @@ def order_details(request, orderID):
     order_items = OrderItem.objects.filter(order=orderID)
     order = Order.objects.get(id=orderID)
     return render(request, 'order_details.html', {'order_items': order_items, 'order': order})
+
+@login_required(login_url='/login')
+def catridgesorder_details(request, cOrderID):
+    order_items = OrderItemTool.objects.filter(order=cOrderID)
+    order = OrderTools.objects.get(id=cOrderID)
+    return render(request, 'catridgeorder_details.html', {'order_items': order_items, 'order': order})
 
 
 @login_required(login_url='/login')
