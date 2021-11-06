@@ -141,6 +141,7 @@ class Subscriptions(models.Model):
     To = models.DateTimeField(blank=True, null=True)
     Tools = models.CharField(max_length=200, blank=True, null=True)
     Total = models.IntegerField(blank=True, null=True)
+    InstallmentPeriod = models.IntegerField(blank=True, null=True)
     Downpayment = models.IntegerField(blank=True, null=True, default=0)
     TotalBalance = models.CharField(max_length=255, null=True, blank=True)
     Extra = models.IntegerField(null=True, blank=True, default=0)

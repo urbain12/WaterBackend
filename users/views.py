@@ -355,7 +355,7 @@ def dashboard(request):
     paymentsdaily = SubscriptionsPayment.objects.filter(
         PaymentDate=d.date(), Paid=True)
 
-    amount_invoiceddaily = sum([int(sub.System.total)
+    amount_invoiceddaily = sum([int(sub.Total)
                                for sub in daily_subscriptions])
     amount_invoiceddaily1 = sum([int(sub.Total)
                                for sub in daily_subscriptions1])
@@ -375,7 +375,7 @@ def dashboard(request):
     my_subscriptions = Subscriptions.objects.filter(complete=True,Category=category_amazi)
     my_subscriptions1 = Subscriptions.objects.filter(complete=True,Category=category_uhira)
     my_subscriptions2 = Subscriptions.objects.filter(complete=True,Category=category_inuma)
-    amount_invoiced = sum([int(sub.System.total)
+    amount_invoiced = sum([int(sub.Total)
                           for sub in my_subscriptions])
     amount_invoiced1 = sum([int(sub.Total)
                           for sub in my_subscriptions1])
@@ -396,7 +396,7 @@ def dashboard(request):
     paymentsweekly = SubscriptionsPayment.objects.filter(
         PaymentDate=d.date(), Paid=True)
 
-    amount_invoicedweekly = sum([int(sub.System.total)
+    amount_invoicedweekly = sum([int(sub.Total)
                                 for sub in weekly_subscriptions])
     amount_invoicedweekly1 = sum([int(sub.Total)
                                 for sub in weekly_subscriptions1])
@@ -777,7 +777,7 @@ def checkout(request):
             subscriptionTool.SubscriptionsID = subscription
             subscriptionTool.quantity = 1
             subscriptionTool.save()
-        new_balance=int(subscription.System.Total)-int(request.POST['downpayment'])
+        new_balance=int(subscription.Total)-int(request.POST['downpayment'])
         subscription.TotalBalance = new_balance
         subscription.save()
         my_tools = SubscriptionsTools.objects.filter(
@@ -793,8 +793,10 @@ def approve_subscription(request, subID):
         system = System.objects.get(
             id=int(request.POST['system']))
         subscription.From = today
+        subscription.Total = int(request.POST['total'])
         subscription.System = system
         subscription.Downpayment = int(request.POST['downpayment'])
+        subscription.InstallmentPeriod = int(request.POST['period'])
         subscription.users = request.POST['users']
         subscription.To = today + timedelta(days=365)
         subscription.save()
@@ -807,7 +809,7 @@ def approve_subscription(request, subID):
             subscriptionTool.SubscriptionsID = subscription
             subscriptionTool.quantity = 1
             subscriptionTool.save()
-        new_balance=int(system.total)-int(request.POST['downpayment'])
+        new_balance=int(request.POST['total'])-int(request.POST['downpayment'])
         subscription.TotalBalance = new_balance
         subscription.save()
         my_tools = SubscriptionsTools.objects.filter(
@@ -822,6 +824,7 @@ def approvesubscription(request, subID):
         subscription.From = today
         subscription.Total = int(request.POST['amount'])
         subscription.Downpayment = int(request.POST['downpayment'])
+        subscription.InstallmentPeriod = int(request.POST['period'])
         subscription.Tools = request.POST['tools']
         subscription.To = today + timedelta(days=365)
         subscription.save()
@@ -829,11 +832,11 @@ def approvesubscription(request, subID):
         subscription.TotalBalance = str(new_balance)
         subscription.complete = True
         subscription.save()
-        for i in range(0, 12):
+        for i in range(0, int(request.POST['period'])):
             payment = SubscriptionsPayment()
             payment.SubscriptionsID = subscription
             payment.PaidMonth = subscription.From.date()+relativedelta(months=+i)
-            payment.Paidamount = math.ceil(new_balance/12)
+            payment.Paidamount = math.ceil(new_balance/int(request.POST['period']))
             payment.save()
         return redirect('Subscriptions')
 
@@ -935,11 +938,11 @@ def confirm(request, subID):
     subscription = Subscriptions.objects.get(id=subID)
     subscription.complete = True
     subscription.save()
-    for i in range(0, 12):
+    for i in range(0, subscription.InstallmentPeriod):
         payment = SubscriptionsPayment()
         payment.SubscriptionsID = subscription
         payment.PaidMonth = subscription.From.date()+relativedelta(months=+i)
-        payment.Paidamount = math.ceil((subscription.System.total-subscription.Downpayment)/12)
+        payment.Paidamount = math.ceil((subscription.Total-subscription.Downpayment)/subscription.InstallmentPeriod)
         payment.save()
     return redirect('Subscriptions')
 
@@ -1850,7 +1853,7 @@ def get_balance(request, phone_number):
 def get_category(request, user_id):
     customer = Customer.objects.get(user=user_id)
     subscription = Subscriptions.objects.get(CustomerID=customer.id)
-    paidAmount = math.ceil(subscription.System.total/12)
+    paidAmount = math.ceil(subscription.Total/subscription.InstallmentPeriod)
     data = {
         'category': subscription.Category.Title,
         'subscription_date': str(subscription.From),
@@ -2162,10 +2165,10 @@ def export_users_csv(request):
             sub.CustomerID.LastName,
             sub.From,
             sub.Category.Title,
-            sub.System.total,
-            round(sub.System.total / 12),
+            sub.Total,
+            round(sub.Total /sub.InstallmentPeriod),
             sub.TotalBalance,
-            sub.System.total - int(sub.TotalBalance),
+            sub.Total - int(sub.TotalBalance),
             "-",
             sub.To,
             "0"
