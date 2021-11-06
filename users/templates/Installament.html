@@ -60,7 +60,7 @@
                                             {% if sub.Category.Title|upper == "AMAZI" %}
                                     <tr>
                                     {% with my_payment=sub.System.total|sub:sub.Downpayment %}
-                                    {% with payment=my_payment|div:12 %}
+                                    {% with payment=my_payment|div:sub.InstallmentPeriod %}
                                     {% widthratio sub.get_overdue_months 1 payment as overdueBalance %}
                                             
                                                     <td>{{sub.CustomerID.FirstName}} {{sub.CustomerID.LastName}}</td>
@@ -84,17 +84,18 @@
 
 
                                                     <td> {{ payment|add:1|mul:sub.get_overdue_months|intcomma }} Rwf</td>                   
-                                                     <td>{{sub.get_overdue_months}}</td>
-                                            <td>{{sub.To|date:'d/m/Y'}}</td>
-                                            <td>{{sub.Downpayment|intcomma}} Rwf</td>                        
+                                                                           
                                                     {% endif %}
+                                                    <td>{{sub.get_overdue_months}}</td>
+                                            <td>{{sub.To|date:'d/m/Y'}}</td>
+                                            <td>{{sub.Downpayment|intcomma}} Rwf</td>  
                                                                                 {% endwith %}
                                                                                 {% endwith %}
                                             </tr>
 
                                             {% else %}
                                             {% with my_payment1=sub.Total|sub:sub.Downpayment %}
-                                            {% with payment1=my_payment1|div:12 %}
+                                            {% with payment1=my_payment1|div:sub.InstallmentPeriod %}
                                              {% widthratio sub.get_overdue_months 1 payment1 as overdueBalance1 %}
 
                                              <tr>
@@ -114,7 +115,7 @@
 
                                                     <td>{{sub.TotalBalance|intcomma }} Rwf</td>
                                                     <td>{{my_payment1| sub:sub.TotalBalance|intcomma }} Rwf</td>
-                                                    {% if sub.Total|divisibleby:sub.InstallmentPeriod%}
+                                                    {% if sub.Total|divisibleby:sub.InstallmentPeriod %}
                                                     <td>{{overdueBalance1|intcomma}} Rwf</td>                                           
                                                     {% else %}
 
