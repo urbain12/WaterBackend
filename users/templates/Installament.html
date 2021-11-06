@@ -77,7 +77,7 @@
                                                     {% endif %}
 
                                                     <td>{{sub.TotalBalance|intcomma }} Rwf</td>
-                                                    <td>{{sub.System.total| sub:sub.TotalBalance|intcomma }} Rwf</td>
+                                                    <td>{{my_payment| sub:sub.TotalBalance|intcomma }} Rwf</td>
                                                     {% if sub.System.total|divisibleby:12%}
                                                     <td>{{overdueBalance|intcomma}} Rwf</td>                                           
                                                     {% else %}
@@ -113,7 +113,7 @@
                                                     {% endif %}
 
                                                     <td>{{sub.TotalBalance|intcomma }} Rwf</td>
-                                                    <td>{{sub.Total| sub:sub.TotalBalance|intcomma }} Rwf</td>
+                                                    <td>{{my_payment1| sub:sub.TotalBalance|intcomma }} Rwf</td>
                                                     {% if sub.Total|divisibleby:12%}
                                                     <td>{{overdueBalance1|intcomma}} Rwf</td>                                           
                                                     {% else %}
