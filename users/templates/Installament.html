@@ -59,7 +59,7 @@
 
                                             {% if sub.Category.Title|upper == "AMAZI" %}
                                     <tr>
-                                    {% with my_payment=sub.System.total|sub:sub.Downpayment %}
+                                    {% with my_payment=sub.Total|sub:sub.Downpayment %}
                                     {% with payment=my_payment|div:sub.InstallmentPeriod %}
                                     {% widthratio sub.get_overdue_months 1 payment as overdueBalance %}
                                             
@@ -67,8 +67,8 @@
                                                     <td>{{sub.From|date:'d/m/Y'}}</td>
                                                     <td>{{sub.Category.Title}}</td>
 
-                                                    <td>{{sub.System.total|intcomma}} Rwf</td>
-                                                    <td>{{sub.System.total|sub:sub.Downpayment|intcomma}} Rwf</td>
+                                                    <td>{{sub.Total|intcomma}} Rwf</td>
+                                                    <td>{{sub.Total|sub:sub.Downpayment|intcomma}} Rwf</td>
 
                                                     {% if sub.System.total|divisibleby:12%}
                                                     <td> {{ payment|intcomma }} Rwf</td>                                           
