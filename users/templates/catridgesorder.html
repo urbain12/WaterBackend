@@ -1,0 +1,97 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+
+ <div id="page-content">
+                    
+					<div class="panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Catridges Orders</h3>
+                        </div>
+                    
+                        <!--Data Table-->
+                        <!--===================================================-->
+                        <div class="panel-body">
+                            <div class="pad-btm form-inline">
+                                <div class="row">
+                                    
+                                    <div class="col-sm-12 table-toolbar-right">
+                                    <a href="{% url 'export_orders' %}"> <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;Export</button></a>
+                                    {% comment %} <a href="{% url 'pay_later_orders' %}"> <button class="btn btn-warning my-2 my-sm-0" type="submit">&nbsp; &nbsp;Pay Later Orders</button></a> {% endcomment %}
+
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped" style="border: 1px">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">ID</th>
+                                            <th>Customer</th>
+                                            <th>Phone</th>
+                                            <th>Address</th>
+                                            <th>Date Ordered</th>
+                                            <th>Total</th>
+                                            <th>Actions</th>
+                                            
+                                            
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                     {% for order in page_obj %}
+                                    <tr>
+                                            <td><a class="btn-link" href="#">{{order.id}}</a></td>
+                                            <td>{{order.toolshippingaddress.names}} </td>
+                                            <td>{{order.toolshippingaddress.phone}} </td>
+                                            <td>{{order.toolshippingaddress.address}} - {{order.toolshippingaddress.city}}</td>
+                                            <td>{{order.date_ordered}}</td>
+                                            <td>{{order.get_cart_total}} Rwf</td>
+                                            
+                                            <td>
+                                                <a href="{% url 'catridgesorder_details' order.id%}">
+                                                <div class="btn btn-primary">Details</div>
+                                                </a>
+                                            </td>
+                                            
+                                        </tr>
+
+                                    {% endfor %}  
+                                        
+                                    
+                                        </tbody>
+                                </table>
+                            </div>
+                            <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a class="btn btn-primary mb-4" href="?page=1">&laquo; first</a>
+                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.next_page_number }}">next</a>
+                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+                        </div>
+                        <!--===================================================-->
+                        <!--End Data Table-->
+                    
+                    </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+
+{% endblock content%}

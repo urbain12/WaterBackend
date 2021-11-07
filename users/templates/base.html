@@ -426,17 +426,42 @@
                                             </span>
                                         </a>
                                     </li>
-
-                                    {% url 'orders' as ord %}
+                                    <li >
+                                         <a href="">
+                                                <i class="fa fa-gg"></i>
+                                                <span class="menu-title"> 
+                                               <strong>Order</strong>
+                                               </span>
+                                                <i class="arrow"></i>
+                                            </a>
+                                        <ul class="collapse">
+                                        {% url 'orders' as ord %}
                                     <li {% if request.path == ord  %} class="active-sub"{% endif %}>
                                         <a href="{% url 'orders' %}">
                                             <i class="fa fa-shopping-basket"></i>
                                             <span class="menu-title">
-                                                <strong>Orders</strong>
+                                                <strong>Shop Orders</strong>
                                                 
                                             </span>
                                         </a>
                                     </li>
+                                        {% url 'Catrdigesorders' as corders %}
+                                        <li {% if request.path == corders  %} class="active-sub"{% endif %}>
+                                            <a href="{% url 'Catrdigesorders' %}">
+                                                <i class="fa fa-wrench"></i>
+                                                <span class="menu-title">
+                                                    <strong>Catridges orders</strong>
+                                                    
+                                                </span>
+                                            </a>
+                                        </li>
+                                        
+                                        </ul>
+
+
+                                    </li>
+
+                                    
                                     <li >
                                          <a href="">
                                                 <i class="fa fa-archive"></i>
