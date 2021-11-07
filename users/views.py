@@ -1069,7 +1069,8 @@ def update_system(request, sysID):
 @login_required(login_url='/login')
 def subscriptions(request):
     subscriptions = Subscriptions.objects.filter(complete=True)
-    return render(request, 'Subscriptions.html', {'subscriptions': subscriptions})
+    numofsubs = len(Subscriptions.objects.filter(complete=False))
+    return render(request, 'Subscriptions.html', {'subscriptions': subscriptions,'numofsubs':numofsubs})
 
 
 @login_required(login_url='/login')
