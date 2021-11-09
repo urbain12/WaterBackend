@@ -13,7 +13,7 @@
 				<br>
 				<table class="table">
 					<tr>
-						<th><h5>Total:<strong> {{subscription.System.total|intcomma}} Rwf</strong></h5></th>
+						<th><h5>Total:<strong> {{subscription.Total|intcomma}} Rwf</strong></h5></th>
 						<th>
 							<a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'confirm' subscription.id %}">confirm</a>
 							<a  style="float:right; margin:5px;" class="btn btn-danger" href="{% url 'cancel' subscription.id %}">cancel</a>

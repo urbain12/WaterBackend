@@ -472,7 +472,7 @@ def operator(request):
                         password=password)
                     my_phone = request.POST['phonenumber']
 
-                payload = {'details': f' Dear Client,\nYou have been registered successfully \n Your credentials to login in mobile app are: \n Phone:{my_phone} \n password:{password} ', 'phone': f'25{my_phone}'}
+                payload = {'details': f' Dear Client,\nYou have been registered successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\npassword:{password}\n\n Download the application through\n http://shorturl.at/qEQZ2', 'phone': f'25{my_phone}'}
                 headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
                 r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                                   headers=headers, data=payload, verify=False)
@@ -601,7 +601,7 @@ def reset_password(request, userID):
     my_phone = user.phone
     user.set_password(password)
     user.save()
-    payload = {'details': f' Dear Client,\nYour password have been changed successfully \n Your credentials to login in mobile app are: \n Phone:{my_phone} \n password:{password} ', 'phone': f'25{my_phone}'}
+    payload = {'details': f' Dear Client,\nYour password have been changed successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\npassword:{password} ', 'phone': f'25{my_phone}'}
     headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
     r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                       headers=headers, data=payload, verify=False)
@@ -800,15 +800,26 @@ def approve_subscription(request, subID):
         subscription = Subscriptions.objects.get(id=subID) 
         system = System.objects.get(
             id=int(request.POST['system']))
+        if request.POST['system2'] != "":
+            system2 = System.objects.get(
+                id=int(request.POST['system2']))
         subscription.From = today
-        subscription.Total = int(request.POST['total'])+system.total
+        if request.POST['system2'] != "":
+            subscription.Total = int(request.POST['total'])+system.total+system2.total
+        else:
+            subscription.Total = int(request.POST['total'])+system.total
         subscription.System = system
+        if request.POST['system2'] != "":
+            subscription.System2 = system2
         subscription.Downpayment = int(request.POST['downpayment'])
         subscription.InstallmentPeriod = int(request.POST['period'])
         subscription.users = request.POST['users']
         subscription.To = today + timedelta(days=365)
         subscription.save()
         tools = SystemTool.objects.filter(system=system.id)
+        if request.POST['system2'] != "":
+            tools = SystemTool.objects.filter(system=system.id)|SystemTool.objects.filter(system=system2.id)
+            
 
         for tool in tools:
             my_tool = Tools.objects.get(id=tool.tool.id)
@@ -817,7 +828,10 @@ def approve_subscription(request, subID):
             subscriptionTool.SubscriptionsID = subscription
             subscriptionTool.quantity = 1
             subscriptionTool.save()
-        new_balance=int(request.POST['total'])+system.total-int(request.POST['downpayment'])
+        if request.POST['system2'] != "":
+            new_balance=int(request.POST['total'])+system.total-int(request.POST['downpayment'])+system2.total
+        else:
+            new_balance=int(request.POST['total'])+system.total-int(request.POST['downpayment'])
         subscription.TotalBalance = new_balance
         subscription.save()
         my_tools = SubscriptionsTools.objects.filter(
@@ -1069,7 +1083,8 @@ def update_system(request, sysID):
 @login_required(login_url='/login')
 def subscriptions(request):
     subscriptions = Subscriptions.objects.filter(complete=True)
-    return render(request, 'Subscriptions.html', {'subscriptions': subscriptions})
+    numofsubs = len(Subscriptions.objects.filter(complete=False))
+    return render(request, 'Subscriptions.html', {'subscriptions': subscriptions,'numofsubs':numofsubs})
 
 
 @login_required(login_url='/login')
