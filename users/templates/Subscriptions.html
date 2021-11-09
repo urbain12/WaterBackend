@@ -61,11 +61,7 @@
                                             <td>{{sub.CustomerID.FirstName}} {{sub.CustomerID.LastName}}</td>
                                             <td>{{sub.Category.Title}}</td>
                                             <td>{{sub.From|date:'d/m/Y'}}</td>
-                                            {% if sub.Category.Title|upper == "AMAZI" %}
-                                                <td>{{sub.System.total|intcomma}} Rwf</td>
-                                            {% else %}
-                                                <td>{{sub.Total|intcomma}} Rwf</td>
-                                            {% endif %}
+                                             <td>{{sub.Total|intcomma}} Rwf</td>
                                             <td> 
                                             <a class="btn-link" href="{% url 'quotation' sub.id%}"><button class="btn btn-primary">View</button></a>
                                             <a class="btn-link" href="{% url 'notify' sub.id%}"><button class="btn btn-warning">Notify</button></a>

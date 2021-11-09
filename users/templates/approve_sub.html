@@ -25,6 +25,14 @@
                                                     </select>  
                                                 </div>
                                             </div>
+                                            <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                    <label class="control-label">Second System (if any)</label>
+                                                    <select class="form-control" name="system2" id='system2'>
+                                                       <option value="">Select second System</option> 
+                                                    </select>  
+                                                </div>
+                                            </div>
                                       
 
                                             <div class="col-sm-12">
@@ -105,6 +113,12 @@
 					
 					
                 </div>
+
+
+
+
+
+
 <script>
 //var my_func=()=>{
  //   var tools= "{{ my_tools }}" 
@@ -113,7 +127,9 @@
 //}
 window.onload=function (){
     var s2 = document.getElementById('system');
+    var s1 = document.getElementById('system2');
     s2.innerHTML = "";
+    s1.innerHTML = "";
     if(true){
         console.log('haha')
         var optionArray = ["|Select system"];
@@ -132,6 +148,14 @@ window.onload=function (){
         newOption.value = pair[0];
         newOption.innerHTML = pair[1];
         s2.options.add(newOption);
+    }
+    for(var option in optionArray){
+        var pair = optionArray[option].split("|");
+        var newOption = document.createElement("option");
+        newOption.value = pair[0];
+        newOption.innerHTML = pair[1];
+        s1
+        .options.add(newOption);
     }
 }
 /*function populate2(s1,s2){
