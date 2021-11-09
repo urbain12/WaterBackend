@@ -7,9 +7,9 @@ from .models import *
 def Notifications():
     subscriptions=Subscriptions.objects.filter(complete=True,category=1)
     for sub in subscriptions:
-        sub_minute=datetime.strptime(sub.From.strftime('%Y-%m-%d %H:%M'),'%Y-%m-%d %H:%M').day
-        now_minute=datetime.strptime(datetime.today().strftime('%Y-%m-%d %H:%M'),'%Y-%m-%d %H:%M').day
-        diff=(now_minute-sub_minute)%3
+        sub_minute=datetime.strptime(sub.From.strftime('%Y-%m-%d %H:%M'),'%Y-%m-%d %H:%M')
+        now_minute=datetime.strptime(datetime.today().strftime('%Y-%m-%d %H:%M'),'%Y-%m-%d %H:%M')
+        diff=(datetime.today()-sub.From).days%90
         if diff==0:
             notification.objects.create(Message='msg for every minutes')
             if sub.CustomerID.Language == 'English':
