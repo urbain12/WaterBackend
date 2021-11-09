@@ -1722,8 +1722,7 @@ def pay_subscription(request):
         subscription = Subscriptions.objects.get(id=sub_id)
         amount = int(body['amount'])
         if int(amount) > int(subscription.TotalBalance):
-            subscription.Extra = subscription.Extra + \
-                (int(amount)-int(subscription.TotalBalance))
+            subscription.Extra = subscription.Extra + (int(amount)-int(subscription.TotalBalance))
             subscription.TotalBalance = 0
         else:
             subscription.TotalBalance = int(
