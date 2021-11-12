@@ -539,6 +539,16 @@
                                             </span>
                                         </a>
                                     </li>
+                                    {% url 'Send App Link' as link %}
+                                    <li {% if request.path == link  %} class="active-sub"{% endif %}>
+                                        <a href="{% url 'send_app_link' %}">
+                                            <i class="fa fa-link"></i>
+                                            <span class="menu-title">
+                                                <strong>Send App Link</strong>
+                                                
+                                            </span>
+                                        </a>
+                                    </li>
 
 </ul>
 
