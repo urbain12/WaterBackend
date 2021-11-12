@@ -696,43 +696,54 @@ def AddProduct(request):
 
 @login_required(login_url='/login')
 def add_subscription(request):
-    tools = Tools.objects.all()
-    tools_am = SystemTool.objects.all()
-    sub = Subscriptions.objects.all()
-    sub_customers = []
-    new_customers = []
-    cust = Customer.objects.all()
-    for i in sub:
-        sub_customers.append(i.CustomerID)
-    for i in cust:
-        if i not in sub_customers:
-            new_customers.append(i)
-    print(new_customers)
+    if request.method == 'POST':
+        subscription = Subscriptions()
+        customer = Customer.objects.only('id').get(
+            id=int(request.POST['customer']))
+        category = Category.objects.get(
+            Title=request.POST['category'])
+        subscription.CustomerID = customer
+        subscription.Category = category
+        subscription.save()
+        return redirect('new_subscriptions')
+    # tools = Tools.objects.all()
+    # tools_am = SystemTool.objects.all()
+    else:
+        sub = Subscriptions.objects.all()
+        sub_customers = []
+        new_customers = []
+        cust = Customer.objects.all()
+        for i in sub:
+            sub_customers.append(i.CustomerID)
+        for i in cust:
+            if i not in sub_customers:
+                new_customers.append(i)
+        print(new_customers)
 
-    customers = new_customers
-    categories = Category.objects.all()
-    
-    systs = System.objects.all()
-    systems = []
+        customers = new_customers
+        categories = Category.objects.all()
+        
+        # systs = System.objects.all()
+        # systems = []
 
-    amazi_tools = []
-    for tool in tools_am:
-        tool_obj = {
-            "system": tool.system.title,
-            "title": tool.tool.Title,
-            "id": tool.id
-        }
-        amazi_tools.append(tool_obj)
-        print(amazi_tools)
-    for sys in systs:
-        sys_obj = {
-            "category": sys.Category.Title,
-            "title": sys.title,
-            "id": sys.id
-        }
-        systems.append(sys_obj)
-    
-    return render(request, 'add_subscription.html', {'amazi_tools': amazi_tools, 'systems': systems,  'tools': tools, 'customers': customers, 'categories': categories})
+        # amazi_tools = []
+        # for tool in tools_am:
+        #     tool_obj = {
+        #         "system": tool.system.title,
+        #         "title": tool.tool.Title,
+        #         "id": tool.id
+        #     }
+        #     amazi_tools.append(tool_obj)
+        #     print(amazi_tools)
+        # for sys in systs:
+        #     sys_obj = {
+        #         "category": sys.Category.Title,
+        #         "title": sys.title,
+        #         "id": sys.id
+        #     }
+        #     systems.append(sys_obj)
+        
+        return render(request, 'add_subscription.html', {'customers': customers, 'categories': categories})
 
 
 @login_required(login_url='/login')
@@ -798,16 +809,23 @@ def approve_subscription(request, subID):
     if request.method == 'POST':
         today = datetime.today()
         subscription = Subscriptions.objects.get(id=subID) 
+        
         system = System.objects.get(
             id=int(request.POST['system']))
+        discount = system.total * int(request.POST['discount']) / 100
+        fulltotal = system.total - discount
         if request.POST['system2'] != "":
             system2 = System.objects.get(
                 id=int(request.POST['system2']))
+            discount1 = system2.total * int(request.POST['discount1']) / 100
+            fulltotal1 = system2.total - discount1
         subscription.From = today
+        
+            
         if request.POST['system2'] != "":
-            subscription.Total = int(request.POST['total'])+system.total+system2.total
+            subscription.Total = int(request.POST['total'])+int(fulltotal)+int(fulltotal1)
         else:
-            subscription.Total = int(request.POST['total'])+system.total
+            subscription.Total = int(request.POST['total'])+int(fulltotal)
         subscription.System = system
         if request.POST['system2'] != "":
             subscription.System2 = system2
@@ -829,9 +847,12 @@ def approve_subscription(request, subID):
             subscriptionTool.quantity = 1
             subscriptionTool.save()
         if request.POST['system2'] != "":
-            new_balance=int(request.POST['total'])+system.total-int(request.POST['downpayment'])+system2.total
+            new_balance=int(request.POST['total'])+int(fulltotal)-int(request.POST['downpayment'])+int(fulltotal1)
         else:
-            new_balance=int(request.POST['total'])+system.total-int(request.POST['downpayment'])
+            new_balance=int(request.POST['total'])+int(fulltotal)-int(request.POST['downpayment'])
+
+        subscription.discount = request.POST['discount']
+        subscription.discount1 = request.POST['discount1']
         subscription.TotalBalance = new_balance
         subscription.save()
         my_tools = SubscriptionsTools.objects.filter(
@@ -2182,8 +2203,8 @@ def export_users_csv(request):
     response['Content-Disposition'] = 'attachment; filename="Instalments.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(['FirstName', 'LastName', 'From', 'Subscriptions', 'Invoice Total', 'Mothly payment',
-                    'Outstanding amount', 'Balance paid', 'overdue balance', 'Due date', 'Month overdue'])
+    writer.writerow(['FirstName', 'LastName', 'From', 'Subscriptions', 'Invoice Total',"Amount under installment", 'Mothly payment',
+                    'Outstanding amount', 'Balance paid', 'overdue balance', 'Month overdue','Downpayment', 'Due date',])
 
     subscriptions = Subscriptions.objects.all()
     instalments = []
@@ -2192,15 +2213,17 @@ def export_users_csv(request):
         my_instalment = [
             sub.CustomerID.FirstName,
             sub.CustomerID.LastName,
-            sub.From,
+            sub.From.strftime("%Y-%m-%d"),
             sub.Category.Title,
             sub.Total,
-            round(sub.Total /sub.InstallmentPeriod),
+            sub.Total - sub.Downpayment,
+            round((sub.Total-sub.Downpayment) /sub.InstallmentPeriod),
             sub.TotalBalance,
-            sub.Total - int(sub.TotalBalance),
-            "-",
-            sub.To,
-            "0"
+            sub.Total- sub.Downpayment - int(sub.TotalBalance),
+            sub.get_overdue_months * round((sub.Total-sub.Downpayment) /sub.InstallmentPeriod),
+            sub.get_overdue_months,
+            sub.Downpayment,
+            sub.To.strftime("%Y-%m-%d"),
         ]
 
         print(my_instalment)

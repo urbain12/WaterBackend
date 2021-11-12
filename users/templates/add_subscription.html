@@ -11,7 +11,7 @@
                     
                                 <!--Block Styled Form -->
                                 <!--===================================================-->
-                                <form enctype="multipart/form-data" action="{% url 'checkout' %}" method="POST">
+                                <form enctype="multipart/form-data" action="{% url 'add_subscription' %}" method="POST">
                                 {% csrf_token %}
                                     <div class="panel-body">
 
@@ -43,39 +43,6 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                    <label class="control-label">System</label>
-                                                    <select class="form-control" name="system" id='system' onchange="populate2(this.id,'tools');check();" required>
-                                                       <option value="">Select System</option> 
-                                                    </select>  
-                                                </div>
-                                            </div>
-
-                                            <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                    <label class="control-label">Users</label>
-                                                    <select class="form-control" name="users" id='users' onchange="my_func()" required>
-                                                       <option value="">Select number of users</option> 
-                                                       <option value="Under 100">Under 100</option> 
-                                                       <option value="101-500">101-500</option> 
-                                                       <option value="500-1500">500-1500</option> 
-                                                       <option value="Above 1500">Above 1500</option> 
-                                                    
-                                                       
-                                                    </select>  
-                                                </div>
-                                            </div>
-
-                                            <div class="col-sm-12">
-                                                            <div class="form-group">
-                                                            <label class="control-label">Down payment</label>
-                                                            <input type="text" class="form-control" name="downpayment" >   
-                                                        </div>
-                                                </div>
-                                           
-                                            
-                                            
                                             {% comment %}<h3 id='my_title'></h3>
                                             <div class="row" style="margin:10px" id='tools1'>
                                             
