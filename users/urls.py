@@ -47,6 +47,7 @@ urlpatterns = [
     path('pay_later_order_tool/create/',PayLaterOrderTool.as_view(),name='pay_later_order_tool'),
     path('pay_later_orders/',pay_later_orders,name='pay_later_orders'),
     path('products/',products,name='products'),
+    path('send_app_link/',send_app_link,name='send_app_link'),
     path('transactions/<int:customerID>/',transactions,name='transactions'),
     path('checkout/',checkout,name='checkout'),
     path('pay/',pay,name='pay'),

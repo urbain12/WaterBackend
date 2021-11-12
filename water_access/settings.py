@@ -166,11 +166,11 @@ USE_I18N = True
 # USE_TZ = True
 
 CRONJOBS = [
-    (
-        '0 0 */1 * *', 'users.cron.Notifications'
-        '0 0 */1 * *', 'users.cron.MonthlyNotification'
+    
+        ('0 0 */1 * *', 'users.cron.Notifications'),
+        ('0 0 */1 * *', 'users.cron.MonthlyNotification'),
 
-    )
+    
 ]
 
 # Static files (CSS, JavaScript, Images)

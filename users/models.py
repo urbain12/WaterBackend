@@ -147,7 +147,7 @@ class Subscriptions(models.Model):
     Total = models.IntegerField(blank=True, null=True)
     InstallmentPeriod = models.IntegerField(blank=True, null=True)
     Downpayment = models.IntegerField(blank=True, null=True, default=0)
-    TotalBalance = models.CharField(max_length=255, null=True, blank=True)
+    TotalBalance = models.IntegerField( null=True, blank=True)
     Extra = models.IntegerField(null=True, blank=True, default=0)
     complete = models.BooleanField(default=False)
     customer_exception = models.BooleanField(default=False)
