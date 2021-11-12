@@ -2219,7 +2219,7 @@ def export_users_csv(request):
     writer.writerow(['FirstName', 'LastName', 'From', 'Subscriptions', 'Invoice Total',"Amount under installment", 'Mothly payment',
                     'Outstanding amount', 'Balance paid', 'overdue balance', 'Month overdue','Downpayment', 'Due date',])
 
-    subscriptions = Subscriptions.objects.all()
+    subscriptions = Subscriptions.objects.filter(complete=True)
     instalments = []
     for sub in subscriptions:
 
