@@ -502,12 +502,17 @@ def login(request):
             django_login(request, customer)
             return redirect('dashboard')
         elif customer is not None and not customer.staff:
-            return redirect('not_authorized')
+            return redirect('customerBoard')
         else:
             return render(request, 'login.html')
     else:
         return render(request, 'login.html')
+    
+def customerBoard(request):
+    return render(request, 'CustomerBoard.html')
 
+def customerTransaction(request):
+    return render(request, 'CustomerTransaction.html')
 
 def customer_login(request):
     if request.method == 'POST':
