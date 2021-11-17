@@ -139,6 +139,8 @@ class Subscriptions(models.Model):
         'System', on_delete=models.SET_NULL, null=True, blank=True)
     System2 = models.ForeignKey(
         'System', on_delete=models.SET_NULL, null=True, blank=True,related_name="system2")
+    discount = models.CharField(max_length=255, null=True, blank=True)
+    discount1 = models.CharField(max_length=255, null=True, blank=True)
     From = models.DateTimeField(blank=True, null=True)
     To = models.DateTimeField(blank=True, null=True)
     Tools = models.TextField(max_length=200, blank=True, null=True)
