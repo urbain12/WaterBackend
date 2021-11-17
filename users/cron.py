@@ -13,9 +13,9 @@ def Notifications():
         if diff==0:
             notification.objects.create(Message='msg for every minutes')
             if sub.CustomerID.Language == 'English':
-                payload={'details':f'Dear {sub.CustomerID.FirstName} ,\n It’s time to renew your cartridges!\n\nKindly proceed with the payment and let’s schedule a time to renew them!','phone':f'25{sub.CustomerID.Phone}'}
+                payload={'details':f'Dear {sub.CustomerID.FirstName} ,\n It’s time to renew your cartridges!\n\nKindly proceed with the payment and let’s schedule a time to renew them!','phone':f'25{sub.CustomerID.user.phone}'}
             if sub.CustomerID.Language == 'Kinyarwanda':
-                payload={'details':f'Mukiriya wacu {sub.CustomerID.FirstName} ,\n Turabibutsa ko iki ari igihe cyo gusimbuza ama karitushe ya filters. \n\n Kubwizo mpamvu, murasabwa kwishyura tukabaha umunsi zizahindurirwaho!','phone':f'25{sub.CustomerID.Phone}'}
+                payload={'details':f'Mukiriya wacu {sub.CustomerID.FirstName} ,\n Turabibutsa ko iki ari igihe cyo gusimbuza ama karitushe ya filters. \n\n Kubwizo mpamvu, murasabwa kwishyura tukabaha umunsi zizahindurirwaho!','phone':f'25{sub.CustomerID.user.phone}'}
             headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
             r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)
 
@@ -29,9 +29,9 @@ def MonthlyNotification():
         if now_minute==sub_minute:
             notification.objects.create(Message='msg for every minutes')
             if sub.CustomerID.Language == 'English' and sub.Category.Title.upper() == 'AMAZI':
-                payload={'details':f'Dear {sub.CustomerID.FirstName} ,\n\nyour reminded to pay monthly instalment at {now_minute}','phone':f'25{sub.CustomerID.Phone}'}
+                payload={'details':f'Dear {sub.CustomerID.FirstName} ,\n\nyour reminded to pay monthly instalment at {now_minute}','phone':f'25{sub.CustomerID.user.phone}'}
             if sub.CustomerID.Language == 'Kinyarwanda' and sub.Category.Title.upper() == 'AMAZI':
-                payload={'details':f'Mukiriya wacu {sub.CustomerID.FirstName} ,\n\nMuramenyashwa ko itariki yo kwishuri umwenda ari {now_minute}','phone':f'25{sub.CustomerID.Phone}'}
+                payload={'details':f'Mukiriya wacu {sub.CustomerID.FirstName} ,\n\nMuramenyashwa ko itariki yo kwishuri umwenda ari {now_minute}','phone':f'25{sub.CustomerID.user.phone}'}
             headers={'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
             r=requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',headers=headers,data=payload, verify=False)            
             

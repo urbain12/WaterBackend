@@ -158,7 +158,7 @@ def shopping(request):
     cartItems = data['cartItems']
     order = data['order']
     items = data['items']
-    products = Product.objects.filter(inStock__gdef, disablete=1, Disable=False)
+    products = Product.objects.filter(inStock__gte=1, disablete=1, Disable=False)
     return render(request, 'website/shop.html', {'products': products, 'cartItems': cartItems})
 
 
