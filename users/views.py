@@ -620,7 +620,7 @@ def reset_password(request, userID):
     my_phone = user.phone
     user.set_password(password)
     user.save()
-    payload = {'details': f' Dear Client,\nYour password have been changed successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\npassword:{password} ', 'phone': f'25{my_phone}'}
+    payload = {'details': f' Dear Client,\nYour password have been changed successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\npassword:{password} \n \n You can download water access App through the following link: \n http://shorturl.at/qEQZ2 ', 'phone': f'25{my_phone}'}
     headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
     r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                       headers=headers, data=payload, verify=False)
