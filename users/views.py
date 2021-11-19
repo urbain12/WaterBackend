@@ -158,7 +158,7 @@ def shopping(request):
     cartItems = data['cartItems']
     order = data['order']
     items = data['items']
-    products = Product.objects.filter(inStock__gte=1, disablete=1, Disable=False)
+    products = Product.objects.filter(inStock__gte=1, Disable=False)
     return render(request, 'website/shop.html', {'products': products, 'cartItems': cartItems})
 
 
@@ -329,7 +329,7 @@ def notify(request, subID):
 
 def send_app_link(request):
     if request.method=="POST":
-        payload = {'details': f' Dear Customer,\n \n You can download water access App through the following link: \n http://shorturl.at/qEQZ2',
+        payload = {'details': f' Dear Customer,\n \nYou can download Water Access App through the following link: \nhttp://shorturl.at/qEQZ2',
                     'phone': f'25{request.POST["phone"]}'}
         
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
@@ -874,6 +874,10 @@ def approve_subscription(request, subID):
         subscription.discount1 = request.POST['discount1']
         subscription.TotalBalance = new_balance
         subscription.save()
+        payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nwe approved you subscription request of AMAZI service \n \nYou can now track you account on your mobile application ', 'phone': f'25{subscription.CustomerID.user.phone}'}
+        headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+                        headers=headers, data=payload, verify=False)
         my_tools = SubscriptionsTools.objects.filter(
             SubscriptionsID=subscription.id)
         return redirect('checkout_page', pk=subscription.id)
@@ -900,6 +904,10 @@ def approvesubscription(request, subID):
             payment.PaidMonth = subscription.From.date()+relativedelta(months=+i)
             payment.Paidamount = math.ceil(new_balance/int(request.POST['period']))
             payment.save()
+        payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nwe approved you subscription request of {subscription.Category.Title} service \n \nYou can now track you account on your mobile application ', 'phone': f'25{subscription.CustomerID.user.phone}'}
+        headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+                        headers=headers, data=payload, verify=False)
         return redirect('Subscriptions')
 
 
