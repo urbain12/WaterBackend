@@ -329,7 +329,7 @@ def notify(request, subID):
 
 def send_app_link(request):
     if request.method=="POST":
-        payload = {'details': f' Dear Customer,\n \nYou can download Water Access App through the following link: \nhttp://shorturl.at/qEQZ2',
+        payload = {'details': f' Dear Customer,\n \nYou can download Water Access App through the following link: \n http://shorturl.at/qEQZ2',
                     'phone': f'25{request.POST["phone"]}'}
         
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
@@ -666,8 +666,7 @@ def subrequestors(request):
 @login_required(login_url='/login')
 def Addcustomers(request):
     if request.method == 'POST':
-        meter = Meters.objects.only('id').get(
-            id=int(request.POST['Meternumber']))
+        
         user = User.objects.only('id').get(
             id=int(request.POST['user_id']))
         Addcustomers = Customer()
@@ -679,7 +678,11 @@ def Addcustomers(request):
         Addcustomers.Sector = request.POST['Sector']
         Addcustomers.Cell = request.POST['Cell']
         Addcustomers.Language = request.POST['Language']
-        Addcustomers.Meternumber = meter
+        if request.POST['Meternumber'] != '':
+            meter = Meters.objects.only('id').get(
+                id=int(request.POST['Meternumber']))
+            Addcustomers.Meternumber = meter
+            
         Addcustomers.user = user
         Addcustomers.save()
         # Addcustomers=True

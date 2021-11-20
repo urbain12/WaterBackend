@@ -102,7 +102,7 @@ class Meters(models.Model):
         max_length=255, null=True, blank=True, unique=True)
 
     def __str__(self):
-        return self.Meternumber
+        return str(self.Meternumber)
 
 
 class CustomerMeter(models.Model):
