@@ -235,7 +235,7 @@ def about(request):
     return render(request, 'website/about.html')
 
 
-def ijabo(request):
+def rainwater(request):
     return render(request, 'website/ijabo.html')
 
 

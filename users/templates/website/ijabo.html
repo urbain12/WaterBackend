@@ -22,6 +22,7 @@
 	<!-- FONTS -->
 	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Sora:100,200,300,400,400italic,500,600,700,700italic,900'>
 	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Poppins:100,200,300,400,400italic,500,600,700,700italic,900'>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 	<!-- CSS -->
 	<link rel='stylesheet' href="{% static "web/css/global.css" %}">
 	<link rel='stylesheet' href="{% static "web/css/structure.css" %}">
@@ -44,15 +45,14 @@
 										<ul id="menu-main-menu" class="menu menu-main">
 											<li class="  page_item "> <a href="{% url 'index' %}"><span>Home</span></a> </li>
 											<li> <a href="{% url 'about' %}"><span>About us</span></a> </li>
-											<li> <a href="{% url 'service' %}"><span>Service</span></a> </li>
-											<li class="current-menu-item"> <a href="{% url 'ijabo' %}"><span>Ijabo</span></a> </li>
+											<li class="current-menu-item"> <a href="{% url 'rainwater' %}"><span>Rain Water</span></a> </li>
 											<li> <a href="{% url 'blog' %}"><span>Blog</span></a> </li>
 											<li> <a href="{% url 'contact_us' %}"><span>Contact</span></a> </li>
 										</ul>
 									</nav><a class="responsive-menu-toggle " href="#"><i class="icon-menu-fine"></i></a> </div>
 							</div>
 							<div class="top_bar_right">
-								<div class="top_bar_right_wrapper"> <a href="{% url 'shopping' %}" class="action_button" >BUY NOW</a> </div>
+								<div class="top_bar_right_wrapper"> <a href="{% url 'shopping' %}" class="action_button" >SHOP</a> </div>
 							</div>
 						</div>
 					</div>
@@ -72,12 +72,12 @@
 										</div>
 										<div class="column mcb-column mcb-item-75ad2287a two-third column_column">
 											<div class="column_attr clearfix align_center" style>
-												<h6 style="color:#FFF;"><span style="font-size:18px;color:#00d285;margin-right:10px;">●</span>HOW IT WORKS</h6>
+												<h6 style="color:#FFF;"><span style="font-size:18px;color:#009cde;margin-right:10px;">●</span>AMAZI</h6>
 												<hr class="no_line" style="margin:0 auto 20px">
-												<h1 style="color:#FFF;"><span class="themecolor">IJABO</span>
+												<h1 style="color:#FFF;"><span class="themecolor">RainWater is safe water</span>
 													</h1>
 												<hr class="no_line" style="margin:0 auto 20px">
-												<h5 style="color:#FFF;">A new model that supports small rural farmers living uphill or far from surface water sources to irrigate.
+												<h5 style="color:#FFF;">Rain water is perfectly safe to consume. The only contamination happens as it falls on our roofs, collecting with it different contaminants. With our first flush diverter, often called a roof washer, you can preserve the safety of your rain water.
 													</h5> </div>
 										</div>
 									</div>
@@ -85,111 +85,20 @@
 							</div>
 						</div>
 
-						<br><br><br>
-
-
-
-
 						
-						<div class="section mcb-section mcb-section-2cf377dd2 full-width" id="pricing" style="padding-left:5%;padding-right:5%">
+
+
+						<div class="section mcb-section mcb-section-9e98f0fdc equal-height-wrap" style="padding-top:10px;padding-bottom:20px">
 							<div class="section_wrapper mcb-section-inner">
-								<div class="wrap mcb-wrap mcb-wrap-d0a5dbd05 one scooterrental-wrap-radius valign-top clearfix" style="padding:100px 5% 190px;background-color:#00d285">
-									<div class="mcb-wrap-inner">
-										<div class="column mcb-column mcb-item-c9dae01bf one column_column">
-											<div class="column_attr clearfix align_center" style>
-												<h2 style="color:#FFF;">The Problems Ijabo Solves</h2>
-												<hr class="no_line" style="margin:0 auto 20px">
-												<h5>From Rwanda Ministry of Agriculture : "The causes of current low levels of productivity and profitability are multiple, but often related
-												 to landfragmentation (small farm-sizes). A rural household cultivates on average 0.6 ha, and has 2-5 animals, hence the plots are often too 
-												 small to produce a marketable surplus to invest in future production." </h5> </div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="section mcb-section mcb-section-851e1f695" style="padding-top:120px;padding-bottom:80px">
-							<div class="section_wrapper mcb-section-inner">
-								<div class="wrap mcb-wrap mcb-wrap-9c3fddda3 one-third valign-top move-up clearfix" style="padding:0 2%;margin-top:-240px" data-mobile="no-up">
-									<div class="mcb-wrap-inner">
-										<div class="column mcb-column mcb-item-68ce7fdbd one column_column">
-											<div class="column_attr clearfix align_center" style="background-color:#fff;padding:40px 10%;border-radius: 20px; box-shadow: 0px 10px 30px 0px rgba(0,0,0,0.1);">
-												
-												<div class="image_frame image_item no_link scale-with-grid alignnone no_border">
-													<div class="image_wrapper"><img class="scale-with-grid" src="{% static "web/images/scooterrental-home-icon10.png" %}" alt="scooterrental-home-icon10" title width="96" height="96"> </div>
-												</div>
-												<hr class="no_line" style="margin:0 auto 40px">
-												
-												<hr class="no_line" style="margin:0 auto 15px">
-												<p style="color:#8e9aac;"> 
-													Only 1.6% of Rwandan arable land is irrigated. Farmers living high on the hills and far from surface water are unable to to irriggate and only rely on rain water to grow. 
-												</p>
-												<hr class="no_line" style="margin:0 auto 10px">
-												
-										 		</div>
-										    </div>
-									</div>
-								</div>
-								<div class="wrap mcb-wrap mcb-wrap-1c97632f2 one-third valign-top move-up clearfix" style="padding:0 2%;margin-top:-240px" data-mobile="no-up">
-									<div class="mcb-wrap-inner">
-										<div class="column mcb-column mcb-item-972e0921c one column_column">
-											<div class="column_attr clearfix align_center" style="background-color:#fff;padding:40px 10%;border-radius: 20px; box-shadow: 0px 10px 30px 0px rgba(0,0,0,0.1);">
-												
-												<div class="image_frame image_item no_link scale-with-grid alignnone no_border">
-													<div class="image_wrapper"><img class="scale-with-grid" src="{% static "web/images/scooterrental-home-icon10.png" %}" alt="scooterrental-home-icon10" title width="96" height="96"> </div>
-												</div>
-												<hr class="no_line" style="margin:0 auto 40px">
-												
-												<hr class="no_line" style="margin:0 auto 15px">
-												<p style="color:#8e9aac;"> 
-													Farmers can increase by more than 50% their yields if they irrigate. A Crop Competitiveness Assessment in 2016 found that yields for several crops in Rwanda were less than half of their potential. 
-												</p>
-												<hr class="no_line" style="margin:0 auto 10px">
-												
-										 		</div>
-										</div>
-									</div>
-								</div>
-								<div class="wrap mcb-wrap mcb-wrap-2eed54b24 one-third valign-top move-up clearfix" style="padding:0 2%;margin-top:-240px" data-mobile="no-up">
-									<div class="mcb-wrap-inner">
-										<div class="column mcb-column mcb-item-79d1fbc71 one column_column">
-											<div class="column_attr clearfix align_center" style="background-color:#fff;padding:40px 10%;border-radius: 20px; box-shadow: 0px 10px 30px 0px rgba(0,0,0,0.1);">
-												
-												<div class="image_frame image_item no_link scale-with-grid alignnone no_border">
-													<div class="image_wrapper"><img class="scale-with-grid" src="{% static "web/images/scooterrental-home-icon10.png" %}" alt="scooterrental-home-icon10" title width="96" height="96"> </div>
-												</div>
-												<hr class="no_line" style="margin:0 auto 40px">
-												
-												<hr class="no_line" style="margin:0 auto 15px">
-												<p style="color:#8e9aac;"> 
-													121,000 Ha in Rwanda are suitable for small scale irrigation. Land is highly fragmented in Rwanda with the average farmer holding 0.4 to 0.7 ha of land only
-												</p>
-												<hr class="no_line" style="margin:0 auto 10px">
-												
-										 		</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-
-
-
-
-						<div class="section mcb-section mcb-section-9e98f0fdc equal-height-wrap" style="padding-top:120px;padding-bottom:80px">
-							<div class="section_wrapper mcb-section-inner">
-								<div class="wrap mcb-wrap mcb-wrap-2a27884ed one-second valign-middle clearfix" style="padding:0 5% 0 0 ">
+								<div class="wrap mcb-wrap mcb-wrap-2a27884ed one-second valign-middle clearfix">
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-7e0a6c322 one column_column column-margin-20px">
 											<div class="column_attr clearfix" style>
-												<h2><span class="themecolor">Our</span> Solution</h2>
+												<h2><span class="themecolor">We</span> Can Stop Flooding</h2>
 												<hr class="no_line" style="margin:0 auto 10px">
-												<h5>Ijabo combines groups of small farmers and installs a full water system for the farmers to share
-												 and irrigate from. The group of farmers should at least have 2 ha total combined land to a maximum of 10 ha.
-												The farmers only pay for water used on their farms while the system owner, a franchisee or one of
-												 the farmers, collects the income to repay the system cost and make a profit for themselves.
-												  This model creates income from water sales and from increased yields by the farmers, allowing for shared value creation. </h5>
+												<h5>Increased flooding threatens our city's safety and destroys our infrastructure. 
+													Yet this can be easily prevented, if we all harvested some rain water. The more we harvest rainwater, 
+													the less runoff there will be, thus reducing the chance of flash floods after heavy rains.</h5>
 												<hr class="no_line" style="margin:0 auto 10px">
 												
 											</div>
@@ -208,99 +117,134 @@
 									</div>
 								</div>
 							</div>
+						
 						</div>
 
-						<div class="column_attr clearfix align_center" >
-												<h2><span class="themecolor">
-How it Works : A Partnership</span> </h2><br>
-<h5>The creation of each new Ijabo requires the key partnership of the following entities</h5>
-												<hr class="no_line" style="margin:0 auto 20px">
-										</div>
-						<div class="section mcb-section mcb-section-rvdr5atfj full-width" style="padding-bottom:120px">
+						<div class="section mcb-section mcb-section-9e98f0fdc equal-height-wrap" style="padding-top:10px;padding-bottom:10px">
 							<div class="section_wrapper mcb-section-inner">
-								<div class="wrap mcb-wrap mcb-wrap-gwu1k335f one-second valign-middle clearfix" style="padding:0 7%">
+								<div class="wrap mcb-wrap mcb-wrap-2a27884ed one-second valign-middle clearfix" >
 									<div class="mcb-wrap-inner">
-										<div class="column mcb-column mcb-item-2xoovn444 one-sixth column_placeholder">
-											<div class="placeholder"> &nbsp; </div>
+										<div class="column mcb-column mcb-item-7e0a6c322 one column_column column-margin-20px">
+											<div class="column_attr clearfix" style>
+												<h3><span class="themecolor">Current Issues with Rainwater Can Stop Flooding </span></h3>
+												<hr class="no_line" style="margin:0 auto 10px">
+												<h5>Currently, rain water in Rwanda has a bad reputation. This is mainly due to how rain water harvesting is currently done. Without proper installation, everything from the roof (including dust, bird poop, smog from cars) collects in the rain water tank. This leads to:</h5>
+												<hr class="no_line" style="margin:0 auto 10px">
+												
+											</div>
 										</div>
-										<div class="column mcb-column mcb-item-m3zd3ku3c five-sixth column_column column-margin-0px" style="margin-top: 50px;">
-											<div class="column_attr clearfix" style="background-image:url({% static "web/images/scooterrental-how-bg1.png" %});background-repeat:no-repeat;background-position:left center;padding:40px 0 25px 80px;">
-												<h2 class="themecolor">01</h2>
-												<h3>The System Owner</h3> </div>
-										</div>
-										<div class="column mcb-column mcb-item-kvh987v7v one column_divider">
-											<hr class="no_line" style="margin:0 auto 0px"> </div>
-										<div class="column mcb-column mcb-item-gn61fzdqz one-sixth column_placeholder">
-											<div class="placeholder"> &nbsp; </div>
-										</div>
-										<div class="column mcb-column mcb-item-zwyn3qubs five-sixth column_column column-margin-0px" style="margin-top: 60px;">
-											<div class="column_attr clearfix" style="background-image:url({% static "web/images/scooterrental-how-bg1.png" %});background-repeat:no-repeat;background-position:left center;padding:40px 0 25px 80px;">
-												<h2 class="themecolor">02</h2>
-												<h3>Water Access Rwanda</h3> </div>
-										</div>
-										<div class="column mcb-column mcb-item-z4tlxq893 one column_divider">
-											<hr class="no_line" style="margin:0 auto 0px"> </div>
-										<div class="column mcb-column mcb-item-cghij9ghk one-sixth column_placeholder">
-											<div class="placeholder"> &nbsp; </div>
-										</div>
-										<div class="column mcb-column mcb-item-skeb1w0ha five-sixth column_column column-margin-0px" style="margin-top: 100px;">
-											<div class="column_attr clearfix" style="background-image:url({% static "web/images/scooterrental-how-bg1.png" %});background-repeat:no-repeat;background-position:left center;padding:40px 0 25px 80px;">
-												<h2 class="themecolor">03</h2>
-												<h3>The Farmers</h3> </div>
-										</div>
-										<div class="column mcb-column mcb-item-rvfx82fzh one column_divider">
-											<hr class="no_line" style="margin:0 auto 0px"> </div>
-										<div class="column mcb-column mcb-item-0exioz6zt one-sixth column_placeholder">
-											<div class="placeholder"> &nbsp; </div>
-										</div>
-										
+										<div class="column mcb-column mcb-item-48a34pell one column_divider">
+											<hr class="no_line" style="margin:0 auto 40px"> </div>
 									</div>
 								</div>
-								<div class="wrap mcb-wrap mcb-wrap-bbv643y6j one-second scooterrental-wrap-radius3 valign-top clearfix" style="padding:120px 7% 70px;background-color:#f5f5f5;background-image:url({% static "web/images/scooterrental-wrap-bg1.png" %});background-repeat:no-repeat;background-position:right center">
+								<div class="wrap mcb-wrap mcb-wrap-0e4f0a448 one-second valign-middle clearfix" style="padding:0 5%">
 									<div class="mcb-wrap-inner">
-										<div class="column mcb-column mcb-item-dttjrdsic two-third column_column">
-											<div class="column_attr clearfix" style>
-												<p> Whether a business person, or one of the farmers, the system owner and operator does the following:
+										<div class="column mcb-column mcb-item-b6e2ae677 one column_image">
+										<h5>
+										<li>bacteria contamination of the water.</li>
+										<li>black-ish color to the water</li>
+										<li>water that smells bad even after boiling</li>
+										</h5>
 
-<li>Obtain farmers as customers</li>
-
-<li>collect payment from farmers</li>
-
-<li>Operate the pump and assure energy cost when solar is not being used. </li>
-
-<li>Pay royalties and financing of the system depening on the modalities of the system construct</li></p>
-											</div>
 										</div>
-										<div class="column mcb-column mcb-item-p98pxyvig one column_divider">
-											<hr class="no_line" style="margin:0 auto 25px"> </div>
-										<div class="column mcb-column mcb-item-gth0m67rb two-third column_column">
-											<div class="column_attr clearfix" style>
-<p> We undertake the following responsibilties: 
-
-<li>Provide data and evaluation of pump utilization and ensure financial sustainability of model</li>
-
-<li>Provide irrigation system including 24 month warranty</li>
-
-<li>Provide guidance, expertise and help</li>
-
-<li>Provide training and fiscal accounting</li>
-<li>Facilitate the establishment of new systems by mobilizing capital.</li>
-</p>											</div>
-										</div>
-										<div class="column mcb-column mcb-item-walgr5100 one column_divider">
-											<hr class="no_line" style="margin:0 auto 25px"> </div>
-										<div class="column mcb-column mcb-item-3wp4lfdek two-third column_column">
-											<div class="column_attr clearfix" style>
-												<p> The farmers commit to using the system for their irrigation needs and this may mean switching to a higher value horticulture crop that will best take advantage of the reliability of water.</p>
-											</div>
-										</div>
-										<div class="column mcb-column mcb-item-tdx6yemhz one column_divider">
-											<hr class="no_line" style="margin:0 auto 25px"> </div>
-										>
 									</div>
 								</div>
 							</div>
 						</div>
+
+
+						<div class="section mcb-section mcb-section-9e98f0fdc equal-height-wrap" style="padding-top:10px;padding-bottom:20px">
+							<div class="section_wrapper mcb-section-inner">
+							<div class="wrap mcb-wrap mcb-wrap-0e4f0a448 one-second valign-middle clearfix" style="padding:0 5%">
+									<div class="mcb-wrap-inner">
+										<div class="column mcb-column mcb-item-b6e2ae677 one column_image">
+											<div class="image_frame image_item no_link scale-with-grid no_border">
+												<div class="image_wrapper"><img class="scale-with-grid" src="{% static "web/images/scooterrental-how-pic1.jpg" %}" alt="scooterrental-how-pic1" title width="780" height="1137"> </div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="wrap mcb-wrap mcb-wrap-2a27884ed one-second valign-middle clearfix">
+									<div class="mcb-wrap-inner">
+										<div class="column mcb-column mcb-item-7e0a6c322 one column_column column-margin-20px">
+											<div class="column_attr clearfix" style>
+												<h2><span class="themecolor">Safety, Comfortable and Impact<span></h2>
+												<h4>With the full Amazi System:</h4>
+												<h5>
+												<li>your family enjoys clean safe water throughout the house.</li>
+												<li>Your rain season water bill reduces (RAINWATER IS FREE WATER)</li>
+												<li>You participate in protecting our environment.</li>
+												</h5>
+												<hr class="no_line" style="margin:0 auto 10px">
+												
+											</div>
+										</div>
+										<div class="column mcb-column mcb-item-48a34pell one column_divider">
+											<hr class="no_line" style="margin:0 auto 40px"> </div>
+									</div>
+								</div>
+							</div>
+						
+						</div>
+
+
+
+
+
+
+
+
+
+						<div class="column_attr clearfix align_center" >
+								<h2><span class="themecolor">
+								BEFORE AND AFTER</span> </h2><br>
+								<h5>we conducted a pilot to see what our system would achieve for our users. Here is what happened and what you can expect.</h5>
+												<hr class="no_line" style="margin:0 auto 20px">
+						</div>
+						<div class="section_wrapper mcb-section-inner">
+								<div class="wrap mcb-wrap mcb-wrap-zk9pzc9s5 one valign-top move-up clearfix" style="margin-top:--120px" data-mobile="no-up">
+									<div class="mcb-wrap-inner">
+										<div class="column mcb-column mcb-item-qyuetn73g one-fourth column_quick_fact">
+											<div class="quick_fact align_ animate-math">
+											<div><i class="fa fa-ravelry fa-3x" style="color:#009cde"></i></div>
+											<h4><span class="themecolor">Save Money</span> </h4>												
+											<h5>ALL HOUSEHOLDS reduced their water bill by 58% One family went from RWF 25,000 to Just RWF 6,000!.</h5>
+												<hr class="hr_narrow">
+												<div class="desc"></div>
+											</div>
+										</div>
+										<div class="column mcb-column mcb-item-z73733ieu one-fourth column_quick_fact">
+											<div class="quick_fact align_ animate-math">
+												<div><i class="fa fa-ravelry fa-3x" style="color:#009cde"></i></div>
+											   <h4><span class="themecolor">Trust your water tap</span> </h4>
+												<h5>Savings: 100% of all households were buying their drinking water, after our system 63% had switched to drinking from their taps.</h5>
+												<hr class="hr_narrow">
+												<div class="desc"></div>
+											</div> 
+										</div>
+										<div class="column mcb-column mcb-item-5fltm4adk one-fourth column_quick_fact">
+											<div class="quick_fact align_ animate-math">
+												<div><i class="fa fa-ravelry fa-3x" style="color:#009cde"></i></div>
+											   <h4><span class="themecolor">Safe and Clean for Drinking</span> </h4> </div>
+												<h5>Before no one trusted drinking rainwater, this number increased to 87% drinking directly from their taps.</h5>
+												<hr class="hr_narrow">
+												<div class="desc"></div>
+											</div>
+										</div>
+										<div class="column mcb-column mcb-item-hfbzurgtu one-fourth column_quick_fact">
+											<div class="quick_fact align_ animate-math">
+												<div><i class="fa fa-ravelry fa-3x" style="color:#009cde"></i></div>
+											   <h4><span class="themecolor">Cooking Made Easy</span> </h4> </div>
+												<h5>Only 33% of households trusted their water for cooking, this increased to 100% after the installation of our system.</h5>
+												<hr class="hr_narrow">
+												<div class="desc"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						
 						
 						
 					</div>
@@ -318,7 +262,7 @@ How it Works : A Partnership</span> </h2><br>
 									<hr class="no_line" style="margin:0 auto 20px">
 									<p> <a href="{% url 'about' %}"> About us</a> </p>
 									<p> <a href="{% url 'service' %}">Service</a> </p>
-									<p> <a href="{% url 'ijabo' %}">Ijabo</a> </p>
+									<p> <a href="{% url 'rainwater' %}">Rainwater</a> </p>
 									<p> <a href="{% url 'login' %}">LOGIN</a> </p>
 								</div>
 							</div>
@@ -335,7 +279,7 @@ How it Works : A Partnership</span> </h2><br>
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00d285"></i></a> </p>
+									<p> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#009cde"></i></a> </p>
 									<hr class="no_line" style="margin:0 auto 80px"> </div>
 							</div>
 						</aside>
@@ -368,7 +312,7 @@ How it Works : A Partnership</span> </h2><br>
 	<div id="Side_slide" class="right dark" data-width="250">
 		<div class="close-wrapper"> <a href="#" class="close"><i class="icon-cancel-fine"></i></a> </div>
 		<div class="menu_wrapper"></div>
-		<div class="extras"> <a href="{% url 'shopping' %}" class="action_button" target="_blank">BUY NOW</a>
+		<div class="extras"> <a href="{% url 'shopping' %}" class="action_button" target="_blank">SHOP</a>
 			<div class="extras-wrapper"></div>
 		</div>
 	</div>
