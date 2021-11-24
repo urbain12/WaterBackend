@@ -45,7 +45,7 @@
 									<nav id="menu">
 										<ul id="menu-main-menu" class="menu menu-main">
 											<li class="page_item"> <a href="{% url 'index' %}"><span>Home</span></a> </li>
-											<li><a href="{% url 'about' %}"><span>About us</span></a> </li>
+											{% comment %} <li><a href="{% url 'about' %}"><span>About us</span></a> </li> {% endcomment %}
 											<li> <a href="{% url 'rainwater' %}"><span>Rain Water</span></a> </li>
 											<li> <a href="{% url 'blog' %}"><span>Blog</span></a> </li>
 											<li> <a href="{% url 'contact_us' %}"><span>Contact</span></a> </li>
@@ -241,7 +241,7 @@
 								<div style="text-align: center;">
 									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="{% url 'about' %}"> About us</a> </p>
+									{% comment %} <p> <a href="{% url 'about' %}"> About us</a> </p> {% endcomment %}
 									<p> <a href="{% url 'service' %}">Service</a> </p>
 									<p> <a href="{% url 'rainwater' %}">Rainwater</a> </p>
 									<p> <a href="{% url 'login' %}">LOGIN</a> </p>

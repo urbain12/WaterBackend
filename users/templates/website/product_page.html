@@ -203,7 +203,7 @@ h1,h2,h3,h4,h5,h6{
 									<nav id="menu">
 										<ul id="menu-main-menu" class="menu menu-main" >
 											<li> <a href="{% url 'index' %}"><span style="border:none;color:black">Home</span></a> </li>
-											<li> <a href="{% url 'about' %}"><span style="border:none;color:black">About us</span></a> </li>
+											{% comment %} <li> <a href="{% url 'about' %}"><span style="border:none;color:black">About us</span></a> </li> {% endcomment %}
 											<li> <a href="{% url 'rainwater' %}"><span style="border:none;color:black">Rain Water</span></a> </li>
 											<li> <a href="{% url 'blog' %}"><span style="border:none;color:black">Blog</span></a> </li>
 											<li> <a href="{% url 'contact_us' %}"><span style="border:none;color:black">Contact</span></a> </li>
@@ -336,7 +336,7 @@ h1,h2,h3,h4,h5,h6{
 								<div style="text-align: center;">
 									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="{% url 'about' %}"> About us</a> </p>
+									{% comment %} <p> <a href="{% url 'about' %}"> About us</a> </p> {% endcomment %}
 									<p> <a href="{% url 'service' %}">Service</a> </p>
 									<p> <a href="{% url 'rainwater' %}">Rainwater</a> </p>
 									<p> <a href="{% url 'login' %}">LOGIN</a> </p>

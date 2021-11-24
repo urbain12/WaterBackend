@@ -67,7 +67,7 @@
 									<nav id="menu">
 										<ul id="menu-main-menu" class="menu menu-main">
 											<li class=" current-menu-item page_item"> <a href="{% url 'index' %}"><span>Home</span></a> </li>
-											<li> <a href="{% url 'about' %}"><span>About us</span></a> </li>
+											{% comment %} <li> <a href="{% url 'about' %}"><span>About us</span></a> </li> {% endcomment %}
 											<li> <a href="{% url 'rainwater' %}"><span>Rain Water</span></a> </li>
 											<li> <a href="{% url 'blog' %}"><span>Blog</span></a> </li>
 											<li> <a href="{% url 'contact_us' %}"><span>Contact</span></a> </li>
@@ -175,13 +175,13 @@
 												<hr class="no_line" style="margin:0 auto 10px">
 											</div>
 										</div>
-										<div class="column mcb-column mcb-item-z22mf0xsu one column_button"> <a class="button button_size_2 button_theme" href="{% url 'about' %}"><span class="button_label">Read More</h6></span></a> </div>
+										<div class="column mcb-column mcb-item-z22mf0xsu one column_button"> <a class="button button_size_2 button_theme" href="{% url 'rainwater' %}"><span class="button_label">Read More</h6></span></a> </div>
 									</div>
 								</div>
 							</div>
 						</div>
 
-						<div class="section mcb-section mcb-section-gzlmntrq6" style="padding-bottom:80px">
+						<div class="section mcb-section mcb-section-gzlmntrq6">
 							<div class="section_wrapper mcb-section-inner">
 								<div class="wrap mcb-wrap mcb-wrap-jifsx5k4b one valign-top clearfix" >
 									<div class="mcb-wrap-inner">
@@ -195,7 +195,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="wrap mcb-wrap mcb-wrap-2/3 one-third valign-top clearfix" style="padding:0 3%">
+								<div class="wrap mcb-wrap mcb-wrap-2/3 one-third valign-top clearfix" >
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-zyabt1q4n one column_icon_box">
 											<div class="icon_box icon_position_top no_border">
@@ -207,7 +207,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="wrap mcb-wrap mcb-wrap-kdtqrc2sw one-third valign-top clearfix" style="padding:0 3%">
+								<div class="wrap mcb-wrap mcb-wrap-kdtqrc2sw one-third valign-top clearfix" >
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-7gg4rz0zd one column_icon_box">
 											<div class="icon_box icon_position_top no_border">
@@ -222,7 +222,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="wrap mcb-wrap mcb-wrap-a6xpdx517 one-third valign-top clearfix" style="padding:0 3%">
+								<div class="wrap mcb-wrap mcb-wrap-a6xpdx517 one-third valign-top clearfix" >
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-lutr7tatd one column_icon_box">
 											<div class="icon_box icon_position_top no_border">
@@ -235,81 +235,16 @@
 										</div>
 									</div>
 								</div>
-								<div class="wrap mcb-wrap mcb-wrap-3eqq56k2o one valign-top clearfix" >
-									<div class="mcb-wrap-inner">
-										<div class="column mcb-column mcb-item-3tpqqrqrq one-third column_placeholder">
-											<div class="placeholder"> &nbsp; </div>
-										</div>
-										
-									</div>
-								</div>
 							</div>
 						</div>
-
-
-
-
-						
-
-
-						
-						<div class="section mcb-section mcb-section-mw05wkzen equal-height-wrap" >
-							<div class="section_wrapper mcb-section-inner">
-								<div class="wrap mcb-wrap mcb-wrap-6w8qkykkk one-second valign-middle clearfix" >
-									<div class="mcb-wrap-inner">
-										<div class="column mcb-column mcb-item-kkjbgllmo one column_column column-margin-20px">
-											<div class="column_attr clearfix" >
-												<h6><span style="font-size:18px;color:#009cde;margin-right:10px;">●</span>affordable, reliable and always safe</h6>
-												<hr class="no_line" style="margin:0 auto 10px">
-												<h2><span style="color:#009cde;">Why Choose Water Access Rwanda?</span> </h2>
-												<hr class="no_line" style="margin:0 auto 10px">
-												</div>
-										</div>
-										<div class="column mcb-column mcb-item-rdxp6j57i one column_column">
-											<div class="column_attr clearfix" style="background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
-												<h5 style="color:#8e9aac;"><b style="color:black">Great Low Prices</b> - Competitive pricing on
-all our services. We charge less than half our competitors' prices</h5> </div>
-										</div>
-
-										<div class="column mcb-column mcb-item-rdxp6j57i one column_column">
-											<div class="column_attr clearfix" style="background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
-												<h5 style="color:#8e9aac;"><b style="color:black">Quality</b> – Our services and products are of the highest quality and done with durability in mind. </h5> </div>
-										</div>
-
-										<div class="column mcb-column mcb-item-rdxp6j57i one column_column">
-											<div class="column_attr clearfix" style="background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
-												<h5 style="color:#8e9aac;"><b style="color:black">Committed Staff</b> - Our staff is highly trained and committed to eradicating water scarcity in Rwanda.</h5> </div>
-										</div>
-
-										<div class="column mcb-column mcb-item-rdxp6j57i one column_column">
-											<div class="column_attr clearfix" style="background-repeat:no-repeat;background-position:left center;padding:15px 0 0 80px;">
-												<h5 style="color:#8e9aac;"><b style="color:black">Support the Local Market</b> - At WARwanda, the majority of our supplies are obtained locally and local laborers make more than 90% our staff. Working with us, supports the local economy and provides jobs to young people.</h5> </div>
-										</div>
-										
-
-									</div>
-								</div>
-								<div class="wrap mcb-wrap mcb-wrap-fexelc2ru one-second valign-middle clearfix" >
-									<div class="mcb-wrap-inner">
-										<div class="column mcb-column mcb-item-x7vvd5ghc one column_image">
-											<div class="image_frame image_item no_link scale-with-grid aligncenter no_border">
-												<div class="image_wrapper"><img class="scale-with-grid" src="{% static "web/images/flusher.webp"%}"> </div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						
 					</div>
 					
 				</div>
 			</div>
 		</div>
 
-		<div class="section mcb-section mcb-section-9e98f0fdc equal-height-wrap">
-		<h2 class="themecolor" style="text-align: center;">OUR PARTNER</h2>
+		<div class="section mcb-section mcb-section-9e98f0fdc equal-height-wrap" style="padding-bottom:100px">
+		     <h2 class="themecolor" style="text-align: center;">OUR PARTNER</h2>
 							<div class="section_wrapper mcb-section-inner">
 								<div class="wrap mcb-wrap mcb-wrap-0e4f0a448 one-second valign-middle clearfix" >
 									<div class="mcb-wrap-inner">
@@ -320,7 +255,7 @@ all our services. We charge less than half our competitors' prices</h5> </div>
 										</div>
 									</div>
 								</div>
-								<div class="wrap mcb-wrap mcb-wrap-0e4f0a448 one-second valign-middle clearfix" style="padding:0 5%">
+								<div class="wrap mcb-wrap mcb-wrap-0e4f0a448 one-second valign-middle clearfix">
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-b6e2ae677 one column_image">
 											<div class="image_frame image_item no_link scale-with-grid no_border">
@@ -331,7 +266,12 @@ all our services. We charge less than half our competitors' prices</h5> </div>
 								</div>
 							</div>
 						
-						</div>
+			</div>
+
+							<div class="section_wrapper mcb-section-inner">
+								<iframe src="https://www.google.com/maps/embed?pb=!1m26!1m12!1m3!1d15949.83013529674!2d30.04391877672591!3d-1.971109927007682!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m11!3e6!4m3!3m2!1d-1.9661556!2d30.054956999999998!4m5!1s0x19dca52779461c61%3A0x65f70c22bc7cde62!2swater%20access%20rwanda!3m2!1d-1.976924!2d30.0527472!5e0!3m2!1sen!2srw!4v1637792183186!5m2!1sen!2srw" width="1500" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+							</div>
+						
 
 		<footer id="Footer" class="clearfix ">
 			<div class="widgets_wrapper ">
@@ -342,7 +282,7 @@ all our services. We charge less than half our competitors' prices</h5> </div>
 								<div style="text-align: center;">
 									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="{% url 'about' %}"> About us</a> </p>
+									{% comment %} <p> <a href="{% url 'about' %}"> About us</a> </p> {% endcomment %}
 									<p> <a href="{% url 'service' %}">Service</a> </p>
 									<p> <a href="{% url 'rainwater' %}">Rainwater</a> </p>
 									<p> <a href="{% url 'login' %}">LOGIN</a> </p>
@@ -370,12 +310,12 @@ all our services. We charge less than half our competitors' prices</h5> </div>
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h6 style="color:#7d7d7d">MORE INFO</h6>
+									<h6 style="color:#7d7d7d">Other services</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="#">Inuma</a> </p>
-									<p> <a href="#">Amazi</a> </p>
-									<p> <a href="#">Uhira</a> </p>
-									<p> <a href="#">Voma</a> </p>
+									<p> <a href="{% url 'service' %}">Inuma</a> </p>
+									<p> <a href="{% url 'service' %}">Amazi</a> </p>
+									<p> <a href="{% url 'service' %}">Uhira</a> </p>
+									<p> <a href="{% url 'service' %}">Voma</a> </p>
 								</div>
 							</div>
 						</aside>
