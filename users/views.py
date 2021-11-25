@@ -1907,17 +1907,20 @@ def get_balance(request, phone_number):
     if user:
         users = User.objects.get(phone=phone_number)
         customer = Customer.objects.get(user=users.id)
-        subscription = Subscriptions.objects.get(CustomerID=customer.id)
-        if subscription.CustomerID:
+        category=Category.objects.get(Title="INUMA")
+        subscription = Subscriptions.objects.filter(CustomerID=customer.id,Category=category.id).exists()
+        if subscription:
+            print(subscription)
+            my_subscription = Subscriptions.objects.get(CustomerID=customer.id,Category=category.id)
             data = {
-                'balance': subscription.TotalBalance,
+                'balance': my_subscription.TotalBalance,
                 'status': status.HTTP_200_OK,
 
             }
         else:
             data = {
-                'balance': subscription.TotalBalance,
-                'status': status.HTTP_200_OK,
+                'data': 'Customer not registered in INUMA!',
+                'status': status.HTTP_400_BAD_REQUEST
 
             }
     else:
