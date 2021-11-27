@@ -29,7 +29,11 @@
 	<link rel='stylesheet' href="{% static "web/css/structure.css"%}">
 	<link rel='stylesheet' href="{% static "web/css/scooterrental.css"%}">
 	<link rel='stylesheet' href="{% static "web/css/custom.css"%}"> </head>
-
+	<style>
+	.gothic{
+		font-family:century-gothic
+	}
+	</style>
 <body class="page-template-default page color-custom style-simple button-custom layout-full-width if-zoom if-border-hide no-content-padding no-shadows header-classic sticky-header sticky-tb-color ab-hide subheader-both-center menu-link-color menuo-right menuo-no-borders footer-copy-center mobile-tb-hide mobile-side-slide mobile-mini-mr-ll tablet-sticky mobile-sticky ">
 	<div id="Wrapper">
 		<div id="Header_wrapper">
@@ -44,11 +48,11 @@
 								<div class="menu_wrapper">
 									<nav id="menu">
 										<ul id="menu-main-menu" class="menu menu-main">
-											<li class=" page_item "> <a href="{% url 'index' %}"><span>Home</span></a> </li>
+											<li class=" page_item "> <a href="{% url 'index' %}"><span class="gothic">Home</span></a> </li>
 											{% comment %} <li> <a href="{% url 'about' %}"><span>About us</span></a> </li> {% endcomment %}
-											<li> <a href="{% url 'rainwater' %}"><span>Rain Water</span></a> </li>
-											<li > <a href="{% url 'blog' %}"><span>Blog</span></a> </li>
-											<li class="current-menu-item"><a href="{% url 'contact_us' %}"><span>Contact</span></a> </li>
+											<li> <a href="{% url 'rainwater' %}"><span class="gothic">Rain Water</span></a> </li>
+											<li > <a href="{% url 'blog' %}"><span class="gothic">Blog</span></a> </li>
+											<li class="current-menu-item"><a href="{% url 'contact_us' %}"><span class="gothic">Contact</span></a> </li>
 										</ul>
 									</nav><a class="responsive-menu-toggle " href="#"><i class="fa fa-bars" ></i></a> </div>
 							</div>
@@ -75,9 +79,9 @@
 											<div class="column_attr clearfix align_center" style>
 												<h6 style="color:#FFF;"><span style="font-size:18px;color:#00b4e3;margin-right:10px;">●</span>CONTACT</h6>
 												<hr class="no_line" style="margin:0 auto 20px">
-												<h1 style="color:#FFF;">Feel<span class="themecolor"> free </span>to
+												<h1 style="color:#FFF;" class="gothic">Feel<span class="themecolor"> free </span>to
 													<br>
-													<span class="themecolor">contact</span> with us</h1>
+													<span class="themecolor gothic">contact</span> with us</h1>
 												<hr class="no_line" style="margin:0 auto 20px">
 												 </div>
 										</div>
@@ -88,18 +92,18 @@
 										</div>
 										<div class="column mcb-column mcb-item-d49zj8b3l one-third column_column">
 											<div class="column_attr clearfix" style>
-												<h2 class="themecolor">Address</h2>
+												<h2 class="themecolor gothic">Address</h2>
 												<hr class="no_line" style="margin:0 auto 35px">
-												<h4 style="color:#FFF;">157 KN 2 Ave,
+												<h4 style="color:#FFF;" class="gothic">157 KN 2 Ave,
 													<br>
 													Kigali, Nyarugenge
 													</h4>
-												<h4 style="color:#FFF;"><i class="fa fa-phone"></i>+250 788 888 888</h4>
-												<h4 style="color:#FFF;"><i class="fa fa-envelope"></i><a href="#" style="color:white" >info@warwanda.com</a></h4> </div>
+												<h4 style="color:#FFF;" class="gothic"><i class="fa fa-phone"></i>+250 788 888 888</h4>
+												<h4 style="color:#FFF;" class="gothic"><i class="fa fa-envelope"></i><a href="#" style="color:white" >info@warwanda.com</a></h4> </div>
 										</div>
 										<div class="column mcb-column mcb-item-lw0uwepr5 one-third column_column">
 											<div class="column_attr clearfix align_center" style="background-color:#fff;padding:40px 10% 25px;border-radius: 20px; box-shadow: 0px 10px 30px 0px rgba(0,0,0,0.1);">
-												<h3>SEND US A MESSAGE</h3>
+												<h3 class="gothic">SEND US A MESSAGE</h3>
 												<div id="contactWrapper">
 													<form id="contactform" action="{% url 'contact_us' %}" method="POST">
 													{% csrf_token %}
@@ -134,12 +138,12 @@
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
+									<h6 style="color:#7d7d7d" class="gothic">QUICK LINKS</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
 									{% comment %} <p> <a href="{% url 'about' %}"> About us</a> </p> {% endcomment %}
-									<p> <a href="https://www.warwanda.com/">Service</a> </p>
-									<p> <a href="{% url 'rainwater' %}">Rainwater</a> </p>
-									<p> <a href="{% url 'login' %}">LOGIN</a> </p>
+									<p class="gothic"> <a href="https://www.warwanda.com/">Service</a> </p>
+									<p class="gothic"> <a href="{% url 'rainwater' %}">Rainwater</a> </p>
+									<p class="gothic"> <a href="{% url 'login' %}">LOGIN</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -148,14 +152,14 @@
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h3>Rainwater is safe water
+									<h3 class="gothic">Rainwater is safe water
 										<br>
 										 
 									<hr class="no_line" style="margin:0 auto 20px">
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00b4e3"></i></a> </p>
+									<p class="gothic"> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00b4e3"></i></a> </p>
 									<hr class="no_line" style="margin:0 auto 80px"> </div>
 							</div>
 						</aside>
@@ -164,11 +168,11 @@
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h6 style="color:#7d7d7d">MORE INFO</h6>
+									<h6 style="color:#7d7d7d" class="gothic">MORE INFO</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p ><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fa fa-twitter-square fa-2x" style="color:#00ACEE"></i> Twitter</a> </p>
-									<p><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fa fa-facebook-official fa-2x" style="color:#4267B2"></i>  Facebook</a> </p>
-									<p><a href="https://www.instagram.com/amazirw/" style="margin-left:20px;"><i class="fa fa-instagram fa-2x"></i>  Instagram</a> </p>
+									<p class="gothic"><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fa fa-twitter-square fa-2x" style="color:#00ACEE"></i> Twitter</a> </p>
+									<p class="gothic"><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fa fa-facebook-official fa-2x" style="color:#4267B2"></i>  Facebook</a> </p>
+									<p class="gothic"><a href="https://www.instagram.com/amazirw/" style="margin-left:20px;"><i class="fa fa-instagram fa-2x"></i>  Instagram</a> </p>
 								</div>
 							</div>
 						</aside>

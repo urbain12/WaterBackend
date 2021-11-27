@@ -41,6 +41,9 @@
   min-width: 100%;
   min-height: 100%;
 }
+.gothic{
+		font-family:century-gothic
+	}
 .my_content {
   {% comment %} position: fixed; {% endcomment %}
   bottom: 0;
@@ -66,11 +69,11 @@
 								<div class="menu_wrapper">
 									<nav id="menu">
 										<ul id="menu-main-menu" class="menu menu-main">
-											<li class=" current-menu-item page_item"> <a href="{% url 'index' %}"><span>Home</span></a> </li>
+											<li class=" current-menu-item page_item gothic"> <a href="{% url 'index' %}"><span class="gothic">Home</span></a> </li>
 											{% comment %} <li> <a href="{% url 'about' %}"><span>About us</span></a> </li> {% endcomment %}
-											<li> <a href="{% url 'rainwater' %}"><span>Rain Water</span></a> </li>
-											<li> <a href="{% url 'blog' %}"><span>Blog</span></a> </li>
-											<li> <a href="{% url 'contact_us' %}"><span>Contact</span></a> </li>
+											<li> <a href="{% url 'rainwater' %}"><span class="gothic">Rain Water</span></a> </li>
+											<li> <a href="{% url 'blog' %}"><span class="gothic">Blog</span></a> </li>
+											<li> <a href="{% url 'contact_us' %}"><span class="gothic">Contact</span></a> </li>
 										</ul>
 									</nav><a class="responsive-menu-toggle " href="#"><i class="fa fa-bars" ></i></a> </div>
 							</div>
@@ -95,7 +98,7 @@
 
 												<div class="wrap mcb-wrap mcb-wrap-2/3 one-second valign-top clearfix" style="padding:0 3%">
 													<div style="height: 500px;width: 550px;background:black;border-top-left-radius:100px;border-top-right-radius:30px;border-bottom-right-radius:100px;border-bottom-left-radius:30px ;font-family:Poppins;color:white;text-align:center;font-size:40px;font-weight:bold;padding-top:100px" >
-													<span>Rain</span><span style="color:#00b4e3">Water</span>
+													<span class="gothic">Rain</span><span style="color:#00b4e3" class="gothic">Water</span>
 														<br><br>
 														is Safe  Water
 														<br>
@@ -126,9 +129,9 @@
 						</div>
 						<br><br>
 						<div class="column_attr clearfix align_center" >
-								<h2><span class="themecolor">
+								<h2><span class="themecolor gothic">
 								BEFORE AND AFTER</span> </h2><br>
-								<h5>we conducted a pilot to see what our system would achieve for our users. Here is what happened and what you can expect.</h5>
+								<h5 class="gothic">we conducted a pilot to see what our system would achieve for our users. Here is what happened and what you can expect.</h5>
 												<hr class="no_line" style="margin:0 auto 20px">
 						</div>
 						<div class="section_wrapper mcb-section-inner">
@@ -138,7 +141,7 @@
 											<div class="quick_fact align_ animate-math">
 											<div><img class="scale-with-grid" src="{% static "web/images/money.png" %}" style="width:50px;height:50px"></div>
 											<h4><span class="themecolor">Save Money</span> </h4>												
-											<h5>ALL HOUSEHOLDS reduced their water bill by 58% One family went from RWF 25,000 to Just RWF 6,000!.</h5>
+											<h5 class="gothic">ALL HOUSEHOLDS reduced their water bill by 58% One family went from RWF 25,000 to Just RWF 6,000!.</h5>
 												<hr class="hr_narrow">
 												<div class="desc"></div>
 											</div>
@@ -146,8 +149,8 @@
 										<div class="column mcb-column mcb-item-z73733ieu one-fourth column_quick_fact">
 											<div class="quick_fact align_ animate-math">
 												<div><img class="scale-with-grid" src="{% static "web/images/maledrink.png" %}" style="width:50px;height:50px"> </div>
-											   <h4><span class="themecolor">Trust your water tap</span> </h4>
-												<h5>Savings: 100% of all households were buying their drinking water, after our system 63% had switched to drinking from their taps.</h5>
+											   <h4><span class="themecolor gothich">Trust your water tap</span> </h4>
+												<h5 class="gothic">Savings: 100% of all households were buying their drinking water, after our system 63% had switched to drinking from their taps.</h5>
 												<hr class="hr_narrow">
 												<div class="desc"></div>
 											</div> 
@@ -155,8 +158,8 @@
 										<div class="column mcb-column mcb-item-5fltm4adk one-fourth column_quick_fact">
 											<div class="quick_fact align_ animate-math">
 												<div><img class="scale-with-grid" src="{% static "web/images/glass.png" %}" style="width:50px;height:50px"> </div>
-											   <h4><span class="themecolor">Safe and Clean for Drinking</span> </h4> </div>
-												<h5>Before no one trusted drinking rainwater, this number increased to 87% drinking directly from their taps.</h5>
+											   <h4><span class="themecolor gothic">Safe and Clean for Drinking</span> </h4> </div>
+												<h5 class="gothic">Before no one trusted drinking rainwater, this number increased to 87% drinking directly from their taps.</h5>
 												<hr class="hr_narrow">
 												<div class="desc"></div>
 											</div>
@@ -164,8 +167,8 @@
 										<div class="column mcb-column mcb-item-hfbzurgtu one-fourth column_quick_fact">
 											<div class="quick_fact align_ animate-math">
 												<div><img class="scale-with-grid" src="{% static "web/images/cooking.png" %}" style="width:50px;height:50px"> </div>
-											   <h4><span class="themecolor">Cooking Made Easy</span> </h4> </div>
-												<h5>Only 33% of households trusted their water for cooking, this increased to 100% after the installation of our system.</h5>
+											   <h4><span class="themecolor gothic">Cooking Made Easy</span> </h4> </div>
+												<h5 class="gothic">Only 33% of households trusted their water for cooking, this increased to 100% after the installation of our system.</h5>
 												<hr class="hr_narrow">
 												<div class="desc"></div>
 											</div>
@@ -173,7 +176,7 @@
 									</div>
 								</div>
 								<div class="column_attr clearfix align_center" >
-								<h4><span class="themecolor">Start saving today !</span> </h4>
+								<h4><span class="themecolor gothic">Start saving today !</span> </h4>
 								</div>
 							</div>
 
@@ -184,10 +187,10 @@
 										<div class="column mcb-column mcb-item-roiiteb21 one column_column">
 											<div class="column_attr clearfix align_center" >
 											<img class="scale-with-grid" src="{% static "web/images/guarantee.png" %}" style="width:50px;height:50px">
-												<h2 style="color:#00b4e3 ;">1-YEAR WARRANTY ON OUR SYSTEMS
+												<h2 style="color:#00b4e3 ;" class="gothic">1-YEAR WARRANTY ON OUR SYSTEMS
 													</h2>
 												<hr class="no_line" style="margin:0 auto 20px">
-												<h5 style="color:#1f1f1f;">6-months payment plans.</h5> 
+												<h5 style="color:#1f1f1f;" class="gothic">6-months payment plans.</h5> 
 												</div>
 										</div>
 									</div>
@@ -211,7 +214,7 @@
 										</div>
 										<div class="column mcb-column mcb-item-dxbdro427 two-third column_column">
 											<div class="column_attr clearfix align_center" >
-												<h2><span class="themecolor">FAQs</span> </h2>
+												<h2><span class="themecolor gothic">FAQs</span> </h2>
 										</div>
 									</div>
 								</div>
@@ -221,8 +224,8 @@
 											<div class="icon_box icon_position_top no_border">
 												<div class="desc_wrapper">
 													<h5 class="title">
-													<b class="themecolor">WHAT IS YOUR RETURN POLICY?</b> <br>
-													<h5>All sales are final. But Note that our filtration and pump products come with a standard 1 year manufacture warranty.  We do remain at the client’s disposal to answer any questions and concern after sale beyond the warranty period.</h5></h5> </div>
+													<b class="themecolor gothic">WHAT IS YOUR RETURN POLICY?</b> <br>
+													<h5 class="gothic">All sales are final. But Note that our filtration and pump products come with a standard 1 year manufacture warranty.  We do remain at the client’s disposal to answer any questions and concern after sale beyond the warranty period.</h5></h5> </div>
 											</div>
 										</div>
 									</div>
@@ -232,8 +235,8 @@
 										<div class="column mcb-column mcb-item-7gg4rz0zd one column_icon_box">
 											<div class="icon_box icon_position_top no_border">
 												<div class="desc_wrapper">
-													<h5 class="title">
-													<b class="themecolor">DO YOU PROVIDE DELIVERY SERVICES FOR ALL PRODUCTS?</b><br>
+													<h5 class="title gothic">
+													<b class="themecolor gothic">DO YOU PROVIDE DELIVERY SERVICES FOR ALL PRODUCTS?</b><br>
 														All our products can be delivered and professionally installed by our trained technicians. 
 														Delivery within Kigali is available for a standard fee of RWF 2,000 per order. 
 														Delivery outside of Kigali will be quoted on an as-need basis. 
@@ -247,8 +250,8 @@
 										<div class="column mcb-column mcb-item-lutr7tatd one column_icon_box">
 											<div class="icon_box icon_position_top no_border">
 												<div class="desc_wrapper">
-												<h5 class="title">
-													<b class="themecolor">WHAT IF THE PRODUCT I ORDERED IS DEFECTIVE, INCORRECT OR DAMAGED?</b> <br>
+												<h5 class="title gothic">
+													<b class="themecolor gothic">WHAT IF THE PRODUCT I ORDERED IS DEFECTIVE, INCORRECT OR DAMAGED?</b> <br>
 													our filtration and pump products come with a standard 1 year manufacture warranty.  During this period, any defect will result in product replacement. 
 													</h5> 
 													</div></div>
@@ -263,7 +266,7 @@
 			</div>
 		</div>
 
-		     <h2 class="themecolor" style="text-align: center;">OUR PARTNER</h2>
+		     <h2 class="themecolor gothic" style="text-align: center;">OUR PARTNER</h2>
 		<div class="section mcb-section mcb-section-9e98f0fdc equal-height-wrap" style="padding-bottom:100px;padding-left:200px;">
 							<div class="section_wrapper mcb-section-inner">
 								<div class="wrap mcb-wrap mcb-wrap-0e4f0a448 one-second valign-middle clearfix" >
@@ -304,9 +307,9 @@
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-7e0a6c322 one column_column column-margin-20px">
 											<div class="column_attr clearfix" style>
-												<h2><span class="themecolor">Safety, Comfortable and Impact<span></h2>
-												<h4>With the full Amazi System:</h4>
-												<h5>
+												<h2><span class="themecolor gothic">Safety, Comfortable and Impact<span></h2>
+												<h4 class="gothic">With the full Amazi System:</h4>
+												<h5 class="gothic">
 												<li>your family enjoys clean safe water throughout the house.</li>
 												<li>Your rain season water bill reduces (RAINWATER IS FREE WATER)</li>
 												<li>You participate in protecting our environment.</li>
@@ -331,12 +334,12 @@
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
+									<h6 style="color:#7d7d7d" class="gothic">QUICK LINKS</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
 									{% comment %} <p> <a href="{% url 'about' %}"> About us</a> </p> {% endcomment %}
-									<p> <a href="https://www.warwanda.com/">Service</a> </p>
-									<p> <a href="{% url 'rainwater' %}">Rainwater</a> </p>
-									<p> <a href="{% url 'login' %}">LOGIN</a> </p>
+									<p class="gothic"> <a href="https://www.warwanda.com/">Service</a> </p>
+									<p class="gothic"> <a href="{% url 'rainwater' %}">Rainwater</a> </p>
+									<p class="gothic"> <a href="{% url 'login' %}">LOGIN</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -345,13 +348,13 @@
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h3>Rainwater is safe water
+									<h3 class="gothic">Rainwater is safe water
 										<br>
 									<hr class="no_line" style="margin:0 auto 20px">
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00b4e3"></i></a> </p>
+									<p> <a href="{% url 'contact_us' %}" class="gothic">CONTACT US <i class="icon-right-thin" style="color:#00b4e3"></i></a> </p>
 									<hr class="no_line" style="margin:0 auto 80px"> </div>
 							</div>
 						</aside>
@@ -360,11 +363,11 @@
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h6 style="color:#7d7d7d">Other services</h6>
+									<h6 style="color:#7d7d7d" class="gothic">Other services</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p ><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fa fa-twitter-square fa-2x" style="color:#00ACEE"></i> Twitter</a> </p>
-									<p><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fa fa-facebook-official fa-2x" style="color:#4267B2"></i>  Facebook</a> </p>
-									<p><a href="https://www.instagram.com/amazirw/" style="margin-left:20px;"><i class="fa fa-instagram fa-2x"></i>  Instagram</a> </p>
+									<p class="gothic"><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fa fa-twitter-square fa-2x" style="color:#00ACEE"></i> Twitter</a> </p>
+									<p class="gothic"><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fa fa-facebook-official fa-2x" style="color:#4267B2"></i>  Facebook</a> </p>
+									<p class="gothic"><a href="https://www.instagram.com/amazirw/" style="margin-left:20px;"><i class="fa fa-instagram fa-2x"></i>  Instagram</a> </p>
 								</div>
 							</div>
 						</aside>

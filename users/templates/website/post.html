@@ -36,6 +36,11 @@
     <link rel='stylesheet' href="{% static "web/css/custom.css"%}">
 
 </head>
+<style>
+	.gothic{
+		font-family:century-gothic
+	}
+	</style>
 
 <body class="color-custom style-default layout-full-width header-plain header-fw minimalist-header sticky-header sticky-white ab-hide subheader-both-center menuo-last menuo-right mm-vertical mobile-tb-hide mobile-mini-mr-ll">
     <div id="Wrapper">
@@ -51,11 +56,11 @@
 								<div class="menu_wrapper">
 									<nav id="menu">
 										<ul id="menu-main-menu" class="menu menu-main" >
-											<li> <a href="{% url 'index' %}"><span style="border:none;color:black">Home</span></a> </li>
+											<li> <a href="{% url 'index' %}"><span style="border:none;color:black" class="gothic">Home</span></a> </li>
 											{% comment %} <li> <a href="{% url 'about' %}"><span style="border:none;color:black">About us</span></a> </li> {% endcomment %}
-											<li> <a href="{% url 'rainwater' %}"><span style="border:none;color:black">Rain Water</span></a> </li>>
-											<li> <a href="{% url 'blog' %}"><span style="border:none;color:black">Blog</span></a> </li>
-											<li> <a href="{% url 'contact_us' %}"><span style="border:none;color:black">Contact</span></a> </li>
+											<li> <a href="{% url 'rainwater' %}"><span style="border:none;color:black" class="gothic">Rain Water</span></a> </li>>
+											<li> <a href="{% url 'blog' %}"><span style="border:none;color:black" class="gothic">Blog</span></a> </li>
+											<li> <a href="{% url 'contact_us' %}"><span style="border:none;color:black" class="gothic">Contact</span></a> </li>
 										</ul>
 									</nav><a class="responsive-menu-toggle " href="#"><i class="fa fa-bars" ></i></a> </div>
 							</div>
@@ -77,7 +82,7 @@
                                     <div class="button-love">
                                     </div>
                                     <div class="title_wrapper">
-                                        <h1 class="entry-title" itemprop="headline">{{blog.Title}}</h1>
+                                        <h1 class="entry-title gothic" itemprop="headline">{{blog.Title}}</h1>
                                         <div class="post-meta clearfix">
                                             <div class="author-date">
                                                 
@@ -113,7 +118,7 @@
                                             </div>
                                             <div class="column mcb-column three-fifth column_column">
                                                 <div class="column_attr clearfix">
-                                                    <h4>{{blog.Details}}</h4>
+                                                    <h4 class="gothic">{{blog.Details}}</h4>
                                                     
                                                     
                                                 </div>
@@ -146,12 +151,12 @@
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
+									<h6 style="color:#7d7d7d" class="gothic">QUICK LINKS</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
 									{% comment %} <p> <a href="{% url 'about' %}"> About us</a> </p> {% endcomment %}
-									<p> <a href="https://www.warwanda.com/">Service</a> </p>
-									<p> <a href="{% url 'rainwater' %}">Rainwater</a> </p>
-									<p> <a href="{% url 'login' %}">LOGIN</a> </p>
+									<p class="gothic"> <a href="https://www.warwanda.com/">Service</a> </p>
+									<p class="gothic"> <a href="{% url 'rainwater' %}">Rainwater</a> </p>
+									<p class="gothic"> <a href="{% url 'login' %}">LOGIN</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -160,14 +165,14 @@
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h3>Rainwater is safe water
+									<h3 class="gothic">Rainwater is safe water
 										<br>
 										 
 									<hr class="no_line" style="margin:0 auto 20px">
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00b4e3"></i></a> </p>
+									<p class="gothic"> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00b4e3"></i></a> </p>
 									<hr class="no_line" style="margin:0 auto 80px"> </div>
 							</div>
 						</aside>
@@ -178,9 +183,9 @@
 								<div style="text-align: center;">
 									<h6 style="color:#7d7d7d">MORE INFO</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p ><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fa fa-twitter-square fa-2x" style="color:#00ACEE"></i> Twitter</a> </p>
-									<p><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fa fa-facebook-official fa-2x" style="color:#4267B2"></i>  Facebook</a> </p>
-									<p><a href="https://www.instagram.com/amazirw/" style="margin-left:20px;"><i class="fa fa-instagram fa-2x"></i>  Instagram</a> </p>
+									<p class="gothic"><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fa fa-twitter-square fa-2x" style="color:#00ACEE"></i> Twitter</a> </p>
+									<p class="gothic"><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fa fa-facebook-official fa-2x" style="color:#4267B2"></i>  Facebook</a> </p>
+									<p class="gothic"><a href="https://www.instagram.com/amazirw/" style="margin-left:20px;"><i class="fa fa-instagram fa-2x"></i>  Instagram</a> </p>
 								</div>
 							</div>
 						</aside>
