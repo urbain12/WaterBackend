@@ -24,6 +24,7 @@
                                         <tr>
                                             <th class="text-left">ID</th>
                                             <th>Names</th>
+                                            <th>Phone</th>
                                             <th>Amount Paid</th>
                                             <th>Payment Date</th>
                                             
@@ -34,6 +35,7 @@
                                     <tr>
                                             <td>{{payment.id}}</td>
                                             <td>{{payment.SubscriptionsID.CustomerID.FirstName}} {{customer.SubscriptionsID.CustomerID.LastName}}</td>
+                                            <td>{{payment.SubscriptionsID.CustomerID.user.phone}}</td>
                                             <td>{{payment.Paidamount}} Rwf</td>
                                             <td>{{payment.PaymentDate}}</td>
 

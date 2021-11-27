@@ -420,4 +420,14 @@ class SystemTool(models.Model):
     def __str__(self):
         return str(self.id)
 
+
+class HOTELLIST(models.Model):
+    name = models.CharField(max_length=200, null=False)
+    owner = models.CharField(max_length=200, blank=True, null=False)
+    rating = models.CharField(max_length=200, blank=True, null=False)
+    district = models.CharField(max_length=200, blank=True, null=False)
+    Image = models.ImageField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
     

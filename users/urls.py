@@ -115,6 +115,8 @@ urlpatterns = [
 
 
 
+
+
     path('Language/',LanguageListView.as_view()),
     path('Language/create/',LanguageCreateView.as_view()),
     path('customer_meter/create/',csrf_exempt(CustomerMeterCreateView),name='customer_meter'),
@@ -204,5 +206,11 @@ urlpatterns = [
     path('SubscriptionsPayment/create/',SubscriptionsPaymentCreateView.as_view()),
     path('UpdateSubscriptionsPayment/<id>/', SubscriptionsPaymentUpdateView.as_view()),
     path('DeleteSubscriptionsPayment/<id>/', SubscriptionsPaymentDeleteView.as_view()),
+    
+
+
+    path('allhotellist/',HOTELListView.as_view()),
+    path('get_hotelbydistrict/<str:districtname>/',get_hotelbydistrict,name="get_hotelbydistrict"),
+    path('createhotel/',HOTELCreateView.as_view()),
 
 ]

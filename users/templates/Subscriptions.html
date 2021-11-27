@@ -64,7 +64,7 @@
                                              <td>{{sub.Total|intcomma}} Rwf</td>
                                             <td> 
                                             <a class="btn-link" href="{% url 'quotation' sub.id%}"><button class="btn btn-primary">View</button></a>
-                                            <a class="btn-link" href="{% url 'notify' sub.id%}"><button class="btn btn-warning">Notify</button></a>
+                                            {% comment %} <a class="btn-link" href="{% url 'notify' sub.id%}"><button class="btn btn-warning">Notify</button></a> {% endcomment %}
                                             </td>
                                             <td> 
                                             {% if sub.TotalBalance|add:0 %}
