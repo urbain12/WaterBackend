@@ -54,7 +54,7 @@
 											<li> <a href="{% url 'blog' %}"><span>Blog</span></a> </li>
 											<li> <a href="{% url 'contact_us' %}"><span>Contact</span></a> </li>
 										</ul>
-									</nav><a class="responsive-menu-toggle " href="#"><i class="icon-menu-fine"></i></a> </div>
+									</nav><a class="responsive-menu-toggle " href="#"><i class="fa fa-bars" ></i></a> </div>
 							</div>
 							<div class="top_bar_right">
 								<div class="top_bar_right_wrapper"> <a href="{% url 'shopping' %}" class="action_button" >SHOP</a> </div>
@@ -77,7 +77,7 @@
 										</div>
 										<div class="column mcb-column mcb-item-75ad2287a two-third column_column">
 											<div class="column_attr clearfix align_center" style>
-												<h6 style="color:#FFF;"><span style="font-size:18px;color:#009cde;margin-right:10px;">●</span>AMAZI</h6>
+												<h6 style="color:#FFF;"><span style="font-size:18px;color:#00b4e3;margin-right:10px;">●</span>AMAZI</h6>
 												<hr class="no_line" style="margin:0 auto 20px">
 												<h1 style="color:#FFF;"><span class="themecolor">RainWater is safe water</span>
 													</h1>
@@ -272,7 +272,7 @@
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-qyuetn73g one-fourth column_quick_fact">
 											<div class="quick_fact align_ animate-math">
-											<div><i class="fa fa-ravelry fa-3x" style="color:#009cde"></i></div>
+											<div><img class="scale-with-grid" src="{% static "web/images/money.png" %}" style="width:50px;height:50px"></div>
 											<h4><span class="themecolor">Save Money</span> </h4>												
 											<h5>ALL HOUSEHOLDS reduced their water bill by 58% One family went from RWF 25,000 to Just RWF 6,000!.</h5>
 												<hr class="hr_narrow">
@@ -281,7 +281,7 @@
 										</div>
 										<div class="column mcb-column mcb-item-z73733ieu one-fourth column_quick_fact">
 											<div class="quick_fact align_ animate-math">
-												<div><i class="fa fa-ravelry fa-3x" style="color:#009cde"></i></div>
+												<div><img class="scale-with-grid" src="{% static "web/images/maledrink.png" %}" style="width:50px;height:50px"> </div>
 											   <h4><span class="themecolor">Trust your water tap</span> </h4>
 												<h5>Savings: 100% of all households were buying their drinking water, after our system 63% had switched to drinking from their taps.</h5>
 												<hr class="hr_narrow">
@@ -290,7 +290,7 @@
 										</div>
 										<div class="column mcb-column mcb-item-5fltm4adk one-fourth column_quick_fact">
 											<div class="quick_fact align_ animate-math">
-												<div><i class="fa fa-ravelry fa-3x" style="color:#009cde"></i></div>
+												<div><img class="scale-with-grid" src="{% static "web/images/glass.png" %}" style="width:50px;height:50px"> </div>
 											   <h4><span class="themecolor">Safe and Clean for Drinking</span> </h4> </div>
 												<h5>Before no one trusted drinking rainwater, this number increased to 87% drinking directly from their taps.</h5>
 												<hr class="hr_narrow">
@@ -299,7 +299,7 @@
 										</div>
 										<div class="column mcb-column mcb-item-hfbzurgtu one-fourth column_quick_fact">
 											<div class="quick_fact align_ animate-math">
-												<div><i class="fa fa-ravelry fa-3x" style="color:#009cde"></i></div>
+												<div><img class="scale-with-grid" src="{% static "web/images/cooking.png" %}" style="width:50px;height:50px"> </div>
 											   <h4><span class="themecolor">Cooking Made Easy</span> </h4> </div>
 												<h5>Only 33% of households trusted their water for cooking, this increased to 100% after the installation of our system.</h5>
 												<hr class="hr_narrow">
@@ -307,6 +307,9 @@
 											</div>
 										</div>
 									</div>
+								</div>
+								<div class="column_attr clearfix align_center" >
+								<h4><span class="themecolor">Start saving today !</span> </h4>
 								</div>
 							</div>
 
@@ -330,7 +333,7 @@
 									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
 									{% comment %} <p> <a href="{% url 'about' %}"> About us</a> </p> {% endcomment %}
-									<p> <a href="{% url 'service' %}">Service</a> </p>
+									<p> <a href="https://www.warwanda.com/">Service</a> </p>
 									<p> <a href="{% url 'rainwater' %}">Rainwater</a> </p>
 									<p> <a href="{% url 'login' %}">LOGIN</a> </p>
 								</div>
@@ -341,14 +344,14 @@
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h3>Simple, Affordable and Reliable Access to
+									<h3>Rainwater is safe water
 										<br>
-										<span class="themecolor">Clean Safe Water</span></h3>
+										 
 									<hr class="no_line" style="margin:0 auto 20px">
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#009cde"></i></a> </p>
+									<p> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00b4e3"></i></a> </p>
 									<hr class="no_line" style="margin:0 auto 80px"> </div>
 							</div>
 						</aside>
@@ -359,10 +362,9 @@
 								<div style="text-align: center;">
 									<h6 style="color:#7d7d7d">MORE INFO</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="#">Inuma</a> </p>
-									<p> <a href="#">Amazi</a> </p>
-									<p> <a href="#">Uhira</a> </p>
-									<p> <a href="#">Voma</a> </p>
+									<p ><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fa fa-twitter-square fa-2x" style="color:#00ACEE"></i> Twitter</a> </p>
+									<p><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fa fa-facebook-official fa-2x" style="color:#4267B2"></i>  Facebook</a> </p>
+									<p><a href="https://www.instagram.com/amazirw/" style="margin-left:20px;"><i class="fa fa-instagram fa-2x"></i>  Instagram</a> </p>
 								</div>
 							</div>
 						</aside>

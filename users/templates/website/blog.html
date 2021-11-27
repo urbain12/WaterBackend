@@ -22,6 +22,7 @@
 	<!-- FONTS -->
 	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Sora:100,200,300,400,400italic,500,600,700,700italic,900'>
 	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Poppins:100,200,300,400,400italic,500,600,700,700italic,900'>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 	<!-- CSS -->
 	<link rel='stylesheet' href="{% static "web/css/global.css"%}">
 	<link rel='stylesheet' href="{% static "web/css/el_demo.css"%}">
@@ -52,7 +53,7 @@
 											<li class="current-menu-item"><a href="{% url 'blog' %}"><span>Blog</span></a> </li>
 											<li> <a href="{% url 'contact_us' %}"><span>Contact</span></a> </li>
 										</ul>
-									</nav><a class="responsive-menu-toggle " href="#"><i class="icon-menu-fine"></i></a> </div>
+									</nav><a class="responsive-menu-toggle " href="#"><i class="fa fa-bars" ></i></a> </div>
 							</div>
 							<div class="top_bar_right">
 								<div class="top_bar_right_wrapper"> <a href="{% url 'shopping' %}" class="action_button" >SHOP</a> </div>
@@ -75,7 +76,7 @@
 										</div>
 										<div class="column mcb-column mcb-item-xhgolw32g two-third column_column">
 											<div class="column_attr clearfix align_center" style>
-												<h6 style="color:#FFF;"><span style="font-size:18px;color:#009cde;margin-right:10px;">●</span>water access</h6>
+												<h6 style="color:#FFF;"><span style="font-size:18px;color:#00b4e3;margin-right:10px;">●</span>water access</h6>
 												<hr class="no_line" style="margin:0 auto 20px">
 												<h1 style="color:#FFF;">
 													<span class="themecolor">Blog</span></h1>
@@ -134,20 +135,20 @@
                                                     <div class="post-head">
                                                         <div class="post-meta clearfix">
                                                             <div class="author-date">
-                                                                <span class="date"><i class="icon-clock"></i> <span class="post-date updated">{{blog.Published_at}}</span></span>
+                                                                <span class="date"><span class="post-date updated">{{blog.Published_at}}</span></span>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="post-title" style="height:100px;">
-                                                        <h2 class="entry-title"><a href="{% url 'single_blog' blog.id %}">{{blog.Title}}</a></h2>
+                                                    <div class="post-title" >
+                                                        <h2 class="entry-title" style:"color:#1f1f1f"><a href="{% url 'single_blog' blog.id %}">{{blog.Title}}</a></h2>
                                                     </div>
-                                                    <div class="post-excerpt" style="height:200px;">
+                                                    <div class="post-excerpt">
                                                         {{blog.Details|slice:":250"}}...
                                                     </div>
                                                     <div class="post-footer">
                                                         
                                                         <div class="post-links">
-                                                            <i class="icon-doc-text"></i><a href="{% url 'single_blog' blog.id %}" class="post-more">Read more</a>
+                                                            <a href="{% url 'single_blog' blog.id %}" class="post-more">Read more</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -208,14 +209,14 @@
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h3>Simple, Affordable and Reliable Access to
+									<h3>Rainwater is safe water
 										<br>
-										<span class="themecolor">Clean Safe Water</span></h3>
+										 
 									<hr class="no_line" style="margin:0 auto 20px">
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#009cde"></i></a> </p>
+									<p> <a href="{% url 'contact_us' %}">CONTACT US</a> </p>
 									<hr class="no_line" style="margin:0 auto 80px"> </div>
 							</div>
 						</aside>
@@ -226,10 +227,9 @@
 								<div style="text-align: center;">
 									<h6 style="color:#7d7d7d">MORE INFO</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="#">Inuma</a> </p>
-									<p> <a href="#">Amazi</a> </p>
-									<p> <a href="#">Uhira</a> </p>
-									<p> <a href="#">Voma</a> </p>
+									<p ><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fa fa-twitter-square fa-2x" style="color:#00ACEE"></i> Twitter</a> </p>
+									<p><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fa fa-facebook-official fa-2x" style="color:#4267B2"></i>  Facebook</a> </p>
+									<p><a href="https://www.instagram.com/amazirw/" style="margin-left:20px;"><i class="fa fa-instagram fa-2x"></i>  Instagram</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -246,7 +246,7 @@
 		</footer>
 	</div>
 	<div id="Side_slide" class="right dark" data-width="250">
-		<div class="close-wrapper"> <a href="#" class="close"><i class="icon-cancel-fine"></i></a> </div>
+		<div class="close-wrapper"> <a href="#" class="close"></a> </div>
 		<div class="menu_wrapper"></div>
 		<div class="extras"> <a href="{% url 'shopping' %}" class="action_button" target="_blank">SHOP</a>
 			<div class="extras-wrapper"></div>
