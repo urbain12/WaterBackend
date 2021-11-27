@@ -188,6 +188,9 @@ h1,h2,h3,h4,h5,h6{
 .hidden{
 	display: none!important;
 }
+.gothic{
+	font-family: century-gothic
+}
 
     </style>
 
@@ -209,11 +212,11 @@ h1,h2,h3,h4,h5,h6{
 								<div class="menu_wrapper">
 									<nav id="menu">
 										<ul id="menu-main-menu" class="menu menu-main" >
-											<li> <a href="{% url 'index' %}"><span style="border:none;color:black">Home</span></a> </li>
+											<li class="gothic"> <a href="{% url 'index' %}"><span style="border:none;color:black">Home</span></a> </li>
 											{% comment %} <li> <a href="{% url 'about' %}"><span style="border:none;color:black">About us</span></a> </li> {% endcomment %}
-											<li> <a href="{% url 'rainwater' %}"><span style="border:none;color:black">Rain Water</span></a> </li>
-											<li> <a href="{% url 'blog' %}"><span style="border:none;color:black">Blog</span></a> </li>
-											<li> <a href="{% url 'contact_us' %}"><span style="border:none;color:black">Contact</span></a> </li>
+											<li class="gothic"> <a href="{% url 'rainwater' %}"><span style="border:none;color:black">Rain Water</span></a> </li>
+											<li class="gothic"> <a href="{% url 'blog' %}"><span style="border:none;color:black">Blog</span></a> </li>
+											<li class="gothic"> <a href="{% url 'contact_us' %}"><span style="border:none;color:black">Contact</span></a> </li>
 										</ul>
                                         
 									</nav><a class="responsive-menu-toggle " href="#"><i class="fa fa-bars" ></i></a> </div>
@@ -229,7 +232,7 @@ h1,h2,h3,h4,h5,h6{
                     <div class="column one">
 
                         <div  style='display:inline;float:left;'>
-                          <h1 class="title">Shop</h1>
+                          <h1 class="title gothic">Shop</h1>
                         </div>
 
                         <div style='display:inline;float:right;'>
@@ -274,12 +277,12 @@ h1,h2,h3,h4,h5,h6{
                                                     </div><a href="{% url 'product' product.id %}"><span class="product-loading-icon added-cart"></span></a>
                                                 </div>
                                                 <div class="desc">
-                                                    <h4><a href="{% url 'product' product.id %}">{{product.name}}</a></h4>
+                                                    <h4 class="gothic"><a href="{% url 'product' product.id %}">{{product.name}}</a></h4>
                                                    
                                                     <span class="price">
-                                                        <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">Rwf </span>{{product.price|intcomma}}</span>
-                                                    </span>
-                                                    <button data-product="{{product.id}}" data-stock="{{product.inStock}}" data-action="add" class="single_add_to_cart_button button alt update-cart">
+                                                        <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol" class="gothic">Rwf </span>{{product.price|intcomma}}</span>
+                                                    </span><br>
+                                                    <button class="gothic" data-product="{{product.id}}" data-stock="{{product.inStock}}" data-action="add" class="single_add_to_cart_button button alt update-cart">
                                                         Add to cart
                                                     </button>
                                                 </div>
@@ -309,12 +312,12 @@ h1,h2,h3,h4,h5,h6{
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
+									<h6 class="gothic" style="color:#7d7d7d">QUICK LINKS</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
 									{% comment %} <p> <a href="{% url 'about' %}"> About us</a> </p> {% endcomment %}
-									<p> <a href="https://www.warwanda.com/">Service</a> </p>
-									<p> <a href="{% url 'rainwater' %}">Rainwater</a> </p>
-									<p> <a href="{% url 'login' %}">LOGIN</a> </p>
+									<p class="gothic"> <a href="https://www.warwanda.com/">Service</a> </p>
+									<p class="gothic"> <a href="{% url 'rainwater' %}">Rainwater</a> </p>
+									<p class="gothic"> <a href="{% url 'login' %}">LOGIN</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -323,14 +326,14 @@ h1,h2,h3,h4,h5,h6{
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h3>Rainwater is safe water
+									<h3 class="gothic">Rainwater is safe water
 										<br>
 										 
 									<hr class="no_line" style="margin:0 auto 20px">
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00b4e3"></i></a> </p>
+									<p class="gothic"> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00b4e3"></i></a> </p>
 									<hr class="no_line" style="margin:0 auto 80px"> </div>
 							</div>
 						</aside>
@@ -339,11 +342,11 @@ h1,h2,h3,h4,h5,h6{
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h6 style="color:#7d7d7d">MORE INFO</h6>
+									<h6 class="gothic" style="color:#7d7d7d">MORE INFO</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p ><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fa fa-twitter-square fa-2x" style="color:#00ACEE"></i> Twitter</a> </p>
-									<p><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fa fa-facebook-official fa-2x" style="color:#4267B2"></i>  Facebook</a> </p>
-									<p><a href="https://www.instagram.com/amazirw/" style="margin-left:20px;"><i class="fa fa-instagram fa-2x"></i>  Instagram</a> </p>
+									<p class="gothic"><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fa fa-twitter-square fa-2x" style="color:#00ACEE"></i> Twitter</a> </p>
+									<p class="gothic"><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fa fa-facebook-official fa-2x" style="color:#4267B2"></i>  Facebook</a> </p>
+									<p class="gothic"><a href="https://www.instagram.com/amazirw/" style="margin-left:20px;"><i class="fa fa-instagram fa-2x"></i>  Instagram</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -362,7 +365,7 @@ h1,h2,h3,h4,h5,h6{
 	<div id="Side_slide" class="right dark" data-width="250">
 		<div class="close-wrapper"> <a href="#" class="close"><i class="icon-cancel-fine"></i></a> </div>
 		<div class="menu_wrapper"></div>
-		<div class="extras"> <a href="{% url 'shopping' %}" class="action_button" target="_blank">SHOP</a>
+		<div class="extras"> <a href="{% url 'shopping' %}" class="action_button" target="_blank" class="gothic">SHOP</a>
 			<div class="extras-wrapper"></div>
 		</div>
 	</div>
@@ -468,6 +471,7 @@ function addCookieItem(productId,inStock, action){
 
 
     </script>
+	<script src="//code.tidio.co/tuobbr5su5t5kp6r5xrhmzlbxmtvf5mv.js" async></script>
 
 
 
