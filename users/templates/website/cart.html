@@ -164,6 +164,9 @@ h1,h2,h3,h4,h5,h6{
 .hidden{
 	display: none!important;
 }
+.gothic{
+	font-family: century-gothic
+}
 
     </style>
 </head>
@@ -183,11 +186,11 @@ h1,h2,h3,h4,h5,h6{
 								<div class="menu_wrapper">
 									<nav id="menu">
 										<ul id="menu-main-menu" class="menu menu-main" >
-											<li> <a href="{% url 'index' %}"><span style="border:none;color:black">Home</span></a> </li>
+											<li class="gothic"> <a href="{% url 'index' %}"><span style="border:none;color:black">Home</span></a> </li>
 											{% comment %} <li> <a href="{% url 'about' %}"><span style="border:none;color:black">About us</span></a> </li> {% endcomment %}
-											<li> <a href="{% url 'rainwater' %}"><span style="border:none;color:black">Rain Water</span></a> </li>
-											<li> <a href="{% url 'blog' %}"><span style="border:none;color:black">Blog</span></a> </li>
-											<li> <a href="{% url 'contact_us' %}"><span style="border:none;color:black">Contact</span></a> </li>
+											<li class="gothic"> <a href="{% url 'rainwater' %}"><span style="border:none;color:black">Rain Water</span></a> </li>
+											<li class="gothic"> <a href="{% url 'blog' %}"><span style="border:none;color:black">Blog</span></a> </li>
+											<li class="gothic"> <a href="{% url 'contact_us' %}"><span style="border:none;color:black">Contact</span></a> </li>
 										</ul>
                                         
 									</nav><a class="responsive-menu-toggle " href="#"><i class="fa fa-bars" ></i></a> </div>
@@ -202,16 +205,16 @@ h1,h2,h3,h4,h5,h6{
 		<div class="col-lg-12">
 			<div class="box-element">
 
-				<a  class="btn btn-outline-dark" href="{% url 'shopping' %}">&#x2190; Continue Shopping</a>
+				<a  class="gothic btn btn-outline-dark" href="{% url 'shopping' %}">&#x2190; Continue Shopping</a>
 
 				<br>
 				<br>
 				<table class="table">
 					<tr>
-						<th><h5>Items: <strong>{{order.get_cart_items}}</strong></h5></th>
-						<th><h5>Total:<strong> Rwf {{order.get_cart_total|intcomma}}</strong></h5></th>
+						<th><h5 class="gothic">Items: <strong>{{order.get_cart_items}}</strong></h5></th>
+						<th><h5 class="gothic">Total:<strong> Rwf {{order.get_cart_total|intcomma}}</strong></h5></th>
 						<th>
-							<a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout2' %}">Checkout</a>
+							<a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout2' %}" class="gothic">Checkout</a>
 						</th>
 					</tr>
 				</table>
@@ -222,17 +225,17 @@ h1,h2,h3,h4,h5,h6{
 			<div class="box-element">
 				<div class="cart-row">
 					<div style="flex:2"></div>
-					<div style="flex:2"><strong>Item</strong></div>
-					<div style="flex:1"><strong>Price</strong></div>
-					<div style="flex:1"><strong>Quantity</strong></div>
-					<div style="flex:1"><strong>Total</strong></div>
-					<div style="flex:1"><strong>Actions</strong></div>
+					<div style="flex:2"><strong class="gothic">Item</strong></div>
+					<div style="flex:1"><strong class="gothic">Price</strong></div>
+					<div style="flex:1"><strong class="gothic">Quantity</strong></div>
+					<div style="flex:1"><strong class="gothic">Total</strong></div>
+					<div style="flex:1"><strong class="gothic">Actions</strong></div>
 				</div>
 				{% for item in items %}
 				<div class="cart-row">
 					<div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"></div>
-					<div style="flex:2"><p>{{item.product.name}}</p></div>
-					<div style="flex:1"><p>Rwf {{item.product.price|intcomma}}</p></div>
+					<div style="flex:2"><p class="gothic">{{item.product.name}}</p></div>
+					<div style="flex:1"><p class="gothic">Rwf {{item.product.price|intcomma}}</p></div>
 					<div style="flex:1">
 						<p class="quantity">{{item.quantity}}</p>
 						<div class="quantity">
@@ -241,7 +244,7 @@ h1,h2,h3,h4,h5,h6{
 							<img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity update-cart" src="{% static  'img/arrow-down.png' %}">
 						</div>
 					</div>
-					<div style="flex:1"><p>{{item.get_total|intcomma}} Rwf</p></div>
+					<div style="flex:1"><p class="gothic">{{item.get_total|intcomma}} Rwf</p></div>
 					<div style="flex:1">
 						<button data-product="{{item.product.id}}" class='btn btn-danger removeItem'> <i class="fa fa-times" aria-hidden="true"></i> </button>
 					</div>
@@ -257,12 +260,12 @@ h1,h2,h3,h4,h5,h6{
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h6 style="color:#7d7d7d">QUICK LINKS</h6>
+									<h6 class="gothic" style="color:#7d7d7d">QUICK LINKS</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
 									{% comment %} <p> <a href="{% url 'about' %}"> About us</a> </p> {% endcomment %}
-									<p> <a href="https://www.warwanda.com/">Service</a> </p>
-									<p> <a href="{% url 'rainwater' %}">Rainwater</a> </p>
-									<p> <a href="{% url 'login' %}">LOGIN</a> </p>
+									<p class="gothic"> <a href="https://www.warwanda.com/">Service</a> </p>
+									<p class="gothic"> <a href="{% url 'rainwater' %}">Rainwater</a> </p>
+									<p class="gothic"> <a href="{% url 'login' %}">LOGIN</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -271,14 +274,14 @@ h1,h2,h3,h4,h5,h6{
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h3>Rainwater is safe water
+									<h3 class="gothic">Rainwater is safe water
 										<br>
 										 
 									<hr class="no_line" style="margin:0 auto 20px">
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00b4e3"></i></a> </p>
+									<p class="gothic"> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00b4e3"></i></a> </p>
 									<hr class="no_line" style="margin:0 auto 80px"> </div>
 							</div>
 						</aside>
@@ -287,11 +290,11 @@ h1,h2,h3,h4,h5,h6{
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h6 style="color:#7d7d7d">MORE INFO</h6>
+									<h6class="gothic" style="color:#7d7d7d">MORE INFO</h6class=>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p ><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fa fa-twitter-square fa-2x" style="color:#00ACEE"></i> Twitter</a> </p>
-									<p><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fa fa-facebook-official fa-2x" style="color:#4267B2"></i>  Facebook</a> </p>
-									<p><a href="https://www.instagram.com/amazirw/" style="margin-left:20px;"><i class="fa fa-instagram fa-2x"></i>  Instagram</a> </p>
+									<p class="gothic"><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fa fa-twitter-square fa-2x" style="color:#00ACEE"></i> Twitter</a> </p>
+									<p class="gothic"><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fa fa-facebook-official fa-2x" style="color:#4267B2"></i>  Facebook</a> </p>
+									<p class="gothic"><a href="https://www.instagram.com/amazirw/" style="margin-left:20px;"><i class="fa fa-instagram fa-2x"></i>  Instagram</a> </p>
 								</div>
 							</div>
 						</aside>
@@ -310,7 +313,7 @@ h1,h2,h3,h4,h5,h6{
 			<div id="Side_slide" class="right dark" data-width="250">
 		<div class="close-wrapper"> <a href="#" class="close"><i class="icon-cancel-fine"></i></a> </div>
 		<div class="menu_wrapper"></div>
-		<div class="extras"> <a href="{% url 'shopping' %}" class="action_button" target="_blank">SHOP</a>
+		<div class="extras"> <a href="{% url 'shopping' %}" class="action_button" target="_blank" class="gothic">SHOP</a>
 			<div class="extras-wrapper"></div>
 		</div>
 	</div>
@@ -394,5 +397,7 @@ function addCookieItem(productId,inStock, action){
 
 
     </script>
+		<script src="//code.tidio.co/tuobbr5su5t5kp6r5xrhmzlbxmtvf5mv.js" async></script>
+
 </body>
 </html>
