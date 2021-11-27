@@ -19,6 +19,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
 from django.core import serializers
+from django.core.mail import send_mail
 from datetime import datetime
 from datetime import timedelta
 import json
@@ -149,7 +150,24 @@ def updateimagebackground(request, imageID):
 
 
 def contact_us(request):
-    return render(request, 'website/contact.html')
+    if request.method == 'POST':
+        sendmail = Contact()
+        sendmail.name = request.POST['name']
+        sendmail.email = request.POST['email']
+        sendmail.message = request.POST['message']
+
+        send_mail(
+            sendmail.name,
+            sendmail.message,
+            sendmail.email,
+            [sendmail.email]
+
+        )
+        sendmail.save()
+        return redirect('index')
+
+    else:
+        return render(request, 'website/contact.html')
 
 
 def shopping(request):
