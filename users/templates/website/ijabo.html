@@ -28,8 +28,13 @@
 	<link rel='stylesheet' href="{% static "web/css/structure.css" %}">
 	<link rel='stylesheet' href="{% static "web/css/scooterrental.css"%}">
 	<link rel='stylesheet' href="{% static "web/css/custom.css" %}"> </head>
+	<style>
+	.gothic{
+		font-family:century-gothic
+	}
+	</style>
 
-<body class="page-template-default page color-custom style-simple button-custom layout-full-width if-zoom if-border-hide no-content-padding no-shadows header-classic sticky-header sticky-tb-color ab-hide subheader-both-center menu-link-color menuo-right menuo-no-borders footer-copy-center mobile-tb-hide mobile-side-slide mobile-mini-mr-ll tablet-sticky mobile-sticky ">
+<body  class="page-template-default page color-custom style-simple button-custom layout-full-width if-zoom if-border-hide no-content-padding no-shadows header-classic sticky-header sticky-tb-color ab-hide subheader-both-center menu-link-color menuo-right menuo-no-borders footer-copy-center mobile-tb-hide mobile-side-slide mobile-mini-mr-ll tablet-sticky mobile-sticky ">
 	<div id="Wrapper">
 		<div id="Header_wrapper">
 			<header id="Header">
@@ -42,7 +47,7 @@
 								</div>
 								<div class="menu_wrapper">
 									<nav id="menu">
-										<ul id="menu-main-menu" class="menu menu-main">
+										<ul id="menu-main-menu" class="menu menu-main" >
 											<li class="  page_item "> <a href="{% url 'index' %}"><span>Home</span></a> </li>
 											{% comment %} <li> <a href="{% url 'about' %}"><span>About us</span></a> </li> {% endcomment %}
 											<li class="current-menu-item"> <a href="{% url 'rainwater' %}"><span>Rain Water</span></a> </li>
@@ -155,6 +160,66 @@
 
 						<div class="section mcb-section mcb-section-9e98f0fdc equal-height-wrap" style="padding-top:10px;padding-bottom:20px">
 							<div class="section_wrapper mcb-section-inner">
+								<div class="wrap mcb-wrap mcb-wrap-2a27884ed one-second valign-middle clearfix">
+									<div class="mcb-wrap-inner">
+										<div class="column mcb-column mcb-item-7e0a6c322 one column_column column-margin-20px">
+											<div class="column_attr clearfix" style>
+												<h2><span class="themecolor">The First Flush diverter</span></h2>
+												<hr class="no_line" style="margin:0 auto 10px">
+												<h5>Known as a roof washer, it flushes your roof by diverting the first
+												 flow of dirty rainwater away from your tank. This keeps away the most 
+												 contaminated water while your tank collects the higher quality rain water.
+												  For Only RWF 80,000 you can get one.</h5>
+												<hr class="no_line" style="margin:0 auto 10px">
+												<div class="text-center">
+												<a href="{% url 'shopping' %}">
+												<button style="background-color:white;margin-left:40%;color:#009cde;border:1px solid #009cde">Buy Now</button>
+												</a>
+												</div>
+												
+											</div>
+										</div>
+										<div class="column mcb-column mcb-item-48a34pell one column_divider">
+											<hr class="no_line" style="margin:0 auto 40px"> </div>
+									</div>
+								</div>
+								<div class="wrap mcb-wrap mcb-wrap-0e4f0a448 one-second valign-middle clearfix" style="padding:0 5%">
+									<div class="mcb-wrap-inner">
+										<div class="column mcb-column mcb-item-b6e2ae677 one column_image">
+											<div class="image_frame image_item no_link scale-with-grid no_border">
+												<div class="image_wrapper"><img class="scale-with-grid" src="{% static "web/images/tank.webp" %}" alt="scooterrental-how-pic1" title width="780" height="1137"> </div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						
+						</div>
+
+
+
+
+
+						<div class="column_attr clearfix align_center" >
+								<h2><span class="themecolor">
+								Add A Full House Filter for</span> </h2>
+								<br>
+								<h2><span class="themecolor">
+								Maximum Safety.</span> </h2>
+								<br>
+								<h5 class='gothic'>Complete the filter selection form and we will help you <br> choose the most appropriate for your family. </h5>
+								<div class="text-center">
+												<a href="https://formlink.mwater.co/#/6b5afb681e704eb8b8d070f517dcca85/7089548723194811b47695b5bceaaf35?branding=mwater" target="blank">
+												<button style="background-color:white;color:#009cde;border:1px solid #009cde">Filter Selection Form</button>
+												</a>
+												</div>
+						</div>
+
+
+
+
+						<div class="section mcb-section mcb-section-9e98f0fdc equal-height-wrap" style="padding-top:10px;padding-bottom:20px">
+							<div class="section_wrapper mcb-section-inner">
 							<div class="wrap mcb-wrap mcb-wrap-0e4f0a448 one-second valign-middle clearfix" style="padding:0 5%">
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-b6e2ae677 one column_image">
@@ -243,6 +308,10 @@
 										</div>
 									</div>
 								</div>
+							</div>
+
+							<div style="margin-left:15%" >
+							<iframe width="921" height="520" src="https://www.youtube.com/embed/dT-j7h6Ur-c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 							</div>
 						
 						
