@@ -2332,6 +2332,16 @@ class HOTELListView(ListAPIView):
     queryset = HOTELLIST.objects.all()
     serializer_class = HOTELSerializer
 
-class  HOTELCreateView(CreateAPIView):
+class HOTELCreateView(CreateAPIView):
     queryset = HOTELLIST.objects.all()
     serializer_class = HOTELSerializer
+
+class HOTELDeleteView(DestroyAPIView):
+    queryset = HOTELLIST.objects.all()
+    serializer_class = HOTELSerializer
+    lookup_field = 'id'
+
+class HOTELUpdateView(UpdateAPIView):
+    queryset = HOTELLIST.objects.all()
+    serializer_class = HOTELSerializer
+    lookup_field = 'id'
