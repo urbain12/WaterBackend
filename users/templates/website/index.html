@@ -33,6 +33,7 @@
 	<!-- Revolution Slider -->
 	<link rel="stylesheet" href="{% static "web/css/rs6.css" %}"> 	
 	 <link rel='stylesheet' href="{% static "web/css/style-demo.css" %}">
+	 <link rel="stylesheet" href="https://use.typekit.net/oov2wcw.css">
 	 <style>
 	 	#myVideo {
   {% comment %} position: fixed; {% endcomment %}
@@ -42,7 +43,8 @@
   min-height: 100%;
 }
 .gothic{
-		font-family:century-gothic
+		font-family:century-gothic;
+		font-style: normal;
 	}
 .my_content {
   {% comment %} position: fixed; {% endcomment %}
@@ -64,7 +66,7 @@
 						<div class="column one">
 							<div class="top_bar_left clearfix">
 								<div class="logo">
-									<a id="logo" href="{% url 'index' %}" title="BeScooterRental - Betheme" data-height="60" data-padding="30"><img class="logo-main scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/scooterrental.png" %}" data-height="50" alt="scooterrental" data-no-retina><img class="logo-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/scooterrental.png" %}" data-height="50" alt="scooterrental" data-no-retina><img class="logo-mobile scale-with-grid" src="{% static "web/images/scooterrental.png"%}"  data-height="50" alt="scooterrental" data-no-retina><img class="logo-mobile-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}"  data-height="50" alt="scooterrental" data-no-retina></a>
+									<a id="logo" href="{% url 'index' %}" ><img class="logo-main scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/scooterrental.png" %}"  data-no-retina style="height:40px;width:150px;padding-bottom:25px;"><img class="logo-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/scooterrental.png" %}" data-height="30" alt="scooterrental" data-no-retina><img class="logo-mobile scale-with-grid" src="{% static "web/images/scooterrental.png"%}"  data-height="30" alt="scooterrental" data-no-retina><img class="logo-mobile-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}"  data-height="30" alt="scooterrental" data-no-retina></a>
 								</div>
 								<div class="menu_wrapper">
 									<nav id="menu">
@@ -139,36 +141,36 @@
 									<div class="mcb-wrap-inner">
 										<div class="column mcb-column mcb-item-qyuetn73g one-fourth column_quick_fact">
 											<div class="quick_fact align_ animate-math">
-											<div><img class="scale-with-grid" src="{% static "web/images/money.png" %}" style="width:50px;height:50px"></div>
-											<h4><span class="themecolor">Save Money</span> </h4>												
-											<h5 class="gothic">ALL HOUSEHOLDS reduced their water bill by 58% One family went from RWF 25,000 to Just RWF 6,000!.</h5>
+											<div><img class="scale-with-grid" src="{% static "web/images/money.png" %}" style="width:35px;height:35px"></div>
+											<h4><b class="themecolor">Save Money</b> </h4>												
+											<h5 class="gothic" style="text-align: center;">ALL HOUSEHOLDS reduced their water bill by 58% One family went from RWF 25,000 to Just RWF 6,000!.</h5>
 												<hr class="hr_narrow">
 												<div class="desc"></div>
 											</div>
 										</div>
 										<div class="column mcb-column mcb-item-z73733ieu one-fourth column_quick_fact">
 											<div class="quick_fact align_ animate-math">
-												<div><img class="scale-with-grid" src="{% static "web/images/maledrink.png" %}" style="width:50px;height:50px"> </div>
-											   <h4><span class="themecolor gothich">Trust your water tap</span> </h4>
-												<h5 class="gothic">Savings: 100% of all households were buying their drinking water, after our system 63% had switched to drinking from their taps.</h5>
+												<div><img class="scale-with-grid" src="{% static "web/images/maledrink.png" %}" style="width:35px;height:35px"> </div>
+											   <h4><b class="themecolor gothic" >Trust your water tap</b> </h4>
+												<h5 class="gothic" style="text-align: center;">Savings: 100% of all households were buying their drinking water, after our system 63% had switched to drinking from their taps.</h5>
 												<hr class="hr_narrow">
 												<div class="desc"></div>
 											</div> 
 										</div>
 										<div class="column mcb-column mcb-item-5fltm4adk one-fourth column_quick_fact">
 											<div class="quick_fact align_ animate-math">
-												<div><img class="scale-with-grid" src="{% static "web/images/glass.png" %}" style="width:50px;height:50px"> </div>
-											   <h4><span class="themecolor gothic">Safe and Clean for Drinking</span> </h4> </div>
-												<h5 class="gothic">Before no one trusted drinking rainwater, this number increased to 87% drinking directly from their taps.</h5>
+												<div><img class="scale-with-grid" src="{% static "web/images/glass.png" %}" style="width:35px;height:35px"> </div>
+											   <h4><b class="themecolor gothic">Safe and Clean for Drinking</b> </h4> </div>
+												<h5 class="gothic" style="text-align: center;">Before no one trusted drinking rainwater, this number increased to 87% drinking directly from their taps.</h5>
 												<hr class="hr_narrow">
 												<div class="desc"></div>
 											</div>
 										</div>
 										<div class="column mcb-column mcb-item-hfbzurgtu one-fourth column_quick_fact">
 											<div class="quick_fact align_ animate-math">
-												<div><img class="scale-with-grid" src="{% static "web/images/cooking.png" %}" style="width:50px;height:50px"> </div>
-											   <h4><span class="themecolor gothic">Cooking Made Easy</span> </h4> </div>
-												<h5 class="gothic">Only 33% of households trusted their water for cooking, this increased to 100% after the installation of our system.</h5>
+												<div><img class="scale-with-grid" src="{% static "web/images/cooking.png" %}" style="width:35px;height:35px"> </div>
+											   <h4><b class="themecolor gothic">Cooking Made Easy</b> </h4> </div>
+												<h5 class="gothic" style="text-align: center;">Only 33% of households trusted their water for cooking, this increased to 100% after the installation of our system.</h5>
 												<hr class="hr_narrow">
 												<div class="desc"></div>
 											</div>
@@ -266,8 +268,8 @@
 			</div>
 		</div>
 
-		     <h2 class="themecolor gothic" style="text-align: center;">OUR PARTNER</h2>
-		<div class="section mcb-section mcb-section-9e98f0fdc equal-height-wrap" style="padding-bottom:100px;padding-left:200px;">
+		     <h2 class="themecolor gothic" style="text-align: center;padding-bottom:30px;">OUR PARTNER</h2>
+		<div class="section mcb-section mcb-section-9e98f0fdc equal-height-wrap" style="padding-bottom:30px;padding-left:200px;">
 							<div class="section_wrapper mcb-section-inner">
 								<div class="wrap mcb-wrap mcb-wrap-0e4f0a448 one-second valign-middle clearfix" >
 									<div class="mcb-wrap-inner">
@@ -310,9 +312,9 @@
 												<h2><span class="themecolor gothic">Safety, Comfortable and Impact<span></h2>
 												<h4 class="gothic">With the full Amazi System:</h4>
 												<h5 class="gothic">
-												<li>your family enjoys clean safe water throughout the house.</li>
-												<li>Your rain season water bill reduces (RAINWATER IS FREE WATER)</li>
-												<li>You participate in protecting our environment.</li>
+												<li style="list-style-type: none;"><i class="fa fa-arrow-circle-right"></i>&nbsp&nbsp&nbsp Your family enjoys clean safe water throughout the house.</li>
+												<li style="list-style-type: none;"><i class="fa fa-arrow-circle-right"></i>&nbsp&nbsp&nbsp Your rain season water bill reduces (RAINWATER IS FREE WATER)</li>
+												<li style="list-style-type: none;"><i class="fa fa-arrow-circle-right"></i>&nbsp&nbsp&nbsp You participate in protecting our environment.</li>
 												</h5>
 												<hr class="no_line" style="margin:0 auto 10px">
 												
@@ -363,11 +365,11 @@
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h6 style="color:#7d7d7d" class="gothic">Other services</h6>
+									<h6 style="color:#7d7d7d" class="gothic">MORE INFO</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p class="gothic"><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fa fa-twitter-square fa-2x" style="color:#00ACEE"></i> Twitter</a> </p>
-									<p class="gothic"><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fa fa-facebook-official fa-2x" style="color:#4267B2"></i>  Facebook</a> </p>
-									<p class="gothic"><a href="https://www.instagram.com/amazirw/" style="margin-left:20px;"><i class="fa fa-instagram fa-2x"></i>  Instagram</a> </p>
+									<p class="gothic"><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fa fa-twitter-square fa-2x"></i>&nbsp&nbsp&nbsp Twitter</a> </p>
+									<p class="gothic"><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fa fa-facebook-official fa-2x"></i>&nbsp&nbsp&nbsp Facebook</a> </p>
+									<p class="gothic"><a href="https://www.instagram.com/amazirw/" style="margin-left:20px;"><i class="fa fa-instagram fa-2x"></i>&nbsp&nbsp&nbsp Instagram</a> </p>
 								</div>
 							</div>
 						</aside>
