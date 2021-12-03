@@ -21,7 +21,7 @@ from rest_framework.response import Response
 from django.core import serializers
 from django.core.mail import send_mail
 from datetime import datetime
-from datetime import timedelta
+from datetime import timedelta 
 import json
 from django.contrib import messages
 from rest_framework.decorators import api_view, renderer_classes
