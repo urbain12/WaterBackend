@@ -51,18 +51,18 @@
 				<div id="Top_bar" style="background-color:white;border:none">
 					<div class="container">
 						<div class="column one">
-							<div class="top_bar_left clearfix"  >
+							<div class="top_bar_left clearfix">
 								<div class="logo">
 									<a id="logo" href="{% url 'index' %}" ><img class="logo-main scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/scooterrental.png" %}"  data-no-retina style="height:40px;width:150px;padding-bottom:25px;"><img class="logo-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/scooterrental.png" %}" data-height="30" alt="scooterrental" data-no-retina><img class="logo-mobile scale-with-grid" src="{% static "web/images/scooterrental.png"%}"  data-height="30" alt="scooterrental" data-no-retina><img class="logo-mobile-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}"  data-height="30" alt="scooterrental" data-no-retina></a>
 								</div>
 								<div class="menu_wrapper">
 									<nav id="menu">
-										<ul id="menu-main-menu" class="menu menu-main" >
-											<li> <a href="{% url 'index' %}"><span style="border:none;color:black" class="gothic">Home</span></a> </li>
-											{% comment %} <li> <a href="{% url 'about' %}"><span style="border:none;color:black">About us</span></a> </li> {% endcomment %}
-											<li> <a href="{% url 'rainwater' %}"><span style="border:none;color:black" class="gothic">Rain Water</span></a> </li>>
-											<li> <a href="{% url 'blog' %}"><span style="border:none;color:black" class="gothic">Blog</span></a> </li>
-											<li> <a href="{% url 'contact_us' %}"><span style="border:none;color:black" class="gothic">Contact</span></a> </li>
+										<ul id="menu-main-menu" class="menu menu-main">
+											<li style="border:none" class=" page_item"> <a href="{% url 'index' %}"><span class="gothic"  style="border:none;color:black">Home</span></a> </li>
+											{% comment %} <li> <a href="{% url 'about' %}"><span>About us</span></a> </li> {% endcomment %}
+											<li style="border:none"> <a href="{% url 'rainwater' %}"><span class="gothic" style="border:none;color:black">Rain Water</span></a> </li>
+											<li style="border:none"><a href="{% url 'blog' %}"><span class="gothic"  style="border:none;color:black">Blog</span></a> </li>
+											<li style="border:none"> <a href="{% url 'contact_us' %}"><span class="gothic" style="border:none;color:black">Contact</span></a> </li>
 										</ul>
 									</nav><a class="responsive-menu-toggle " href="#"><i class="fa fa-bars" ></i></a> </div>
 							</div>
@@ -194,7 +194,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="footer_copy">
+            {% comment %} <div class="footer_copy center" style="margin-top:-100px">
+				<div>
+					<div class="column one">
+						<img width='30%' src="{% static "web/images/scooterrental.png" %}"  alt="Amazi.rw" data-no-retina>					</div>
+				</div>
+			</div> {% endcomment %}
+			<div class="footer_copy center">
 				<div class="container">
 					<div class="column one">
 						<div class="copyright"> &copy; <script>document.write(new Date().getFullYear());</script> Water Access Rwanda </div>
