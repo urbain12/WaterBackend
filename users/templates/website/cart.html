@@ -181,7 +181,7 @@ h1,h2,h3,h4,h5,h6{
 						<div class="column one">
 							<div class="top_bar_left clearfix"  >
 								<div class="logo">
-									<a id="logo" href="{% url 'index' %}" ><img class="logo-main scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/scooterrental.png" %}"  data-no-retina style="height:35px;width:150px;padding-bottom:25px;"><img class="logo-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/scooterrental.png" %}" data-height="30" alt="scooterrental" data-no-retina><img class="logo-mobile scale-with-grid" src="{% static "web/images/scooterrental.png"%}"  data-height="30" alt="scooterrental" data-no-retina><img class="logo-mobile-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}"  data-height="30" alt="scooterrental" data-no-retina></a>
+									<a id="logo" href="{% url 'index' %}" ><img class="logo-main scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/scooterrental.png" %}"  data-no-retina style="height:100px;width:150px"><img class="logo-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}" data-retina="{% static "web/images/scooterrental.png" %}" data-height="30" alt="scooterrental" data-no-retina><img class="logo-mobile scale-with-grid" src="{% static "web/images/scooterrental.png"%}"  data-height="30" alt="scooterrental" data-no-retina><img class="logo-mobile-sticky scale-with-grid" src="{% static "web/images/scooterrental.png" %}"  data-height="30" alt="scooterrental" data-no-retina></a>
 								</div>
 								<div class="menu_wrapper">
 									<nav id="menu">
@@ -254,61 +254,65 @@ h1,h2,h3,h4,h5,h6{
 		</div>
 	</div>
 	<footer id="Footer" class="clearfix ">
-			<div class="widgets_wrapper ">
-				<div class="container">
-					<div class="column one-third">
-						<aside class="widget_text widget widget_custom_html">
-							<div class="textwidget custom-html-widget">
-								<div style="text-align: center;">
-									<h6 class="gothic" style="color:#7d7d7d">QUICK LINKS</h6>
-									<hr class="no_line" style="margin:0 auto 20px">
-									{% comment %} <p> <a href="{% url 'about' %}"> About us</a> </p> {% endcomment %}
-									<p class="gothic"> <a href="https://www.warwanda.com/">Service</a> </p>
-									<p class="gothic"> <a href="{% url 'rainwater' %}">Rainwater</a> </p>
-									<p class="gothic"> <a href="{% url 'login' %}">LOGIN</a> </p>
-								</div>
+		<div class="widgets_wrapper ">
+			<div class="container">
+				<div class="column one-third">
+					<aside class="widget_text widget widget_custom_html">
+						<div class="textwidget custom-html-widget">
+							<div style="text-align: center;">
+								<h6 style="color:#7d7d7d" class="gothic">QUICK LINKS</h6>
+								<hr class="no_line" style="margin:0 auto 20px">
+								{% comment %} <p> <a href="{% url 'about' %}"> About us</a> </p> {% endcomment %}
+								<p class="gothic"> <a href="https://www.warwanda.com/">Service</a> </p>
+								<p class="gothic"> <a href="{% url 'rainwater' %}">Rainwater</a> </p>
+								<p class="gothic"> <a href="{% url 'login' %}">LOGIN</a> </p>
 							</div>
-						</aside>
-					</div>
-					<div class="column one-third">
-						<aside class="widget_text widget widget_custom_html">
-							<div class="textwidget custom-html-widget">
-								<div style="text-align: center;">
-									<h3 class="gothic">Rainwater is safe water
-										<br>
-										 
-									<hr class="no_line" style="margin:0 auto 20px">
-									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
-									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
-									<hr class="no_line" style="margin:0 auto 20px">
-									<p class="gothic"> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00b4e3"></i></a> </p>
-									<hr class="no_line" style="margin:0 auto 80px"> </div>
+						</div>
+					</aside>
+				</div>
+				<div class="column one-third">
+					<aside class="widget_text widget widget_custom_html">
+						<div class="textwidget custom-html-widget">
+							<div style="text-align: center;">
+								<h3 class="gothic">Rainwater is safe water
+									<br>
+									 
+								<hr class="no_line" style="margin:0 auto 20px">
+								<a href="https://apps.apple.com/us/app/water-access-rwanda/id1595451679" target="_blank"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
+								<a href="https://play.google.com/store/apps/details?id=water.access.rwanda" target="_blank"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
+								<hr class="no_line" style="margin:0 auto 20px">
+								<p class="gothic"> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00b4e3"></i></a> </p>
+								<hr class="no_line" style="margin:0 auto 80px"> </div>
+						</div>
+					</aside>
+				</div>
+				<div class="column one-third">
+					<aside class="widget_text widget widget_custom_html">
+						<div class="textwidget custom-html-widget">
+							<div style="text-align: center;">
+								<h6 style="color:#7d7d7d">MORE INFO</h6>
+								<hr class="no_line" style="margin:0 auto 20px">
+								<p class="gothic"><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fa fa-twitter-square fa-2x"></i>&nbsp&nbsp&nbsp Twitter</a> </p>
+								<p class="gothic"><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fa fa-facebook-official fa-2x"></i>&nbsp&nbsp&nbsp Facebook</a> </p>
+								<p class="gothic"><a href="https://www.instagram.com/amazirw/" style="margin-left:20px;"><i class="fa fa-instagram fa-2x"></i>&nbsp&nbsp&nbsp Instagram</a> </p>
 							</div>
-						</aside>
-					</div>
-					<div class="column one-third">
-						<aside class="widget_text widget widget_custom_html">
-							<div class="textwidget custom-html-widget">
-								<div style="text-align: center;">
-									<h6class="gothic" style="color:#7d7d7d">MORE INFO</h6class=>
-									<hr class="no_line" style="margin:0 auto 20px">
-									<p class="gothic"><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fa fa-twitter-square fa-2x"></i>&nbsp&nbsp&nbsp Twitter</a> </p>
-									<p class="gothic"><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fa fa-facebook-official fa-2x"></i>&nbsp&nbsp&nbsp Facebook</a> </p>
-									<p class="gothic"><a href="https://www.instagram.com/amazirw/" style="margin-left:20px;"><i class="fa fa-instagram fa-2x"></i>&nbsp&nbsp&nbsp Instagram</a> </p>
-								</div>
-							</div>
-						</aside>
-					</div>
+						</div>
+					</aside>
 				</div>
 			</div>
-			<div class="footer_copy">
-				<div class="container">
-					<div class="column one">
-						<div class="copyright"> &copy; <script>document.write(new Date().getFullYear());</script> Water Access Rwanda </div>
-					</div>
+		</div>
+		  <div  style="margin-top:-100px;margin-left:37%">
+				<div class="column one">
+					<img width='30%' src="{% static "web/images/scooterrental.png" %}"  alt="Amazi.rw">					
+				</div>
+		</div>
+		<div class="footer_copy" style="margin-left:40%">
+				<div class="column one">
+					<div class="copyright"> &copy; <script>document.write(new Date().getFullYear());</script> Water Access Rwanda </div>
 				</div>
 			</div>
-		</footer>
+		</div>
+	</footer>
 			</div>
 			<div id="Side_slide" class="right dark" data-width="250">
 		<div class="close-wrapper"> <a href="#" class="close"><i class="icon-cancel-fine"></i></a> </div>
