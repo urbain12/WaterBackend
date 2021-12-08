@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7 "> <![endif]-->
+<!--[if lt IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]><html class="no-js lt-ie10 lt-ie9"> <![endif]-->
 <!--[if IE 9]><html class="no-js lt-ie10"> <![endif]-->
@@ -11,35 +11,29 @@
 {% load static %}
 {% load humanize %}
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
-
-    <!-- Basic Page Needs -->
-    <meta charset="utf-8">
-    <title>Amazi.rw</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <!-- Mobile Specific Metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    <!-- Favicons -->
-    <link rel="shortcut icon" href="{% static "web/images/favicon.ico" %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <!-- FONTS -->
-    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:100,300,400,400italic,700'>
-    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Patua+One:100,300,400,400italic,700'>
-    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lato:100,100,300,400,400italic,700'>
-    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lora:100,300,400,400italic,500,700,700italic'>
-
-    <!-- CSS -->
-    <link rel='stylesheet' href="{% static "web/css/global.css"%}">
-    <link rel='stylesheet' href="{% static "web/css/structure.css"%}">
-	<link rel='stylesheet' href="{% static "web/css/scooterrental.css" %}">
-    <link rel='stylesheet' href="{% static "web/css/betheme.css"%}">
-    <link rel='stylesheet' href="{% static "web/css/custom.css"%}">
+	<!-- Basic Page Needs -->
+	<meta charset="utf-8">
+	<title>Amazi.rw</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- Mobile Specific Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!-- Favicons -->
+	<link rel="shortcut icon" href="{% static "web/images/favicon.ico" %}">
+	<!-- FONTS -->
+	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Sora:100,200,300,400,400italic,500,600,700,700italic,900'>
+	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Poppins:100,200,300,400,400italic,500,600,700,700italic,900'>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<!-- CSS -->
+	<link rel='stylesheet' href="{% static "web/css/global.css"%}">
+	<link rel='stylesheet' href="{% static "web/css/el_demo.css"%}">
+	<link rel='stylesheet' href="{% static "web/css/structure.css"%}">
+	<link rel='stylesheet' href="{% static "web/css/finance2.css"%}">
+	<link rel='stylesheet' href="{% static "web/css/insurance3.css"%}">
+	<link rel='stylesheet' href="{% static "web/css/scooterrental.css"%}">
+	<link rel='stylesheet' href="{% static "web/css/custom.css"%}"> 
 	<link rel="stylesheet" href="https://use.typekit.net/oov2wcw.css">
-
-
-	<script type="text/javascript">
+    <script type="text/javascript">
 		var user = '{{request.user}}'
 
 		function getToken(name) {
@@ -134,9 +128,12 @@ h1,h2,h3,h4,h5,h6{
 	color:#fff;
 	background-color: red;
 	width: 20px;
-	height: 25px;
-	border-radius: 50%;
+	height: 15px;
+	border-radius: 40%;
 	font-size: 14px;
+    float:right;
+    margin-top:-10px
+
 }
 
 .col-lg-4, .col-lg-6, .col-lg-8, .col-lg-12{
@@ -195,15 +192,14 @@ h1,h2,h3,h4,h5,h6{
 }
 
     </style>
+	</head>
+	
 
-
-</head>
-
-<body class="woocommerce woocommerce-page with_aside aside_right color-custom style-default layout-full-width header-plain header-fw minimalist-header sticky-header sticky-white ab-hide subheader-both-center menuo-last menuo-right mm-vertical mobile-tb-hide mobile-mini-mr-ll">
-    <div id="Wrapper">
-        <div id="Header_wrapper">
-			<header id="Header" >
-				<div id="Top_bar" style="background-color:white;border:none">
+<body class="page-template-default page color-custom style-simple button-custom layout-full-width if-zoom if-border-hide no-content-padding no-shadows header-classic sticky-header sticky-tb-color ab-hide subheader-both-center menu-link-color menuo-right menuo-no-borders footer-copy-center mobile-tb-hide mobile-side-slide mobile-mini-mr-ll tablet-sticky mobile-sticky ">
+	<div id="Wrapper">
+		<div id="Header_wrapper">
+			<header id="Header">
+				<div id="Top_bar">
 					<div class="container">
 						<div class="column one">
 							<div class="top_bar_left clearfix">
@@ -212,111 +208,146 @@ h1,h2,h3,h4,h5,h6{
 								</div>
 								<div class="menu_wrapper">
 									<nav id="menu">
-										<ul id="menu-main-menu" class="menu menu-main" >
-											<li class="gothic"> <a href="{% url 'index' %}"><span style="border:none;color:black">Home</span></a> </li>
-											{% comment %} <li> <a href="{% url 'about' %}"><span style="border:none;color:black">About us</span></a> </li> {% endcomment %}
-											<li class="gothic"> <a href="{% url 'rainwater' %}"><span style="border:none;color:black">Rain Water</span></a> </li>
-											<li class="gothic"> <a href="{% url 'blog' %}"><span style="border:none;color:black">Blog</span></a> </li>
-											<li class="gothic"> <a href="{% url 'contact_us' %}"><span style="border:none;color:black">Contact</span></a> </li>
+										<ul id="menu-main-menu" class="menu menu-main">
+											<li class=" page_item"> <a href="{% url 'index' %}"><span class="gothic">Home</span></a> </li>
+											{% comment %} <li> <a href="{% url 'about' %}"><span>About us</span></a> </li> {% endcomment %}
+											<li> <a href="{% url 'rainwater' %}"><span class="gothic">Rain Water</span></a> </li>
+											<li><a href="{% url 'blog' %}"><span class="gothic">Blog</span></a> </li>
+											<li> <a href="{% url 'contact_us' %}"><span class="gothic">Contact</span></a> </li>
 										</ul>
-                                        
 									</nav><a class="responsive-menu-toggle " href="#"><i class="fa fa-bars" ></i></a> </div>
 							</div>
-							
+							<div class="top_bar_right">
+								<div class="top_bar_right_wrapper"> 
+                                    <a href="{% url 'cart' %}" class="action_button center" style="height:40px;" >
+                                        <img  id="cart-icon" src="{% static 'img/cart.png' %}" style="margin-left:2px;margin-top:-10px">
+										{% if cartItems > 0 %}
+                                            <p id="cart-total" style="padding-top:10px">{{cartItems}}</p>
+										{% else %}
+										{% endif %}
+                                    </a> 
+                 
+                            </div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</header>
 		</div>
-            <div id="Subheader">
-                <div class="container">
-                    <div class="column one">
 
-                        <div  style='display:inline;float:left;'>
-                          <h1 class="title gothic">Shop</h1>
-                        </div>
 
-                        <div style='display:inline;float:right;'>
-                         <p id="cart-total">{{cartItems}}</p>
-                       </div>
 
-                        <div  style='display:inline;float:right;'>
-                        
-                            <a href="{% url 'cart'%}">
-                                <img  id="cart-icon" src="{% static 'img/cart.png' %}">
-                            </a>
 
-                       </div>
+		<div id="Content">
+			<div class="content_wrapper clearfix">
+				<div class="sections_group">
+					<div class="entry-content">
+						
 
-                       
-                    </div>
-                    
-                </div>
-                
-            </div>
-        </div>
-        <div id="Content">
-            <div class="content_wrapper clearfix">
-                <div>
-                    <div class="section">
+
+<br>
+
+
+
+						
+
+
+
+
+
+
+												
+					   
+						
+
+
+
+					<div class="section ">
                         <div class="section_wrapper clearfix">
-                            <div class="items_group clearfix">
-                                <div class="column one woocommerce-content">
-                                   
-                                    <div class="products_wrapper isotope_wrapper">
-                                        <ul class="products grid">
-                                        
-                                        {% for product in products %}
-                                           
-                                            <li class="isotope-item product">
-                                                <div class="image_frame scale-with-grid product-loop-thumb" >
-                                                    <div class="image_wrapper">
-                                                        <a href="{% url 'product' product.id %}">
-                                                            <div class="mask" ></div><img style='width: 500px;height: 200px' src={{product.imageURL}} class="scale-with-grid" alt="">
-                                                        </a>
-                                                        
-                                                    </div><a href="{% url 'product' product.id %}"><span class="product-loading-icon added-cart"></span></a>
+                            <div class="column one column_blog">
+
+
+
+                                <div class="blog_wrapper isotope_wrapper">
+                                    <div class="posts_group lm_wrapper grid col-3">
+
+
+                                        {% for product in products  %}
+										<div class="post-item isotope-item clearfix post-56 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized" style>
+                                            <div class="date_label">
+                                                {{blog.Published_at}}
+                                            </div>
+                                            <div class="image_frame post-photo-wrapper scale-with-grid image">
+                                                <div class="image_wrapper">
+                                                    <a href="{% url  'product' product.id %}">
+                                                        <div class="mask"></div><img src="{{product.imageURL}}" class="scale-with-grid wp-post-image" alt style="height:200px;width:320px;"></a>
+                                                    <div class="image_links double">
+                                                        <a href="{{product.imageURL}}" class="zoom" rel="prettyphoto"><i class="icon-search"></i></a><a href="{% url 'product' product.id %}" class="link"><i class="icon-link"></i></a>
+                                                    </div>
+                                                    <a href="{% url 'product' product.id %}"><span class="product-loading-icon added-cart"></span></a>
                                                 </div>
-                                                <div class="desc">
-                                                    <h4 class="gothic"><a href="{% url 'product' product.id %}">{{product.name}}</a></h4>
-                                                   
-                                                    <span class="price">
-                                                        <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol" class="gothic">Rwf </span>{{product.price|intcomma}}</span>
-                                                    </span><br>
-                                                    <button data-product="{{product.id}}" data-stock="{{product.inStock}}" data-action="add" class="single_add_to_cart_button button alt update-cart gothic">
-                                                        Add to cart
-                                                    </button>
+                                            </div>
+                                            <div class="post-desc-wrapper bg-" style>
+                                                <div class="post-desc">
+                                                    <div class="post-title" >
+                                                        <h2 class="entry-title gothic" style:"color:#1f1f1f"><a href="{% url 'product' product.id %}">{{product.name}}</a></h2>
+                                                        <span class="price">
+                                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol" class="gothic">Rwf </span>{{product.price|intcomma}}</span>
+                                                        </span><br>
+                                                    </div>
+                                                    <div class="post-excerpt">
+                                                        <button data-product="{{product.id}}" data-stock="{{product.inStock}}" data-action="add" class="single_add_to_cart_button button alt update-cart gothic">
+                                                            Add to cart
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                    <div class="column one pager_wrapper">
-                                        <div class="pager">
-                                            <div class="pages">
-                                                <span class='page-numbers current'>1</span><a class='page-numbers' href='#'>2</a>
                                             </div>
                                         </div>
+										{% endfor %}
+
+										
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
                                     </div>
                                 </div>
+
+
+
+								
+
+
+								
+
                             </div>
                         </div>
                     </div>
-                </div>
-                
-            </div>
-        </div>
-        <footer id="Footer" class="clearfix ">
+
+
+
+
+
+						
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer id="Footer" class="clearfix ">
 			<div class="widgets_wrapper ">
 				<div class="container">
 					<div class="column one-third">
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h6 class="gothic" style="color:#7d7d7d">QUICK LINKS</h6>
+									<h6 style="color:#7d7d7d" class="gothic">QUICK LINKS</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
 									{% comment %} <p> <a href="{% url 'about' %}"> About us</a> </p> {% endcomment %}
-									<p class="gothic"> <a href="https://www.warwanda.com/">Service</a> </p>
+									{% comment %} <p> <a href="{% url 'service' %}">Service</a> </p> {% endcomment %}
 									<p class="gothic"> <a href="{% url 'rainwater' %}">Rainwater</a> </p>
 									<p class="gothic"> <a href="{% url 'login' %}">LOGIN</a> </p>
 								</div>
@@ -334,7 +365,7 @@ h1,h2,h3,h4,h5,h6{
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn1.png" %}"></a>
 									<a href="#"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p class="gothic"> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00b4e3"></i></a> </p>
+									<p class="gothic"> <a href="{% url 'contact_us' %}">CONTACT US</a> </p>
 									<hr class="no_line" style="margin:0 auto 80px"> </div>
 							</div>
 						</aside>
@@ -354,6 +385,13 @@ h1,h2,h3,h4,h5,h6{
 					</div>
 				</div>
 			</div>
+			<div class="footer_copy" style="margin-top:-100px">
+				<div>
+					<div class="column one">
+						<img width='30%' src="{% static "web/images/scooterrental.png" %}"  alt="Amazi.rw" data-no-retina>					</div>
+				</div>
+			</div>
+			
 			<div class="footer_copy">
 				<div class="container">
 					<div class="column one">
@@ -362,25 +400,23 @@ h1,h2,h3,h4,h5,h6{
 				</div>
 			</div>
 		</footer>
-    </div>
+	</div>
 	<div id="Side_slide" class="right dark" data-width="250">
-		<div class="close-wrapper"> <a href="#" class="close"><i class="icon-cancel-fine"></i></a> </div>
+		<div class="close-wrapper"> <a href="#" class="close"></a> </div>
 		<div class="menu_wrapper"></div>
-		<div class="extras"> <a href="{% url 'shopping' %}" class="action_button" target="_blank" class="gothic">SHOP</a>
+		<div class="extras"> <a href="{% url 'shopping' %}" class="action_button" target="_blank">SHOP</a>
 			<div class="extras-wrapper"></div>
 		</div>
 	</div>
-
-
-    <!-- JS -->
-    <script src="{% static "web/js/jquery-2.1.4.min.js"%}"></script>
-
-    <script src="{% static "web/js/mfn.menu.js"%}"></script>
-    <script src="{% static "web/js/jquery.plugins.js"%}"></script>
-    <script src="{% static "web/js/jquery.jplayer.min.js"%}"></script>
-    <script src="{% static "web/js/animations/animations.js"%}"></script>
-    <script src="{% static "web/js/translate3d.js"%}"></script>
-    <script src="{% static "web/js/scripts.js"%}"></script>
+	<div id="body_overlay"></div>
+	<!-- JS -->
+	<script src="{% static "web/js/jquery-2.1.4.min.js" %}"></script>
+	<script src="{% static "web/js/mfn.menu.js" %}"></script>
+	<script src="{% static "web/js/jquery.plugins.js" %}"></script>
+	<script src="{% static "web/js/jquery.jplayer.min.js" %}"></script>
+	<script src="{% static "web/js/animations/animations.js" %}"></script>
+	<script src="{% static "web/js/translate3d.js" %}"></script>
+	<script src="{% static "web/js/scripts.js" %}"></script>
 
     <script>
         jQuery(window).load(function() {
@@ -407,76 +443,74 @@ h1,h2,h3,h4,h5,h6{
     </script>
 
 
-     <script>
-     var user = '{{request.user}}'
-
-		function getToken(name) {
-		    var cookieValue = null;
-		    if (document.cookie && document.cookie !== '') {
-		        var cookies = document.cookie.split(';');
-		        for (var i = 0; i < cookies.length; i++) {
-		            var cookie = cookies[i].trim();
-		            // Does this cookie string begin with the name we want?
-		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-		                break;
-		            }
-		        }
-		    }
-		    return cookieValue;
-		}
-		var csrftoken = getToken('csrftoken')
-        var updateBtns = document.getElementsByClassName('update-cart')
-
-for (i = 0; i < updateBtns.length; i++) {
-	updateBtns[i].addEventListener('click', function(){
-		var productId = this.dataset.product
-		var inStock = this.dataset.stock
-		var action = this.dataset.action
-		console.log('productId:', productId, 'Action:', action)
-		addCookieItem(productId,inStock, action)
-		
-	})
-}
-
-function addCookieItem(productId,inStock, action){
-	console.log('User is not authenticated')
-
-	if (action == 'add'){
-		if (cart[productId] == undefined){
-		cart[productId] = {'quantity':1,'inStock':inStock}
-
-		}else{
-			if(cart[productId]['quantity']<parseInt(inStock)){
-			cart[productId]['quantity'] += 1
-			}
-			else{
-				alert('Only '+inStock+' are available in our stock!')
-			}
-		}
-	}
-
-	if (action == 'remove'){
-		cart[productId]['quantity'] -= 1
-
-		if (cart[productId]['quantity'] <= 0){
-			console.log('Item should be deleted')
-			delete cart[productId];
-		}
-	}
-	console.log('CART:', cart)
-	document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
-	
-	location.reload()
-}
-
-
-    </script>
+    <script>
+        var user = '{{request.user}}'
+   
+           function getToken(name) {
+               var cookieValue = null;
+               if (document.cookie && document.cookie !== '') {
+                   var cookies = document.cookie.split(';');
+                   for (var i = 0; i < cookies.length; i++) {
+                       var cookie = cookies[i].trim();
+                       // Does this cookie string begin with the name we want?
+                       if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                           cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                           break;
+                       }
+                   }
+               }
+               return cookieValue;
+           }
+           var csrftoken = getToken('csrftoken')
+           var updateBtns = document.getElementsByClassName('update-cart')
+   
+   for (i = 0; i < updateBtns.length; i++) {
+       updateBtns[i].addEventListener('click', function(){
+           var productId = this.dataset.product
+           var inStock = this.dataset.stock
+           var action = this.dataset.action
+           console.log('productId:', productId, 'Action:', action)
+           addCookieItem(productId,inStock, action)
+           
+       })
+   }
+   
+   function addCookieItem(productId,inStock, action){
+       console.log('User is not authenticated')
+   
+       if (action == 'add'){
+           if (cart[productId] == undefined){
+           cart[productId] = {'quantity':1,'inStock':inStock}
+   
+           }else{
+               if(cart[productId]['quantity']<parseInt(inStock)){
+               cart[productId]['quantity'] += 1
+               }
+               else{
+                   alert('Only '+inStock+' are available in our stock!')
+               }
+           }
+       }
+   
+       if (action == 'remove'){
+           cart[productId]['quantity'] -= 1
+   
+           if (cart[productId]['quantity'] <= 0){
+               console.log('Item should be deleted')
+               delete cart[productId];
+           }
+       }
+       console.log('CART:', cart)
+       document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+       
+       location.reload()
+   }
+   
+   
+       </script>
 	<script src="//code.tidio.co/bmyxjou7rylkcfqe3n0tyu2rccz4cfmd.js" async></script>
-
-
-
 </body>
 
 </html>
 <!-- Localized -->
+
