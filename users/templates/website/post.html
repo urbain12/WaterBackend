@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7 "> <![endif]-->
+<!--[if lt IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]><html class="no-js lt-ie10 lt-ie9"> <![endif]-->
 <!--[if IE 9]><html class="no-js lt-ie10"> <![endif]-->
@@ -10,45 +10,38 @@
 <head>
 {% load static %}
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
-
-    <!-- Basic Page Needs -->
-    <meta charset="utf-8">
-    <title>Amazi.rw</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <!-- Mobile Specific Metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    <!-- Favicons -->
-    <link rel="shortcut icon" href="{% static "web/images/favicon.ico"%}">
-
-    <!-- FONTS -->
-    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:100,300,400,400italic,700'>
-    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Patua+One:100,300,400,400italic,700'>
-    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lato:100,100,300,400,400italic,700'>
-    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lora:100,300,400,400italic,500,700,700italic'>
-
-    <!-- CSS -->
-    <link rel='stylesheet' href="{% static "web/css/structure.css"%}">
-    <link rel='stylesheet' href="{% static "web/css/global.css"%}">
-    <link rel='stylesheet' href="{% static "web/css/betheme.css"%}">
-    <link rel='stylesheet' href="{% static "web/css/custom.css"%}">
-    <link rel="stylesheet" href="https://use.typekit.net/oov2wcw.css">
-
+	<!-- Basic Page Needs -->
+	<meta charset="utf-8">
+	<title>Amazi.rw</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- Mobile Specific Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!-- Favicons -->
+	<link rel="shortcut icon" href="{% static "web/images/favicon.ico"%}">
+	<!-- FONTS -->
+	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Sora:100,200,300,400,400italic,500,600,700,700italic,900'>
+	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Poppins:100,200,300,400,400italic,500,600,700,700italic,900'>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<!-- CSS -->
+	<link rel='stylesheet' href="{% static "web/css/global.css" %}">
+	<link rel='stylesheet' href="{% static "web/css/structure.css" %}">
+	<link rel='stylesheet' href="{% static "web/css/scooterrental.css"%}">
+	<link rel='stylesheet' href="{% static "web/css/custom.css" %}"> 
+	<link rel="stylesheet" href="https://use.typekit.net/oov2wcw.css">
 
 </head>
-<style>
+	<style>
 	.gothic{
 		font-family:century-gothic
 	}
 	</style>
 
-<body class="color-custom style-default layout-full-width header-plain header-fw minimalist-header sticky-header sticky-white ab-hide subheader-both-center menuo-last menuo-right mm-vertical mobile-tb-hide mobile-mini-mr-ll">
-    <div id="Wrapper">
-        <div id="Header_wrapper">
-			<header id="Header" >
-				<div id="Top_bar" style="background-color:white;border:none">
+<body  class="page-template-default page color-custom style-simple button-custom layout-full-width if-zoom if-border-hide no-content-padding no-shadows header-classic sticky-header sticky-tb-color ab-hide subheader-both-center menu-link-color menuo-right menuo-no-borders footer-copy-center mobile-tb-hide mobile-side-slide mobile-mini-mr-ll tablet-sticky mobile-sticky ">
+	<div id="Wrapper">
+		<div id="Header_wrapper">
+			<header id="Header">
+				<div id="Top_bar">
 					<div class="container">
 						<div class="column one">
 							<div class="top_bar_left clearfix">
@@ -57,96 +50,50 @@
 								</div>
 								<div class="menu_wrapper">
 									<nav id="menu">
-										<ul id="menu-main-menu" class="menu menu-main">
-											<li style="border:none" class=" page_item"> <a href="{% url 'index' %}"><span class="gothic"  style="border:none;color:black">Home</span></a> </li>
+										<ul id="menu-main-menu" class="menu menu-main" >
+											<li class="  page_item "> <a href="{% url 'index' %}"><span class="gothic">Home</span></a> </li>
 											{% comment %} <li> <a href="{% url 'about' %}"><span>About us</span></a> </li> {% endcomment %}
-											<li style="border:none"> <a href="{% url 'rainwater' %}"><span class="gothic" style="border:none;color:black">Rain Water</span></a> </li>
-											<li style="border:none"><a href="{% url 'blog' %}"><span class="gothic"  style="border:none;color:black">Blog</span></a> </li>
-											<li style="border:none"> <a href="{% url 'contact_us' %}"><span class="gothic" style="border:none;color:black">Contact</span></a> </li>
+											<li class="current-menu-item"> <a href="{% url 'rainwater' %}"><span class="gothic">Rain Water</span></a> </li>
+											<li> <a href="{% url 'blog' %}"><span class="gothic">Blog</span></a> </li>
+											<li> <a href="{% url 'contact_us' %}"><span class="gothic">Contact</span></a> </li>
 										</ul>
 									</nav><a class="responsive-menu-toggle " href="#"><i class="fa fa-bars" ></i></a> </div>
 							</div>
-							
+							<div class="top_bar_right">
+								<div class="top_bar_right_wrapper"> <a href="{% url 'shopping' %}" class="action_button" >SHOP</a> </div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</header>
 		</div>
-        <div id="Content">
-            <div class="content_wrapper clearfix">
-                <div class="sections_group">
-                    <div class="post type-post format-standard has-post-thumbnail hentry category-single">
-                        
-                        <div class="section section-post-header">
-                            <div class="section_wrapper clearfix">
-                                
-                                <div class="column one post-header">
-                                    <div class="button-love">
-                                    </div>
-                                    <div class="title_wrapper">
-                                        <h1 class="entry-title gothic" itemprop="headline">{{blog.Title}}</h1>
-                                        <div class="post-meta clearfix">
-                                            <div class="author-date">
-                                                
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="column one single-photo-wrapper image">
+		<div id="Content">
+			<div class="content_wrapper clearfix">
+				<div class="sections_group">
+					<div class="entry-content">
 
-                                    <div class="image_frame scale-with-grid ">
-                                        <div class="image_wrapper">
-                                            <a href="{{blog.Image.url}}" rel="prettyphoto">
-                                                <div class="mask"></div><img width="1200" height="480" src="{{blog.Image.url}}" class="scale-with-grid wp-post-image" alt="">
-                                            </a>
-                                            <div class="image_links">
-                                                <a href="{{blog.Image.url}}" class="zoom" rel="prettyphoto"><i class="icon-search"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+						<div class="column_attr clearfix align_left" >
+								<h2 style="margin-left:15%;"><span class="themecolor gothic">
+                                    {{blog.Title}}</span> </h2><br>
                         </div>
-                        <div class="post-wrapper-content">
-                            <div class="section mcb-section" style="padding-top:10px; padding-bottom:0px;">
-                                <div class="section_wrapper mcb-section-inner">
-                                    <div class="wrap mcb-wrap one valign-top clearfix">
-                                        <div class="mcb-wrap-inner">
-                                            <div class="column mcb-column one-fifth column_placeholder">
-                                                <div class="placeholder">
-                                                    &nbsp;
-                                                </div>
-                                            </div>
-                                            <div class="column mcb-column three-fifth column_column">
-                                                <div class="column_attr clearfix">
-                                                    <h4 class="gothic">{{blog.Details}}</h4>
-                                                    
-                                                    
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="column mcb-column one-fifth column_placeholder">
-                                                <div class="placeholder">
-                                                    &nbsp;
-                                                </div>
-                                            </div>
-                                           
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            
+						<div class="column mcb-column mcb-item-hfbzurgtu one-one column_quick_fact" style="margin-left:15%;margin-top:20px" >
+                            <a href="{{blog.Image.url}}" rel="prettyphoto">
+                                <img width="1000" height="480" src="{{blog.Image.url}}">
+                            </a>
                         </div>
-                        <div class="section section-post-related">
-                            <div class="section_wrapper clearfix"></div>
+
+                        <div class="column mcb-column mcb-item-hfbzurgtu one-one column_quick_fact" style="margin-right:10%;margin-left:12%;margin-top:10px" >
+                            <h5 class="gothic" style="text-align: center;">{{blog.Details}}</h5>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-       <footer id="Footer" class="clearfix ">
+						
+						
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer id="Footer" class="clearfix ">
 			<div class="widgets_wrapper ">
 				<div class="container">
 					<div class="column one-third">
@@ -175,7 +122,7 @@
 									<a href="https://play.google.com/store/apps/details?id=water.access.rwanda" target="_blank"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
 									<hr class="no_line" style="margin:0 auto 20px">
 									<p class="gothic"> <a href="{% url 'contact_us' %}">CONTACT US <i class="icon-right-thin" style="color:#00b4e3"></i></a> </p>
-									<hr class="no_line" style="margin:0 auto 80px"> </div>
+									<hr class="no_line" style="margin:0 auto 20px"> </div>
 							</div>
 						</aside>
 					</div>
@@ -183,7 +130,7 @@
 						<aside class="widget_text widget widget_custom_html">
 							<div class="textwidget custom-html-widget">
 								<div style="text-align: center;">
-									<h6 style="color:#7d7d7d">MORE INFO</h6>
+									<h6 style="color:#7d7d7d" class="gothic">MORE INFO</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
 									<p class="gothic"><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fa fa-twitter-square fa-2x"></i>&nbsp&nbsp&nbsp Twitter</a> </p>
 									<p class="gothic"><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fa fa-facebook-official fa-2x"></i>&nbsp&nbsp&nbsp Facebook</a> </p>
@@ -194,64 +141,38 @@
 					</div>
 				</div>
 			</div>
-          	<div  style="margin-top:-100px;margin-left:37%">
+			<div class="footer_copy" style="margin-top:-200px">
+				<div>
 					<div class="column one">
-						<img width='30%' src="{% static "web/images/scooterrental.png" %}"  alt="Amazi.rw">					
-                    </div>
+						<img width='20%' src="{% static "web/images/scooterrental.png" %}"  alt="Amazi.rw">					</div>
+				</div>
 			</div>
-			<div class="footer_copy" style="margin-left:40%">
+			<div class="footer_copy">
+				<div class="container">
 					<div class="column one">
 						<div class="copyright"> &copy; <script>document.write(new Date().getFullYear());</script> Water Access Rwanda </div>
 					</div>
 				</div>
 			</div>
 		</footer>
-    </div>
-    <div id="Side_slide" class="right dark" data-width="250">
+	</div>
+	<div id="Side_slide" class="right dark" data-width="250">
 		<div class="close-wrapper"> <a href="#" class="close"><i class="icon-cancel-fine"></i></a> </div>
 		<div class="menu_wrapper"></div>
 		<div class="extras"> <a href="{% url 'shopping' %}" class="action_button" target="_blank">SHOP</a>
 			<div class="extras-wrapper"></div>
 		</div>
 	</div>
-
-
-    <!-- JS -->
-    <script src="{% static "web/js/jquery-2.1.4.min.js"%}"></script>
-
-    <script src="{% static "web/js/mfn.menu.js"%}"></script>
-    <script src="{% static "web/js/jquery.plugins.js"%}"></script>
-    <script src="{% static "web/js/jquery.jplayer.min.js"%}"></script>
-    <script src="{% static "web/js/animations/animations.js"%}"></script>
-    <script src="{% static "web/js/translate3d.js"%}"></script>
-    <script src="{% static "web/js/scripts.js"%}"></script>
-
-    <script>
-        jQuery(window).load(function() {
-            var retina = window.devicePixelRatio > 1 ? true : false;
-            if (retina) {
-                var retinaEl = jQuery("#logo img.logo-main");
-                var retinaLogoW = retinaEl.width();
-                var retinaLogoH = retinaEl.height();
-                retinaEl.attr("src", "images/retina-theme.png").width(retinaLogoW).height(retinaLogoH);
-                var stickyEl = jQuery("#logo img.logo-sticky");
-                var stickyLogoW = stickyEl.width();
-                var stickyLogoH = stickyEl.height();
-                stickyEl.attr("src", "images/retina-theme.png").width(stickyLogoW).height(stickyLogoH);
-                var mobileEl = jQuery("#logo img.logo-mobile");
-                var mobileLogoW = mobileEl.width();
-                var mobileLogoH = mobileEl.height();
-                mobileEl.attr("src", "images/retina-theme.png").width(mobileLogoW).height(mobileLogoH);
-                var mobileStickyEl = jQuery("#logo img.logo-mobile-sticky");
-                var mobileStickyLogoW = mobileStickyEl.width();
-                var mobileStickyLogoH = mobileStickyEl.height();
-                mobileStickyEl.attr("src", "images/retina-theme.png").width(mobileStickyLogoW).height(mobileStickyLogoH);
-            }
-        });
-    </script>
-    <script src="//code.tidio.co/bmyxjou7rylkcfqe3n0tyu2rccz4cfmd.js" async></script>
-
-
+	<div id="body_overlay"></div>
+	<!-- JS -->
+	<script src="{% static "web/js/jquery-2.1.4.min.js" %}" ""></script>
+	<script src="{% static "web/js/mfn.menu.js" %}" ""></script>
+	<script src="{% static "web/js/jquery.plugins.js" %}" ""></script>
+	<script src="{% static "web/js/jquery.jplayer.min.js" %}" ""></script>
+	<script src="{% static "web/js/animations/animations.js" %}" ""></script>
+	<script src="{% static "web/js/translate3d.js" %}" ""></script>
+	<script src="{% static "web/js/scripts.js" %}" ""></script>
+	<script src="//code.tidio.co/bmyxjou7rylkcfqe3n0tyu2rccz4cfmd.js" async></script>
 </body>
 
 </html>

@@ -23,7 +23,7 @@
 	<!-- FONTS -->
 	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Sora:100,200,300,400,400italic,500,600,700,700italic,900'>
 	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Poppins:100,200,300,400,400italic,500,600,700,700italic,900'>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 	<!-- CSS -->
 	<link rel='stylesheet' href="{% static "web/css/global.css"%}">
 	<link rel='stylesheet' href="{% static "web/css/el_demo.css"%}">
@@ -290,14 +290,14 @@ h1,h2,h3,h4,h5,h6{
                                             <div class="post-desc-wrapper bg-" style>
                                                 <div class="post-desc">
                                                     <div class="post-title" >
-                                                        <h2 class="entry-title gothic" style:"color:#1f1f1f"><a href="{% url 'product' product.id %}">{{product.name}}</a></h2>
-                                                        <span class="price">
+                                                        <h4 class="entry-title gothic" style="margin-left:-5%"><a href="{% url 'product' product.id %}">{{product.name}}</a></h4>
+                                                        <span class="price" style="margin-left:-5%">
                                                             <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol" class="gothic">Rwf </span>{{product.price|intcomma}}</span>
-                                                        </span><br>
+                                                        </span><br><br>
                                                     </div>
-                                                    <div class="post-excerpt">
+                                                    <div class="post-excerpt" style="margin-left:-5%">
                                                         <button data-product="{{product.id}}" data-stock="{{product.inStock}}" data-action="add" class="single_add_to_cart_button button alt update-cart gothic">
-                                                            Add to cart
+                                                           Add to cart
                                                         </button>
                                                     </div>
                                                 </div>
@@ -366,7 +366,7 @@ h1,h2,h3,h4,h5,h6{
 									<a href="https://play.google.com/store/apps/details?id=water.access.rwanda" target="_blank"><img src="{% static "web/images/scooterrental-footer-btn2.png" %}"></a>
 									<hr class="no_line" style="margin:0 auto 20px">
 									<p class="gothic"> <a href="{% url 'contact_us' %}">CONTACT US</a> </p>
-									<hr class="no_line" style="margin:0 auto 80px"> </div>
+									<hr class="no_line" style="margin:0 auto 20px"> </div>
 							</div>
 						</aside>
 					</div>
@@ -376,19 +376,19 @@ h1,h2,h3,h4,h5,h6{
 								<div style="text-align: center;">
 									<h6 style="color:#7d7d7d">MORE INFO</h6>
 									<hr class="no_line" style="margin:0 auto 20px">
-									<p class="gothic"><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fa fa-twitter-square fa-2x"></i>&nbsp&nbsp&nbsp Twitter</a> </p>
-									<p class="gothic"><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fa fa-facebook-official fa-2x"></i>&nbsp&nbsp&nbsp Facebook</a> </p>
-									<p class="gothic"><a href="https://www.instagram.com/amazirw/" style="margin-left:20px;"><i class="fa fa-instagram fa-2x"></i>&nbsp&nbsp&nbsp Instagram</a> </p>
+									<p class="gothic"><a href="https://twitter.com/amazirw" style="margin-left:1px;"><i class="fab fa-twitter-square fa-2x"></i>&nbsp&nbsp&nbsp Twitter</a> </p>
+									<p class="gothic"><a href="https://web.facebook.com/amazirw?_rdc=1&_rdr" style="margin-left:20px;"><i class="fab fa-facebook-square fa-2x"></i>&nbsp&nbsp&nbsp Facebook</a> </p>
+									<p class="gothic"><a href="https://www.instagram.com/amazirw/" style="margin-left:20px;"><i class="fab fa-instagram fa-2x"></i>&nbsp&nbsp&nbsp Instagram</a> </p>
 								</div>
 							</div>
 						</aside>
 					</div>
 				</div>
 			</div>
-			<div class="footer_copy" style="margin-top:-100px">
+			<div class="footer_copy" style="margin-top:-200px">
 				<div>
 					<div class="column one">
-						<img width='30%' src="{% static "web/images/scooterrental.png" %}"  alt="Amazi.rw" data-no-retina>					</div>
+						<img width='20%' src="{% static "web/images/scooterrental.png" %}"  alt="Amazi.rw">					</div>
 				</div>
 			</div>
 			

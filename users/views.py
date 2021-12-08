@@ -46,10 +46,6 @@ def index(request):
     return render(request, 'website/index.html')
 
 
-def service(request):
-    return render(request, 'website/service.html')
-
-
 def not_authorized(request):
     return render(request, 'not_authorized.html')
 
@@ -247,10 +243,6 @@ def updateProduct(request, updateID):
         return redirect('products')
     else:
         return render(request, 'Updateproduct.html', {'Updateproduct': Updateproduct})
-
-
-def about(request):
-    return render(request, 'website/about.html')
 
 
 def rainwater(request):
