@@ -43,20 +43,31 @@
                                             <th>Title</th>
                                             <th>Details</th>
                                             <th>Published at</th>
+                                            <th>Actions</th>
                                            
-                                            
-                                            
-                                            
                                         </tr>
                                     </thead>
                                     <tbody>
                                     {% for blog in page_obj %}
                                     <tr>
                                             <td><a class="btn-link" href="#">{{blog.id}}</a></td>
-                                            <td> <img src="{{blog.Image.url}}" alt="" style="height:80px;widht:80px"></td>
+                                            <td> <img src="{{blog.Image.url}}" alt="" style="height:80px;width:100px"></td>
                                             <td>{{blog.Title}}</td>
-                                            <td>{{blog.Details|slice:"100"}}.....</td>
+                                            <td>{{blog.Details|slice:"50"}}...</td>
                                             <td>{{blog.Published_at}}</td> 
+                                            <td>
+
+                                                <a href="{% url 'updateBlog' blog.id %}">
+                                                    <button class="btn btn-primary">Update</button>
+                                                    </a>
+                                                    <a onclick="return confirm('Are you sure you want to delete this?')" href="{% url 'delete_blog' blog.id %}">
+                                                    <button class="btn btn-danger">Delete</button>
+                                                    </a>
+
+
+                                            </td>
+
+
                                         </tr>
 
                                     {% endfor %}

@@ -253,6 +253,28 @@ def single_blog(request, blogID):
     blog = Blog.objects.get(id=blogID)
     return render(request, 'website/post.html', {'blog': blog})
 
+def delete_blog(request, blogID):
+    blog = Blog.objects.get(id=blogID)
+    blog.delete()
+    return redirect('Viewblog')
+
+@login_required(login_url='/login')
+def updateBlog(request, updateID):
+    UpdateBlog = Blog.objects.get(id=updateID)
+    if request.method == 'POST':
+        if len(request.FILES) != 0:
+            if len(UpdateBlog.Image) > 0:
+                os.remove(UpdateBlog.image.path)
+            UpdateBlog.Image = request.FILES['Images']
+        UpdateBlog.Title = request.POST['Title']
+        UpdateBlog.Details = request.POST['detail']
+        UpdateBlog.save()
+        # Addproduct = True
+        messages.success(request, "Product update Blog successfuly")
+        return redirect('Viewblog')
+    else:
+        return render(request, 'UpdateBlog.html', {'UpdateBlog': UpdateBlog})
+
 
 def success(request):
     return render(request, 'website/success.html')
