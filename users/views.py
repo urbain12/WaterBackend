@@ -1561,7 +1561,7 @@ class CustomerDeleteView(DestroyAPIView):
     lookup_field = 'id'
 
 
-class CustomerUpdateView(UpdateAPIView):
+class CustomerUpdateView(UpdateAPIView): 
     parser_classes = (MultiPartParser, FormParser, JSONParser)
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
@@ -2325,37 +2325,3 @@ def export_orders(request):
         writer.writerow(user)
 
     return response
-
-
-def get_hotelbydistrict(request, districtname):
-    hotel = HOTELLIST.objects.filter(district=districtname)
-    hotels=[]
-    for i in hotel:
-        data = {
-            'name': i.name,
-            'rating': i.rating,
-            'owner': i.owner,
-            'image':i.Image.url
-        }
-        hotels.append(data)
-    dump = json.dumps(hotels)
-    return HttpResponse(dump, content_type='application/json')
-
-
-class HOTELListView(ListAPIView):
-    queryset = HOTELLIST.objects.all()
-    serializer_class = HOTELSerializer
-
-class HOTELCreateView(CreateAPIView):
-    queryset = HOTELLIST.objects.all()
-    serializer_class = HOTELSerializer
-
-class HOTELDeleteView(DestroyAPIView):
-    queryset = HOTELLIST.objects.all()
-    serializer_class = HOTELSerializer
-    lookup_field = 'id'
-
-class HOTELUpdateView(UpdateAPIView):
-    queryset = HOTELLIST.objects.all()
-    serializer_class = HOTELSerializer
-    lookup_field = 'id'

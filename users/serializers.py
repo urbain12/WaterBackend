@@ -174,10 +174,4 @@ class ChangePasswordSerializer(serializers.Serializer):
     user_id = serializers.CharField(required=True)
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
-
-
-
-class HOTELSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = HOTELLIST
-            fields = '__all__'
+    
