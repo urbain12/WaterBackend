@@ -208,11 +208,4 @@ urlpatterns = [
     path('DeleteSubscriptionsPayment/<id>/', SubscriptionsPaymentDeleteView.as_view()),
     
 
-
-    path('allhotellist/',HOTELListView.as_view()),
-    path('get_hotelbydistrict/<str:districtname>/',get_hotelbydistrict,name="get_hotelbydistrict"),
-    path('createhotel/',HOTELCreateView.as_view()),
-    path('UpdateHotelbyid/<id>/', HOTELUpdateView.as_view()),
-    path('DeleteHotelbyid/<id>/', HOTELDeleteView.as_view()),
-
 ]
