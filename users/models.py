@@ -55,7 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.email
+        return self.email+' ' + str(self.id)
 
     def has_perm(self, perm, obj=None):
         return True
@@ -74,6 +74,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_active(self):
         return self.active
+        
 
 
 class Customer(models.Model):

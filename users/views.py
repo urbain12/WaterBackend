@@ -1878,6 +1878,7 @@ def pay_Water(request):
         Amount = int(body['Amount'])
         alphabet = string.ascii_letters + string.digits
         token = ''.join(secrets.choice(alphabet) for i in range(20))
+        # token = body['Token']
         pay = WaterBuyHistory()
         pay.Meternumber = meter
         pay.Amount = Amount
