@@ -1871,27 +1871,42 @@ def pay_subscription(request):
 
 def pay_Water(request):
     if request.method == 'POST':
+        data={
+            "operatetype":"purchasebytransid",
+            "platformid":"10000",
+            "transid":"57391010bc6e4f2d",
+            "meternumber":"19190189167",
+            "purchaseparam":"ldskfjdlsfj"
+        }
+        r2 = requests.post(
+            f'http://54.196.186.242:18081', data=data, verify=False)
+        
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         print(body)
         meter = Meters.objects.only('id').get(id=body['Meternumber'])
         Amount = int(body['Amount'])
         alphabet = string.ascii_letters + string.digits
-        token = ''.join(secrets.choice(alphabet) for i in range(20))
-        # token = body['Token']
+        # token = ''.join(secrets.choice(alphabet) for i in range(20))
         pay = WaterBuyHistory()
         pay.Meternumber = meter
         pay.Amount = Amount
-        pay.Token = token
-        pay.save()
-        mydate = pay.created_at.strftime("%Y-%m-%d %H:%M:%S")
         customer = Customer.objects.get(Meternumber=meter.id)
-        if customer.Language == 'English':
-            payload = {
-                'details': f' Dear {customer.FirstName},\nYour Payment of {format(int(Amount), ",.0f")} Rwf  for Amazi with token has been successfully received at {mydate}  \nYour Token is : {token} ', 'phone': f'25{customer.user.phone}'}
-        if customer.Language == 'Kinyarwanda':
-            payload = {
-                'details': f' Mukiriya wacu {customer.FirstName},\n\nAmafaranga {format(int(Amount), ",.0f")} Rwf mwishyuye y’Amazi Mukoresheje Mtn MoMo yakiriwe neza kuri {mydate} \nToken yanyu ni: {token} ', 'phone': f'25{customer.user.phone}'}
+        payload = {
+                    'details': f' Mukiriya wacu {customer.FirstName}, Kugura amazi ntibyaciyemo.Ongera ugerageze canke uhamagare umukozi wacu abibafashemo\n\n\n Dear Customer {customer.FirstName} , Buying water Failed! Try again or contact our staff!', 'phone': f'25{customer.user.phone}'}
+        if 'tokenlist' in r2.text:
+            token=r2.text.split("tokenlist=",1)[1]
+            pay.Token=token
+            mydate = pay.created_at.strftime("%Y-%m-%d %H:%M:%S")
+            
+            if customer.Language == 'English':
+                payload = {
+                    'details': f' Dear {customer.FirstName},\nYour Payment of {format(int(Amount), ",.0f")} Rwf  for Amazi with token has been successfully received at {mydate}  \nYour Token is : {token} ', 'phone': f'25{customer.user.phone}'}
+            if customer.Language == 'Kinyarwanda':
+                payload = {
+                    'details': f' Mukiriya wacu {customer.FirstName},\n\nAmafaranga {format(int(Amount), ",.0f")} Rwf mwishyuye y’Amazi Mukoresheje Mtn MoMo yakiriwe neza kuri {mydate} \nToken yanyu ni: {token} ', 'phone': f'25{customer.user.phone}'}
+        pay.save()
+        
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
