@@ -1871,34 +1871,30 @@ def pay_subscription(request):
 
 def pay_Water(request):
     if request.method == 'POST':
-        data={
-            "operatetype":"purchasebytransid",
-            "platformid":"10000",
-            "transid":"57391010bc6e4f2d",
-            "meternumber":"19190189167",
-            "purchaseparam":"ldskfjdlsfj"
-        }
-        r2 = requests.post(
-            f'http://54.196.186.242:18081', data=data, verify=False)
         
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         print(body)
-        meter = Meters.objects.only('id').get(id=body['Meternumber'])
+        meter = Meters.objects.only('id').get(Meternumber=body['Meternumber'])
         Amount = int(body['Amount'])
         # alphabet = string.ascii_letters + string.digits
         # token = ''.join(secrets.choice(alphabet) for i in range(20))
-        token = body['Token']
+        # token = body['Token']
+        totalamount = body['Amount']
+        print(totalamount)
         pay = WaterBuyHistory()
         pay.Meternumber = meter
         pay.Amount = Amount
         customer = Customer.objects.get(Meternumber=meter.id)
+        r2 = requests.get(
+            f'http://44.196.8.236:3038/generatePurchase/?payment={totalamount}.00&meternumber={meter.Meternumber}', verify=False)
         payload = {
-                    'details': f' Mukiriya wacu {customer.FirstName}, Kugura amazi ntibyaciyemo.Ongera ugerageze canke uhamagare umukozi wacu abibafashemo\n\n\n Dear Customer {customer.FirstName} , Buying water Failed! Try again or contact our staff!', 'phone': f'25{customer.user.phone}'}
+                    'details': f' Mukiriya wacu {customer.FirstName}, Kugura amazi ntibyaciyemo.Ongera ugerageze cyangwa uhamagare umukozi wacu abibafashemo\n\n\n Dear Customer {customer.FirstName} , Buying water Failed! Try again or contact our staff!', 'phone': f'25{customer.user.phone}'}
         if 'tokenlist' in r2.text:
             token=r2.text.split("tokenlist=",1)[1]
             pay.Token=token
-            mydate = pay.created_at.strftime("%Y-%m-%d %H:%M:%S")
+            now = datetime.now()
+            mydate = now.strftime("%d/%m/%Y %H:%M:%S")
             
             if customer.Language == 'English':
                 payload = {

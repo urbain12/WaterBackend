@@ -36,7 +36,7 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, phone=None, password=None):
-        user = self.create_user(email, phone='0787018257',
+        user = self.create_user(email, phone='07870182598',
                                 password=password, is_staff=True, is_admin=True)
         return user
 
@@ -74,7 +74,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_active(self):
         return self.active
-        
 
 
 class Customer(models.Model):
@@ -139,7 +138,7 @@ class Subscriptions(models.Model):
     System = models.ForeignKey(
         'System', on_delete=models.SET_NULL, null=True, blank=True)
     System2 = models.ForeignKey(
-        'System', on_delete=models.SET_NULL, null=True, blank=True,related_name="system2")
+        'System', on_delete=models.SET_NULL, null=True, blank=True, related_name="system2")
     discount = models.CharField(max_length=255, null=True, blank=True)
     discount1 = models.CharField(max_length=255, null=True, blank=True)
     From = models.DateTimeField(blank=True, null=True)
@@ -148,12 +147,11 @@ class Subscriptions(models.Model):
     Total = models.IntegerField(blank=True, null=True)
     InstallmentPeriod = models.IntegerField(blank=True, null=True)
     Downpayment = models.IntegerField(blank=True, null=True, default=0)
-    TotalBalance = models.IntegerField( null=True, blank=True)
+    TotalBalance = models.IntegerField(null=True, blank=True)
     Extra = models.IntegerField(null=True, blank=True, default=0)
     complete = models.BooleanField(default=False)
     customer_exception = models.BooleanField(default=False)
-    users = models.CharField(max_length=100, null=True,blank=True)
-
+    users = models.CharField(max_length=100, null=True, blank=True)
 
     # @property
     # def get_total_amount(self):
@@ -299,7 +297,8 @@ class Order(models.Model):
         orderitems = self.orderitem_set.all()
         total = sum([item.quantity for item in orderitems])
         return total
-    
+
+
 class OrderTools(models.Model):
     date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False)
@@ -323,7 +322,6 @@ class OrderTools(models.Model):
         return total
 
 
-
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
@@ -334,7 +332,8 @@ class OrderItem(models.Model):
     def get_total(self):
         total = self.product.price * self.quantity
         return total
-    
+
+
 class OrderItemTool(models.Model):
     Tool = models.ForeignKey(Tools, on_delete=models.SET_NULL, null=True)
     order = models.ForeignKey(OrderTools, on_delete=models.CASCADE, null=True)
@@ -358,9 +357,11 @@ class ShippingAddress(models.Model):
 
     def __str__(self):
         return self.address
-    
+
+
 class ToolShippingAddress(models.Model):
-    order = models.OneToOneField(OrderTools, on_delete=models.CASCADE, null=True)
+    order = models.OneToOneField(
+        OrderTools, on_delete=models.CASCADE, null=True)
     address = models.CharField(max_length=200, null=True)
     city = models.CharField(max_length=200, null=True)
     email = models.CharField(max_length=200, null=True)
@@ -397,12 +398,12 @@ class background(models.Model):
 
 
 class System(models.Model):
-    title = models.CharField(max_length=100, null=True,blank=True)
+    title = models.CharField(max_length=100, null=True, blank=True)
     Category = models.ForeignKey(
         'Category', on_delete=models.CASCADE, null=True, blank=True)
-    inches = models.CharField(max_length=100, null=True,blank=True)
-    total=models.IntegerField(null=True,blank=True)
-    
+    inches = models.CharField(max_length=100, null=True, blank=True)
+    total = models.IntegerField(null=True, blank=True)
+
     def __str__(self):
         return str(self.title)
 
@@ -412,10 +413,11 @@ class System(models.Model):
     #     total = sum([item.Amount for item in tools])
     #     return total
 
+
 class SystemTool(models.Model):
-    tool=models.ForeignKey(
+    tool = models.ForeignKey(
         'Tools', on_delete=models.CASCADE, null=True, blank=True)
-    system=models.ForeignKey(
+    system = models.ForeignKey(
         'System', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
@@ -432,6 +434,7 @@ class HOTELLIST(models.Model):
     def __str__(self):
         return self.name
 
+
 class Contact(models.Model):
     name = models.CharField(max_length=200, null=False)
     email = models.EmailField(max_length=254)
@@ -439,4 +442,3 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.email
-    
