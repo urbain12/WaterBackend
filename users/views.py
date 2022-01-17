@@ -1886,8 +1886,9 @@ def pay_Water(request):
         print(body)
         meter = Meters.objects.only('id').get(id=body['Meternumber'])
         Amount = int(body['Amount'])
-        alphabet = string.ascii_letters + string.digits
+        # alphabet = string.ascii_letters + string.digits
         # token = ''.join(secrets.choice(alphabet) for i in range(20))
+        token = body['Token']
         pay = WaterBuyHistory()
         pay.Meternumber = meter
         pay.Amount = Amount
@@ -1904,7 +1905,7 @@ def pay_Water(request):
                     'details': f' Dear {customer.FirstName},\nYour Payment of {format(int(Amount), ",.0f")} Rwf  for Amazi with token has been successfully received at {mydate}  \nYour Token is : {token} ', 'phone': f'25{customer.user.phone}'}
             if customer.Language == 'Kinyarwanda':
                 payload = {
-                    'details': f' Mukiriya wacu {customer.FirstName},\n\nAmafaranga {format(int(Amount), ",.0f")} Rwf mwishyuye y’Amazi Mukoresheje Mtn MoMo yakiriwe neza kuri {mydate} \nToken yanyu ni: {token} ', 'phone': f'25{customer.user.phone}'}
+                    'details': f' Mukiriya wacu {customer.FirstName},\n\nAmafaranga {format(int(Amount), ",.0f")} Rwf mwishyuye yAmazi Mukoresheje Mtn MoMo yakiriwe neza kuri {mydate} \nToken yanyu ni: {token} ', 'phone': f'25{customer.user.phone}'}
         pay.save()
         
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
