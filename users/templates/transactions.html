@@ -6,7 +6,7 @@
                     
 					<div class="panel">
                         <div class="panel-heading">
-                            <h3 class="panel-title">{{subscription.CustomerID.FirstName}} {{subscription.CustomerID.LastName}}'s Transactions</h3>
+                            <h3 class="panel-title">{{customer.FirstName}} {{customer.LastName}} Transactions</h3>
                         </div>
                     
                         <!--Data Table-->
@@ -15,10 +15,13 @@
                             <div class="pad-btm form-inline">
                                 <div class="row">
                                     
-                                    
+                                    <div class="col-sm-12 table-toolbar-right">
+                                        <button value="click" onclick="printDiv()" id="demo-btn-addrow" class="btn btn-mint"><i class="fa fa-print fa-lg"></i>&nbsp; &nbsp;Print</button>
+                                        <a href="{% url 'export_transaction_csv' customer.id %}"> <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;Export</button></a>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="table-responsive">
+                            <div id="onlytable" class="table-responsive">
                                 <table class="table table-striped" style="border: 1px">
                                     <thead>
                                         <tr>
@@ -34,7 +37,7 @@
                                     {% for payment in payments %}
                                     <tr>
                                             <td>{{payment.id}}</td>
-                                            <td>{{payment.SubscriptionsID.CustomerID.FirstName}} {{customer.SubscriptionsID.CustomerID.LastName}}</td>
+                                            <td>{{payment.SubscriptionsID.CustomerID.FirstName}} {{payment.SubscriptionsID.CustomerID.LastName}}</td>
                                             <td>{{payment.SubscriptionsID.CustomerID.user.phone}}</td>
                                             <td>{{payment.Paidamount}} Rwf</td>
                                             <td>{{payment.PaymentDate}}</td>
@@ -63,5 +66,18 @@
 					
 					
                 </div>
+
+                <script>
+                    function printDiv() {
+                        var divContents = document.getElementById("onlytable").innerHTML;
+                        var a = window.open('', '', 'height=2000, width=2000');
+                        a.document.write('<html> <title');
+                        a.document.write('<body> <h1>Transactions<br>');
+                        a.document.write(divContents);
+                        a.document.write('</body></html>');
+                        a.document.close();
+                        a.print();
+                    }
+                </script>
 
 {% endblock content%}

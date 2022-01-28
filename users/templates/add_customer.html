@@ -41,7 +41,13 @@
                                             <div class="col-sm-12">
                                                 <div class="form-group">
                                                     <label class="control-label">ID number</label>
-                                                    <input type="number" class="form-control" name="IDnumber" required>
+                                                    <input type="number" 
+                                                    class="form-control" 
+                                                    name="IDnumber" 
+                                                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                    maxlength="16"
+                                                    required
+                                                    >
                                                 </div>
                                             </div>
                                             

@@ -18,22 +18,38 @@
                                 <div class="row">
                                     
                                     <div class="col-sm-12 table-toolbar-right">
-                                    <a href="{% url 'export_users_csv' %}"> <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;Export</button></a>
 
-                                        <div class="btn-group">
-                                            <div class="form-group">
+                                    <div class="btn-group">
+                                        <div class="form-group">
 
-                                        <form class="form-inline my-2 my-lg-0">
-                                        <input id="demo-input-search2" type="text" name="search" placeholder="Search" class="form-control" autocomplete="off">
-                                        <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                                        </form>
-                                        </div>
-                                   
-                                            
+                                            <form class="form-inline my-2 my-lg-0" method="POST" action= "{% url 'instalment' %}">
+                                                {% csrf_token %}
+                                            <b>From:</b>&nbsp;&nbsp; <input  type="date" name="start"  class="form-control" autocomplete="off" style="height:35px">&nbsp;&nbsp;
+                                            <b>TO:</b>&nbsp;&nbsp; <input  type="date" name="end"  class="form-control" autocomplete="off" style="height:35px">
+                                            <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-filter" aria-hidden="true"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </form>
                                         </div>
                                     </div>
+
+
+                                    <div class="btn-group">
+                                        <div class="form-group">
+
+                                            <form class="form-inline my-2 my-lg-0">
+                                            <input id="demo-input-search2" type="text" name="search" placeholder="Search by First name" class="form-control" autocomplete="off">
+                                            <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+                                    <a href="{% url 'export_users_csv' %}"> <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;Export</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                                </div>
                                 </div>
                             </div>
+                            <hr>
                             <div class="table-responsive">
                                 <table class="table table-striped" style="border: 1px">
                                     <thead>
@@ -42,6 +58,7 @@
                                             <th>StartDate</th>
                                             <th>Description</th>
                                             <th>Invoice Total</th>
+                                            <th>Down Payment</th>
                                             <th>Amount under Installments</th>
                                             <th>Monthly payment</th>
                                             <th>Outstanding Amount</th>
@@ -49,7 +66,6 @@
                                             <th>Overdue Balance</th>
                                             <th>Month Overdue</th>
                                             <th>Due date</th>
-                                            <th>Down Payment</th>
                                         </tr>
                                     </thead>
                                     
@@ -68,6 +84,7 @@
                                                     <td>{{sub.Category.Title}}</td>
 
                                                     <td>{{sub.Total|intcomma}} Rwf</td>
+                                                    <td>{{sub.Downpayment|intcomma}} Rwf</td>
                                                     <td>{{sub.Total|sub:sub.Downpayment|intcomma}} Rwf</td>
 
                                                     {% if sub.System.total|divisibleby:12%}
@@ -88,7 +105,6 @@
                                                     {% endif %}
                                                     <td>{{sub.get_overdue_months}}</td>
                                             <td>{{sub.To|date:'d/m/Y'}}</td>
-                                            <td>{{sub.Downpayment|intcomma}} Rwf</td>  
                                                                                 {% endwith %}
                                                                                 {% endwith %}
                                             </tr>
@@ -105,6 +121,7 @@
                                                     <td>{{sub.Category.Title}}</td>
 
                                                     <td>{{sub.Total|intcomma}} Rwf</td>
+                                                    <td>{{sub.Downpayment|intcomma}} Rwf</td>
                                                     <td>{{sub.Total|sub:sub.Downpayment|intcomma}} Rwf</td>
 
                                                     {% if sub.Total|divisibleby:12%}
@@ -125,7 +142,7 @@
                                                     {% endif %}
                                                      <td>{{sub.get_overdue_months}}</td>
                                             <td>{{sub.To|date:'d/m/Y'}}</td>
-                                            <td>{{sub.Downpayment|intcomma}} Rwf</td>                        
+                                                                    
 
                                                 </tr> 
 

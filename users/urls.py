@@ -101,6 +101,8 @@ urlpatterns = [
     path('changeuserpassword/<int:userID>',changeuserpassword,name="changeuserpassword"),
     url(r'^export/csv/$',export_users_csv, name='export_users_csv'),
     url(r'^export/order/$',export_orders, name='export_orders'),
+    path('export/transaction/<int:customerID>',export_transaction_csv, name='export_transaction_csv'),
+    path('export/quotation/<int:SubscriptionsID>',export_quotation_csv, name='export_quotation_csv'),
 
 
 
