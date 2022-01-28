@@ -1175,6 +1175,7 @@ def quotation(request, SubscriptionsID):
     sub_tools = SubscriptionsTools.objects.filter(
         SubscriptionsID=SubscriptionsID)
     subscription = Subscriptions.objects.get(id=SubscriptionsID)
+    
     return render(request, 'quotation.html', {'sub_tools': sub_tools, 'subscription': subscription})
 
 
