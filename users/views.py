@@ -398,21 +398,14 @@ def dashboard(request):
     category_amazi = Category.objects.get(Title="AMAZI")
     category_uhira = Category.objects.get(Title="UHIRA")
     category_inuma = Category.objects.get(Title="INUMA")
-
     daily = len(Subscriptions.objects.filter(
         From__date=d.date(), complete=True))
-
     daily_subscriptions = Subscriptions.objects.filter(
         From__date=d.date(), complete=True, Category=category_amazi)
-
     daily_subscriptions1 = Subscriptions.objects.filter(
         From__date=d.date(), complete=True, Category=category_uhira)
-
     daily_subscriptions2 = Subscriptions.objects.filter(
         From__date=d.date(), complete=True, Category=category_inuma)
-
-        
-
     paymentsdaily = SubscriptionsPayment.objects.filter(
         PaymentDate=d.date(), Paid=True)
 
