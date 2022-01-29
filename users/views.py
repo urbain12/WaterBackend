@@ -565,6 +565,7 @@ def login(request):
             django_login(request, customer)
             return redirect('dashboard')
         elif customer is not None and not customer.staff:
+            django_login(request, customer)
             return redirect('customerBoard')
         else:
             return render(request, 'login.html')
@@ -573,11 +574,145 @@ def login(request):
 
 
 def customerBoard(request):
-    return render(request, 'CustomerBoard.html')
+    customer=Customer.objects.get(user=request.user.id)
+    subscriptions=Subscriptions.objects.filter(CustomerID=customer.id)
+    subs=[]
+    for sub in subscriptions:
+        subs.append(sub.Category.Title.upper())
+    is_amazi='AMAZI' in subs
+    is_inuma='INUMA' in subs
+    is_uhira='UHIRA' in subs
+    #weekly
+    category_amazi = Category.objects.get(Title="AMAZI")
+    category_uhira = Category.objects.get(Title="UHIRA")
+    category_inuma = Category.objects.get(Title="INUMA")
+
+
+    #Amazi
+
+    invoice_amazi = Subscriptions.objects.filter(
+        complete=True, Category=category_amazi)
+
+
+    amount_invoicedamazi = sum([int(sub.Total)
+                                    for sub in invoice_amazi])
+    Downpayment_Amazi = sum([int(sub.Downpayment)
+                                    for sub in invoice_amazi])
+    instalment_period_amazi = sum([int(sub.InstallmentPeriod)
+                                    for sub in invoice_amazi])
+    if instalment_period_amazi == 0:
+        Monthly_Amazi = 0
+    else:
+        Monthly_Amazi = (amount_invoicedamazi-Downpayment_Amazi)  / instalment_period_amazi
+
+    outstandingAmazi = sum([int(sub.TotalBalance)
+                                    for sub in invoice_amazi])
+
+    balancepaidAmazi = amount_invoicedamazi - outstandingAmazi
+
+    overduemonthAmazi = sum([int(sub.get_overdue_months)
+                                    for sub in invoice_amazi])
+
+    overdueamountAmazi = Monthly_Amazi * overduemonthAmazi
+
+
+
+    #inuma
+    invoice_Inuma = Subscriptions.objects.filter(
+        complete=True, Category=category_inuma)
+
+
+    amount_invoicedInuma = sum([int(sub.Total)
+                                    for sub in invoice_Inuma])
+    Downpayment_Inuma = sum([int(sub.Downpayment)
+                                    for sub in invoice_Inuma])
+    instalment_period_inuma = sum([int(sub.InstallmentPeriod)
+                                    for sub in invoice_Inuma])
+    if instalment_period_inuma == 0:
+        Monthly_Inuma = 0
+    else:
+        Monthly_Inuma = (amount_invoicedInuma-Downpayment_Inuma)  / instalment_period_inuma
+
+    outstandingInuma = sum([int(sub.TotalBalance)
+                                    for sub in invoice_Inuma])
+
+    balancepaidInuma = amount_invoicedInuma - outstandingInuma
+
+    overduemonthInuma = sum([int(sub.get_overdue_months)
+                                    for sub in invoice_Inuma])
+
+    overdueamountInuma = Monthly_Inuma * overduemonthInuma
+
+
+
+    #Uhira
+    invoice_Uhira = Subscriptions.objects.filter(
+        complete=True, Category=category_uhira)
+
+
+    amount_invoicedUhira = sum([int(sub.Total)
+                                    for sub in invoice_Uhira])
+    Downpayment_Uhira = sum([int(sub.Downpayment)
+                                    for sub in invoice_Uhira])
+    
+    instalment_period_uhira = sum([int(sub.InstallmentPeriod)
+                                    for sub in invoice_Uhira])
+    if instalment_period_uhira == 0:
+        Monthly_Uhira = 0
+    else:
+        Monthly_Uhira = (amount_invoicedUhira-Downpayment_Uhira)  / instalment_period_uhira
+
+    outstandingUhira = sum([int(sub.TotalBalance)
+                                    for sub in invoice_Uhira])
+
+    balancepaidUhira = amount_invoicedUhira - outstandingUhira
+
+    overduemonthUhira = sum([int(sub.get_overdue_months)
+                                    for sub in invoice_Uhira])
+
+    overdueamountUhira = Monthly_Uhira * overduemonthUhira
+
+
+    return render(request, 'CustomerBoard.html',
+        {
+        'is_amazi':is_amazi,'is_inuma':is_inuma,'is_uhira':is_uhira,
+        'amount_invoicedamazi': amount_invoicedamazi,
+        'Downpayment_Amazi': Downpayment_Amazi,
+        'Monthly_Amazi': Monthly_Amazi,
+        'outstandingAmazi': outstandingAmazi,
+        'balancepaidAmazi': balancepaidAmazi,
+        'overduemonthAmazi': overduemonthAmazi,
+        'overdueamountAmazi': overdueamountAmazi,
+
+        #Inuma
+        'amount_invoicedInuma': amount_invoicedInuma,
+        'Downpayment_Inuma': Downpayment_Inuma,
+        'Monthly_Inuma': Monthly_Inuma,
+        'outstandingInuma': outstandingInuma,
+        'balancepaidInuma': balancepaidInuma,
+        'overduemonthInuma': overduemonthInuma,
+        'overdueamountInuma': overdueamountInuma,
+
+        #Uhira
+        'amount_invoicedUhira': amount_invoicedUhira,
+        'Downpayment_Uhira': Downpayment_Uhira,
+        'Monthly_Uhira': Monthly_Uhira,
+        'outstandingUhira': outstandingUhira,
+        'balancepaidUhira': balancepaidUhira,
+        'overduemonthUhira': overduemonthUhira,
+        'overdueamountUhira': overdueamountUhira,
+    })
 
 
 def customerTransaction(request):
-    return render(request, 'CustomerTransaction.html')
+    customer = Customer.objects.get(user=request.user.id)
+    subscription = Subscriptions.objects.filter(CustomerID=customer.id)
+    subs = []
+    for i in subscription:
+        subs.append(i.id)
+    payments = SubscriptionsPayment.objects.filter(
+        SubscriptionsID__in=subs, Paid=True)
+    return render(request, 'CustomerTransaction.html',{'payments':payments})
 
 
 def customer_login(request):

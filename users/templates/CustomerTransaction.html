@@ -165,14 +165,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {% for payment in payments %}
                                         <tr>
-                                            <td>12-12-2021</td>
-                                            <td>8000 Rwf</td>
-                                            <td>12-12-2021</td>
+                                            <td>{{payment.PaymentDate}}</td>
+                                            <td>{{payment.Paidamount}} Rwf</td>
+                                            <td>{{payment.PaidMonth}}</td>
                                             
 
                                             
                                         </tr>
+                                        {% endfor %}
+                                        
                                         
                                         </tbody>
                                 </table>
