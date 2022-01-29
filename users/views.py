@@ -329,8 +329,9 @@ def update_customer(request, customerID):
         return redirect('customers')
     else:
         updatecustomer = Customer.objects.get(id=customerID)
+        Meter = Meters.objects.filter(customer=None)
         english = updatecustomer.Language == 'English'
-        return render(request, 'update_customer.html', {'updatecustomer': updatecustomer, 'english': english})
+        return render(request, 'update_customer.html', {'updatecustomer': updatecustomer, 'english': english, 'Meter': Meter})
 
 
 @login_required(login_url='/login')
@@ -393,17 +394,25 @@ def dashboard(request):
     dateweek = datetime.now()
     start_week = dateweek - timedelta(dateweek.weekday())
     end_week = start_week + timedelta(7)
+
     category_amazi = Category.objects.get(Title="AMAZI")
     category_uhira = Category.objects.get(Title="UHIRA")
     category_inuma = Category.objects.get(Title="INUMA")
+
     daily = len(Subscriptions.objects.filter(
         From__date=d.date(), complete=True))
+
     daily_subscriptions = Subscriptions.objects.filter(
         From__date=d.date(), complete=True, Category=category_amazi)
+
     daily_subscriptions1 = Subscriptions.objects.filter(
         From__date=d.date(), complete=True, Category=category_uhira)
+
     daily_subscriptions2 = Subscriptions.objects.filter(
         From__date=d.date(), complete=True, Category=category_inuma)
+
+        
+
     paymentsdaily = SubscriptionsPayment.objects.filter(
         PaymentDate=d.date(), Paid=True)
 
@@ -443,10 +452,14 @@ def dashboard(request):
 
     weekly = len(Subscriptions.objects.filter(
         From__range=[start_week.date(), end_week.date()], complete=True))
+
+
     weekly_subscriptions = Subscriptions.objects.filter(
         From__date=d.date(), complete=True, Category=category_amazi)
+
     weekly_subscriptions1 = Subscriptions.objects.filter(
         From__date=d.date(), complete=True, Category=category_uhira)
+
     weekly_subscriptions2 = Subscriptions.objects.filter(
         From__date=d.date(), complete=True, Category=category_inuma)
     paymentsweekly = SubscriptionsPayment.objects.filter(
@@ -461,6 +474,20 @@ def dashboard(request):
     amount_paidweekly = sum([int(payment.Paidamount)
                             for payment in paymentsweekly])
     amount_outstandingweekly = amount_invoicedweekly-amount_paidweekly
+
+
+    soldlitre = WaterBuyHistory.objects.all()
+    allsoldlitre = sum([int(litre.Amount) for litre in soldlitre])
+
+    weeklylittre =WaterBuyHistory.objects.filter(
+        created_at__range=[start_week.date(), end_week.date()])
+    weeklysoldlitre = sum([int(litre.Amount) for litre in weeklylittre])
+
+    dailylittre =WaterBuyHistory.objects.filter(
+        created_at__date=d.date())
+    dailysoldlitre = sum([int(litre.Amount) for litre in dailylittre])
+
+
 
     return render(request, 'dashboard.html', {
         'subscriptions': subscriptions,
@@ -479,7 +506,21 @@ def dashboard(request):
 
         'amount_paid': amount_paid,
         'amount_invoiced': amount_invoiced+amount_invoiced1+amount_invoiced2,
-        'amount_outstanding': amount_outstanding})
+        'amount_outstanding': amount_outstanding,
+
+        'allsoldlitre': allsoldlitre,
+        'weeklysoldlitre': weeklysoldlitre,
+        'dailysoldlitre': dailysoldlitre
+
+
+
+
+
+        
+        
+        })
+
+
 
 
 @login_required(login_url='/login')
@@ -2449,7 +2490,7 @@ def export_transaction_csv(request, customerID):
 
 def export_quotation_csv(request, SubscriptionsID):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="installmenttransactions.csv"'
+    response['Content-Disposition'] = 'attachment; filename="quotation.csv"'
 
     writer = csv.writer(response)
     writer.writerow(['Tool', 'Quantity', 'Total',])
