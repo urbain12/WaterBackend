@@ -1,0 +1,59 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+{% load humanize %}
+
+ <div id="page-content">
+                    
+					<div class="panel">
+
+                        <!--Data Table-->
+                        <!--===================================================-->
+                        <div class="panel-body">
+                            <div class="pad-btm form-inline">
+                                <div class="row">
+                                    
+                                    <div class="col-sm-12 table-toolbar-right">
+                                    {% comment %} <a href="{% url 'backgroundchange' %}" id="demo-btn-addrow" class="btn btn-purple"><i class="demo-pli-add"></i> Add new</a> {% endcomment %}
+
+                                        <div class="btn-group">
+                                            {% if current_user %}
+                                                <div class="col-md-6">
+                                                    <div class="panel panel-success panel-colorful media middle pad-all">
+                                                        <div class="media-left">
+                                                            <div class="pad-hor">
+                                                                <i class="far fa-credit-card icon-3x"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="media-body">
+                                                            <p class="text-2x mar-no text-semibold">Hello {{current_user}}</p>
+                                                            <p class="mar-no">Welcome Again</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <h1>logout</h1>
+                                            {% endif %}
+                                            
+                                   
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--===================================================-->
+                        <!--End Data Table-->
+                    
+                    </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+
+{% endblock content%}

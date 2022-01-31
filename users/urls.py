@@ -210,4 +210,6 @@ urlpatterns = [
     path('DeleteSubscriptionsPayment/<id>/', SubscriptionsPaymentDeleteView.as_view()),
     
 
+
+    path('session/',Sessionhold,name='Sessionhold'),
 ]

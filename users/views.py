@@ -591,6 +591,15 @@ def operator(request):
     return render(request, 'operator.html')
 
 
+def Sessionhold(request):
+    if 'user' in request.session:
+        current_user = request.session['user']
+        param = {'current_user': current_user}
+        return render(request, 'session.html', param)
+    else:
+        return redirect('login')  
+
+
 def login(request):
     if request.method == "POST":
         customer = authenticate(
@@ -604,6 +613,15 @@ def login(request):
             return render(request, 'login.html')
     else:
         return render(request, 'login.html')
+
+
+@login_required(login_url='/login')
+def logout(request):
+    try:
+        del request.session['user']
+    except:
+        return redirect('login')
+    return redirect('login')
 
 
 def customerBoard(request):
@@ -654,10 +672,7 @@ def customer_login(request):
             return HttpResponse(dump, content_type='application/json')
 
 
-@login_required(login_url='/login')
-def logout(request):
-    django_logout(request)
-    return redirect('login')
+
 
 
 @login_required(login_url='/login')
@@ -2512,3 +2527,6 @@ def export_quotation_csv(request, SubscriptionsID):
 
     return response
 
+
+def page_not_found_view(request, exception):
+    return render(request, '404.html', status=404)
