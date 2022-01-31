@@ -45,9 +45,9 @@
         <img style="border-radius:100px; height:100px; width:100px; background: #F8FAF5; margin:0 auto;" src="{% static 'img/not_authorized.png'%}" alt="">
       </div>
         <h1>Failure</h1> 
-        <p>Sorry , You are not authorized to Login...<br/></p>
+        <p>Sorry , You are not authorized to Access the customer board Since you are not a customer<br/></p>
 
-        <a href="{% url 'login' %}">
+        <a href="{% url 'logout' %}">
         <button style="margin-top:20px;" type="button" class="btn btn-primary">OK</button>
         </a>
       </div>
