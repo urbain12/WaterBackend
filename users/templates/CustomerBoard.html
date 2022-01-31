@@ -2,6 +2,7 @@
 <html lang="en">
 
 {% load static %}
+{% load humanize %}
 <head>
 
 <style>
@@ -163,16 +164,37 @@
                     <div class="panel panel-body ">
 
 					<h3>Account Summary</h3>
+
+                    <div class="form-field">
+						<div class="row">
+						<div class="col-sm-4">
+							<label><input type="radio" name="Radio" value="amazi" checked > AMAZI.</label>
+						</div>
+						<div class="col-sm-4">
+							<label><input type="radio" name="Radio" value="inuma" > INUMA.</label>
+						</div>
+                        <div class="col-sm-4">
+							<label><input type="radio" name="Radio" value="uhira"> UHIRA.</label>
+						</div>
+						</div>
+					</div>
 					
                     </div>
 
+                    
 
+                            
 
-
-                            <div class="panel panel-body ">
-					            <div class="panel-body">
+                            
+                            <div class="amazi box panel panel-body ">
+                                {% if is_amazi %}
+                                <div class="panel-body">
 				
 					                <br>
+
+                                    
+
+                            
 									<div class='row text-center' >
 									<div class="col-md-12"  >
                                     
@@ -183,7 +205,7 @@
 					                            </div>
 					                        </div>
 					                        <div class="media-body">
-										<p class="text-2x mar-no text-semibold">1200 Rwf</p>
+										<p class="text-2x mar-no text-semibold">{{amount_invoicedamazi|intcomma}} Rwf</p>
 					                            <p class="mar-no">Total Invoiced</p>
 					                        </div>
 					                    </div>
@@ -199,7 +221,7 @@
 					                            </div>
 					                        </div>
 					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">15000 RWF</p>
+					                            <p class="text-2x mar-no text-semibold">{{Downpayment_Amazi|intcomma}} RWF</p>
 					                            <p class="mar-no">Down payment</p>
 					                        </div>
 					                    </div>
@@ -212,7 +234,7 @@
 					                            </div>
 					                        </div>
 					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">5000 RWF</p>
+					                            <p class="text-2x mar-no text-semibold">{{Monthly_Amazi|intcomma}} RWF</p>
 					                            <p class="mar-no">Monthly payment </p>
 					                        </div>
 					                    </div>
@@ -230,7 +252,7 @@
 					                            </div>
 					                        </div>
 					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">50000 RWF</p>
+					                            <p class="text-2x mar-no text-semibold">{{outstandingAmazi|intcomma}} RWF</p>
 					                            <p class="mar-no">Outstanding Amount </p>
 					                        </div>
 					                    </div>
@@ -243,7 +265,7 @@
 					                            </div>
 					                        </div>
 					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">3,800 RWF</p>
+					                            <p class="text-2x mar-no text-semibold">{{balancepaidAmazi|intcomma}} RWF</p>
 					                            <p class="mar-no">Balance paid</p>
 					                        </div>
 					                    </div>
@@ -256,7 +278,7 @@
 					                            </div>
 					                        </div>
 					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">3,800 RWF</p>
+					                            <p class="text-2x mar-no text-semibold">{{overduemonthAmazi|intcomma}} months</p>
 					                            <p class="mar-no">Overdue month</p>
 					                        </div>
 					                    </div>
@@ -269,7 +291,7 @@
 					                            </div>
 					                        </div>
 					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">3,800 RWF</p>
+					                            <p class="text-2x mar-no text-semibold">{{overdueamountAmazi|intcomma}} RWF</p>
 					                            <p class="mar-no">Overdue Balance</p>
 					                        </div>
 					                    </div>
@@ -277,6 +299,264 @@
 					
 					            </div>
 					            </div>
+
+{% else %}
+
+    <p style="color:black">No subscription in Amazi</p>
+{% endif %}
+					            
+					        </div>
+
+
+
+
+
+
+                            <div class="inuma box panel panel-body ">
+                                {% if is_inuma %}
+                                <div class="panel-body">
+				
+					                <br>
+
+                                    
+
+                            
+									<div class='row text-center' >
+									<div class="col-md-12"  >
+                                    
+					                    <div class="panel panel-warning panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                                <i class="fas fa-users icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+										<p class="text-2x mar-no text-semibold">{{amount_invoicedInuma|intcomma}} Rwf</p>
+					                            <p class="mar-no">Total Invoiced</p>
+					                        </div>
+					                    </div>
+					                </div>
+									</div>
+					              <div class="row">
+					                
+					                <div class="col-md-6">
+					                    <div class="panel panel-info panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                                <i class="far fa-credit-card icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+					                            <p class="text-2x mar-no text-semibold">{{Downpayment_Inuma|intcomma}} RWF</p>
+					                            <p class="mar-no">Down payment</p>
+					                        </div>
+					                    </div>
+					                </div>
+					                <div class="col-md-6">
+					                    <div class="panel panel-mint panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                               <i class="fas fa-coins icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+					                            <p class="text-2x mar-no text-semibold">{{Monthly_Inuma|intcomma}} RWF</p>
+					                            <p class="mar-no">Monthly payment </p>
+					                        </div>
+					                    </div>
+					                </div>
+					
+					            </div>
+
+                                <div class="row">
+					               
+					                <div class="col-md-6">
+					                    <div class="panel panel-info panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                                <i class="far fa-credit-card icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+					                            <p class="text-2x mar-no text-semibold">{{outstandingInuma|intcomma}} RWF</p>
+					                            <p class="mar-no">Outstanding Amount </p>
+					                        </div>
+					                    </div>
+					                </div>
+					                <div class="col-md-6">
+					                    <div class="panel panel-mint panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                               <i class="fas fa-coins icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+					                            <p class="text-2x mar-no text-semibold">{{balancepaidInuma|intcomma}} RWF</p>
+					                            <p class="mar-no">Balance paid</p>
+					                        </div>
+					                    </div>
+					                </div>
+									<div class="col-md-6">
+					                    <div class="panel panel-primary panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                               <i class="fas fa-coins icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+					                            <p class="text-2x mar-no text-semibold">{{overduemonthInuma|intcomma}} months</p>
+					                            <p class="mar-no">Overdue month</p>
+					                        </div>
+					                    </div>
+					                </div>
+									<div class="col-md-6">
+					                    <div class="panel panel-danger panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                               <i class="fas fa-coins icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+					                            <p class="text-2x mar-no text-semibold">{{overdueamountInuma|intcomma}} RWF</p>
+					                            <p class="mar-no">Overdue Balance</p>
+					                        </div>
+					                    </div>
+					                </div>
+					
+					            </div>
+					            </div>
+
+
+{% else %}
+
+<p style="color:black">No subscription in INUMA</p>
+{% endif %}
+					            
+					        </div>
+
+
+
+
+                            <div class="uhira box panel panel-body ">
+                                {% if is_uhira %}
+                                <div class="panel-body">
+				
+					                <br>
+
+                                    
+
+                            
+									<div class='row text-center' >
+									<div class="col-md-12"  >
+                                    
+					                    <div class="panel panel-warning panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                                <i class="fas fa-users icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+										<p class="text-2x mar-no text-semibold">{{amount_invoicedUhira|intcomma}} Rwf</p>
+					                            <p class="mar-no">Total Invoiced</p>
+					                        </div>
+					                    </div>
+					                </div>
+									</div>
+					              <div class="row">
+					                
+					                <div class="col-md-6">
+					                    <div class="panel panel-info panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                                <i class="far fa-credit-card icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+					                            <p class="text-2x mar-no text-semibold">{{Downpayment_Uhira|intcomma}} RWF</p>
+					                            <p class="mar-no">Down payment</p>
+					                        </div>
+					                    </div>
+					                </div>
+					                <div class="col-md-6">
+					                    <div class="panel panel-mint panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                               <i class="fas fa-coins icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+					                            <p class="text-2x mar-no text-semibold">{{Monthly_Uhira|intcomma}} RWF</p>
+					                            <p class="mar-no">Monthly payment </p>
+					                        </div>
+					                    </div>
+					                </div>
+					
+					            </div>
+
+                                <div class="row">
+					               
+					                <div class="col-md-6">
+					                    <div class="panel panel-info panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                                <i class="far fa-credit-card icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+					                            <p class="text-2x mar-no text-semibold">{{outstandingUhira|intcomma}} RWF</p>
+					                            <p class="mar-no">Outstanding Amount </p>
+					                        </div>
+					                    </div>
+					                </div>
+					                <div class="col-md-6">
+					                    <div class="panel panel-mint panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                               <i class="fas fa-coins icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+					                            <p class="text-2x mar-no text-semibold">{{balancepaidUhira|intcomma}} RWF</p>
+					                            <p class="mar-no">Balance paid</p>
+					                        </div>
+					                    </div>
+					                </div>
+									<div class="col-md-6">
+					                    <div class="panel panel-primary panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                               <i class="fas fa-coins icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+					                            <p class="text-2x mar-no text-semibold">{{overduemonthUhira|intcomma}} months</p>
+					                            <p class="mar-no">Overdue month</p>
+					                        </div>
+					                    </div>
+					                </div>
+									<div class="col-md-6">
+					                    <div class="panel panel-danger panel-colorful media middle pad-all">
+					                        <div class="media-left">
+					                            <div class="pad-hor">
+					                               <i class="fas fa-coins icon-3x"></i>
+					                            </div>
+					                        </div>
+					                        <div class="media-body">
+					                            <p class="text-2x mar-no text-semibold">{{overdueamountUhira|intcomma}} RWF</p>
+					                            <p class="mar-no">Overdue Balance</p>
+					                        </div>
+					                    </div>
+					                </div>
+					
+					            </div>
+					            </div>
+
+
+{% else %}
+
+<p style="color:black">No subscription in UHIRA</p>
+{% endif %}
+					            
 					        </div>
 
 
@@ -456,6 +736,21 @@
             })
         })
 
+    </script>
+
+    <script>
+						
+        $(document).ready(function(){
+            $('.amazi').show();
+            $('.inuma').hide();
+            $('.uhira').hide();
+            $('input[type="radio"]').click(function(){
+                var inputValue = $(this).attr("value");
+                var targetBox = $("." + inputValue);
+                $(".box").not(targetBox).hide();
+                $(targetBox).show();
+            });
+        });
     </script>
     
 
