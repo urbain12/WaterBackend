@@ -594,8 +594,8 @@ def operator(request):
 def Sessionhold(request):
     if 'user' in request.session:
         current_user = request.session['user']
-        param = {'current_user': current_user}
-        return render(request, 'session.html', param)
+        param = current_user
+        return HttpResponse('your logged in',param)
     else:
         return redirect('login')  
 
@@ -616,17 +616,14 @@ def login(request):
             except Customer.DoesNotExist:
                 return redirect('not_authorized')
         else:
-            return render(request, 'login.html')
+            return render(request, 'login.html',{'error':'Your Email or Password are incorrect.'})
     else:
         return render(request, 'login.html')
 
 
 @login_required(login_url='/login')
 def logout(request):
-    try:
-        del request.session['user']
-    except:
-        return redirect('login')
+    django_logout(request)
     return redirect('login')
 
 
@@ -2671,3 +2668,6 @@ def export_quotation_csv(request, SubscriptionsID):
 
 def page_not_found_view(request, exception):
     return render(request, '404.html', status=404)
+
+def page_not_found_view(request, exception):
+    return render(request, '500.html', status=500)

@@ -11,4 +11,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
-handle404 = "helpers.view.page_not_found_view"
+handle404 = "users.view.page_not_found_view"
+handle500 = "users.view.error_to_be_found"
