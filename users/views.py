@@ -1439,7 +1439,7 @@ def instalment(request):
     if request.method == "POST":
         start = request.POST['start']
         end=request.POST['end']
-        filtering=Subscriptions.objects.filter(From__gte=start,From__lte=end)
+        filtering=Subscriptions.objects.filter(From__gte=start,From__lte=end,complete=True)
         return render(request, 'Installament.html', {'subscriptions':filtering})
     else:
         subscriptions = Subscriptions.objects.filter(complete=True)
@@ -1450,7 +1450,7 @@ def instalment(request):
             customers_ids=[]
             for cust in customers:
                 customers_ids.append(cust.id)
-            subscriptions=Subscriptions.objects.filter(CustomerID__in=customers_ids)
+            subscriptions=Subscriptions.objects.filter(CustomerID__in=customers_ids,complete=True)
 
         return render(request, 'Installament.html', {'subscriptions': subscriptions})
 
