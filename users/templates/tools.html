@@ -1,5 +1,6 @@
 {% extends 'base.html'%}
 {% load static %}
+{% load humanize %}
 {% block content%}
 
  <div id="page-content">
@@ -50,7 +51,7 @@
                                     <tr>
                                             <td><a class="btn-link" href="#">{{tool.id}}</a></td>
                                             <td>{{tool.Title}}</td>
-                                            <td>{{tool.Amount}}</td>
+                                            <td>{{tool.Amount|intcomma}}</td>
                                             <td>{{tool.Description}}</td>
                                             <td>{{tool.created_at}}</td>
                                             <td>

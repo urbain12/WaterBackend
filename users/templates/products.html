@@ -1,5 +1,6 @@
 {% extends 'base.html'%}
 {% load static %}
+{% load humanize %}
 {% block content%}
 
  <div id="page-content">
@@ -53,7 +54,7 @@
                                                 <img src="{{product.imageURL}}" height=50 width=50/>
                                             </td>
                                             <td>{{product.name}}</td>
-                                            <td>{{product.price}} Rwf</td>
+                                            <td>{{product.price|intcomma}} Rwf</td>
                                             <td>{{product.inStock}}</td>
                                             
                                             <td>
