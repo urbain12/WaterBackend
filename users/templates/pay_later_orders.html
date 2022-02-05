@@ -25,7 +25,6 @@
                                 <table class="table table-striped" style="border: 1px">
                                     <thead>
                                         <tr>
-                                            <th class="text-left">ID</th>
                                             <th>Customer</th>
                                             <th>Phone</th>
                                             <th>Address</th>
@@ -40,7 +39,6 @@
                                     <tbody>
                                      {% for order in page_obj %}
                                     <tr>
-                                            <td><a class="btn-link" href="#">{{order.id}}</a></td>
                                             <td>{{order.shippingaddress.names}} </td>
                                             <td>{{order.shippingaddress.phone}} </td>
                                             <td>{{order.shippingaddress.address}} - {{order.shippingaddress.city}}</td>
@@ -51,6 +49,15 @@
                                                 <a href="{% url 'order_details' order.id%}">
                                                 <div class="btn btn-success">Details</div>
                                                 </a>
+
+                                                {% if  order.paid %}
+                                                <p>
+                                                </p>
+                                                {% else %}
+                                                <a onclick="return confirm('Are you sure you this order is paid?')" href="{% url 'paidorder' order.id %}">
+                                                <button class="btn btn-warning">Pay this order</button>
+                                                </a>
+                                            {% endif %}
                                             </td>
                                             
                                         </tr>

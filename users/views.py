@@ -1,3 +1,4 @@
+from pickle import TRUE
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import *
 import csv
@@ -36,6 +37,7 @@ import requests
 import xlwt
 import urllib3
 import os
+from django.contrib import auth
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 User = get_user_model()
 
@@ -77,7 +79,7 @@ def imgbackgroundview(request):
 
 @login_required(login_url='/login')
 def Receipts(request):
-    waterhistory = WaterBuyHistory.objects.all()
+    waterhistory = WaterBuyHistory.objects.all().order_by('-id')
     search_query = request.GET.get('search', '')
     if search_query:
         waterhistory = Meters.objects.filter(
@@ -329,7 +331,7 @@ def update_customer(request, customerID):
         return redirect('customers')
     else:
         updatecustomer = Customer.objects.get(id=customerID)
-        Meter = Meters.objects.filter(customer=None)
+        Meter = Meters.objects.all()
         english = updatecustomer.Language == 'English'
         return render(request, 'update_customer.html', {'updatecustomer': updatecustomer, 'english': english, 'Meter': Meter})
 
@@ -605,7 +607,7 @@ def login(request):
         customer = authenticate(
             email=request.POST['email'], password=request.POST['password'])
         if customer is not None and customer.staff:
-            django_login(request, customer)
+            auth.login(request, customer)
             return redirect('dashboard')
         elif customer is not None and not customer.staff:
             django_login(request, customer)
@@ -621,9 +623,10 @@ def login(request):
         return render(request, 'login.html')
 
 
-@login_required(login_url='/login')
+# @login_required(login_url='/login')
 def logout(request):
-    django_logout(request)
+    if request.method=='POST':
+        auth.logout(request)
     return redirect('login')
 
 
@@ -815,7 +818,7 @@ def customer_login(request):
 
 @login_required(login_url='/login')
 def customers(request):
-    Customers = Customer.objects.all()
+    Customers = Customer.objects.all().order_by('-id')
     search_query = request.GET.get('search', '')
     if search_query:
         Customers = Customer.objects.filter(
@@ -841,11 +844,26 @@ def products(request):
 
 @login_required(login_url='/login')
 def orders(request):
-    orders = Order.objects.all().order_by('-id')
+    orders = Order.objects.filter(paid=True).order_by('-id')
     paginator = Paginator(orders, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'orders.html', {'orders': orders, 'page_obj': page_obj})
+
+@login_required(login_url='/login')
+def not_deliveredorder(request, notdelivID):
+    notdelivered = Order.objects.get(id=notdelivID)
+    notdelivered.delivery = False
+    notdelivered.save()
+    return redirect('orders')
+
+
+@login_required(login_url='/login')
+def deliveredorder(request, delivID):
+    delivered = Order.objects.get(id=delivID)
+    delivered.delivery = True
+    delivered.save()
+    return redirect('orders')
 
 
 @login_required(login_url='/login')
@@ -858,12 +876,92 @@ def Catrdigesorders(request):
 
 
 @login_required(login_url='/login')
+def not_deliveredcatridge(request, notdelivID):
+    notdelivered = OrderTools.objects.get(id=notdelivID)
+    notdelivered.delivery = False
+    notdelivered.save()
+    return redirect('Catrdigesorders')
+
+
+@login_required(login_url='/login')
+def deliveredordercatridge(request, delivID):
+    delivered = OrderTools.objects.get(id=delivID)
+    delivered.delivery = True
+    delivered.save()
+    return redirect('Catrdigesorders')
+
+
+@login_required(login_url='/login')
+def pay_later_catridges(request):
+    orders = OrderTools.objects.filter(pay_later=True).order_by('-id')
+    paginator = Paginator(orders, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'pay_later_catridges.html', {'orders': orders, 'page_obj': page_obj})
+
+@login_required(login_url='/login')
+def notdeliveredpagecatridges(request):
+    orders = OrderTools.objects.filter(delivery=False).order_by('-id')
+    paginator = Paginator(orders, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'notdeliveredcatridges.html', {'orders': orders, 'page_obj': page_obj})
+
+
+@login_required(login_url='/login')
+def not_paidcatridges(request, notpaidID):
+    notpaidorder = OrderTools.objects.get(id=notpaidID)
+    notpaidorder.paid = False
+    notpaidorder.save()
+    return redirect('Catrdigesorders')
+
+
+@login_required(login_url='/login')
+def paidordercatridges(request, paidID):
+    paidorder = OrderTools.objects.get(id=paidID)
+    paidorder.paid = True
+    paidorder.pay_later = False
+    paidorder.save()
+    return redirect('Catrdigesorders')
+
+
+
+
+
+
+@login_required(login_url='/login')
 def pay_later_orders(request):
     orders = Order.objects.filter(pay_later=True).order_by('-id')
     paginator = Paginator(orders, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'pay_later_orders.html', {'orders': orders, 'page_obj': page_obj})
+
+
+@login_required(login_url='/login')
+def notdeliveredpage(request):
+    orders = Order.objects.filter(delivery=False).order_by('-id')
+    paginator = Paginator(orders, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'notdeliveredorder.html', {'orders': orders, 'page_obj': page_obj})
+
+
+@login_required(login_url='/login')
+def not_paidorder(request, notpaidID):
+    notpaidorder = Order.objects.get(id=notpaidID)
+    notpaidorder.paid = False
+    notpaidorder.save()
+    return redirect('orders')
+
+
+@login_required(login_url='/login')
+def paidorder(request, paidID):
+    paidorder = Order.objects.get(id=paidID)
+    paidorder.paid = True
+    paidorder.pay_later = False
+    paidorder.save()
+    return redirect('orders')
 
 
 @login_required(login_url='/login')
@@ -883,7 +981,7 @@ def reset_password(request, userID):
 
 @login_required(login_url='/login')
 def meters(request):
-    Meter = Meters.objects.all()
+    Meter = Meters.objects.all().order_by('-id')
     search_query = request.GET.get('search', '')
     if search_query:
         Meter = Meters.objects.filter(Q(Meternumber__icontains=search_query))
@@ -895,7 +993,7 @@ def meters(request):
 
 @login_required(login_url='/login')
 def requestors(request):
-    requests = Request.objects.all()
+    requests = Request.objects.all().order_by('-id')
     search_query = request.GET.get('search', '')
     if search_query:
         requests = Request.objects.filter(Q(Names__icontains=search_query))
@@ -907,7 +1005,7 @@ def requestors(request):
 
 @login_required(login_url='/login')
 def subrequestors(request):
-    subrequests = subRequest.objects.all()
+    subrequests = subRequest.objects.all().order_by('-id')
     search_query = request.GET.get('search', '')
     if search_query:
         subrequests = Request.objects.filter(Q(Names__icontains=search_query))
@@ -1298,7 +1396,7 @@ def cancel(request, subID):
 
 @login_required(login_url='/login')
 def tools(request):
-    tools = Tools.objects.all()
+    tools = Tools.objects.all().order_by('-id')
     search_query = request.GET.get('search', '')
     if search_query:
         tools = Tools.objects.filter(Q(Title__icontains=search_query))
@@ -1310,7 +1408,7 @@ def tools(request):
 
 @login_required(login_url='/login')
 def system(request):
-    system = System.objects.all()
+    system = System.objects.all().order_by('-id')
     search_query = request.GET.get('search', '')
     if search_query:
         system = System.objects.filter(Q(title__icontains=search_query))
@@ -1322,7 +1420,7 @@ def system(request):
 
 @login_required(login_url='/login')
 def add_customer(request):
-    Meter = Meters.objects.filter(customer=None)
+    Meter = Meters.objects.all()
     users = User.objects.filter(customer=None)
     return render(request, 'add_customer.html', {'Meter': Meter, 'users': users})
 
@@ -1397,7 +1495,7 @@ def update_system(request, sysID):
 
 @login_required(login_url='/login')
 def subscriptions(request):
-    subscriptions = Subscriptions.objects.filter(complete=True)
+    subscriptions = Subscriptions.objects.filter(complete=True).order_by('-id')
     numofsubs = len(Subscriptions.objects.filter(complete=False))
     search_query = request.GET.get('search', '')
     if search_query:
@@ -1442,7 +1540,7 @@ def instalment(request):
         filtering=Subscriptions.objects.filter(From__gte=start,From__lte=end,complete=True)
         return render(request, 'Installament.html', {'subscriptions':filtering})
     else:
-        subscriptions = Subscriptions.objects.filter(complete=True)
+        subscriptions = Subscriptions.objects.filter(complete=True).order_by('-id')
         search_query = request.GET.get('search', '')
         if search_query:
             customers = Customer.objects.filter(
@@ -2136,6 +2234,7 @@ def pay_Water(request):
         print(body)
         meter = Meters.objects.only('id').get(Meternumber=body['Meternumber'])
         Amount = int(body['Amount'])
+        Phone = body['Phone']
         # alphabet = string.ascii_letters + string.digits
         # token = ''.join(secrets.choice(alphabet) for i in range(20))
         # token = body['Token']
@@ -2144,7 +2243,8 @@ def pay_Water(request):
         pay = WaterBuyHistory()
         pay.Meternumber = meter
         pay.Amount = Amount
-        customer = Customer.objects.get(Meternumber=meter.id)
+        users= user.objects.get(phone=Phone)
+        customer = Customer.objects.get(user=users.id)
         r2 = requests.get(
             f'http://44.196.8.236:3038/generatePurchase/?payment={totalamount}.00&meternumber={meter.Meternumber}', verify=False)
         payload = {

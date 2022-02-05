@@ -36,7 +36,6 @@
                                 <table class="table table-striped" style="border: 1px">
                                     <thead>
                                         <tr>
-                                            <th class="text-left">ID</th>
                                             <th>Image</th>
                                             <th>Name</th>
                                             <th>Price</th>
@@ -49,7 +48,6 @@
                                     <tbody>
                                     {% for product in page_obj %}
                                     <tr>
-                                            <td><a class="btn-link" href="#">{{product.id}}</a></td>
                                             <td>
                                                 <img src="{{product.imageURL}}" height=50 width=50/>
                                             </td>

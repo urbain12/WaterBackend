@@ -35,7 +35,6 @@
                                 <table class="table table-striped" style="border: 1px">
                                     <thead>
                                         <tr>
-                                            <th class="text-left">ID</th>
                                             <th>Title</th>
                                             <th>Category</th>
                                             <th>Inches</th>
@@ -48,7 +47,6 @@
                                     <tbody>
                                     {% for sy in page_obj %}
                                     <tr>
-                                            <td><a class="btn-link" href="#">{{sy.id}}</a></td>
                                             <td>{{sy.title}}</td>
                                             <td>{{sy.Category.Title}}</td>
                                             <td>{{sy.inches}}</td>

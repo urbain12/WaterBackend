@@ -279,6 +279,7 @@ class Product(models.Model):
 class Order(models.Model):
     date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False)
+    delivery = models.BooleanField(default=False)
     pay_later = models.BooleanField(default=False)
     paid = models.BooleanField(default=False)
     transaction_id = models.CharField(max_length=100, null=True)
@@ -303,6 +304,7 @@ class OrderTools(models.Model):
     date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False)
     pay_later = models.BooleanField(default=False)
+    delivery = models.BooleanField(default=False)
     paid = models.BooleanField(default=False)
     transaction_id = models.CharField(max_length=100, null=True)
 

@@ -33,7 +33,6 @@
                                 <table class="table table-striped" style="border: 1px">
                                     <thead>
                                         <tr>
-                                            <th class="text-left">ID</th>
                                             <th>Customer</th>
                                             <th>Phone</th>
                                             <th>MeterNUmber</th>
@@ -49,7 +48,6 @@
                                     <tbody>
                                     {% for history in page_obj %}
                                     <tr>
-                                            <td><a class="btn-link" href="#">{{history.id}}</a></td>
                                             <td>{{history.Meternumber.customer.FirstName}} {{history.Meternumber.customer.LastName}}</td>
                                             <td>{{history.Meternumber.customer.user.phone}}</td>
                                             <td>{{history.Meternumber}}</td>

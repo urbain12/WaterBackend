@@ -35,7 +35,6 @@
                                 <table class="table table-striped" style="border: 1px">
                                     <thead>
                                         <tr>
-                                            <th class="text-left">ID</th>
                                             <th>Names</th>
                                             <th>Meter Number</th>
                                             <th>ID number</th>
@@ -52,7 +51,6 @@
                                     <tbody>
                                     {% for customer in page_obj %}
                                     <tr>
-                                            <td><a class="btn-link" href="#">{{customer.id}}</a></td>
                                             <td>{{customer.FirstName}} {{customer.LastName}}</td>
                                             <td>{{customer.Meternumber}}</td>
                                             <td><span class="text-muted"> {{customer.IDnumber}}</span></td>

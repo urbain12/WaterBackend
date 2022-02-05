@@ -18,6 +18,7 @@
                                     <div class="col-sm-12 table-toolbar-right">
                                     <a href="{% url 'export_orders' %}"> <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;Export</button></a>
                                     <a href="{% url 'pay_later_orders' %}"> <button class="btn btn-warning my-2 my-sm-0" type="submit">&nbsp; &nbsp;Pay Later Orders</button></a>
+                                    <a href="{% url 'notdeliveredpage' %}"> <button class="btn btn-mint my-2 my-sm-0" type="submit">&nbsp; &nbsp;Not delivered Orders</button></a>
 
                                     </div>
                                 </div>
@@ -27,7 +28,6 @@
                                 <table class="table table-striped" style="border: 1px">
                                     <thead>
                                         <tr>
-                                            <th class="text-left">ID</th>
                                             <th>Customer</th>
                                             <th>Phone</th>
                                             <th>Address</th>
@@ -42,7 +42,6 @@
                                     <tbody>
                                      {% for order in page_obj %}
                                     <tr>
-                                            <td><a class="btn-link" href="#">{{order.id}}</a></td>
                                             <td>{{order.shippingaddress.names}} </td>
                                             <td>{{order.shippingaddress.phone}} </td>
                                             <td>{{order.shippingaddress.address}} - {{order.shippingaddress.city}}</td>
@@ -53,6 +52,17 @@
                                                 <a href="{% url 'order_details' order.id%}">
                                                 <div class="btn btn-success">Details</div>
                                                 </a>
+
+                                                {% if  order.delivery %}
+                                                <a onclick="return confirm('Are you sure you want to comfirm this?')" href="{% url 'not_deliveredorder' order.id %}">
+                                                    <button class="btn btn-primary">Delivered</button>
+                                                </a>
+                                                {% else %}
+                                                <a onclick="return confirm('Are you sure you want to comfirm this?')" href="{% url 'deliveredorder' order.id %}">
+                                                <button class="btn btn-warning">Not delivery</button>
+                                                </a>
+                                            {% endif %}
+
                                             </td>
                                             
                                         </tr>
