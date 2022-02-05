@@ -87,7 +87,7 @@ def guestOrder(request, data):
     return customer, order
 
 
-def check_transaction(trans_id, meter_number, amount):
+def check_transaction(trans_id, meter_number, amount, phone):
     headers = {
         "Content-Type": "application/json",
         "app-type": "none",
@@ -112,7 +112,9 @@ def check_transaction(trans_id, meter_number, amount):
         pay.Meternumber = meter
         pay.Amount = amount
         totalamount = str(amount)
-        customer = Customer.objects.get(Meternumber=meter.id)
+        users = User.objects.get(phone=phone)
+        customer = Customer.objects.get(user=users.id)
+        pay.Customer =  customer
         r2 = requests.get(
             f'http://44.196.8.236:3038/generatePurchase/?payment={totalamount}.00&meternumber={meter.Meternumber}', verify=False)
         payload = {

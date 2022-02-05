@@ -1,3 +1,4 @@
+from codecs import BOM_UTF32_BE
 from pickle import TRUE
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import *
@@ -2144,7 +2145,7 @@ def post_transaction(request):
         body = json.loads(body_unicode)
         print(body)
         check_transaction(body['trans_id'],
-                          body['meter_number'], body['amount'])
+                          body['meter_number'], body['amount'], body['phone'])
         data = {
             'result': 'Checking transaction status...',
         }
@@ -2245,6 +2246,7 @@ def pay_Water(request):
         pay.Amount = Amount
         users= User.objects.get(phone=Phone)
         customer = Customer.objects.get(user=users.id)
+        pay.Customer= customer
         r2 = requests.get(
             f'http://44.196.8.236:3038/generatePurchase/?payment={totalamount}.00&meternumber={meter.Meternumber}', verify=False)
         payload = {

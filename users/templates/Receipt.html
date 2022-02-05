@@ -48,8 +48,8 @@
                                     <tbody>
                                     {% for history in page_obj %}
                                     <tr>
-                                            <td>{{history.Meternumber.customer.FirstName}} {{history.Meternumber.customer.LastName}}</td>
-                                            <td>{{history.Meternumber.customer.user.phone}}</td>
+                                            <td>{{history.Customer.FirstName}} {{history.Customer.LastName}}</td>
+                                            <td>{{history.Customer.user.phone}}</td>
                                             <td>{{history.Meternumber}}</td>
                                             <td>{{history.Amount}} Rwf</td>
                                             <td>{{history.Amount}}Ltr</td>

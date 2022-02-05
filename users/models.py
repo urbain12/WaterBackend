@@ -1,3 +1,4 @@
+from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db.models.base import Model
@@ -115,6 +116,8 @@ class CustomerMeter(models.Model):
 
 
 class WaterBuyHistory(models.Model):
+    Customer = models.ForeignKey(
+        'Customer', on_delete=models.SET_NULL, null=True, blank=True)
     Amount = models.CharField(max_length=255, null=True, blank=True)
     Meternumber = models.ForeignKey(
         'Meters', on_delete=models.SET_NULL, null=True, blank=True)
