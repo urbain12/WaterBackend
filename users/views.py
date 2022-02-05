@@ -82,8 +82,9 @@ def Receipts(request):
     waterhistory = WaterBuyHistory.objects.all().order_by('-id')
     search_query = request.GET.get('search', '')
     if search_query:
-        waterhistory = Meters.objects.filter(
-            Q(Meternumber__icontains=search_query))
+        meter = Meters.objects.filter(
+            Q(Meternumber__icontains=search_query))[0]
+        waterhistory=WaterBuyHistory.objects.filter(Meternumber=meter.id)
     paginator = Paginator(waterhistory, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -174,7 +175,7 @@ def shopping(request):
     cartItems = data['cartItems']
     order = data['order']
     items = data['items']
-    products = Product.objects.filter(inStock__gte=1, Disable=False)
+    products = Product.objects.filter(Disable=False)
     return render(request, 'website/shop.html', {'products': products, 'cartItems': cartItems})
 
 
@@ -649,7 +650,7 @@ def customerBoard(request):
     #Amazi
 
     invoice_amazi = Subscriptions.objects.filter(
-        complete=True, Category=category_amazi)
+        complete=True, Category=category_amazi,CustomerID=customer.id)
 
 
     amount_invoicedamazi = sum([int(sub.Total)
@@ -677,7 +678,7 @@ def customerBoard(request):
 
     #inuma
     invoice_Inuma = Subscriptions.objects.filter(
-        complete=True, Category=category_inuma)
+        complete=True, Category=category_inuma,CustomerID=customer.id)
 
 
     amount_invoicedInuma = sum([int(sub.Total)
@@ -705,7 +706,7 @@ def customerBoard(request):
 
     #Uhira
     invoice_Uhira = Subscriptions.objects.filter(
-        complete=True, Category=category_uhira)
+        complete=True, Category=category_uhira,CustomerID=customer.id)
 
 
     amount_invoicedUhira = sum([int(sub.Total)
@@ -1250,7 +1251,6 @@ def approvesubscription(request, subID):
         subscription.Total = int(request.POST['amount'])
         subscription.Downpayment = int(request.POST['downpayment'])
         subscription.InstallmentPeriod = int(request.POST['period'])
-        subscription.Tools = request.POST['tools']
         subscription.To = today + timedelta(days=365)
         subscription.save()
         new_balance = int(request.POST['amount']) - \
