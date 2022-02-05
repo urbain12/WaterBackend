@@ -296,9 +296,13 @@ h1,h2,h3,h4,h5,h6{
 													{{product.description}}
                                                     </p>
                                                 </div>
-                                                    <button data-product="{{product.id}}" data-stock="{{product.inStock}}" data-action="add" class="single_add_to_cart_button button alt update-cart">
-                                                        Add to cart
-                                                    </button>
+												{% if product.inStock == 0 %}
+												<p style="color:#00b4e3;font-size:18px">Not available, Please contact Us.</p>
+												{% else %}
+												<button data-product="{{product.id}}" data-stock="{{product.inStock}}" data-action="add" class="single_add_to_cart_button button alt update-cart gothic">
+													Add to cart
+												 </button>
+												{% endif %}
                                                 
                                             </div>
 
