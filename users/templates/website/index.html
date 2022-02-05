@@ -99,16 +99,30 @@
 											<div class="mfn-main-slider mfn-rev-slider" style="height:100px">
 
 												<div class="wrap mcb-wrap mcb-wrap-2/3 one-second valign-top clearfix">
-													<div style="height: 400px;width: 500px;background:black;border-top-left-radius:150px;border-top-right-radius:0px;border-bottom-right-radius:0px;border-bottom-left-radius:0px ;color:white;text-align:center;font-size:40px;font-weight:bold;padding-top:100px" >
-													<span class="gothic">Rain</span><span style="color:#00b4e3" class="gothic">Water</span>
-														<br><br>
-														is Safe  Water
-														<br>
-														<br>
-														
-														 <br>
-														 <br>
-
+													<div style="height: 500px;width: 600px;background:black;border-top-left-radius:150px;border-top-right-radius:0px;border-bottom-right-radius:0px;border-bottom-left-radius:0px ;color:white;text-align:center;font-size:40px;font-weight:bold;padding-top:100px" >
+													<span class="gothic">Rain</span>&nbsp <span style="color:#00b4e3" class="gothic"> Water</span>&nbsp   is Safe  Water
+														<br><br><br>
+														<div class="column mcb-column mcb-item-lw0uwepr5 one column_column">
+											<div class="column_attr clearfix align_center" style="background-color:#000;border-radius: 20px; box-shadow: 0px 10px 30px 0px rgba(0,0,0,0.1);">
+														<h5 class="gothic" style="color:white">Login to your account</h5>
+														<div id="contactWrapper" >
+															<form id="contactform" action="{% url 'login'%}" method="POST">
+															{% csrf_token %}
+																<!-- One Second (1/2) Column -->
+																<div class="column one">
+																	<input placeholder="Email" type="email" name="email" id="name" style="width:50%;border-radius:2px;margin-left:25%;"/> 
+																</div><br><br>
+																<!-- One Second (1/2) Column -->
+																<div class="column one">
+																	<input placeholder="password" type="password" name="password" id="email" style="width:50%;border-radius:2px;margin-left:25%;"/> 
+																</div><br><br>
+																<div class="column one">
+																	<button class="btn btn-block btn-success" type="submit" style="width:51%;border-radius:10px;margin-left:1%;">Sign In</button>
+																</div>
+															</form>
+														</div>
+													</div>
+												</div>
 													<a href="https://apps.apple.com/us/app/water-access-rwanda/id1595451679" target="_blank"><div style="display:inline-block;height:48px;width:170px;margin-top:100px;background-image:url({% static 'web/images/scooterrental-slider-pic2.png' %})"></div></a>
 													<a href="https://play.google.com/store/apps/details?id=water.access.rwanda" target="_blank"><div style="display:inline-block;height:48px;width:190px;margin-top:100px;background-image:url({% static 'web/images/scooterrental-slider-pic3.png' %})"></div></a>
 													</div>

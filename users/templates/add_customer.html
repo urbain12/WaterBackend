@@ -77,8 +77,8 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Meter Number</label>
-                                                    <select class="form-control" name="Meternumber">
+                                                    <label class="control-label">Meter Number <b style="color:#38b3f5;"> (If customer is for inuma only) </b></label>
+                                                    <select  name="Meternumber" class="js-example-basic-single2 form-control">
                                                        <option value="">Select meter number</option> 
                                                     {% for meter in Meter %}
 
@@ -136,4 +136,11 @@ $(document).ready(function() {
 });
 
 </script>
+
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-single2').select2();
+    });
+    
+    </script>
 {% endblock content%}

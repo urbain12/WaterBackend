@@ -35,14 +35,12 @@
                                 <table class="table table-striped" style="border: 1px">
                                     <thead>
                                         <tr>
-                                            <th class="text-left">ID</th>
                                             <th>Meter Number</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     {% for meter in page_obj %}
                                     <tr>
-                                            <td><a class="btn-link" href="#">{{meter.id}}</a></td>
                                             <td>{{meter.Meternumber}}</td>
                                     </tr>
 

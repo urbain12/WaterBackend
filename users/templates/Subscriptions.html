@@ -44,7 +44,6 @@
                                 <table class="table table-striped" style="border: 1px">
                                     <thead>
                                         <tr>
-                                            <th class="text-left">ID</th>
                                             <th>Customer</th>
                                             <th>Subscribed in</th>
                                             <th>From</th>
@@ -57,7 +56,6 @@
                                     
                                     {% for sub in subscriptions %}
                                     <tr>
-                                            <td><a class="btn-link" href="#">{{sub.id}}</a></td>
                                             <td>{{sub.CustomerID.FirstName}} {{sub.CustomerID.LastName}}</td>
                                             <td>{{sub.Category.Title}}</td>
                                             <td>{{sub.From|date:'d/m/Y'}}</td>

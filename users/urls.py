@@ -43,7 +43,16 @@ urlpatterns = [
     path('create_order_tool/',CreateOrderTool.as_view(),name='create_order_tool'),
     path('pay_later_order/create/',PayLaterOrder.as_view(),name='pay_later_order'),
     path('pay_later_order_tool/create/',PayLaterOrderTool.as_view(),name='pay_later_order_tool'),
+
+    #orderpages
     path('pay_later_orders/',pay_later_orders,name='pay_later_orders'),
+    path('notdeliveredpage/',notdeliveredpage,name='notdeliveredpage'),
+    
+    #catordepages
+    path('pay_later_catridges/',pay_later_catridges,name='pay_later_catridges'),
+    path('notdeliveredpagecatriges/',notdeliveredpagecatridges,name='notdeliveredpagecatridges'),
+
+
     path('products/',products,name='products'),
     path('send_app_link/',send_app_link,name='send_app_link'),
     path('transactions/<int:customerID>/',transactions,name='transactions'),
@@ -95,6 +104,25 @@ urlpatterns = [
     path('delete_system/<int:sysID>',delete_system,name="delete_system"),
     path('disable_product/<int:DisabledID>',disable_product,name="disable_product"),
     path('enable_product/<int:enabledID>',enable_product,name="enable_product"),
+
+    #deliverorder
+    path('deliveredorder/<int:delivID>',deliveredorder,name="deliveredorder"),
+    path('not_deliveredorder/<int:notdelivID>',not_deliveredorder,name="not_deliveredorder"),
+
+    #delivercat
+    path('deliveredordercatridge/<int:delivID>',deliveredordercatridge,name="deliveredordercatridge"),
+    path('not_deliveredcatridge/<int:notdelivID>',not_deliveredcatridge,name="not_deliveredcatridge"),
+
+    #paidorder
+    path('paidorder/<int:paidID>',paidorder,name="paidorder"),
+    path('not_paidorder/<int:notpaidID>',not_paidorder,name="not_paidorder"),
+
+
+    #paidcat
+    path('paidordercatridges/<int:paidID>',paidordercatridges,name="paidordercatridges"),
+    path('not_paidcatridges/<int:notpaidID>',not_paidcatridges,name="not_paidcatridges"),
+
+
     path('updateProduct/<int:updateID>',updateProduct,name="updateProduct"),
     path('updateBlog/<int:updateID>',updateBlog,name="updateBlog"),
     path('delete_blog/<int:blogID>',delete_blog,name="delete_blog"),
