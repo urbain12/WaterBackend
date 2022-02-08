@@ -24,8 +24,8 @@
 
                                             <form class="form-inline my-2 my-lg-0" method="POST" action= "{% url 'instalment' %}">
                                                 {% csrf_token %}
-                                            <b>From:</b>&nbsp;&nbsp; <input  type="date" name="start"  class="form-control" autocomplete="off" style="height:35px">&nbsp;&nbsp;
-                                            <b>TO:</b>&nbsp;&nbsp; <input  type="date" name="end"  class="form-control" autocomplete="off" style="height:35px">
+                                            <b>From:</b>&nbsp;&nbsp; <input  type="date" name="start"  class="form-control" autocomplete="off" style="height:35px" required>&nbsp;&nbsp;
+                                            <b>TO:</b>&nbsp;&nbsp; <input  type="date" name="end"  class="form-control" autocomplete="off" style="height:35px" required>
                                             <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-filter" aria-hidden="true"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             </form>
                                         </div>
