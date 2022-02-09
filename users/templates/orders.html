@@ -6,7 +6,7 @@
                     
 					<div class="panel">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Orders</h3>
+                            <h3 class="panel-title">Paid Orders</h3>
                         </div>
                     
                         <!--Data Table-->
@@ -19,6 +19,17 @@
                                     <a href="{% url 'export_orders' %}"> <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;Export</button></a>
                                     <a href="{% url 'pay_later_orders' %}"> <button class="btn btn-warning my-2 my-sm-0" type="submit">&nbsp; &nbsp;Pay Later Orders</button></a>
                                     <a href="{% url 'notdeliveredpage' %}"> <button class="btn btn-mint my-2 my-sm-0" type="submit">&nbsp; &nbsp;Not delivered Orders</button></a>
+
+                                    <div class="btn-group">
+                                        <div class="form-group">
+                                    <form class="form-inline my-2 my-lg-0" action="{% url 'orders'%}">
+                                    <input id="demo-input-search2" type="text" name="search" placeholder="Search by name" class="form-control" autocomplete="off">
+                                    <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></buttn>
+                                    </form>
+                                    </div>
+                               
+                                        
+                                    </div>
 
                                     </div>
                                 </div>

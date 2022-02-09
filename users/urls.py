@@ -129,8 +129,10 @@ urlpatterns = [
     path('changeuserpassword/<int:userID>',changeuserpassword,name="changeuserpassword"),
     url(r'^export/csv/$',export_users_csv, name='export_users_csv'),
     url(r'^export/order/$',export_orders, name='export_orders'),
+    url(r'^export/catridgesorder/$',export_catridgesorders, name='export_catridgesorders'),
     path('export/transaction/<int:customerID>',export_transaction_csv, name='export_transaction_csv'),
     path('export/quotation/<int:SubscriptionsID>',export_quotation_csv, name='export_quotation_csv'),
+    url(r'^export/receipts/$',export_receipts, name='export_receipts'),
 
 
 

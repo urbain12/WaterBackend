@@ -83,9 +83,9 @@ def Receipts(request):
     waterhistory = WaterBuyHistory.objects.all().order_by('-id')
     search_query = request.GET.get('search', '')
     if search_query:
-        meter = Meters.objects.filter(
-            Q(Meternumber__icontains=search_query))[0]
-        waterhistory=WaterBuyHistory.objects.filter(Meternumber=meter.id)
+        customers = Customer.objects.filter(
+            Q(FirstName__icontains=search_query))[0]
+        waterhistory=WaterBuyHistory.objects.filter(Customer=customers.id)
     paginator = Paginator(waterhistory, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -847,6 +847,10 @@ def products(request):
 @login_required(login_url='/login')
 def orders(request):
     orders = Order.objects.filter(paid=True).order_by('-id')
+    search_query = request.GET.get('search', '')
+    if search_query:
+        shipping = ShippingAddress.objects.filter(Q(names__icontains=search_query))
+        orders = Order.objects.filter(shippingaddress__in=shipping,paid=True)
     paginator = Paginator(orders, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -870,7 +874,11 @@ def deliveredorder(request, delivID):
 
 @login_required(login_url='/login')
 def Catrdigesorders(request):
-    Catridgeorders = OrderTools.objects.all().order_by('-id')
+    Catridgeorders = OrderTools.objects.filter(paid=True).order_by('-id')
+    search_query = request.GET.get('search', '')
+    if search_query:
+        shipping = ToolShippingAddress.objects.filter(Q(names__icontains=search_query))
+        Catridgeorders = OrderTools.objects.filter(toolshippingaddress__in=shipping,paid=True)
     paginator = Paginator(Catridgeorders, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -896,6 +904,10 @@ def deliveredordercatridge(request, delivID):
 @login_required(login_url='/login')
 def pay_later_catridges(request):
     orders = OrderTools.objects.filter(pay_later=True).order_by('-id')
+    search_query = request.GET.get('search', '')
+    if search_query:
+        shipping = ToolShippingAddress.objects.filter(Q(names__icontains=search_query))
+        orders = OrderTools.objects.filter(toolshippingaddress__in=shipping,pay_later=True)
     paginator = Paginator(orders, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -904,6 +916,10 @@ def pay_later_catridges(request):
 @login_required(login_url='/login')
 def notdeliveredpagecatridges(request):
     orders = OrderTools.objects.filter(delivery=False).order_by('-id')
+    search_query = request.GET.get('search', '')
+    if search_query:
+        shipping = ToolShippingAddress.objects.filter(Q(names__icontains=search_query))
+        orders = OrderTools.objects.filter(toolshippingaddress__in=shipping,delivery=False)
     paginator = Paginator(orders, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -934,6 +950,10 @@ def paidordercatridges(request, paidID):
 @login_required(login_url='/login')
 def pay_later_orders(request):
     orders = Order.objects.filter(pay_later=True).order_by('-id')
+    search_query = request.GET.get('search', '')
+    if search_query:
+        shipping = ShippingAddress.objects.filter(Q(names__icontains=search_query))
+        orders = Order.objects.filter(shippingaddress__in=shipping,pay_later=True)
     paginator = Paginator(orders, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -943,6 +963,10 @@ def pay_later_orders(request):
 @login_required(login_url='/login')
 def notdeliveredpage(request):
     orders = Order.objects.filter(delivery=False).order_by('-id')
+    search_query = request.GET.get('search', '')
+    if search_query:
+        shipping = ShippingAddress.objects.filter(Q(names__icontains=search_query))
+        orders = Order.objects.filter(shippingaddress__in=shipping,delivery=False)
     paginator = Paginator(orders, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -2693,8 +2717,36 @@ def export_orders(request):
             sub.shippingaddress.names,
             sub.shippingaddress.phone,
             sub.shippingaddress.address+' '+sub.shippingaddress.city,
-            sub.date_ordered,
-            sub.get_cart_total,
+            sub.date_ordered.strftime("%Y-%m-%d"),
+            sub.get_cart_total
+        ]
+
+        print(list_orders)
+        print(type(list_orders))
+        order.append(list_orders)
+    for user in order:
+        writer.writerow(user)
+
+    return response
+
+
+def export_catridgesorders(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="catridgesorders.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Customer', 'Phone', 'Address', 'Date ordered', 'Total'])
+
+    orders = OrderTools.objects.all()
+    order = []
+    for sub in orders:
+
+        list_orders = [
+            sub.toolshippingaddress.names,
+            sub.toolshippingaddress.phone,
+            sub.toolshippingaddress.address+' '+sub.toolshippingaddress.city,
+            sub.date_ordered.strftime("%Y-%m-%d"),
+            sub.get_cart_total
         ]
 
         print(list_orders)
@@ -2763,6 +2815,38 @@ def export_quotation_csv(request, SubscriptionsID):
             subscription.System.total + 'Rwf'
         ])
     for user in allqoute:
+        writer.writerow(user)
+
+    return response
+
+
+
+def export_receipts(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="InumaBuyWater.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Customer', 'Phone', 'MeterNumber', 'Amount',"Littres", 'Token','Date',])
+
+    Receipts = WaterBuyHistory.objects.all()
+    inumatoken = []
+    for rec in Receipts:
+
+        allreceipts = [
+            rec.Customer.FirstName+' '+rec.Customer.LastName,
+            rec.Customer.user.phone,
+            rec.Meternumber,
+            rec.Amount + 'Rwf',
+            rec.Amount + 'Ltr',
+            rec.Token,
+            rec.created_at.strftime("%Y-%m-%d"),
+            
+        ]
+
+        print(allreceipts)
+        print(type(allreceipts))
+        inumatoken.append(allreceipts)
+    for user in inumatoken:
         writer.writerow(user)
 
     return response

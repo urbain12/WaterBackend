@@ -16,11 +16,24 @@
                                 <div class="row">
                                     
                                     <div class="col-sm-12 table-toolbar-right">
-                                    <a href="{% url 'export_orders' %}"> <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;Export</button></a>
+                                    <a href="{% url 'export_catridgesorders' %}"> <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;Export</button></a>
                                     <a href="{% url 'pay_later_catridges' %}"> <button class="btn btn-warning my-2 my-sm-0" type="submit">&nbsp; &nbsp;Pay Later catridges</button></a>
                                     <a href="{% url 'notdeliveredpagecatridges' %}"> <button class="btn btn-mint my-2 my-sm-0" type="submit">&nbsp; &nbsp;Not delivered catridges</button></a>
+
+
+                                    <div class="btn-group">
+                                        <div class="form-group">
+                                    <form class="form-inline my-2 my-lg-0" action="{% url 'Catrdigesorders'%}">
+                                    <input id="demo-input-search2" type="text" name="search" placeholder="Search by name" class="form-control" autocomplete="off">
+                                    <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></buttn>
+                                    </form>
+                                    </div>
+                               
+                                        
+                                    </div>
                                     </div>
                                 </div>
+                                
                                 
                             </div>
                             <div class="table-responsive">
@@ -38,7 +51,7 @@
                                             
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody>toolshippingaddress
                                      {% for order in page_obj %}
                                     <tr>
                                             <td>{{order.toolshippingaddress.names}} </td>
