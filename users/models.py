@@ -250,6 +250,13 @@ class subRequest(models.Model):
     Cell = models.CharField(max_length=255, null=True, blank=True)
     Language = models.CharField(max_length=255, null=True, blank=True)
     send_at = models.DateField(auto_now_add=True)
+    reply = models.TextField(blank=True, null=True,
+                             default="Please wait for the response")
+    techname = models.CharField(max_length=255,blank=True, null=True)
+    techphone = models.CharField(max_length=255,blank=True, null=True)
+    techdate = models.DateField(blank=True, null=True)
+    replied = models.BooleanField(default=False)
+
 
     def __str__(self):
         return self.Names
@@ -382,6 +389,7 @@ class Blog(models.Model):
     Title = models.CharField(max_length=200, null=False)
     Details = models.TextField(blank=True, null=False)
     Image = models.ImageField(null=True, blank=True)
+    publish = models.BooleanField(default=False)
     Published_at = models.DateField(auto_now_add=True)
 
     def __str__(self):

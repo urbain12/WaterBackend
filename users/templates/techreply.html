@@ -11,7 +11,7 @@
                     
                                 <!--Block Styled Form -->
                                 <!--===================================================-->
-                                <form enctype="multipart/form-data" action="{% url 'reply' message.id %}" method="POST">
+                                <form enctype="multipart/form-data" action="{% url 'Techreply' message.id %}" method="POST">
                                 {% csrf_token %}
                                     <div class="panel-body">
                                         <div class="row">
@@ -25,6 +25,26 @@
                                                 <div class="form-group">
                                                     <label class="control-label">Query</label>
                                                     <p style="color:black;font-size:15px;" >{{message.Message}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Technician Name</label>
+                                                    <input type="text" class="form-control" name="tecname">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Technician Phone</label>
+                                                    <input type="text" class="form-control" name="tecphone"> 
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Serve date</label>
+                                                    <input type="date" class="form-control" name="cdate" style="height:32px;">
                                                 </div>
                                             </div>
                                         </div>

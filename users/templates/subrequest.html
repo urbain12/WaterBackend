@@ -33,7 +33,6 @@
                                 <table class="table table-striped" style="border: 1px">
                                     <thead>
                                         <tr>
-                                            <th class="text-left">ID</th>
                                             <th>Names</th>
                                             <th>Message</th>
                                             <th>Province</th>
@@ -41,6 +40,9 @@
                                             <th>Sector</th>
                                             <th>Cell</th>
                                             <th>Send at</th>
+                                            <th>Reply</td>
+                                            <th>Action</td>
+                                            
                                             
                                             
                                         </tr>
@@ -48,7 +50,6 @@
                                     <tbody>
                                     {% for request in page_obj %}
                                     <tr>
-                                            <td><a class="btn-link" href="#">{{request.id}}</a></td>
                                             <td>{{request.Names}}</td>
                                             <td>{{request.Message}}</td>
                                             <td>{{request.Province}}</td>
@@ -56,6 +57,18 @@
                                             <td>{{request.Sector}}</td>
                                             <td>{{request.Cell}}</td>
                                             <td>{{request.send_at}}</td>
+                                            <td>{{request.reply}}</td>
+                                            <td>
+                                            {% if request.replied %}
+                                            <a href="#">
+                                            <button class="btn btn-warning" style="border-radius:10px">Replied</button>
+                                            </a>
+                                            {% else %}
+                                            <a href="{% url 'Techreply' request.id %}">
+                                            <button class="btn btn-primary" style="border-radius:10px">Reply</button>
+                                            </a>
+                                            {% endif %}
+                                            </td>
                                            
 
                                            

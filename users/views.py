@@ -1,3 +1,4 @@
+from calendar import month
 from codecs import BOM_UTF32_BE
 from pickle import TRUE
 from django.contrib.auth import get_user_model
@@ -54,7 +55,7 @@ def not_authorized(request):
 
 
 def blog(request):
-    blogs = Blog.objects.all()
+    blogs = Blog.objects.filter(publish =True)
     return render(request, 'website/blog.html', {'blogs': blogs})
 
 
@@ -80,16 +81,23 @@ def imgbackgroundview(request):
 
 @login_required(login_url='/login')
 def Receipts(request):
-    waterhistory = WaterBuyHistory.objects.all().order_by('-id')
-    search_query = request.GET.get('search', '')
-    if search_query:
-        customers = Customer.objects.filter(
-            Q(FirstName__icontains=search_query))[0]
-        waterhistory=WaterBuyHistory.objects.filter(Customer=customers.id)
-    paginator = Paginator(waterhistory, 6)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(request, 'Receipt.html', {'waterhistory': waterhistory, 'page_obj': page_obj})
+    if request.method == "POST":
+        start = request.POST['start']
+        end = request.POST['end']
+        filtering = WaterBuyHistory.objects.filter(
+            created_at__gte=start, created_at__lte=end)
+        return render(request, 'Receipt.html', {'waterhistory': filtering})
+    else:
+        waterhistory = WaterBuyHistory.objects.all().order_by('-id')
+        search_query = request.GET.get('search', '')
+        if search_query:
+            customers = Customer.objects.filter(
+                Q(FirstName__icontains=search_query))[0]
+            waterhistory = WaterBuyHistory.objects.filter(Customer=customers.id)
+        paginator = Paginator(waterhistory, 6)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'Receipt.html', {'waterhistory': waterhistory, 'page_obj': page_obj})
 
 
 def sendToken(request, tokenID):
@@ -282,6 +290,22 @@ def updateBlog(request, updateID):
         return render(request, 'UpdateBlog.html', {'UpdateBlog': UpdateBlog})
 
 
+@login_required(login_url='/login')
+def unpublish(request, unpublishID):
+    unpublish = Blog.objects.get(id=unpublishID)
+    unpublish.publish = True
+    unpublish.save()
+    return redirect('Viewblog')
+
+
+@login_required(login_url='/login')
+def publishblog(request, publishID):
+    publishblog = Blog.objects.get(id=publishID)
+    publishblog.publish = False
+    publishblog.save()
+    return redirect('Viewblog')
+
+
 def success(request):
     return render(request, 'website/success.html')
 
@@ -310,6 +334,30 @@ def reply(request, requestID):
     else:
         message = Request.objects.get(id=requestID)
         return render(request, 'reply.html', {'message': message})
+
+def Techreply(request, requestID):
+    if request.method == 'POST':
+        req = subRequest.objects.only('id').get(
+            id=requestID)
+        req.reply = request.POST['Msg']
+        req.techname = request.POST['tecname']
+        req.techphone = request.POST['tecphone']
+        req.techdate = request.POST['cdate']
+        req.replied = True
+        req.save()
+        if req.Language.upper() == 'ENGLISH':
+            payload = {'details': f' Dear {req.Names},\n{req.reply} \nthe tech name is:{req.techname}\n and phone :{req.techphone}\nwill come on : {req.techdate}   ',
+                       'phone': f'25{req.phonenumber}'}
+        if req.Language.upper() == 'KINYARWANDA':
+            payload = {'details': f' Mukiriya wacu  {req.Names},\n{req.reply} \nizina ryumutekinisiye uzabafasha:{req.techname}\nnumero  ye ni :{req.techphone}\nazaza tariki: {req.techdate}',
+                       'phone': f'25{req.phonenumber}'}
+        headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+                          headers=headers, data=payload, verify=False)
+        return redirect('subrequest')
+    else:
+        message = subRequest.objects.get(id=requestID)
+        return render(request, 'techreply.html', {'message': message})
 
 
 @login_required(login_url='/login')
@@ -372,12 +420,12 @@ def notify(request, subID):
 
 def send_app_link(request):
     if request.method == "POST":
-        payload = {'details': f' Dear Customer,\n \nYou can download Water Access App through the following link: \n http://shorturl.at/qEQZ2',
-                    'phone': f'25{request.POST["phone"]}'}
+        payload = {'details': f' Dear Customer,\n \nYou can download Water Access App through the following link: \n Android: http://shorturl.at/qEQZ2 \n IOS: http://shorturl.at/tDEG0',
+                   'phone': f'25{request.POST["phone"]}'}
 
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
-                        headers=headers, data=payload, verify=False)
+                          headers=headers, data=payload, verify=False)
         return redirect('dashboard')
     else:
         return render(request, 'send_app_link.html')
@@ -416,9 +464,9 @@ def dashboard(request):
     amount_invoiceddaily = sum([int(sub.Total)
                                for sub in daily_subscriptions])
     amount_invoiceddaily1 = sum([int(sub.Total)
-                               for sub in daily_subscriptions1])
+                                 for sub in daily_subscriptions1])
     amount_invoiceddaily2 = sum([int(sub.Total)
-                               for sub in daily_subscriptions2])
+                                 for sub in daily_subscriptions2])
     amount_paiddaily = sum([int(payment.Paidamount)
                            for payment in paymentsdaily])
     amount_outstandingdaily = amount_invoiceddaily-amount_paiddaily
@@ -439,9 +487,9 @@ def dashboard(request):
     amount_invoiced = sum([int(sub.Total)
                           for sub in my_subscriptions])
     amount_invoiced1 = sum([int(sub.Total)
-                          for sub in my_subscriptions1])
+                            for sub in my_subscriptions1])
     amount_invoiced2 = sum([int(sub.Total)
-                          for sub in my_subscriptions2])
+                            for sub in my_subscriptions2])
     payments = SubscriptionsPayment.objects.filter(Paid=True)
     amount_paid = sum([int(payment.Paidamount) for payment in payments])
     amount_outstanding = amount_invoiced + \
@@ -449,7 +497,6 @@ def dashboard(request):
 
     weekly = len(Subscriptions.objects.filter(
         From__range=[start_week.date(), end_week.date()], complete=True))
-
 
     weekly_subscriptions = Subscriptions.objects.filter(
         From__date=d.date(), complete=True, Category=category_amazi)
@@ -465,26 +512,23 @@ def dashboard(request):
     amount_invoicedweekly = sum([int(sub.Total)
                                 for sub in weekly_subscriptions])
     amount_invoicedweekly1 = sum([int(sub.Total)
-                                for sub in weekly_subscriptions1])
+                                  for sub in weekly_subscriptions1])
     amount_invoicedweekly2 = sum([int(sub.Total)
-                                for sub in weekly_subscriptions2])
+                                  for sub in weekly_subscriptions2])
     amount_paidweekly = sum([int(payment.Paidamount)
                             for payment in paymentsweekly])
     amount_outstandingweekly = amount_invoicedweekly-amount_paidweekly
 
-
     soldlitre = WaterBuyHistory.objects.all()
     allsoldlitre = sum([int(litre.Amount) for litre in soldlitre])
 
-    weeklylittre =WaterBuyHistory.objects.filter(
+    weeklylittre = WaterBuyHistory.objects.filter(
         created_at__range=[start_week.date(), end_week.date()])
     weeklysoldlitre = sum([int(litre.Amount) for litre in weeklylittre])
 
-    dailylittre =WaterBuyHistory.objects.filter(
+    dailylittre = WaterBuyHistory.objects.filter(
         created_at__date=d.date())
     dailysoldlitre = sum([int(litre.Amount) for litre in dailylittre])
-
-
 
     return render(request, 'dashboard.html', {
         'subscriptions': subscriptions,
@@ -513,11 +557,9 @@ def dashboard(request):
 
 
 
-        
-        
-        })
 
 
+    })
 
 
 @login_required(login_url='/login')
@@ -563,12 +605,14 @@ def operator(request):
                             email=request.POST['email'],
                             phone=request.POST['phonenumber'][2:],
                             password=password)
+                        my_email = request.POST['email']
                         my_phone = request.POST['phonenumber'][2:]
                     else:
                         user = User.objects.create_user(
                             email=request.POST['email'],
                             phone=request.POST['phonenumber'],
                             password=password)
+                        my_email = request.POST['email']
                         my_phone = request.POST['phonenumber']
                 elif request.POST['permission'] == 'staff':
                     if request.POST['phonenumber'][0:2] == '25':
@@ -576,18 +620,20 @@ def operator(request):
                             email=request.POST['email'],
                             phone=request.POST['phonenumber'][2:],
                             password=password)
+                        my_email = request.POST['email']
                         my_phone = request.POST['phonenumber'][2:]
                     else:
                         user = User.objects.create_staffuser(
                             email=request.POST['email'],
                             phone=request.POST['phonenumber'],
                             password=password)
+                        my_email = request.POST['email']
                         my_phone = request.POST['phonenumber']
 
                 if my_phone[0:2] == '25':
-                    payload = {'details': f' Dear Client,\nYou have been registered successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\npassword:{password}\n\n Download the application through\n http://shorturl.at/qEQZ2', 'phone': f'{my_phone}'}
+                    payload = {'details': f' Dear Client,\nYou have been registered successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\nEmail:{my_email}\npassword:{password}\n\n Download the application through\n http://shorturl.at/qEQZ2', 'phone': f'{my_phone}'}
                 else:
-                    payload = {'details': f' Dear Client,\nYou have been registered successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\npassword:{password}\n\n Download the application through\n http://shorturl.at/qEQZ2', 'phone': f'25{my_phone}'}
+                    payload = {'details': f' Dear Client,\nYou have been registered successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\nEmail:{my_email}\npassword:{password}\n\n Download the application through\n http://shorturl.at/qEQZ2', 'phone': f'25{my_phone}'}
                 headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
                 r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                                   headers=headers, data=payload, verify=False)
@@ -599,9 +645,9 @@ def Sessionhold(request):
     if 'user' in request.session:
         current_user = request.session['user']
         param = current_user
-        return HttpResponse('your logged in',param)
+        return HttpResponse('your logged in', param)
     else:
-        return redirect('login')  
+        return redirect('login')
 
 
 def login(request):
@@ -615,153 +661,147 @@ def login(request):
             django_login(request, customer)
             try:
                 cust = Customer.objects.get(user=customer.id)
-                
+
                 return redirect('customerBoard')
             except Customer.DoesNotExist:
                 return redirect('not_authorized')
         else:
-            return render(request, 'login.html',{'error':'Your Email or Password are incorrect.'})
+            return render(request, 'login.html', {'error': 'Your Email or Password are incorrect.'})
     else:
         return render(request, 'login.html')
 
 
 # @login_required(login_url='/login')
 def logout(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         auth.logout(request)
     return redirect('login')
 
 
 @login_required(login_url='/login')
 def customerBoard(request):
-    customer=Customer.objects.get(user=request.user.id)
-    subscriptions=Subscriptions.objects.filter(CustomerID=customer.id)
-    subs=[]
+    customer = Customer.objects.get(user=request.user.id)
+    subscriptions = Subscriptions.objects.filter(CustomerID=customer.id)
+    subs = []
     for sub in subscriptions:
         subs.append(sub.Category.Title.upper())
-    is_amazi='AMAZI' in subs
-    is_inuma='INUMA' in subs
-    is_uhira='UHIRA' in subs
-    #weekly
+    is_amazi = 'AMAZI' in subs
+    is_inuma = 'INUMA' in subs
+    is_uhira = 'UHIRA' in subs
+    # weekly
     category_amazi = Category.objects.get(Title="AMAZI")
     category_uhira = Category.objects.get(Title="UHIRA")
     category_inuma = Category.objects.get(Title="INUMA")
 
-
-    #Amazi
+    # Amazi
 
     invoice_amazi = Subscriptions.objects.filter(
-        complete=True, Category=category_amazi,CustomerID=customer.id)
-
+        complete=True, Category=category_amazi, CustomerID=customer.id)
 
     amount_invoicedamazi = sum([int(sub.Total)
-                                    for sub in invoice_amazi])
+                                for sub in invoice_amazi])
     Downpayment_Amazi = sum([int(sub.Downpayment)
-                                    for sub in invoice_amazi])
+                             for sub in invoice_amazi])
     instalment_period_amazi = sum([int(sub.InstallmentPeriod)
-                                    for sub in invoice_amazi])
+                                   for sub in invoice_amazi])
     if instalment_period_amazi == 0:
         Monthly_Amazi = 0
     else:
-        Monthly_Amazi = (amount_invoicedamazi-Downpayment_Amazi)  / instalment_period_amazi
+        Monthly_Amazi = (amount_invoicedamazi -
+                         Downpayment_Amazi) / instalment_period_amazi
 
     outstandingAmazi = sum([int(sub.TotalBalance)
-                                    for sub in invoice_amazi])
+                            for sub in invoice_amazi])
 
     balancepaidAmazi = amount_invoicedamazi - outstandingAmazi
 
     overduemonthAmazi = sum([int(sub.get_overdue_months)
-                                    for sub in invoice_amazi])
+                             for sub in invoice_amazi])
 
     overdueamountAmazi = Monthly_Amazi * overduemonthAmazi
 
-
-
-    #inuma
+    # inuma
     invoice_Inuma = Subscriptions.objects.filter(
-        complete=True, Category=category_inuma,CustomerID=customer.id)
-
+        complete=True, Category=category_inuma, CustomerID=customer.id)
 
     amount_invoicedInuma = sum([int(sub.Total)
-                                    for sub in invoice_Inuma])
+                                for sub in invoice_Inuma])
     Downpayment_Inuma = sum([int(sub.Downpayment)
-                                    for sub in invoice_Inuma])
+                             for sub in invoice_Inuma])
     instalment_period_inuma = sum([int(sub.InstallmentPeriod)
-                                    for sub in invoice_Inuma])
+                                   for sub in invoice_Inuma])
     if instalment_period_inuma == 0:
         Monthly_Inuma = 0
     else:
-        Monthly_Inuma = (amount_invoicedInuma-Downpayment_Inuma)  / instalment_period_inuma
+        Monthly_Inuma = (amount_invoicedInuma -
+                         Downpayment_Inuma) / instalment_period_inuma
 
     outstandingInuma = sum([int(sub.TotalBalance)
-                                    for sub in invoice_Inuma])
+                            for sub in invoice_Inuma])
 
     balancepaidInuma = amount_invoicedInuma - outstandingInuma
 
     overduemonthInuma = sum([int(sub.get_overdue_months)
-                                    for sub in invoice_Inuma])
+                             for sub in invoice_Inuma])
 
     overdueamountInuma = Monthly_Inuma * overduemonthInuma
 
-
-
-    #Uhira
+    # Uhira
     invoice_Uhira = Subscriptions.objects.filter(
-        complete=True, Category=category_uhira,CustomerID=customer.id)
-
+        complete=True, Category=category_uhira, CustomerID=customer.id)
 
     amount_invoicedUhira = sum([int(sub.Total)
-                                    for sub in invoice_Uhira])
+                                for sub in invoice_Uhira])
     Downpayment_Uhira = sum([int(sub.Downpayment)
-                                    for sub in invoice_Uhira])
-    
+                             for sub in invoice_Uhira])
+
     instalment_period_uhira = sum([int(sub.InstallmentPeriod)
-                                    for sub in invoice_Uhira])
+                                   for sub in invoice_Uhira])
     if instalment_period_uhira == 0:
         Monthly_Uhira = 0
     else:
-        Monthly_Uhira = (amount_invoicedUhira-Downpayment_Uhira)  / instalment_period_uhira
+        Monthly_Uhira = (amount_invoicedUhira -
+                         Downpayment_Uhira) / instalment_period_uhira
 
     outstandingUhira = sum([int(sub.TotalBalance)
-                                    for sub in invoice_Uhira])
+                            for sub in invoice_Uhira])
 
     balancepaidUhira = amount_invoicedUhira - outstandingUhira
 
     overduemonthUhira = sum([int(sub.get_overdue_months)
-                                    for sub in invoice_Uhira])
+                             for sub in invoice_Uhira])
 
     overdueamountUhira = Monthly_Uhira * overduemonthUhira
 
-
     return render(request, 'CustomerBoard.html',
-        {
-        'is_amazi':is_amazi,'is_inuma':is_inuma,'is_uhira':is_uhira,
-        'amount_invoicedamazi': amount_invoicedamazi,
-        'Downpayment_Amazi': Downpayment_Amazi,
-        'Monthly_Amazi': Monthly_Amazi,
-        'outstandingAmazi': outstandingAmazi,
-        'balancepaidAmazi': balancepaidAmazi,
-        'overduemonthAmazi': overduemonthAmazi,
-        'overdueamountAmazi': overdueamountAmazi,
+                  {
+                      'is_amazi': is_amazi, 'is_inuma': is_inuma, 'is_uhira': is_uhira,
+                      'amount_invoicedamazi': amount_invoicedamazi,
+                      'Downpayment_Amazi': Downpayment_Amazi,
+                      'Monthly_Amazi': Monthly_Amazi,
+                      'outstandingAmazi': outstandingAmazi,
+                      'balancepaidAmazi': balancepaidAmazi,
+                      'overduemonthAmazi': overduemonthAmazi,
+                      'overdueamountAmazi': overdueamountAmazi,
 
-        #Inuma
-        'amount_invoicedInuma': amount_invoicedInuma,
-        'Downpayment_Inuma': Downpayment_Inuma,
-        'Monthly_Inuma': Monthly_Inuma,
-        'outstandingInuma': outstandingInuma,
-        'balancepaidInuma': balancepaidInuma,
-        'overduemonthInuma': overduemonthInuma,
-        'overdueamountInuma': overdueamountInuma,
+                      # Inuma
+                      'amount_invoicedInuma': amount_invoicedInuma,
+                      'Downpayment_Inuma': Downpayment_Inuma,
+                      'Monthly_Inuma': Monthly_Inuma,
+                      'outstandingInuma': outstandingInuma,
+                      'balancepaidInuma': balancepaidInuma,
+                      'overduemonthInuma': overduemonthInuma,
+                      'overdueamountInuma': overdueamountInuma,
 
-        #Uhira
-        'amount_invoicedUhira': amount_invoicedUhira,
-        'Downpayment_Uhira': Downpayment_Uhira,
-        'Monthly_Uhira': Monthly_Uhira,
-        'outstandingUhira': outstandingUhira,
-        'balancepaidUhira': balancepaidUhira,
-        'overduemonthUhira': overduemonthUhira,
-        'overdueamountUhira': overdueamountUhira,
-    })
+                      # Uhira
+                      'amount_invoicedUhira': amount_invoicedUhira,
+                      'Downpayment_Uhira': Downpayment_Uhira,
+                      'Monthly_Uhira': Monthly_Uhira,
+                      'outstandingUhira': outstandingUhira,
+                      'balancepaidUhira': balancepaidUhira,
+                      'overduemonthUhira': overduemonthUhira,
+                      'overdueamountUhira': overdueamountUhira,
+                  })
 
 
 def customerTransaction(request):
@@ -772,7 +812,7 @@ def customerTransaction(request):
         subs.append(i.id)
     payments = SubscriptionsPayment.objects.filter(
         SubscriptionsID__in=subs, Paid=True)
-    return render(request, 'CustomerTransaction.html',{'payments':payments})
+    return render(request, 'CustomerTransaction.html', {'payments': payments})
 
 
 def customer_login(request):
@@ -815,9 +855,6 @@ def customer_login(request):
             return HttpResponse(dump, content_type='application/json')
 
 
-
-
-
 @login_required(login_url='/login')
 def customers(request):
     Customers = Customer.objects.all().order_by('-id')
@@ -849,12 +886,14 @@ def orders(request):
     orders = Order.objects.filter(paid=True).order_by('-id')
     search_query = request.GET.get('search', '')
     if search_query:
-        shipping = ShippingAddress.objects.filter(Q(names__icontains=search_query))
-        orders = Order.objects.filter(shippingaddress__in=shipping,paid=True)
+        shipping = ShippingAddress.objects.filter(
+            Q(names__icontains=search_query))
+        orders = Order.objects.filter(shippingaddress__in=shipping, paid=True)
     paginator = Paginator(orders, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'orders.html', {'orders': orders, 'page_obj': page_obj})
+
 
 @login_required(login_url='/login')
 def not_deliveredorder(request, notdelivID):
@@ -877,8 +916,10 @@ def Catrdigesorders(request):
     Catridgeorders = OrderTools.objects.filter(paid=True).order_by('-id')
     search_query = request.GET.get('search', '')
     if search_query:
-        shipping = ToolShippingAddress.objects.filter(Q(names__icontains=search_query))
-        Catridgeorders = OrderTools.objects.filter(toolshippingaddress__in=shipping,paid=True)
+        shipping = ToolShippingAddress.objects.filter(
+            Q(names__icontains=search_query))
+        Catridgeorders = OrderTools.objects.filter(
+            toolshippingaddress__in=shipping, paid=True)
     paginator = Paginator(Catridgeorders, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -906,20 +947,25 @@ def pay_later_catridges(request):
     orders = OrderTools.objects.filter(pay_later=True).order_by('-id')
     search_query = request.GET.get('search', '')
     if search_query:
-        shipping = ToolShippingAddress.objects.filter(Q(names__icontains=search_query))
-        orders = OrderTools.objects.filter(toolshippingaddress__in=shipping,pay_later=True)
+        shipping = ToolShippingAddress.objects.filter(
+            Q(names__icontains=search_query))
+        orders = OrderTools.objects.filter(
+            toolshippingaddress__in=shipping, pay_later=True)
     paginator = Paginator(orders, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'pay_later_catridges.html', {'orders': orders, 'page_obj': page_obj})
+
 
 @login_required(login_url='/login')
 def notdeliveredpagecatridges(request):
     orders = OrderTools.objects.filter(delivery=False).order_by('-id')
     search_query = request.GET.get('search', '')
     if search_query:
-        shipping = ToolShippingAddress.objects.filter(Q(names__icontains=search_query))
-        orders = OrderTools.objects.filter(toolshippingaddress__in=shipping,delivery=False)
+        shipping = ToolShippingAddress.objects.filter(
+            Q(names__icontains=search_query))
+        orders = OrderTools.objects.filter(
+            toolshippingaddress__in=shipping, delivery=False)
     paginator = Paginator(orders, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -943,17 +989,15 @@ def paidordercatridges(request, paidID):
     return redirect('Catrdigesorders')
 
 
-
-
-
-
 @login_required(login_url='/login')
 def pay_later_orders(request):
     orders = Order.objects.filter(pay_later=True).order_by('-id')
     search_query = request.GET.get('search', '')
     if search_query:
-        shipping = ShippingAddress.objects.filter(Q(names__icontains=search_query))
-        orders = Order.objects.filter(shippingaddress__in=shipping,pay_later=True)
+        shipping = ShippingAddress.objects.filter(
+            Q(names__icontains=search_query))
+        orders = Order.objects.filter(
+            shippingaddress__in=shipping, pay_later=True)
     paginator = Paginator(orders, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -965,8 +1009,10 @@ def notdeliveredpage(request):
     orders = Order.objects.filter(delivery=False).order_by('-id')
     search_query = request.GET.get('search', '')
     if search_query:
-        shipping = ShippingAddress.objects.filter(Q(names__icontains=search_query))
-        orders = Order.objects.filter(shippingaddress__in=shipping,delivery=False)
+        shipping = ShippingAddress.objects.filter(
+            Q(names__icontains=search_query))
+        orders = Order.objects.filter(
+            shippingaddress__in=shipping, delivery=False)
     paginator = Paginator(orders, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -1034,7 +1080,7 @@ def subrequestors(request):
     subrequests = subRequest.objects.all().order_by('-id')
     search_query = request.GET.get('search', '')
     if search_query:
-        subrequests = Request.objects.filter(Q(Names__icontains=search_query))
+        subrequests = subRequest.objects.filter(Q(Names__icontains=search_query))
     paginator = Paginator(subrequests, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -1248,20 +1294,24 @@ def approve_subscription(request, subID):
             subscriptionTool.save()
         if request.POST['system2'] != "":
             new_balance = int(request.POST['total'])+int(fulltotal) - \
-                              int(request.POST['downpayment'])+int(fulltotal1)
+                int(request.POST['downpayment'])+int(fulltotal1)
+            mothlypay = new_balance/int(request.POST['period'])
+            Monthly = format(mothlypay, ",.0f")
         else:
             new_balance = int(
                 request.POST['total'])+int(fulltotal)-int(request.POST['downpayment'])
+            mothlypay = new_balance/int(request.POST['period'])
+            Monthly = format(mothlypay, ",.0f")
 
         subscription.discount = request.POST['discount']
         subscription.discount1 = request.POST['discount1']
         subscription.TotalBalance = new_balance
         subscription.save()
-        payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nwe approved you subscription request of AMAZI service \n \nYou can now track you account on your mobile application ',
-            'phone': f'25{subscription.CustomerID.user.phone}'}
+        payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nwe approved you subscription request of AMAZI service \n \nYou can now track you account on your mobile application\n\n your monthly payment is :{Monthly} Rwf  ',
+                   'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
-                        headers=headers, data=payload, verify=False)
+                          headers=headers, data=payload, verify=False)
         my_tools = SubscriptionsTools.objects.filter(
             SubscriptionsID=subscription.id)
         return redirect('checkout_page', pk=subscription.id)
@@ -1279,7 +1329,9 @@ def approvesubscription(request, subID):
         subscription.To = today + timedelta(days=365)
         subscription.save()
         new_balance = int(request.POST['amount']) - \
-                          int(request.POST['downpayment'])
+            int(request.POST['downpayment'])
+        mothlypay = new_balance/int(request.POST['period'])
+        Monthly = format(mothlypay, ",.0f")
         subscription.TotalBalance = str(new_balance)
         subscription.complete = True
         subscription.save()
@@ -1290,11 +1342,11 @@ def approvesubscription(request, subID):
             payment.Paidamount = math.ceil(
                 new_balance/int(request.POST['period']))
             payment.save()
-        payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nwe approved you subscription request of {subscription.Category.Title} service \n \nYou can now track you account on your mobile application ',
-            'phone': f'25{subscription.CustomerID.user.phone}'}
+        payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nwe approved you subscription request of {subscription.Category.Title} service \n \nYou can now track you account on your mobile application\n\n your monthly payment is :{Monthly} Rwf ',
+                   'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
-                        headers=headers, data=payload, verify=False)
+                          headers=headers, data=payload, verify=False)
         return redirect('Subscriptions')
 
 
@@ -1539,7 +1591,7 @@ def quotation(request, SubscriptionsID):
     sub_tools = SubscriptionsTools.objects.filter(
         SubscriptionsID=SubscriptionsID)
     subscription = Subscriptions.objects.get(id=SubscriptionsID)
-    
+
     return render(request, 'quotation.html', {'sub_tools': sub_tools, 'subscription': subscription})
 
 
@@ -1561,22 +1613,24 @@ def catridgesorder_details(request, cOrderID):
 def instalment(request):
     if request.method == "POST":
         start = request.POST['start']
-        end=request.POST['end']
-        filtering=Subscriptions.objects.filter(From__gte=start,From__lte=end,complete=True)
-        return render(request, 'Installament.html', {'subscriptions':filtering})
+        end = request.POST['end']
+        filtering = Subscriptions.objects.filter(
+            From__gte=start, From__lte=end, complete=True)
+        return render(request, 'Installament.html', {'subscriptions': filtering})
     else:
-        subscriptions = Subscriptions.objects.filter(complete=True).order_by('-id')
+        subscriptions = Subscriptions.objects.filter(
+            complete=True).order_by('-id')
         search_query = request.GET.get('search', '')
         if search_query:
             customers = Customer.objects.filter(
                 Q(FirstName__icontains=search_query))
-            customers_ids=[]
+            customers_ids = []
             for cust in customers:
                 customers_ids.append(cust.id)
-            subscriptions=Subscriptions.objects.filter(CustomerID__in=customers_ids,complete=True)
+            subscriptions = Subscriptions.objects.filter(
+                CustomerID__in=customers_ids, complete=True)
 
         return render(request, 'Installament.html', {'subscriptions': subscriptions})
-
 
 
 @login_required(login_url='/login')
@@ -1943,7 +1997,7 @@ class CustomerDeleteView(DestroyAPIView):
     lookup_field = 'id'
 
 
-class CustomerUpdateView(UpdateAPIView): 
+class CustomerUpdateView(UpdateAPIView):
     parser_classes = (MultiPartParser, FormParser, JSONParser)
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
@@ -2202,7 +2256,8 @@ def pay_subscription(request):
         subscription = Subscriptions.objects.get(id=sub_id)
         amount = int(body['amount'])
         if int(amount) > int(subscription.TotalBalance):
-            subscription.Extra = subscription.Extra + (int(amount)-int(subscription.TotalBalance))
+            subscription.Extra = subscription.Extra + \
+                (int(amount)-int(subscription.TotalBalance))
             subscription.TotalBalance = 0
         else:
             subscription.TotalBalance = int(
@@ -2253,7 +2308,7 @@ def pay_subscription(request):
 
 def pay_Water(request):
     if request.method == 'POST':
-        
+
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         print(body)
@@ -2268,19 +2323,19 @@ def pay_Water(request):
         pay = WaterBuyHistory()
         pay.Meternumber = meter
         pay.Amount = Amount
-        users= User.objects.get(phone=Phone)
+        users = User.objects.get(phone=Phone)
         customer = Customer.objects.get(user=users.id)
-        pay.Customer= customer
+        pay.Customer = customer
         r2 = requests.get(
             f'http://44.196.8.236:3038/generatePurchase/?payment={totalamount}.00&meternumber={meter.Meternumber}', verify=False)
         payload = {
-                    'details': f' Mukiriya wacu {customer.FirstName}, Kugura amazi ntibyaciyemo.Ongera ugerageze cyangwa uhamagare umukozi wacu abibafashemo\n\n\n Dear Customer {customer.FirstName} , Buying water Failed! Try again or contact our staff!', 'phone': f'25{customer.user.phone}'}
+            'details': f' Mukiriya wacu {customer.FirstName}, Kugura amazi ntibyaciyemo.Ongera ugerageze cyangwa uhamagare umukozi wacu abibafashemo\n\n\n Dear Customer {customer.FirstName} , Buying water Failed! Try again or contact our staff!', 'phone': f'25{customer.user.phone}'}
         if 'tokenlist' in r2.text:
-            token=r2.text.split("tokenlist=",1)[1]
-            pay.Token=token
+            token = r2.text.split("tokenlist=", 1)[1]
+            pay.Token = token
             now = datetime.now()
             mydate = now.strftime("%d/%m/%Y %H:%M:%S")
-            
+
             if customer.Language == 'English':
                 payload = {
                     'details': f' Dear {customer.FirstName},\nYour Payment of {format(int(Amount), ",.0f")} Rwf  for Amazi with token has been successfully received at {mydate}  \nYour Token is : {token} ', 'phone': f'25{customer.user.phone}'}
@@ -2288,7 +2343,7 @@ def pay_Water(request):
                 payload = {
                     'details': f' Mukiriya wacu {customer.FirstName},\n\nAmafaranga {format(int(Amount), ",.0f")} Rwf mwishyuye yAmazi Mukoresheje Mtn MoMo yakiriwe neza kuri {mydate} \nToken yanyu ni: {token} ', 'phone': f'25{customer.user.phone}'}
         pay.save()
-        
+
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
@@ -2337,11 +2392,13 @@ def get_balance(request, phone_number):
     if user:
         users = User.objects.get(phone=phone_number)
         customer = Customer.objects.get(user=users.id)
-        category=Category.objects.get(Title="INUMA")
-        subscription = Subscriptions.objects.filter(CustomerID=customer.id,Category=category.id).exists()
+        category = Category.objects.get(Title="INUMA")
+        subscription = Subscriptions.objects.filter(
+            CustomerID=customer.id, Category=category.id).exists()
         if subscription:
             print(subscription)
-            my_subscription = Subscriptions.objects.get(CustomerID=customer.id,Category=category.id)
+            my_subscription = Subscriptions.objects.get(
+                CustomerID=customer.id, Category=category.id)
             data = {
                 'balance': my_subscription.TotalBalance,
                 'status': status.HTTP_200_OK,
@@ -2459,7 +2516,8 @@ class CreateOrderTool(CreateAPIView):
         customer = Customer.objects.get(id=int(request.data['customerID']))
         for item in request.data['order']:
             print(item['id'])
-            product = Tools.objects.only('id').get(id=int(item['ToolID']['id']))
+            product = Tools.objects.only('id').get(
+                id=int(item['ToolID']['id']))
             order_item = OrderItemTool()
             order_item.Tool = product
             order_item.order = order
@@ -2530,7 +2588,8 @@ class PayLaterOrderTool(CreateAPIView):
         customer = Customer.objects.get(id=int(request.data['customerID']))
         for item in request.data['order']:
             print(item['ToolID']['id'])
-            product = Tools.objects.only('id').get(id=int(item['ToolID']['id']))
+            product = Tools.objects.only('id').get(
+                id=int(item['ToolID']['id']))
             order_item = OrderItemTool()
             order_item.Tool = product
             order_item.order = order
@@ -2623,17 +2682,17 @@ class register(CreateAPIView):
 
                 return Response(response)
             except User.DoesNotExist:
-                if request.POST['phonenumber'][0:2]=='25':
-                        user = User.objects.create_user(
-                            email=request.POST['email'],
-                            phone=request.POST['phonenumber'][2:],
-                            password=password)
-                        my_phone = request.POST['phonenumber'][2:]
+                if request.POST['phonenumber'][0:2] == '25':
+                    user = User.objects.create_user(
+                        email=request.POST['email'],
+                        phone=request.POST['phonenumber'][2:],
+                        password=password)
+                    my_phone = request.POST['phonenumber'][2:]
 
                 if my_phone[0:2] == '25':
                     payload = {'details': f' Dear Client,\nYou have been registered successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\npassword:{password}\n\n Download the application through\n http://shorturl.at/qEQZ2', 'phone': f'{my_phone}'}
                 else:
-                    payload = {'details': f' Dear Client,\nYou have been registered successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\npassword:{password}\n\n Download the application through\n http://shorturl.at/qEQZ2', 'phone': f'25{my_phone}'}                
+                    payload = {'details': f' Dear Client,\nYou have been registered successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\npassword:{password}\n\n Download the application through\n http://shorturl.at/qEQZ2', 'phone': f'25{my_phone}'}
                 headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
                 r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                                   headers=headers, data=payload, verify=False)
@@ -2670,8 +2729,8 @@ def export_users_csv(request):
     response['Content-Disposition'] = 'attachment; filename="Instalments.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(['FirstName', 'LastName', 'From', 'Subscriptions', 'Invoice Total',"Amount under installment", 'Mothly payment',
-                    'Outstanding amount', 'Balance paid', 'overdue balance', 'Month overdue','Downpayment', 'Due date',])
+    writer.writerow(['FirstName', 'LastName', 'From', 'Subscriptions', 'Invoice Total', "Amount under installment", 'Mothly payment',
+                    'Outstanding amount', 'Balance paid', 'overdue balance', 'Month overdue', 'Downpayment', 'Due date', ])
 
     subscriptions = Subscriptions.objects.filter(complete=True)
     instalments = []
@@ -2684,10 +2743,11 @@ def export_users_csv(request):
             sub.Category.Title,
             sub.Total,
             sub.Total - sub.Downpayment,
-            round((sub.Total-sub.Downpayment) /sub.InstallmentPeriod),
+            round((sub.Total-sub.Downpayment) / sub.InstallmentPeriod),
             sub.TotalBalance,
-            sub.Total- sub.Downpayment - int(sub.TotalBalance),
-            sub.get_overdue_months * round((sub.Total-sub.Downpayment) /sub.InstallmentPeriod),
+            sub.Total - sub.Downpayment - int(sub.TotalBalance),
+            sub.get_overdue_months *
+            round((sub.Total-sub.Downpayment) / sub.InstallmentPeriod),
             sub.get_overdue_months,
             sub.Downpayment,
             sub.To.strftime("%Y-%m-%d"),
@@ -2757,12 +2817,14 @@ def export_catridgesorders(request):
 
     return response
 
+
 def export_transaction_csv(request, customerID):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="installmenttransactions.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(['FirstName', 'LastName', 'Phone', 'Amount paid', 'Payment date',])
+    writer.writerow(['FirstName', 'LastName', 'Phone',
+                    'Amount paid', 'Payment date', ])
     subscription = Subscriptions.objects.filter(CustomerID=customerID)
     subs = []
     for i in subscription:
@@ -2788,13 +2850,14 @@ def export_transaction_csv(request, customerID):
 
     return response
 
+
 def export_quotation_csv(request, SubscriptionsID):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="quotation.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(['Tool', 'Quantity', 'Total',])
-    subscription=Subscriptions.objects.get(id=SubscriptionsID)
+    writer.writerow(['Tool', 'Quantity', 'Total', ])
+    subscription = Subscriptions.objects.get(id=SubscriptionsID)
     sub_tools = SubscriptionsTools.objects.filter(
         SubscriptionsID=SubscriptionsID)
     allqoute = []
@@ -2810,15 +2873,14 @@ def export_quotation_csv(request, SubscriptionsID):
         print(type(quotation))
         allqoute.append(quotation)
     allqoute.append([
-            "",
-            "",
-            subscription.System.total + 'Rwf'
-        ])
+        "",
+        "",
+        subscription.System.total + 'Rwf'
+    ])
     for user in allqoute:
         writer.writerow(user)
 
     return response
-
 
 
 def export_receipts(request):
@@ -2826,7 +2888,8 @@ def export_receipts(request):
     response['Content-Disposition'] = 'attachment; filename="InumaBuyWater.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(['Customer', 'Phone', 'MeterNumber', 'Amount',"Littres", 'Token','Date',])
+    writer.writerow(['Customer', 'Phone', 'MeterNumber',
+                    'Amount', "Littres", 'Token', 'Date', ])
 
     Receipts = WaterBuyHistory.objects.all()
     inumatoken = []
@@ -2840,7 +2903,7 @@ def export_receipts(request):
             rec.Amount + 'Ltr',
             rec.Token,
             rec.created_at.strftime("%Y-%m-%d"),
-            
+
         ]
 
         print(allreceipts)
@@ -2854,6 +2917,7 @@ def export_receipts(request):
 
 def page_not_found_view(request, exception):
     return render(request, '404.html', status=404)
+
 
 def page_not_found_view(request, exception):
     return render(request, '500.html', status=500)

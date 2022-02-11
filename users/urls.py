@@ -93,6 +93,7 @@ urlpatterns = [
     path('requestor/',requestors,name='requestor'),
     path('subrequest/',subrequestors,name='subrequest'),
     path('reply/<int:requestID>/',reply,name='reply'),
+    path('Techreply/<int:requestID>/',Techreply,name='Techreply'),
     path('notify/<int:subID>/',notify,name='notify'),
     path('sendToken/<int:tokenID>/',sendToken,name='sendToken'),
     # path('repliedmsg/<int:repliedID>/',repliedmsg,name='repliedmsg'),
@@ -133,6 +134,11 @@ urlpatterns = [
     path('export/transaction/<int:customerID>',export_transaction_csv, name='export_transaction_csv'),
     path('export/quotation/<int:SubscriptionsID>',export_quotation_csv, name='export_quotation_csv'),
     url(r'^export/receipts/$',export_receipts, name='export_receipts'),
+
+
+    #blog
+    path('unpublish/<int:unpublishID>',unpublish,name="unpublish"),
+    path('publishblog/<int:publishID>',publishblog,name="publishblog"),
 
 
 

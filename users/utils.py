@@ -98,7 +98,7 @@ def check_transaction(trans_id, meter_number, amount, phone):
         "x-auth": "705d3a96-c5d7-11ea-87d0-0242ac130003"
     }
     t = threading.Timer(10.0, check_transaction, [
-                        trans_id, meter_number, amount])
+                        trans_id, meter_number, amount, phone])
     t.start()
     r = requests.get(
         f'http://localhost:5070/api/web/index.php?r=v1/app/get-transaction-status&transactionID={trans_id}', headers=headers, verify=False).json()
