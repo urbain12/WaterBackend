@@ -2623,12 +2623,12 @@ class register(CreateAPIView):
 
                 return Response(response)
             except User.DoesNotExist:
-                if request.POST['phonenumber'][0:2]=='25':
+                if request.data['phone'][0:2]=='25':
                         user = User.objects.create_user(
-                            email=request.POST['email'],
-                            phone=request.POST['phonenumber'][2:],
+                            email=request.data['email'],
+                            phone=request.data['phone'][2:],
                             password=password)
-                        my_phone = request.POST['phonenumber'][2:]
+                        my_phone = request.data['phone'][2:]
 
                 if my_phone[0:2] == '25':
                     payload = {'details': f' Dear Client,\nYou have been registered successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\npassword:{password}\n\n Download the application through\n http://shorturl.at/qEQZ2', 'phone': f'{my_phone}'}
