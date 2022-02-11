@@ -2624,15 +2624,18 @@ class register(CreateAPIView):
                 return Response(response)
             except User.DoesNotExist:
                 if request.data['phone'][0:2]=='25':
-                        user = User.objects.create_user(
-                            email=request.data['email'],
-                            phone=request.data['phone'][2:],
-                            password=password)
-                        my_phone = request.data['phone'][2:]
-
-                if my_phone[0:2] == '25':
+                    user = User.objects.create_user(
+                        email=request.data['email'],
+                        phone=request.data['phone'][2:],
+                        password=password)
+                    my_phone = request.data['phone'][2:]
                     payload = {'details': f' Dear Client,\nYou have been registered successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\npassword:{password}\n\n Download the application through\n http://shorturl.at/qEQZ2', 'phone': f'{my_phone}'}
                 else:
+                    user = User.objects.create_user(
+                        email=request.data['email'],
+                        phone=request.data['phone'],
+                        password=password)
+                    my_phone = request.data['phone']
                     payload = {'details': f' Dear Client,\nYou have been registered successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\npassword:{password}\n\n Download the application through\n http://shorturl.at/qEQZ2', 'phone': f'25{my_phone}'}                
                 headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
                 r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
