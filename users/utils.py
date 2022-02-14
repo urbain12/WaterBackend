@@ -127,10 +127,10 @@ def check_transaction(trans_id, meter_number, amount, phone):
 
             if customer.Language == 'English':
                 payload = {
-                    'details': f' Dear {customer.FirstName},\nYour Payment of {format(int(amount), ",.0f")} Rwf  for Amazi with token has been successfully received at {mydate}  \nYour Token is : {token} ', 'phone': f'25{customer.user.phone}'}
+                    'details': f' Dear {customer.FirstName},\nThanks again for buying water. Your token number is : {token} ', 'phone': f'25{customer.user.phone}'}
             if customer.Language == 'Kinyarwanda':
                 payload = {
-                    'details': f' Mukiriya wacu {customer.FirstName},\n\nAmafaranga {format(int(amount), ",.0f")} Rwf mwishyuye yAmazi Mukoresheje Mtn MoMo yakiriwe neza kuri {mydate} \nToken yanyu ni: {token} ', 'phone': f'25{customer.user.phone}'}
+                    'details': f' Mukiriya wacu {customer.FirstName},\nMurakoze kugura amazi. Tokeni yanyu ni: {token} ', 'phone': f'25{customer.user.phone}'}
         pay.save()
 
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
@@ -189,10 +189,10 @@ def check_instalment(trans_id, meter_number, amount, customer_id):
         customer = Customer.objects.get(id=customer_id)
         if customer.Language == 'English':
             payload = {
-                'details': f' Dear {customer.FirstName},\n\nYour payment of {format(int(amount), ",.0f")} Rwf has been successfully completed! \nYour due balance is : {subprice} Rwf', 'phone': f'25{customer.user.phone}'}
+                'details': f' Dear {customer.FirstName},\nThank you for your installment payment. We confirmed your payment of {format(int(amount), ",.0f")} Rwf For more information about your transaction, please check your app\nYour due balance is : {subprice} Rwf', 'phone': f'25{customer.user.phone}'}
         if customer.Language == 'Kinyarwanda':
             payload = {
-                'details': f' Mukiriya wacu  {customer.FirstName},\n\nAmafaranga {format(int(amount), ",.0f")} Rwf mwishyuye yakiriwe neza! \nUmwenda musigaje ni : {subprice} Rwf', 'phone': f'25{customer.user.phone}'}
+                'details': f' Mukiriya wacu  {customer.FirstName},\nMurakoze kwishyura konti yanyu. Twemeje ko mwishyuye {format(int(amount), ",.0f")} Rwf Kubindi bisobanuro mwakoresha app \nUmwenda musigaje ni : {subprice} Rwf', 'phone': f'25{customer.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)

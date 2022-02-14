@@ -104,10 +104,10 @@ def sendToken(request, tokenID):
     waterreceipt = WaterBuyHistory.objects.get(id=tokenID)
     customer = Customer.objects.get(Meternumber=waterreceipt.Meternumber)
     if customer.Language == 'English':
-        payload = {'details': f' Dear {customer.FirstName},\nYour Token is : {waterreceipt.Token} ',
+        payload = {'details': f' Dear {customer.FirstName},\nHere is your token for water : {waterreceipt.Token} ',
                    'phone': f'25{customer.user.phone}'}
     if customer.Language == 'Kinyarwanda':
-        payload = {'details': f' Mukiriya wacu {customer.FirstName},\nToken yanyu ni: {waterreceipt.Token} ',
+        payload = {'details': f' Mukiriya wacu {customer.FirstName},\nTokeni yamazi mwaguze :: {waterreceipt.Token} ',
                    'phone': f'25{customer.user.phone}'}
     headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
     r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
@@ -322,10 +322,10 @@ def reply(request, requestID):
         req.replied = True
         req.save()
         if req.Language.upper() == 'ENGLISH':
-            payload = {'details': f' Dear {req.Names},\n {req.reply} \n ',
+            payload = {'details': f' Dear {req.Names},\nWater Access Rwanda sent you a reply: {req.reply} \n ',
                        'phone': f'25{req.phonenumber}'}
         if req.Language.upper() == 'KINYARWANDA':
-            payload = {'details': f' Mukiriya wacu {req.Names},\n {req.reply} \n',
+            payload = {'details': f' Mukiriya wacu {req.Names},\nWater Access Rwanda twabohereje igisubizo: {req.reply} \n',
                        'phone': f'25{req.phonenumber}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
@@ -346,10 +346,10 @@ def Techreply(request, requestID):
         req.replied = True
         req.save()
         if req.Language.upper() == 'ENGLISH':
-            payload = {'details': f' Dear {req.Names},\n{req.reply} \nthe tech name is:{req.techname}\n and phone :{req.techphone}\nwill come on : {req.techdate}   ',
+            payload = {'details': f' Dear {req.Names},\nWe have received your request for maintenance. A technician was assigned to help and will be in touch shortly. \nthe tech name is:{req.techname}\n and phone :{req.techphone}\nwill come on : {req.techdate}   ',
                        'phone': f'25{req.phonenumber}'}
         if req.Language.upper() == 'KINYARWANDA':
-            payload = {'details': f' Mukiriya wacu  {req.Names},\n{req.reply} \nizina ryumutekinisiye uzabafasha:{req.techname}\nnumero  ye ni :{req.techphone}\nazaza tariki: {req.techdate}',
+            payload = {'details': f' Mukiriya wacu  {req.Names},\n Twakiriye neza ubusabe bwanyu bwumutenisiye, kandi hari ugiye kubahamagara mu mwanya muto abafashe.  \nizina ryumutekinisiye uzabafasha:{req.techname}\nnumero ye ni :{req.techphone}\nazaza tariki: {req.techdate}',
                        'phone': f'25{req.phonenumber}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
@@ -420,7 +420,7 @@ def notify(request, subID):
 
 def send_app_link(request):
     if request.method == "POST":
-        payload = {'details': f' Dear Customer,\n \nYou can download Water Access App through the following link: \n Android: http://shorturl.at/qEQZ2 \n IOS: http://shorturl.at/tDEG0',
+        payload = {'details': f' Dear Customer,\n \nDownload the Water Access Rwanda app to easily interact with us and follow progress on your system. Use this link to get it.\n Android: http://shorturl.at/qEQZ2 \n IOS: http://shorturl.at/tDEG0',
                    'phone': f'25{request.POST["phone"]}'}
 
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
@@ -631,9 +631,9 @@ def operator(request):
                         my_phone = request.POST['phonenumber']
 
                 if my_phone[0:2] == '25':
-                    payload = {'details': f' Dear Client,\nYou have been registered successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\nEmail:{my_email}\npassword:{password}\n\n Download the application through\n http://shorturl.at/qEQZ2', 'phone': f'{my_phone}'}
+                    payload = {'details': f' Dear Customer,\nYou have been successfully registered. Here are your credentials to login in mobile app:\nPhone:{my_phone}\nEmail:{my_email}\npassword:{password}\n\n Please follow the provided link below to download our mobile application.\n Android: http://shorturl.at/qEQZ2 \n IOS:http://shorturl.at/tDEG0', 'phone': f'{my_phone}'}
                 else:
-                    payload = {'details': f' Dear Client,\nYou have been registered successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\nEmail:{my_email}\npassword:{password}\n\n Download the application through\n http://shorturl.at/qEQZ2', 'phone': f'25{my_phone}'}
+                    payload = {'details': f' Dear Customer,\nYou have been registered successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\nEmail:{my_email}\npassword:{password}\n\n Download the application through\n http://shorturl.at/qEQZ2', 'phone': f'25{my_phone}'}
                 headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
                 r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                                   headers=headers, data=payload, verify=False)
@@ -1044,7 +1044,7 @@ def reset_password(request, userID):
     my_phone = user.phone
     user.set_password(password)
     user.save()
-    payload = {'details': f' Dear Client,\nYour password have been changed successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\npassword:{password} \n \n You can download water access App through the following link: \n http://shorturl.at/qEQZ2 ', 'phone': f'25{my_phone}'}
+    payload = {'details': f' Dear Customer,\nWe received a request to reset the password of your account. \nPlease use this code:{password} \nTo confirm your request.', 'phone': f'25{my_phone}'}
     headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
     r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                       headers=headers, data=payload, verify=False)
@@ -1307,8 +1307,12 @@ def approve_subscription(request, subID):
         subscription.discount1 = request.POST['discount1']
         subscription.TotalBalance = new_balance
         subscription.save()
-        payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nwe approved you subscription request of AMAZI service \n \nYou can now track you account on your mobile application\n\n your monthly payment is :{Monthly} Rwf  ',
-                   'phone': f'25{subscription.CustomerID.user.phone}'}
+        if subscription.CustomerID.Language == 'English':
+            payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nThank for subscribing to our App. You are almost done , we just need to confirm your subscription, please wait as our people are working on it.',
+                    'phone': f'25{subscription.CustomerID.user.phone}'}
+        if subscription.CustomerID.Language == 'Kinyarwanda':
+            payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nUrakoze kwiyandikisha kuri App yacu. Mu mwanya muto, byose biraba bitunganye. Mwihangane mu gihe turi kubandika kuri serivisi mwasabye.',
+                    'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
@@ -1342,8 +1346,12 @@ def approvesubscription(request, subID):
             payment.Paidamount = math.ceil(
                 new_balance/int(request.POST['period']))
             payment.save()
-        payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nwe approved you subscription request of {subscription.Category.Title} service \n \nYou can now track you account on your mobile application\n\n your monthly payment is :{Monthly} Rwf ',
-                   'phone': f'25{subscription.CustomerID.user.phone}'}
+        if subscription.CustomerID.Language == 'English':
+            payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nThank for subscribing to our App. You are almost done , we just need to confirm your subscription, please wait as our people are working on it.',
+                    'phone': f'25{subscription.CustomerID.user.phone}'}
+        if subscription.CustomerID.Language == 'Kinyarwanda':
+            payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nUrakoze kwiyandikisha kuri App yacu. Mu mwanya muto, byose biraba bitunganye. Mwihangane mu gihe turi kubandika kuri serivisi mwasabye.',
+                    'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
@@ -1779,13 +1787,13 @@ def check_payment(transID, items, amount, email, address, city, names, phone):
         t.cancel()
         print('vyarangiye')
         # print(order_id)
-        transaction_id = datetime.now().timestamp()
+        transaction_id = transID
         order = Order()
         order.transaction_id = transaction_id
         order.complete = True
         order.paid = True
         order.save()
-        payload = {'details': f' Dear {names},\n \n Your order of : {amount} have been completed\n we will contact you later ', 'phone': f'25{phone}'}
+        payload = {'details': f' Dear {names},\n \nThank you for ordering with us. We received your order and will begin processing it soon. Your order information appears below.\nYour order number: WA{transaction_id}', 'phone': f'25{phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
@@ -2284,10 +2292,10 @@ def pay_subscription(request):
         customer = Customer.objects.get(id=customer_id)
         if customer.Language == 'English':
             payload = {
-                'details': f' Dear {customer.FirstName},\n\nYour payment of {format(int(amount), ",.0f")} Rwf has been successfully completed! \nYour due balance is : {subprice} Rwf', 'phone': f'25{customer.user.phone}'}
+                'details': f' Dear {customer.FirstName},\nThank you for your installment payment. We confirmed your payment of {format(int(amount), ",.0f")} Rwf For more information about your transaction, please check your app\nYour due balance is : {subprice} Rwf', 'phone': f'25{customer.user.phone}'}
         if customer.Language == 'Kinyarwanda':
             payload = {
-                'details': f' Mukiriya wacu  {customer.FirstName},\n\nAmafaranga {format(int(amount), ",.0f")} Rwf mwishyuye yakiriwe neza! \nUmwenda musigaje ni : {subprice} Rwf', 'phone': f'25{customer.user.phone}'}
+                'details': f' Mukiriya wacu  {customer.FirstName},\nMurakoze kwishyura konti yanyu. Twemeje ko mwishyuye {format(int(amount), ",.0f")} Rwf Kubindi bisobanuro mwakoresha app \nUmwenda musigaje ni : {subprice} Rwf', 'phone': f'25{customer.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
@@ -2315,9 +2323,6 @@ def pay_Water(request):
         meter = Meters.objects.only('id').get(Meternumber=body['Meternumber'])
         Amount = int(body['Amount'])
         Phone = body['Phone']
-        # alphabet = string.ascii_letters + string.digits
-        # token = ''.join(secrets.choice(alphabet) for i in range(20))
-        # token = body['Token']
         totalamount = body['Amount']
         print(totalamount)
         pay = WaterBuyHistory()
@@ -2338,10 +2343,10 @@ def pay_Water(request):
 
             if customer.Language == 'English':
                 payload = {
-                    'details': f' Dear {customer.FirstName},\nYour Payment of {format(int(Amount), ",.0f")} Rwf  for Amazi with token has been successfully received at {mydate}  \nYour Token is : {token} ', 'phone': f'25{customer.user.phone}'}
+                    'details': f' Dear {customer.FirstName},\nThanks again for buying water. Your token number is : {token} ', 'phone': f'25{customer.user.phone}'}
             if customer.Language == 'Kinyarwanda':
                 payload = {
-                    'details': f' Mukiriya wacu {customer.FirstName},\n\nAmafaranga {format(int(Amount), ",.0f")} Rwf mwishyuye yAmazi Mukoresheje Mtn MoMo yakiriwe neza kuri {mydate} \nToken yanyu ni: {token} ', 'phone': f'25{customer.user.phone}'}
+                    'details': f' Mukiriya wacu {customer.FirstName},\nMurakoze kugura amazi. Tokeni yanyu ni: {token} ', 'phone': f'25{customer.user.phone}'}
         pay.save()
 
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
@@ -2621,6 +2626,15 @@ class subscribe(CreateAPIView):
         subscription.CustomerID = customer
         subscription.Category = category
         subscription.save()
+        if subscription.CustomerID.Language == 'English':
+            payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nThank for subscribing to our App. You are almost done , we just need to confirm your subscription, please wait as our people are working on it.',
+                    'phone': f'25{subscription.CustomerID.user.phone}'}
+        if subscription.CustomerID.Language == 'Kinyarwanda':
+            payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nUrakoze kwiyandikisha kuri App yacu. Mu mwanya muto, byose biraba bitunganye. Mwihangane mu gihe turi kubandika kuri serivisi mwasabye.',
+                    'phone': f'25{subscription.CustomerID.user.phone}'}
+        headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+                          headers=headers, data=payload, verify=False)
         response = {
             'status': 'success',
             'code': status.HTTP_200_OK,
@@ -2639,7 +2653,7 @@ class reset_passwordView(CreateAPIView):
         my_phone = request.data['phone']
         user.set_password(password)
         user.save()
-        payload = {'details': f' Dear Client,\nYour password have been reset successfully \n Your credentials to login in mobile app are: \n Phone:{my_phone} \n password:{password} ', 'phone': f'25{my_phone}'}
+        payload = {'details': f' Dear Customer,\nWe received a request to reset the password of your account.\nPlease use this code:{password} ', 'phone': f'25{my_phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
@@ -2688,14 +2702,14 @@ class register(CreateAPIView):
                         phone=request.data['phone'][2:],
                         password=password)
                     my_phone = request.data['phone'][2:]
-                    payload = {'details': f' Dear Client,\nYou have been registered successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\npassword:{password}\n\n Download the application through\n http://shorturl.at/qEQZ2', 'phone': f'{my_phone}'}
+                    payload = {'details': f' Dear Customer,\nYou have been successfully registered. Here are your credentials to login in mobile app:\nPhone:{my_phone}\npassword:{password}\n\nPlease follow the provided link below to download our mobile application.\n Android: http://shorturl.at/qEQZ2 \n IOS:http://shorturl.at/tDEG0', 'phone': f'{my_phone}'}
                 else:
                     user = User.objects.create_user(
                         email=request.data['email'],
                         phone=request.data['phone'],
                         password=password)
                     my_phone = request.data['phone']
-                    payload = {'details': f' Dear Client,\nYou have been registered successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\npassword:{password}\n\n Download the application through\n http://shorturl.at/qEQZ2', 'phone': f'25{my_phone}'}                
+                    payload = {'details': f' Dear Customer,\nYou have been successfully registered. Here are your credentials to login in mobile app:\nPhone:{my_phone}\npassword:{password}\n\nPlease follow the provided link below to download our mobile application.\n Android: http://shorturl.at/qEQZ2 \n IOS:http://shorturl.at/tDEG0', 'phone': f'25{my_phone}'}                
                 headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
                 r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                                   headers=headers, data=payload, verify=False)
