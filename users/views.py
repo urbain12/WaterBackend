@@ -1042,9 +1042,11 @@ def reset_password(request, userID):
     alphabet = string.ascii_letters + string.digits
     password = ''.join(secrets.choice(alphabet) for i in range(6))
     my_phone = user.phone
+    users = User.objects.get(phone=my_phone)
+    customer = Customer.objects.get(user=users.id)
     user.set_password(password)
     user.save()
-    payload = {'details': f' Dear Customer,\nWe received a request to reset the password of your account. \nPlease use this code:{password} \nTo confirm your request.', 'phone': f'25{my_phone}'}
+    payload = {'details': f' Dear {customer.FirstName},\nWe received a request to reset the password of your account. \nPlease use this code:{password} \nTo confirm your request.', 'phone': f'25{my_phone}'}
     headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
     r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                       headers=headers, data=payload, verify=False)
@@ -2651,9 +2653,11 @@ class reset_passwordView(CreateAPIView):
         alphabet = string.ascii_letters + string.digits
         password = ''.join(secrets.choice(alphabet) for i in range(6))
         my_phone = request.data['phone']
+        users = User.objects.get(phone=my_phone)
+        customer = Customer.objects.get(user=users.id)
         user.set_password(password)
         user.save()
-        payload = {'details': f' Dear Customer,\nWe received a request to reset the password of your account.\nPlease use this code:{password} ', 'phone': f'25{my_phone}'}
+        payload = {'details': f' Dear {customer.FirstName},\nWe received a request to reset the password of your account.\nPlease use this code:{password} ', 'phone': f'25{my_phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
