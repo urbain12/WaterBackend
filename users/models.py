@@ -55,8 +55,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
-    def __str__(self):
-        return self.email+' ' + str(self.id)
+    # def __str__(self):
+    #     return self.email+' ' + str(self.id)
 
     def has_perm(self, perm, obj=None):
         return True
@@ -93,8 +93,8 @@ class Customer(models.Model):
     Meternumber = models.ForeignKey(
         'Meters', on_delete=models.SET_NULL, null=True, blank=True)
 
-    def __str__(self):
-        return self.FirstName + ' ' + self.LastName+' ' + str(self.id)
+    # def __str__(self):
+    #     return self.FirstName + ' ' + self.LastName+' ' + str(self.id)
 
 
 class Meters(models.Model):

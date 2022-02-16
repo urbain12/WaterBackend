@@ -1,9 +1,22 @@
+from dataclasses import field
+from importlib import resources
 from django.contrib import admin
 from .models import *
+from import_export.admin import ImportExportModelAdmin
+from users.resources import *
 # Register your models here.
-admin.site.register(User)
-admin.site.register(Customer)
-admin.site.register(Meters)
+class UserAdmin(ImportExportModelAdmin):
+    list_display = ['id','email','phone','password']
+    resource_class = UserResource
+admin.site.register(User, UserAdmin)
+class CustomerAdmin(ImportExportModelAdmin):
+    list_display = ['id','user','FirstName','LastName','IDnumber','Province','District','Sector','Cell','Language','Meternumber']
+    resource_class = CustomerResource
+admin.site.register(Customer, CustomerAdmin)
+class MetersAdmin(ImportExportModelAdmin):
+    list_display = ['id','Meternumber']
+    resource_class = MetersResource
+admin.site.register(Meters, MetersAdmin)
 admin.site.register(WaterBuyHistory)
 admin.site.register(Category)
 admin.site.register(Subscriptions)

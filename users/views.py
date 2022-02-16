@@ -84,8 +84,7 @@ def Receipts(request):
     if request.method == "POST":
         start = request.POST['start']
         end = request.POST['end']
-        filtering = WaterBuyHistory.objects.filter(
-            created_at__gte=start, created_at__lte=end)
+        filtering = WaterBuyHistory.objects.filter(created_at__gte=start, created_at__lte=end)
         return render(request, 'Receipt.html', {'waterhistory': filtering})
     else:
         waterhistory = WaterBuyHistory.objects.all().order_by('-id')
