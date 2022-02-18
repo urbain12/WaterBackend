@@ -54,7 +54,7 @@
                                         <tr>
                                             <th>Customer</th>
                                             <th>Phone</th>
-                                            <th>MeterNUmber</th>
+                                            <th>Meternumber</th>
                                             <th>Amount</th>
                                             <th>Littre</th>
                                             <th>Token</th>
@@ -75,7 +75,12 @@
                                             <td>{{history.Token}}</td>
                                             <td>{{history.created_at|date:'d/m/Y'}}</td>
                                             <td>
-                                            <a class="btn-link" href="{% url 'sendToken' history.id%}"><button class="btn btn-warning">Send Token</button></a>
+                                                {% if history.Token is None %}
+                                                <a onclick="return confirm('Are you sure you want to troubleshoot token?')" class="btn-link" href="{% url 'troubleshoot' history.id%}"><button class="btn btn-purple">Troubleshoot</button></a>
+
+                                                {% else %}
+                                                <a onclick="return confirm('Are you sure you want to resend token?')" class="btn-link" href="{% url 'sendToken' history.id%}"><button class="btn btn-warning">Send Token</button></a>
+                                                {% endif %}
                                             </td>
 
                                            

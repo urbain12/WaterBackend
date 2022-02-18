@@ -24,8 +24,28 @@
                                          {% else %}
                                          <b></b>
                                          {% endif %}
-                                         </a>
-                                        <a href="{% url 'add_subscription'%}" id="demo-btn-addrow" class="btn btn-purple"><i class="demo-pli-add"></i> Add new</a>
+                                         </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="{% url 'add_subscription'%}" id="demo-btn-addrow" class="btn btn-purple"><i class="demo-pli-add"></i> Add new</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+                                        <div class="form-group">
+                                            <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'Subscriptions'%}">
+                                                {% csrf_token %}
+                                            <select  name="service" class="js-example-basic-single2 form-control">
+                                               <option value="Amazi">Search by Service</option>
+                                               <option value="All">All</option>
+                                               {% for category in categories%}
+
+                                                       <option value="{{category.Title}}">{{category.Title}}</option> 
+                                                {% endfor %}
+                                            </select> 
+                                            <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-filter" aria-hidden="true"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <form class="form-inline my-2 my-lg-0">
+                                        
+                                        </div>
+
+
 
                                         <div class="btn-group">
                                             <div class="form-group">
@@ -48,6 +68,7 @@
                                             <th>Subscribed in</th>
                                             <th>From</th>
                                             <th>Total amount</th>
+                                            <th>Exception</th>
                                             <th>Action</th>
                                             <th>Status</th>
                                         </tr>
@@ -60,10 +81,38 @@
                                             <td>{{sub.Category.Title}}</td>
                                             <td>{{sub.From|date:'d/m/Y'}}</td>
                                              <td>{{sub.Total|intcomma}} Rwf</td>
+                                             <td>
+
+                                                {% if  sub.customer_exception %}
+                                                <a onclick="return confirm('Are you sure you want to remove exception to this customer?')" href="{% url 'remove_exception' sub.id %}">
+                                                <button class="btn btn-success">Enabled</button>
+                                                </a>
+                                            {% else %}
+                                                <a onclick="return confirm('Are you sure you want to add exception to this customer?')" href="{% url 'add_exception' sub.id %}">
+                                                <button class="btn btn-warning">Disabled</button>
+                                                </a>
+                                            {% endif %}
+
+
+                                             </td>
+
+                                        
                                             <td> 
-                                            <a class="btn-link" href="{% url 'quotation' sub.id%}"><button class="btn btn-primary">View</button></a>
-                                            {% comment %} <a class="btn-link" href="{% url 'notify' sub.id%}"><button class="btn btn-warning">Notify</button></a> {% endcomment %}
+                                                {% if sub.Category.Title == "Amazi" %}
+                                                
+                                                <a class="btn-link" href="{% url 'quotation' sub.id%}"><button class="btn btn-primary">View</button></a>
+                                                
+                                                {% else %}
+
+                                                <a class="btn-link" href="{% url 'instalment'%}"><button class="btn btn-primary">View</button></a>
+
+                                                {% comment %} <a class="btn-link" href="{% url 'notify' sub.id%}"><button class="btn btn-warning">Notify</button></a> {% endcomment %}
+                                                {% endif %}
+
+                                            
                                             </td>
+
+                                        
                                             <td> 
                                             {% if sub.TotalBalance|add:0 %}
                                                 <button class="btn btn-purple">Paying</button>

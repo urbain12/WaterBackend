@@ -55,7 +55,7 @@ def not_authorized(request):
 
 
 def blog(request):
-    blogs = Blog.objects.filter(publish =True)
+    blogs = Blog.objects.filter(publish=True)
     return render(request, 'website/blog.html', {'blogs': blogs})
 
 
@@ -84,15 +84,20 @@ def Receipts(request):
     if request.method == "POST":
         start = request.POST['start']
         end = request.POST['end']
-        filtering = WaterBuyHistory.objects.filter(created_at__gte=start, created_at__lte=end)
+        filtering = WaterBuyHistory.objects.filter(
+            created_at__gte=start, created_at__lte=end)
         return render(request, 'Receipt.html', {'waterhistory': filtering})
     else:
         waterhistory = WaterBuyHistory.objects.all().order_by('-id')
         search_query = request.GET.get('search', '')
         if search_query:
             customers = Customer.objects.filter(
-                Q(FirstName__icontains=search_query))[0]
-            waterhistory = WaterBuyHistory.objects.filter(Customer=customers.id)
+                Q(FirstName__icontains=search_query))
+            customers_ids = []
+            for cust in customers:
+                customers_ids.append(cust.id)
+            waterhistory = WaterBuyHistory.objects.filter(
+                Customer__in=customers_ids)
         paginator = Paginator(waterhistory, 6)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
@@ -101,13 +106,32 @@ def Receipts(request):
 
 def sendToken(request, tokenID):
     waterreceipt = WaterBuyHistory.objects.get(id=tokenID)
-    customer = Customer.objects.get(Meternumber=waterreceipt.Meternumber)
-    if customer.Language == 'English':
-        payload = {'details': f' Dear {customer.FirstName},\nHere is your token for water : {waterreceipt.Token} ',
-                   'phone': f'25{customer.user.phone}'}
-    if customer.Language == 'Kinyarwanda':
-        payload = {'details': f' Mukiriya wacu {customer.FirstName},\nTokeni yamazi mwaguze :: {waterreceipt.Token} ',
-                   'phone': f'25{customer.user.phone}'}
+    if waterreceipt.Customer.Language == 'English':
+        payload = {'details': f' Dear {waterreceipt.Customer.FirstName},\nHere is your token for water : {waterreceipt.Token} ',
+                   'phone': f'25{waterreceipt.Customer.user.phone}'}
+    if waterreceipt.Customer.Language == 'Kinyarwanda':
+        payload = {'details': f' Mukiriya wacu {waterreceipt.Customer.FirstName},\nTokeni yamazi mwaguze :: {waterreceipt.Token} ',
+                   'phone': f'25{waterreceipt.Customer.user.phone}'}
+    headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+    r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+                      headers=headers, data=payload, verify=False)
+    return redirect('Receipts')
+
+@login_required(login_url='/login')
+def troubleshoot(request, paymentID):
+    payment=WaterBuyHistory.objects.get(id=paymentID)
+    r = requests.get(
+            f'http://44.196.8.236:3038/generatePurchase/?payment={payment.Amount}.00&meternumber={payment.Customer.Meternumber.Meternumber}', verify=False)
+    if 'tokenlist' in r.text:
+            token = r.text.split("tokenlist=", 1)[1]
+            payment.Token=token
+            payment.save()
+    if payment.Customer.Language == 'English':
+        payload = {'details': f' Dear {payment.Customer.FirstName},\nHere is your token for water : {payment.Token} ',
+                   'phone': f'25{payment.Customer.user.phone}'}
+    if payment.Customer.Language == 'Kinyarwanda':
+        payload = {'details': f' Mukiriya wacu {payment.Customer.FirstName},\nTokeni yamazi mwaguze :: {payment.Token} ',
+                   'phone': f'25{payment.Customer.user.phone}'}
     headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
     r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                       headers=headers, data=payload, verify=False)
@@ -333,6 +357,7 @@ def reply(request, requestID):
     else:
         message = Request.objects.get(id=requestID)
         return render(request, 'reply.html', {'message': message})
+
 
 def Techreply(request, requestID):
     if request.method == 'POST':
@@ -1081,7 +1106,8 @@ def subrequestors(request):
     subrequests = subRequest.objects.all().order_by('-id')
     search_query = request.GET.get('search', '')
     if search_query:
-        subrequests = subRequest.objects.filter(Q(Names__icontains=search_query))
+        subrequests = subRequest.objects.filter(
+            Q(Names__icontains=search_query))
     paginator = Paginator(subrequests, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -1310,10 +1336,10 @@ def approve_subscription(request, subID):
         subscription.save()
         if subscription.CustomerID.Language == 'English':
             payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nThank for subscribing to our App. You are almost done , we just need to confirm your subscription, please wait as our people are working on it.',
-                    'phone': f'25{subscription.CustomerID.user.phone}'}
+                       'phone': f'25{subscription.CustomerID.user.phone}'}
         if subscription.CustomerID.Language == 'Kinyarwanda':
             payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nUrakoze kwiyandikisha kuri App yacu. Mu mwanya muto, byose biraba bitunganye. Mwihangane mu gihe turi kubandika kuri serivisi mwasabye.',
-                    'phone': f'25{subscription.CustomerID.user.phone}'}
+                       'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
@@ -1349,10 +1375,10 @@ def approvesubscription(request, subID):
             payment.save()
         if subscription.CustomerID.Language == 'English':
             payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nThank for subscribing to our App. You are almost done , we just need to confirm your subscription, please wait as our people are working on it.',
-                    'phone': f'25{subscription.CustomerID.user.phone}'}
+                       'phone': f'25{subscription.CustomerID.user.phone}'}
         if subscription.CustomerID.Language == 'Kinyarwanda':
             payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nUrakoze kwiyandikisha kuri App yacu. Mu mwanya muto, byose biraba bitunganye. Mwihangane mu gihe turi kubandika kuri serivisi mwasabye.',
-                    'phone': f'25{subscription.CustomerID.user.phone}'}
+                       'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
@@ -1582,17 +1608,43 @@ def update_system(request, sysID):
 @login_required(login_url='/login')
 def subscriptions(request):
     subscriptions = Subscriptions.objects.filter(complete=True).order_by('-id')
+    categories = Category.objects.all()
     numofsubs = len(Subscriptions.objects.filter(complete=False))
-    search_query = request.GET.get('search', '')
-    if search_query:
-        customers = Customer.objects.filter(
-            Q(FirstName__icontains=search_query))
-        customers_ids = []
-        for cust in customers:
-            customers_ids.append(cust.id)
-        subscriptions = Subscriptions.objects.filter(
-            CustomerID__in=customers_ids)
-    return render(request, 'Subscriptions.html', {'subscriptions': subscriptions, 'numofsubs': numofsubs})
+    if request.method == "POST":
+        service = request.POST['service']
+        if service == 'All':
+            filtering = Subscriptions.objects.filter(complete=True)
+        else:
+            category = Category.objects.get(Title=service)
+            filtering = Subscriptions.objects.filter(
+                Category=category.id, complete=True)
+        return render(request, 'Subscriptions.html', {'subscriptions': filtering, 'numofsubs': numofsubs,'categories':categories})
+    else:
+        categories = Category.objects.all()
+        search_query = request.GET.get('search', '')
+        if search_query:
+            customers = Customer.objects.filter(
+                Q(FirstName__icontains=search_query))
+            customers_ids = []
+            for cust in customers:
+                customers_ids.append(cust.id)
+            subscriptions = Subscriptions.objects.filter(
+                CustomerID__in=customers_ids)
+        return render(request, 'Subscriptions.html', {'subscriptions': subscriptions, 'numofsubs': numofsubs,'categories':categories})
+
+@login_required(login_url='/login')
+def add_exception(request, exceptionID):
+    addexception =  Subscriptions.objects.get(id=exceptionID)
+    addexception.customer_exception = True
+    addexception.save()
+    return redirect('Subscriptions')
+
+@login_required(login_url='/login')
+def remove_exception(request, rmvexceptionID):
+    removeexception =  Subscriptions.objects.get(id=rmvexceptionID)
+    removeexception.customer_exception = False
+    removeexception.save()
+    return redirect('Subscriptions')
 
 
 @login_required(login_url='/login')
@@ -1620,12 +1672,22 @@ def catridgesorder_details(request, cOrderID):
 
 @login_required(login_url='/login')
 def instalment(request):
+    categories = Category.objects.all()
+    if request.method == "POST":
+        service = request.POST['service']
+        if service == 'All':
+            filteringservices = Subscriptions.objects.filter(complete=True)
+        else:
+            category = Category.objects.get(Title=service)
+            filteringservices = Subscriptions.objects.filter(
+                Category=category.id, complete=True)
+        return render(request, 'Installament.html', {'subscriptions': filteringservices,'categories':categories})
     if request.method == "POST":
         start = request.POST['start']
         end = request.POST['end']
         filtering = Subscriptions.objects.filter(
             From__gte=start, From__lte=end, complete=True)
-        return render(request, 'Installament.html', {'subscriptions': filtering})
+        return render(request, 'Installament.html', {'subscriptions': filtering,'categories':categories})
     else:
         subscriptions = Subscriptions.objects.filter(
             complete=True).order_by('-id')
@@ -1639,7 +1701,7 @@ def instalment(request):
             subscriptions = Subscriptions.objects.filter(
                 CustomerID__in=customers_ids, complete=True)
 
-        return render(request, 'Installament.html', {'subscriptions': subscriptions})
+        return render(request, 'Installament.html', {'subscriptions': subscriptions,'categories':categories})
 
 
 @login_required(login_url='/login')
@@ -2629,10 +2691,10 @@ class subscribe(CreateAPIView):
         subscription.save()
         if subscription.CustomerID.Language == 'English':
             payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nThank for subscribing to our App. You are almost done , we just need to confirm your subscription, please wait as our people are working on it.',
-                    'phone': f'25{subscription.CustomerID.user.phone}'}
+                       'phone': f'25{subscription.CustomerID.user.phone}'}
         if subscription.CustomerID.Language == 'Kinyarwanda':
             payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nUrakoze kwiyandikisha kuri App yacu. Mu mwanya muto, byose biraba bitunganye. Mwihangane mu gihe turi kubandika kuri serivisi mwasabye.',
-                    'phone': f'25{subscription.CustomerID.user.phone}'}
+                       'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
@@ -2699,7 +2761,7 @@ class register(CreateAPIView):
 
                 return Response(response)
             except User.DoesNotExist:
-                if request.data['phone'][0:2]=='25':
+                if request.data['phone'][0:2] == '25':
                     user = User.objects.create_user(
                         email=request.data['email'],
                         phone=request.data['phone'][2:],
@@ -2712,7 +2774,7 @@ class register(CreateAPIView):
                         phone=request.data['phone'],
                         password=password)
                     my_phone = request.data['phone']
-                    payload = {'details': f' Dear Customer,\nYou have been successfully registered. Here are your credentials to login in mobile app:\nPhone:{my_phone}\npassword:{password}\n\nPlease follow the provided link below to download our mobile application.\n Android: http://shorturl.at/qEQZ2 \n IOS:http://shorturl.at/tDEG0', 'phone': f'25{my_phone}'}                
+                    payload = {'details': f' Dear Customer,\nYou have been successfully registered. Here are your credentials to login in mobile app:\nPhone:{my_phone}\npassword:{password}\n\nPlease follow the provided link below to download our mobile application.\n Android: http://shorturl.at/qEQZ2 \n IOS:http://shorturl.at/tDEG0', 'phone': f'25{my_phone}'}
                 headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
                 r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                                   headers=headers, data=payload, verify=False)
@@ -2740,37 +2802,85 @@ class register(CreateAPIView):
 
 @login_required(login_url='/login')
 def new_subscriptions(request):
-    subscriptions = Subscriptions.objects.filter(complete=False)
-    return render(request, 'new_subscriptions.html', {'subscriptions': subscriptions})
+    categories = Category.objects.all()
+    if request.method == "POST":
+        service = request.POST['service']
+        if service == 'All':
+            filtering = Subscriptions.objects.filter(complete=False)
+        else:
+            category = Category.objects.get(Title=service)
+            filtering = Subscriptions.objects.filter(
+                Category=category.id, complete=True)
+        return render(request, 'new_subscriptions.html', {'subscriptions': filtering,'categories':categories})
+    else:
+        categories = Category.objects.all()
+        subscriptions = Subscriptions.objects.filter(complete=False)
+        return render(request, 'new_subscriptions.html', {'subscriptions': subscriptions, 'categories':categories})
 
 
 def export_users_csv(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="Instalments.csv"'
+    today = datetime.today()
+    ondate=today.strftime("%Y-%m-%d %H:%M")
+    response = HttpResponse(content_type='text/xlsx')
+    response['Content-Disposition'] = f'attachment; filename="Instalments - {ondate}.xlsx"'
 
     writer = csv.writer(response)
-    writer.writerow(['FirstName', 'LastName', 'From', 'Subscriptions', 'Invoice Total', "Amount under installment", 'Mothly payment',
-                    'Outstanding amount', 'Balance paid', 'overdue balance', 'Month overdue', 'Downpayment', 'Due date', ])
+    writer.writerow([
+
+        'Water Access Rwanda'
+    ])
+    writer.writerow([
+
+        'Installment Report'
+    ])
+    writer.writerow([
+
+        "Date"+' : '+today.strftime("%Y-%m-%d %H:%M")
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow([
+
+        'Customer Name',
+        'Start date',
+        'Subscriptions',
+        'Total Amount invoice',
+        "Downpayment",
+        "Amount under installment",
+        "Installment Period",
+        "Monthly payment",
+        'Outstanding amount',
+        'Balance paid',
+        'overdue balance',
+        'Due date',
+        'Month overdue', ])
 
     subscriptions = Subscriptions.objects.filter(complete=True)
     instalments = []
     for sub in subscriptions:
 
         my_instalment = [
-            sub.CustomerID.FirstName,
-            sub.CustomerID.LastName,
+            sub.CustomerID.FirstName+' '+sub.CustomerID.LastName,
             sub.From.strftime("%Y-%m-%d"),
             sub.Category.Title,
             sub.Total,
+            sub.Downpayment,
             sub.Total - sub.Downpayment,
+            sub.InstallmentPeriod,
             round((sub.Total-sub.Downpayment) / sub.InstallmentPeriod),
             sub.TotalBalance,
             sub.Total - sub.Downpayment - int(sub.TotalBalance),
             sub.get_overdue_months *
             round((sub.Total-sub.Downpayment) / sub.InstallmentPeriod),
-            sub.get_overdue_months,
-            sub.Downpayment,
             sub.To.strftime("%Y-%m-%d"),
+            sub.get_overdue_months,
         ]
 
         print(my_instalment)
@@ -2783,10 +2893,33 @@ def export_users_csv(request):
 
 
 def export_orders(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="orders.csv"'
+    today = datetime.today()
+    ondate=today.strftime("%Y-%m-%d %H:%M")
+    response = HttpResponse(content_type='text/xlsx')
+    response['Content-Disposition'] = f'attachment; filename="Shop orders - {ondate}.xlsx"'
 
     writer = csv.writer(response)
+    writer.writerow([
+
+        'Water Access Rwanda'
+    ])
+    writer.writerow([
+
+        'Shop Orders'
+    ])
+    writer.writerow([
+
+        "Date"+' : '+today.strftime("%Y-%m-%d %H:%M")
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
     writer.writerow(['Customer', 'Phone', 'Address', 'Date ordered', 'Total'])
 
     orders = Order.objects.all()
@@ -2811,10 +2944,33 @@ def export_orders(request):
 
 
 def export_catridgesorders(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="catridgesorders.csv"'
+    today = datetime.today()
+    ondate=today.strftime("%Y-%m-%d %H:%M")
+    response = HttpResponse(content_type='text/xlsx')
+    response['Content-Disposition'] = f'attachment; filename="Catridges orders - {ondate}.xlsx"'
 
     writer = csv.writer(response)
+    writer.writerow([
+
+        'Water Access Rwanda'
+    ])
+    writer.writerow([
+
+        'Catridges orders'
+    ])
+    writer.writerow([
+
+        "Date"+' : '+today.strftime("%Y-%m-%d %H:%M")
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
     writer.writerow(['Customer', 'Phone', 'Address', 'Date ordered', 'Total'])
 
     orders = OrderTools.objects.all()
@@ -2839,10 +2995,36 @@ def export_catridgesorders(request):
 
 
 def export_transaction_csv(request, customerID):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="installmenttransactions.csv"'
-
+    today = datetime.today()
+    ondate=today.strftime("%Y-%m-%d %H:%M")
+    customer = Customer.objects.get(id=customerID)
+    response = HttpResponse(content_type='text/xlsx')
+    response['Content-Disposition'] = f'attachment; filename="{customer.FirstName} {customer.LastName} installment transactions - {ondate}.xlsx"'
     writer = csv.writer(response)
+    writer.writerow([
+
+        'Water Access Rwanda'
+    ])
+    writer.writerow([
+    
+
+                str(customer.FirstName) +' '+str(customer.LastName)+
+                ' ' "Installment Transaction"
+
+    ])
+    writer.writerow([
+
+        "Date"+' : '+today.strftime("%Y-%m-%d %H:%M")
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
     writer.writerow(['FirstName', 'LastName', 'Phone',
                     'Amount paid', 'Payment date', ])
     subscription = Subscriptions.objects.filter(CustomerID=customerID)
@@ -2871,11 +3053,36 @@ def export_transaction_csv(request, customerID):
     return response
 
 
-def export_quotation_csv(request, SubscriptionsID):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="quotation.csv"'
+def export_quotation_csv(request, SubscriptionsID,customerID):
+    today = datetime.today()
+    ondate=today.strftime("%Y-%m-%d %H:%M")
+    customer = Customer.objects.get(id=customerID)
+    subscriptionper = Subscriptions.objects.filter(CustomerID=customerID)
+    response = HttpResponse(content_type='text/xlsx')
+    response['Content-Disposition'] = f'attachment; filename="{customer.FirstName} {customer.LastName} quotation - {ondate}.xlsx"'
 
     writer = csv.writer(response)
+    writer.writerow([
+
+        'Water Access Rwanda'
+    ])
+    writer.writerow([
+
+       str(customer.FirstName)+' ' +str(customer.LastName)+' ' +'Installment quotation Report'
+    ])
+    writer.writerow([
+
+        "Date"+' : '+today.strftime("%Y-%m-%d %H:%M")
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
     writer.writerow(['Tool', 'Quantity', 'Total', ])
     subscription = Subscriptions.objects.get(id=SubscriptionsID)
     sub_tools = SubscriptionsTools.objects.filter(
@@ -2895,7 +3102,7 @@ def export_quotation_csv(request, SubscriptionsID):
     allqoute.append([
         "",
         "",
-        subscription.System.total + 'Rwf'
+        subscription.System.total
     ])
     for user in allqoute:
         writer.writerow(user)
@@ -2904,10 +3111,33 @@ def export_quotation_csv(request, SubscriptionsID):
 
 
 def export_receipts(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="InumaBuyWater.csv"'
+    today = datetime.today()
+    ondate=today.strftime("%Y-%m-%d %H:%M")
+    response = HttpResponse(content_type='text/xlsx')
+    response['Content-Disposition'] = f'attachment; filename="Water Receipt - {ondate}.xlsx"'
 
     writer = csv.writer(response)
+    writer.writerow([
+
+        'Water Access Rwanda'
+    ])
+    writer.writerow([
+
+        'Water Receipts Report'
+    ])
+    writer.writerow([
+
+        "Date"+' : '+today.strftime("%Y-%m-%d %H:%M")
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
     writer.writerow(['Customer', 'Phone', 'MeterNumber',
                     'Amount', "Littres", 'Token', 'Date', ])
 

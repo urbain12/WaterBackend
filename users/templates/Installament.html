@@ -18,6 +18,7 @@
                                 <div class="row">
                                     
                                     <div class="col-sm-12 table-toolbar-right">
+                                        
 
                                     <div class="btn-group">
                                         <div class="form-group">
@@ -26,9 +27,25 @@
                                                 {% csrf_token %}
                                             <b>From:</b>&nbsp;&nbsp; <input  type="date" name="start"  class="form-control" autocomplete="off" style="height:35px" required>&nbsp;&nbsp;
                                             <b>TO:</b>&nbsp;&nbsp; <input  type="date" name="end"  class="form-control" autocomplete="off" style="height:35px" required>
-                                            <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-filter" aria-hidden="true"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-filter" aria-hidden="true"></i></button>&nbsp;&nbsp;
                                             </form>
                                         </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'instalment'%}">
+                                            {% csrf_token %}
+                                        <select  name="service" class="js-example-basic-single2 form-control">
+                                           <option value="Amazi">Search by Service</option>
+                                           <option value="All">All</option>
+                                           {% for category in categories%}
+
+                                                   <option value="{{category.Title}}">{{category.Title}}</option> 
+                                            {% endfor %}
+                                        </select> 
+                                        <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;&nbsp;
+                                        <form class="form-inline my-2 my-lg-0">
+                                    
                                     </div>
 
 
@@ -37,13 +54,13 @@
 
                                             <form class="form-inline my-2 my-lg-0">
                                             <input id="demo-input-search2" type="text" name="search" placeholder="Search by First name" class="form-control" autocomplete="off">
-                                            <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;
                                             </form>
                                         </div>
                                     </div>
 
 
-                                    <a href="{% url 'export_users_csv' %}"> <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;Export</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="{% url 'export_users_csv' %}"> <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;Export</button></a>&nbsp;&nbsp;&nbsp;&nbsp;
 
 
                                 </div>
@@ -57,15 +74,16 @@
                                             <th>Customer</th>
                                             <th>StartDate</th>
                                             <th>Description</th>
-                                            <th>Invoice Total</th>
+                                            <th>Total amount invoice</th>
                                             <th>Down Payment</th>
                                             <th>Amount under Installments</th>
+                                            <th>Instalment Period</th>
                                             <th>Monthly payment</th>
                                             <th>Outstanding Amount</th>
                                             <th>Balance Paid</th>
                                             <th>Overdue Balance</th>
-                                            <th>Month Overdue</th>
                                             <th>Due date</th>
+                                            <th>Month Overdue</th>
                                         </tr>
                                     </thead>
                                     
@@ -86,6 +104,7 @@
                                                     <td>{{sub.Total|intcomma}} Rwf</td>
                                                     <td>{{sub.Downpayment|intcomma}} Rwf</td>
                                                     <td>{{sub.Total|sub:sub.Downpayment|intcomma}} Rwf</td>
+                                                    <td>{{sub.InstallmentPeriod}}</td>
 
                                                     {% if sub.System.total|divisibleby:12%}
                                                     <td> {{ payment|intcomma }} Rwf</td>                                           
@@ -103,8 +122,8 @@
                                                     <td> {{ payment|add:1|mul:sub.get_overdue_months|intcomma }} Rwf</td>                   
                                                                            
                                                     {% endif %}
+                                                    <td>{{sub.To|date:'d/m/Y'}}</td>
                                                     <td>{{sub.get_overdue_months}}</td>
-                                            <td>{{sub.To|date:'d/m/Y'}}</td>
                                                                                 {% endwith %}
                                                                                 {% endwith %}
                                             </tr>
@@ -123,6 +142,7 @@
                                                     <td>{{sub.Total|intcomma}} Rwf</td>
                                                     <td>{{sub.Downpayment|intcomma}} Rwf</td>
                                                     <td>{{sub.Total|sub:sub.Downpayment|intcomma}} Rwf</td>
+                                                    <td>{{sub.InstallmentPeriod}}</td>
 
                                                     {% if sub.Total|divisibleby:12%}
                                                     <td> {{ payment1|intcomma }} Rwf</td>                                           
@@ -140,8 +160,8 @@
                                                     <td> {{ payment1|add:1|mul:sub.get_overdue_months|intcomma }} Rwf</td>                                           
                                                    
                                                     {% endif %}
+                                                    <td>{{sub.To|date:'d/m/Y'}}</td>
                                                      <td>{{sub.get_overdue_months}}</td>
-                                            <td>{{sub.To|date:'d/m/Y'}}</td>
                                                                     
 
                                                 </tr> 

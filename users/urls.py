@@ -124,6 +124,14 @@ urlpatterns = [
     path('not_paidcatridges/<int:notpaidID>',not_paidcatridges,name="not_paidcatridges"),
 
 
+    #customerexception
+    path('add_exception/<int:exceptionID>',add_exception,name="add_exception"),
+    path('remove_exception/<int:rmvexceptionID>',remove_exception,name="remove_exception"),
+
+    path('troubleshoot/<int:paymentID>',troubleshoot,name="troubleshoot"),
+
+
+
     path('updateProduct/<int:updateID>',updateProduct,name="updateProduct"),
     path('updateBlog/<int:updateID>',updateBlog,name="updateBlog"),
     path('delete_blog/<int:blogID>',delete_blog,name="delete_blog"),
@@ -132,7 +140,7 @@ urlpatterns = [
     url(r'^export/order/$',export_orders, name='export_orders'),
     url(r'^export/catridgesorder/$',export_catridgesorders, name='export_catridgesorders'),
     path('export/transaction/<int:customerID>',export_transaction_csv, name='export_transaction_csv'),
-    path('export/quotation/<int:SubscriptionsID>',export_quotation_csv, name='export_quotation_csv'),
+    path('export/quotation/<int:SubscriptionsID>/<int:customerID>',export_quotation_csv, name='export_quotation_csv'),
     url(r'^export/receipts/$',export_receipts, name='export_receipts'),
 
 

@@ -65,7 +65,7 @@
                                                 <p>
                                                 </p>
                                                 {% else %}
-                                                <a onclick="return confirm('Are you sure you this order is paid?')" href="{% url 'paidordercatridges' order.id %}">
+                                                <a onclick="return confirm('Are you sure this order is paid?')" href="{% url 'paidordercatridges' order.id %}">
                                                 <button class="btn btn-warning">Pay this order</button>
                                                 </a>
                                             {% endif %}

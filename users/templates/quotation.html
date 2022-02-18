@@ -17,7 +17,7 @@
                                     
                                     <div class="col-sm-12 table-toolbar-right">
                                         <button value="click" onclick="printDiv()" id="demo-btn-addrow" class="btn btn-mint"><i class="fa fa-print fa-lg"></i>&nbsp; &nbsp;Print</button>
-                                        <a href="{% url 'export_quotation_csv' subscription.id %}"> <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;Export</button></a>
+                                        <a href="{% url 'export_quotation_csv' subscription.id subscription.CustomerID.id %}"> <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;Export</button></a>
                                     </div>
                                 </div>
                             </div>
