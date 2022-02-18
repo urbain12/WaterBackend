@@ -2805,8 +2805,8 @@ class register(CreateAPIView):
 
 @login_required(login_url='/login')
 def new_subscriptions(request):
-    categories = Category.objects.all()
     if request.method == "POST":
+        categories = Category.objects.all()
         service = request.POST['service']
         if service == 'All':
             filtering = Subscriptions.objects.filter(complete=False)
@@ -2818,6 +2818,15 @@ def new_subscriptions(request):
     else:
         categories = Category.objects.all()
         subscriptions = Subscriptions.objects.filter(complete=False)
+        search_query = request.GET.get('search', '')
+        if search_query:
+            customers = Customer.objects.filter(
+                Q(FirstName__icontains=search_query))
+            customers_ids = []
+            for cust in customers:
+                customers_ids.append(cust.id)
+                subscriptions = Subscriptions.objects.filter(
+                CustomerID__in=customers_ids)
         return render(request, 'new_subscriptions.html', {'subscriptions': subscriptions, 'categories':categories})
 
 
