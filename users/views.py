@@ -86,7 +86,10 @@ def Receipts(request):
         end = request.POST['end']
         filtering = WaterBuyHistory.objects.filter(
             created_at__gte=start, created_at__lte=end)
-        return render(request, 'Receipt.html', {'waterhistory': filtering})
+        paginator = Paginator(filtering, 6)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)   
+        return render(request, 'Receipt.html', {'waterhistory': filtering,'page_obj':page_obj})
     else:
         waterhistory = WaterBuyHistory.objects.all().order_by('-id')
         search_query = request.GET.get('search', '')
