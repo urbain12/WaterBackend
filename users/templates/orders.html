@@ -17,8 +17,26 @@
                                     
                                     <div class="col-sm-12 table-toolbar-right">
                                     <a href="{% url 'export_orders' %}"> <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;Export</button></a>
-                                    <a href="{% url 'pay_later_orders' %}"> <button class="btn btn-warning my-2 my-sm-0" type="submit">&nbsp; &nbsp;Pay Later Orders</button></a>
-                                    <a href="{% url 'notdeliveredpage' %}"> <button class="btn btn-mint my-2 my-sm-0" type="submit">&nbsp; &nbsp;Not delivered Orders</button></a>
+                                    <a href="{% url 'pay_later_orders' %}"> <button class="btn btn-warning my-2 my-sm-0" type="submit">&nbsp; &nbsp;Pay Later Orders
+
+                                        {% if numoforder > 0 %}
+                                         <b style="background-color:black;font-size:14px;padding:5px;border-radius:100px;color:#fff;text-align: center;"> {{numoforder}} </b> 
+                                         {% else %}
+                                         <b></b>
+                                         {% endif %}
+
+                                    </button></a>
+
+                                    <a href="{% url 'notdeliveredpage' %}"> <button class="btn btn-mint my-2 my-sm-0" type="submit">&nbsp; &nbsp;Not delivered Orders
+
+                                        {% if numofdeliv > 0 %}
+                                         <b style="background-color:black;font-size:14px;padding:5px;border-radius:100px;color:#fff;text-align: center;"> {{numofdeliv}} </b> 
+                                         {% else %}
+                                         <b></b>
+                                         {% endif %}
+
+
+                                    </button></a>
 
                                     <div class="btn-group">
                                         <div class="form-group">

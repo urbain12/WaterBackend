@@ -292,7 +292,13 @@ h1,h2,h3,h4,h5,h6{
                                                     <div class="post-title" >
                                                         <h4 class="entry-title gothic" style="margin-left:-5%"><a href="{% url 'product' product.id %}">{{product.name}}</a></h4>
                                                         <span class="price" style="margin-left:-5%">
-                                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol" class="gothic">Rwf </span>{{product.price|intcomma}}</span>
+															{% if product.discount > 0 %}
+                                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol" class="gothic"> <s>Rwf <span >{{product.price|intcomma}}</span></s>
+                                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol" class="gothic" style="color: black"> Rwf <span>{{product.discount|intcomma}}</span>
+															{% else %}
+                                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol" class="gothic"> Rwf <span>{{product.price|intcomma}}</span>
+
+															{% endif %}
                                                         </span><br><br>
                                                     </div>
                                                     <div class="post-excerpt" style="margin-left:-5%">

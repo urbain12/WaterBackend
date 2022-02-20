@@ -273,6 +273,7 @@ def updateProduct(request, updateID):
             Updateproduct.image = request.FILES['images']
         Updateproduct.name = request.POST['name']
         Updateproduct.price = request.POST['price']
+        Updateproduct.discount = request.POST['discount']
         Updateproduct.inStock = request.POST['instock']
         Updateproduct.description = request.POST['description']
         Updateproduct.save()
@@ -911,6 +912,8 @@ def products(request):
 @login_required(login_url='/login')
 def orders(request):
     orders = Order.objects.filter(paid=True).order_by('-id')
+    numoforder = len(Order.objects.filter(pay_later=True))
+    numofdeliv = len(Order.objects.filter(delivery=False))
     search_query = request.GET.get('search', '')
     if search_query:
         shipping = ShippingAddress.objects.filter(
@@ -919,7 +922,7 @@ def orders(request):
     paginator = Paginator(orders, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'orders.html', {'orders': orders, 'page_obj': page_obj})
+    return render(request, 'orders.html', {'orders': orders, 'page_obj': page_obj,'numoforder':numoforder,'numofdeliv':numofdeliv})
 
 
 @login_required(login_url='/login')
@@ -1019,6 +1022,7 @@ def paidordercatridges(request, paidID):
 @login_required(login_url='/login')
 def pay_later_orders(request):
     orders = Order.objects.filter(pay_later=True).order_by('-id')
+    
     search_query = request.GET.get('search', '')
     if search_query:
         shipping = ShippingAddress.objects.filter(
@@ -1161,6 +1165,7 @@ def AddProduct(request):
         Addproduct = Product()
         Addproduct.name = request.POST['name']
         Addproduct.price = request.POST['price']
+        Addproduct.discount = request.POST['discount']
         Addproduct.image = request.FILES['images']
         Addproduct.inStock = request.POST['instock']
         Addproduct.description = request.POST['description']
