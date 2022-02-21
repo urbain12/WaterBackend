@@ -1,4 +1,5 @@
 from calendar import month
+from cmath import isnan
 from codecs import BOM_UTF32_BE
 from pickle import TRUE
 from django.contrib.auth import get_user_model
@@ -1619,11 +1620,28 @@ def update_system(request, sysID):
         syst.total = request.POST['total']
         syst.Category = category
         syst.save()
+
+        SystemTool.objects.filter(system=syst.id).delete()
+
+        tools = request.POST['tools'].split(',')[:-1]
+
+        for tool in tools:
+            my_tool = Tools.objects.get(id=tool)
+            systemTool = SystemTool()
+            systemTool.tool = my_tool
+            systemTool.system = syst
+            systemTool.save()
         return redirect('system')
     else:
         categories = Category.objects.all()
         updatesystem = System.objects.get(id=sysID)
-        return render(request, 'update_system.html', {'categories': categories, 'updatesystem': updatesystem})
+        systemtools=SystemTool.objects.filter(system=sysID)
+        sys_ids=[]
+        for sys in systemtools:
+            sys_ids.append(sys.tool.id)
+        tools = Tools.objects.all()
+        systemtools2 = Tools.objects.filter(id__in=sys_ids)
+        return render(request, 'update_system.html', {'categories': categories, 'updatesystem': updatesystem,'tools': tools,'systemtools2':systemtools2})
 
 
 @login_required(login_url='/login')
@@ -2123,6 +2141,16 @@ class WaterBuyHistoryListView(ListAPIView):
     serializer_class = WaterBuyHistorySerializer
 
 
+class WaterbuyhistoryByCustomerID(ListAPIView):
+    serializer_class = WaterBuyHistorySerializer
+
+    def get_queryset(self):
+        customer = Customer.objects.get(user=self.kwargs['user_id'])
+        return WaterBuyHistory.objects.filter(Customer=customer.id).exclude(Token=None)
+
+
+
+
 class WaterBuyHistoryCreateView(CreateAPIView):
     queryset = WaterBuyHistory.objects.all()
     serializer_class = WaterBuyHistorySerializer
@@ -2265,6 +2293,9 @@ class SubscriptionsPaymentListView(ListAPIView):
         return SubscriptionsPayment.objects.filter(SubscriptionsID=subscription.id, Paid=True)
 
 
+
+
+
 class SubscriptionsPaymentList(ListAPIView):
     serializer_class = SubscriptionsPaymentSerializer
 
@@ -2278,6 +2309,8 @@ class SubscriptionsByCustomerID(ListAPIView):
     def get_queryset(self):
         customer = Customer.objects.get(user=self.kwargs['user_id'])
         return Subscriptions.objects.filter(CustomerID=customer.id)
+
+
 
 
 class SubscriptionsTools1(ListAPIView):

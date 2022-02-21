@@ -210,6 +210,7 @@ urlpatterns = [
 
 
     path('WaterBuyHistory/',WaterBuyHistoryListView.as_view()),
+    path('WaterBuyHistoryPayment/<int:user_id>/',WaterbuyhistoryByCustomerID.as_view()),
     path('WaterBuyHistory/create/',WaterBuyHistoryCreateView.as_view()),
     path('UpdateWaterBuyHistory/<id>/', WaterBuyHistoryUpdateView.as_view()),
     path('DeleteWaterBuyHistory/<id>/', WaterBuyHistoryDeleteView.as_view()),
