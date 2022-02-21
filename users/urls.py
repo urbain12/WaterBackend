@@ -78,6 +78,7 @@ urlpatterns = [
     path('add_customer/',add_customer,name='add_customer'),
     path('update_customer/<int:customerID>/',update_customer,name='update_customer'),
     path('update_tool/<int:toolID>/',update_tool,name='update_tool'),
+    path('updatenum/<int:userID>/',updatenum,name='updatenum'),
     path('update_system/<int:sysID>/',update_system,name='update_system'),
     path('add_subscription/',add_subscription,name='add_subscription'),
     path('Addcustomers/',Addcustomers,name='Addcustomers'),

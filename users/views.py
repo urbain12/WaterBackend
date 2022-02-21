@@ -614,6 +614,19 @@ def user(request):
     return render(request, 'users.html', {'users': users, 'page_obj': page_obj})
 
 
+@login_required(login_url='/login')
+def updatenum(request, userID):
+    if request.method == 'POST':
+
+        usernum = User.objects.get(id=userID)
+        usernum.phone = request.POST['phonenumber']  
+        usernum.save()
+        return redirect('user')
+    else:
+        update_num = User.objects.get(id=userID)
+        return render(request, 'update_user.html', {'update_num': update_num})
+
+
 def operator(request):
     if request.method == 'POST':
         try:

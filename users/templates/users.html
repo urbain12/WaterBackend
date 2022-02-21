@@ -21,7 +21,7 @@
                                         <div class="btn-group">
                                             <div class="form-group">
                                         <form class="form-inline my-2 my-lg-0" action="{% url 'user'%}">
-                                        <input id="demo-input-search2" type="text" name="search" placeholder="Search" class="form-control" autocomplete="off">
+                                        <input id="demo-input-search2" type="text" name="search" placeholder="Search by User Number" class="form-control" autocomplete="off">
                                         <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                                         </form>
                                         </div>
@@ -55,8 +55,12 @@
                                             Client
                                             {% endif %}
                                             </td>
-                                            <td><a onclick="return confirm('Are you sure you want to reset password?')" href="{% url 'reset_password' user.id %}">
-                                                <button class="btn btn-primary">Reset password</button>
+                                            <td>
+                                                <a onclick="return confirm('Are you sure you want to reset password?')" href="{% url 'reset_password' user.id %}">
+                                                <button class="btn btn-primary"><i class='fa fa-lock'></i> Reset password</button>
+                                                </a>
+                                                <a onclick="return confirm('Are you sure you want to change this user's number?')" href="{% url 'updatenum' user.id %}">
+                                                    <button class="btn btn-danger"><i class='fa fa-pencil'></i> Change N#</button>
                                                 </a>
                                             </td>
                                     </tr>
