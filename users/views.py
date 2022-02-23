@@ -1657,7 +1657,10 @@ def subscriptions(request):
             category = Category.objects.get(Title=service)
             filtering = Subscriptions.objects.filter(
                 Category=category.id, complete=True)
-        return render(request, 'Subscriptions.html', {'subscriptions': filtering, 'numofsubs': numofsubs,'categories':categories})
+        paginator = Paginator(filtering, 6)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'Subscriptions.html', {'subscriptions': filtering, 'numofsubs': numofsubs,'categories':categories,'page_obj':page_obj})
     else:
         categories = Category.objects.all()
         search_query = request.GET.get('search', '')
@@ -1669,7 +1672,10 @@ def subscriptions(request):
                 customers_ids.append(cust.id)
             subscriptions = Subscriptions.objects.filter(
                 CustomerID__in=customers_ids)
-        return render(request, 'Subscriptions.html', {'subscriptions': subscriptions, 'numofsubs': numofsubs,'categories':categories})
+        paginator = Paginator(subscriptions, 6)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'Subscriptions.html', {'subscriptions': subscriptions, 'numofsubs': numofsubs,'categories':categories,'page_obj':page_obj})
 
 @login_required(login_url='/login')
 def add_exception(request, exceptionID):
@@ -1720,13 +1726,19 @@ def instalment(request):
             category = Category.objects.get(Title=service)
             filteringservices = Subscriptions.objects.filter(
                 Category=category.id, complete=True)
-        return render(request, 'Installament.html', {'subscriptions': filteringservices,'categories':categories})
+        paginator = Paginator(filteringservices, 6)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'Installament.html', {'subscriptions': filteringservices,'categories':categories,'page_obj':page_obj})
     if request.method == "POST":
         start = request.POST['start']
         end = request.POST['end']
         filtering = Subscriptions.objects.filter(
             From__gte=start, From__lte=end, complete=True)
-        return render(request, 'Installament.html', {'subscriptions': filtering,'categories':categories})
+        paginator = Paginator(filtering, 6)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'Installament.html', {'subscriptions': filtering,'categories':categories,'page_obj':page_obj})
     else:
         subscriptions = Subscriptions.objects.filter(
             complete=True).order_by('-id')
@@ -1739,8 +1751,10 @@ def instalment(request):
                 customers_ids.append(cust.id)
             subscriptions = Subscriptions.objects.filter(
                 CustomerID__in=customers_ids, complete=True)
-
-        return render(request, 'Installament.html', {'subscriptions': subscriptions,'categories':categories})
+        paginator = Paginator(subscriptions, 6)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'Installament.html', {'subscriptions': subscriptions,'categories':categories,'page_obj':page_obj})
 
 
 @login_required(login_url='/login')
@@ -2864,11 +2878,14 @@ def new_subscriptions(request):
         else:
             category = Category.objects.get(Title=service)
             filtering = Subscriptions.objects.filter(
-                Category=category.id, complete=True)
-        return render(request, 'new_subscriptions.html', {'subscriptions': filtering,'categories':categories})
+                Category=category.id, complete=False)
+        paginator = Paginator(filtering, 6)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'new_subscriptions.html', {'subscriptions': filtering,'categories':categories,'page_obj':page_obj})
     else:
         categories = Category.objects.all()
-        subscriptions = Subscriptions.objects.filter(complete=False)
+        subscriptions = Subscriptions.objects.filter(complete=False).order_by('-id')
         search_query = request.GET.get('search', '')
         if search_query:
             customers = Customer.objects.filter(
@@ -2878,7 +2895,10 @@ def new_subscriptions(request):
                 customers_ids.append(cust.id)
                 subscriptions = Subscriptions.objects.filter(
                 CustomerID__in=customers_ids)
-        return render(request, 'new_subscriptions.html', {'subscriptions': subscriptions, 'categories':categories})
+        paginator = Paginator(subscriptions, 6)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'new_subscriptions.html', {'subscriptions': subscriptions, 'categories':categories,'page_obj':page_obj})
 
 
 def export_users_csv(request):
