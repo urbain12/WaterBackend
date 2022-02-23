@@ -12,17 +12,30 @@
                                 <h1 class="page-header text-overflow">Dashboard Filter</h1>
                         
                     <div>
+						<form action="{% url 'dashboard' %}" method='POST'>
+							{% csrf_token %}
 						<div class="row">
-						<div class="col-sm-4 text-center">
-							<label><input type="radio" name="Radio" value="all" checked > all time.</label>
+						<div class="col-sm-5 text-center">
+							<select class="form-control" name="time">
+								<option value="all">All Time</option> 
+								<option value="This week">This Week</option> 
+								<option value="Today">Today</option> 
+							</select>
 						</div>
-						<div class="col-sm-4 text-center">
-							<label><input type="radio" name="Radio" value="daily" > Today.</label>
+						<div class="col-sm-5 text-center">
+							<select class="form-control" name="service">
+								<option value="all">All Services</option> 
+								{% for category in categories %}
+								<option value="{{category.Title}}">{{category.Title}}</option>
+								{% endfor %}
+							</select>
 						</div>
-                        <div class="col-sm-4 text-center">
-							<label><input type="radio" name="Radio" value="weekly"> This week.</label>
+						<div class="col-sm-2">
+							<button class="btn btn-success my-sm-0" type="submit"><i class="fa fa-filter" aria-hidden="true"></i></button>
 						</div>
+                        
 						</div>
+					</form>
 					</div>
                     </div>
                     </div>
@@ -33,7 +46,8 @@
 									
 
 								<div class="all box">
-									<div class='row text-center' >
+									<h1 class="page-header text-overflow">{{filter_title}}</h1>
+									<div class='row text-center' style="margin-top:30px">
 									<div class="col-md-12"  >
 					                    <div class="panel panel-warning panel-colorful media middle pad-all">
 					                        <div class="media-left">
@@ -107,6 +121,8 @@
 					                        </div>
 					                    </div>
 					                </div>
+
+									{% if show %}
 									<div class="col-md-12"  >
 					                    <div class="panel panel-purple panel-colorful media middle pad-all">
 					                        <div class="media-left">
@@ -116,10 +132,14 @@
 					                        </div>
 					                        <div class="media-body">
 										<p class="text-2x mar-no text-semibold">{{allsoldlitre}}</p>
-					                            <p class="mar-no">All litres sold</p>
+					                            <p class="mar-no">All Sold litres</p>
 					                        </div>
 					                    </div>
 					                </div>
+									{% else %}
+									 <span></span>
+									{% endif %}
+									
 					
 					            </div>
 								</div>
@@ -127,193 +147,12 @@
 
 
 
-								<div class="weekly box">
-									<div class='row text-center' >
-									<div class="col-md-12"  >
-					                    <div class="panel panel-warning panel-colorful media middle pad-all">
-					                        <div class="media-left">
-					                            <div class="pad-hor">
-					                                <i class="fa fa-users icon-3x"></i>
-					                            </div>
-					                        </div>
-					                        <div class="media-body">
-										<p class="text-2x mar-no text-semibold">{{weekly}}</p>
-					                            <p class="mar-no">Total subscribers weekly</p>
-					                        </div>
-					                    </div>
-					                </div>
-									</div>
-					              <div class="row">
-					                
-					                <div class="col-md-6">
-					                    <div class="panel panel-info panel-colorful media middle pad-all">
-					                        <div class="media-left">
-					                            <div class="pad-hor">
-					                                <i class="fa fa-money icon-3x"></i>
-					                            </div>
-					                        </div>
-					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">{{amount_invoicedweekly|intcomma}} RWF</p>
-					                            <p class="mar-no">Total Amount invoiced</p>
-					                        </div>
-					                    </div>
-					                </div>
-					                <div class="col-md-6">
-					                    <div class="panel panel-mint panel-colorful media middle pad-all">
-					                        <div class="media-left">
-					                            <div class="pad-hor">
-					                               <i class="fa fa-money icon-3x"></i>
-					                            </div>
-					                        </div>
-					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">{{amount_outstandingweekly|intcomma}} RWF</p>
-					                            <p class="mar-no">Total Amount Outstanding </p>
-					                        </div>
-					                    </div>
-					                </div>
-					
-					            </div>
-
-                                <div class="row">
-					               
-					                <div class="col-md-6">
-					                    <div class="panel panel-success panel-colorful media middle pad-all">
-					                        <div class="media-left">
-					                            <div class="pad-hor">
-					                                <i class="fa fa-money icon-3x"></i>
-					                            </div>
-					                        </div>
-					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">{{amount_paidweekly|intcomma}} RWF</p>
-					                            <p class="mar-no">Total Amount Already Paid </p>
-					                        </div>
-					                    </div>
-					                </div>
-					                <div class="col-md-6">
-					                    <div class="panel panel-danger panel-colorful media middle pad-all">
-					                        <div class="media-left">
-					                            <div class="pad-hor">
-					                               <i class="fa fa-money icon-3x"></i>
-					                            </div>
-					                        </div>
-					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">{{overdue_amount}} RWF</p>
-					                            <p class="mar-no">Total Amount Overdue</p>
-					                        </div>
-					                    </div>
-					                </div>
-									<div class="col-md-12"  >
-					                    <div class="panel panel-purple panel-colorful media middle pad-all">
-					                        <div class="media-left">
-					                            <div class="pad-hor">
-					                                <i class="fa fa-tint icon-3x"></i>
-					                            </div>
-					                        </div>
-					                        <div class="media-body">
-										<p class="text-2x mar-no text-semibold">{{weeklysoldlitre}}</p>
-					                            <p class="mar-no">This week litres Sold</p>
-					                        </div>
-					                    </div>
-					                </div>
-					
-					            </div>
-								</div>
+								
 
 
 
 
-								<div class="daily box">
-									<div class='row text-center' >
-									<div class="col-md-12"  >
-					                    <div class="panel panel-warning panel-colorful media middle pad-all">
-					                        <div class="media-left">
-					                            <div class="pad-hor">
-					                                <i class="fa fa-users icon-3x"></i>
-					                            </div>
-					                        </div>
-					                        <div class="media-body">
-										<p class="text-2x mar-no text-semibold">{{daily}}</p>
-					                            <p class="mar-no">Total subscribers Daily</p>
-					                        </div>
-					                    </div>
-					                </div>
-									</div>
-					              <div class="row">
-					                
-					                <div class="col-md-6">
-					                    <div class="panel panel-info panel-colorful media middle pad-all">
-					                        <div class="media-left">
-					                            <div class="pad-hor">
-					                                <i class="fa fa-money icon-3x"></i>
-					                            </div>
-					                        </div>
-					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">{{amount_invoiceddaily|intcomma}} RWF</p>
-					                            <p class="mar-no">Total Amount invoiced</p>
-					                        </div>
-					                    </div>
-					                </div>
-					                <div class="col-md-6">
-					                    <div class="panel panel-mint panel-colorful media middle pad-all">
-					                        <div class="media-left">
-					                            <div class="pad-hor">
-					                               <i class="fa fa-money icon-3x"></i>
-					                            </div>
-					                        </div>
-					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">{{amount_outstandingdaily|intcomma}} RWF</p>
-					                            <p class="mar-no">Total Amount Outstanding </p>
-					                        </div>
-					                    </div>
-					                </div>
-					
-					            </div>
-
-                                <div class="row">
-					               
-					                <div class="col-md-6">
-					                    <div class="panel panel-success panel-colorful media middle pad-all">
-					                        <div class="media-left">
-					                            <div class="pad-hor">
-					                                <i class="fa fa-money icon-3x"></i>
-					                            </div>
-					                        </div>
-					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">{{amount_paiddaily|intcomma}} RWF</p>
-					                            <p class="mar-no">Total Amount Already Paid </p>
-					                        </div>
-					                    </div>
-					                </div>
-					                <div class="col-md-6">
-					                    <div class="panel panel-danger panel-colorful media middle pad-all">
-					                        <div class="media-left">
-					                            <div class="pad-hor">
-					                               <i class="fa fa-money icon-3x"></i>
-					                            </div>
-					                        </div>
-					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">{{overdue_amount}} RWF</p>
-					                            <p class="mar-no">Total Amount Overdue</p>
-					                        </div>
-					                    </div>
-					                </div>
-
-									<div class="col-md-12"  >
-					                    <div class="panel panel-purple panel-colorful media middle pad-all">
-					                        <div class="media-left">
-					                            <div class="pad-hor">
-					                                <i class="fa fa-tint icon-3x"></i>
-					                            </div>
-					                        </div>
-					                        <div class="media-body">
-										<p class="text-2x mar-no text-semibold">{{dailysoldlitre}}</p>
-					                            <p class="mar-no">Today litres Sold</p>
-					                        </div>
-					                    </div>
-					                </div>
-					
-					            </div>
-								</div>
+								
 
 
 								{% comment %} <canvas id="my_chart"></canvas> {% endcomment %}
@@ -358,18 +197,6 @@
 					})
 				</script>
 
-				<script>
-						
-						$(document).ready(function(){
-							$('.daily').hide();
-							$('.weekly').hide();
-							$('input[type="radio"]').click(function(){
-								var inputValue = $(this).attr("value");
-								var targetBox = $("." + inputValue);
-								$(".box").not(targetBox).hide();
-								$(targetBox).show();
-							});
-						});
-				</script>
+				
 
 {% endblock content%}

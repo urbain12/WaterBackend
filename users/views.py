@@ -471,124 +471,348 @@ def send_app_link(request):
 
 @login_required(login_url='/login')
 def dashboard(request):
-    d = datetime.now()
-    dateweek = datetime.now()
-    start_week = dateweek - timedelta(dateweek.weekday())
-    end_week = start_week + timedelta(7)
+    if request.method=='POST':
+        if request.POST['time']=='all' and request.POST['service']=='all':
+            categories=Category.objects.all()
 
-    category_amazi = Category.objects.get(Title="AMAZI")
-    category_uhira = Category.objects.get(Title="UHIRA")
-    category_inuma = Category.objects.get(Title="INUMA")
-    daily = len(Subscriptions.objects.filter(
-        From__date=d.date(), complete=True))
-    daily_subscriptions = Subscriptions.objects.filter(
-        From__date=d.date(), complete=True, Category=category_amazi)
-    daily_subscriptions1 = Subscriptions.objects.filter(
-        From__date=d.date(), complete=True, Category=category_uhira)
-    daily_subscriptions2 = Subscriptions.objects.filter(
-        From__date=d.date(), complete=True, Category=category_inuma)
-    paymentsdaily = SubscriptionsPayment.objects.filter(
-        PaymentDate=d.date(), Paid=True)
+            d = datetime.now()
+            dateweek = datetime.now()
+            start_week = dateweek - timedelta(dateweek.weekday())
+            end_week = start_week + timedelta(7)
 
-    amount_invoiceddaily = sum([int(sub.Total)
-                               for sub in daily_subscriptions])
-    amount_invoiceddaily1 = sum([int(sub.Total)
-                                 for sub in daily_subscriptions1])
-    amount_invoiceddaily2 = sum([int(sub.Total)
-                                 for sub in daily_subscriptions2])
-    amount_paiddaily = sum([int(payment.Paidamount)
-                           for payment in paymentsdaily])
-    amount_outstandingdaily = amount_invoiceddaily-amount_paiddaily
+            
 
-    overdue_months = SubscriptionsPayment.objects.filter(
-        Paid=False, PaidMonth__lte=datetime.now()+relativedelta(months=-1))
-    overdue_amount = sum([int(overdue.Paidamount)
-                         for overdue in overdue_months])
+            
 
-    subscriptions = len(Subscriptions.objects.filter(complete=True))
+            overdue_months = SubscriptionsPayment.objects.filter(
+                Paid=False, PaidMonth__lte=datetime.now()+relativedelta(months=-1))
+            overdue_amount = sum([int(overdue.Paidamount)
+                                for overdue in overdue_months])
 
-    my_subscriptions = Subscriptions.objects.filter(
-        complete=True, Category=category_amazi)
-    my_subscriptions1 = Subscriptions.objects.filter(
-        complete=True, Category=category_uhira)
-    my_subscriptions2 = Subscriptions.objects.filter(
-        complete=True, Category=category_inuma)
-    amount_invoiced = sum([int(sub.Total)
-                          for sub in my_subscriptions])
-    amount_invoiced1 = sum([int(sub.Total)
-                            for sub in my_subscriptions1])
-    amount_invoiced2 = sum([int(sub.Total)
-                            for sub in my_subscriptions2])
-    payments = SubscriptionsPayment.objects.filter(Paid=True)
-    amount_paid = sum([int(payment.Paidamount) for payment in payments])
-    amount_outstanding = amount_invoiced + \
-        amount_invoiced1+amount_invoiced2-amount_paid
+            subscriptions = len(Subscriptions.objects.filter(complete=True))
 
-    weekly = len(Subscriptions.objects.filter(
-        From__range=[start_week.date(), end_week.date()], complete=True))
+            my_subscriptions = Subscriptions.objects.filter(
+                complete=True)
 
-    weekly_subscriptions = Subscriptions.objects.filter(
-        From__date=d.date(), complete=True, Category=category_amazi)
+            
 
-    weekly_subscriptions1 = Subscriptions.objects.filter(
-        From__date=d.date(), complete=True, Category=category_uhira)
+            amount_invoiced = sum([int(sub.Total)
+                                for sub in my_subscriptions])
 
-    weekly_subscriptions2 = Subscriptions.objects.filter(
-        From__date=d.date(), complete=True, Category=category_inuma)
-    paymentsweekly = SubscriptionsPayment.objects.filter(
-        PaymentDate=d.date(), Paid=True)
+            
 
-    amount_invoicedweekly = sum([int(sub.Total)
-                                for sub in weekly_subscriptions])
-    amount_invoicedweekly1 = sum([int(sub.Total)
-                                  for sub in weekly_subscriptions1])
-    amount_invoicedweekly2 = sum([int(sub.Total)
-                                  for sub in weekly_subscriptions2])
-    amount_paidweekly = sum([int(payment.Paidamount)
-                            for payment in paymentsweekly])
-    amount_outstandingweekly = amount_invoicedweekly-amount_paidweekly
+            payments = SubscriptionsPayment.objects.filter(Paid=True)
+            amount_paid = sum([int(payment.Paidamount) for payment in payments])
+            amount_outstanding = amount_invoiced-amount_paid
 
-    soldlitre = WaterBuyHistory.objects.all()
-    allsoldlitre = sum([int(litre.Amount) for litre in soldlitre])
+            
 
-    weeklylittre = WaterBuyHistory.objects.filter(
-        created_at__range=[start_week.date(), end_week.date()])
-    weeklysoldlitre = sum([int(litre.Amount) for litre in weeklylittre])
+            soldlitre = WaterBuyHistory.objects.all()
+            allsoldlitre = sum([int(litre.Amount) for litre in soldlitre])
 
-    dailylittre = WaterBuyHistory.objects.filter(
-        created_at__date=d.date())
-    dailysoldlitre = sum([int(litre.Amount) for litre in dailylittre])
+            
 
-    return render(request, 'dashboard.html', {
-        'subscriptions': subscriptions,
-        'daily': daily,
-        'weekly': weekly,
+            return render(request, 'dashboard.html', {
+                'subscriptions': subscriptions,
+                
+                'overdue_amount': overdue_amount,
 
-        'overdue_amount': overdue_amount,
+                'filter_title':'All time , All services',
+                'show':True,
+                
 
-        'amount_paiddaily': amount_paiddaily,
-        'amount_invoiceddaily': amount_invoiceddaily+amount_invoiceddaily1+amount_invoiceddaily2,
-        'amount_outstandingdaily': amount_outstandingdaily,
+                'amount_paid': amount_paid,
+                'amount_invoiced': amount_invoiced,
+                'amount_outstanding': amount_outstanding,
 
-        'amount_paidweekly': amount_paidweekly,
-        'amount_invoicedweekly': amount_invoicedweekly+amount_invoicedweekly1+amount_invoicedweekly2,
-        'amount_outstandingweekly': amount_outstandingweekly,
+                'allsoldlitre': allsoldlitre,
+                'categories': categories,
+            
+                
 
-        'amount_paid': amount_paid,
-        'amount_invoiced': amount_invoiced+amount_invoiced1+amount_invoiced2,
-        'amount_outstanding': amount_outstanding,
+            })
+        if request.POST['time']=='all' and request.POST['service']!='all':
+            categories=Category.objects.all()
+            d = datetime.now()
+            dateweek = datetime.now()
+            start_week = dateweek - timedelta(dateweek.weekday())
+            end_week = start_week + timedelta(7)
 
-        'allsoldlitre': allsoldlitre,
-        'weeklysoldlitre': weeklysoldlitre,
-        'dailysoldlitre': dailysoldlitre
+            
+
+            
+
+            overdue_months = SubscriptionsPayment.objects.filter(
+                Paid=False, PaidMonth__lte=datetime.now()+relativedelta(months=-1))
+            overdue_amount = sum([int(overdue.Paidamount)
+                                for overdue in overdue_months])
+            category=Category.objects.get(Title=request.POST['service'])
+            subscriptions = len(Subscriptions.objects.filter(complete=True,Category=category.id))
+
+            my_subscriptions = Subscriptions.objects.filter(
+                complete=True,Category=category.id)
+            sub_ids=[]
+            for sub in my_subscriptions:
+                sub_ids.append(sub.id)
+            
+
+            amount_invoiced = sum([int(sub.Total)
+                                for sub in my_subscriptions])
+
+            
+
+            payments = SubscriptionsPayment.objects.filter(Paid=True,SubscriptionsID__in=sub_ids)
+            amount_paid = sum([int(payment.Paidamount) for payment in payments])
+            amount_outstanding = amount_invoiced-amount_paid
+
+            
+
+            if request.POST['service'].upper()=='INUMA':
+                soldlitre = WaterBuyHistory.objects.all()
+                allsoldlitre = sum([int(litre.Amount) for litre in soldlitre])
+                show=True
+            else:
+                allsoldlitre = 0
+                show=False
+
+            
+
+            return render(request, 'dashboard.html', {
+                'subscriptions': subscriptions,
+                
+                'overdue_amount': overdue_amount,
+
+                'show':show,
+
+                'filter_title':'All time , '+request.POST['service'],
+
+                'amount_paid': amount_paid,
+                'amount_invoiced': amount_invoiced,
+                'amount_outstanding': amount_outstanding,
+
+                'allsoldlitre': allsoldlitre,
+                'categories': categories,
+            
 
 
+            })
+        if request.POST['time']!='all' and request.POST['service']=='all':
+            categories=Category.objects.all()
+            d = datetime.now()
+            tomorrow = datetime.now().date()+timedelta(1)
+            dateweek = datetime.now()
+            start_week = dateweek - timedelta(dateweek.weekday())
+            end_week = start_week + timedelta(7)
+
+            
+
+            
+            overdue_months=0
+            overdue_amount=0
+            # overdue_months = SubscriptionsPayment.objects.filter(
+            #     Paid=False, PaidMonth__lte=datetime.now()+relativedelta(months=-1))
+            # overdue_amount = sum([int(overdue.Paidamount)
+            #                     for overdue in overdue_months])
+            if request.POST['time']=='Today':
+                subscriptions = len(Subscriptions.objects.filter(From__gte=d.date(),From__lte=tomorrow,complete=True))
+                my_subscriptions = Subscriptions.objects.filter(
+                    From__gte=d.date(),From__lte=tomorrow,complete=True)
+                
+            if request.POST['time']=='This week':
+                subscriptions = len(Subscriptions.objects.filter(From__range=[start_week.date(), end_week.date()],complete=True))
+                my_subscriptions = Subscriptions.objects.filter(
+                    From__range=[start_week.date(), end_week.date()],complete=True)
+            sub_ids=[]
+            for sub in my_subscriptions:
+                sub_ids.append(sub.id)
+            
+            if request.POST['time']=='Today':
+                payments = SubscriptionsPayment.objects.filter(PaymentDate__gte=d.date(),PaymentDate__lte=tomorrow,Paid=True,SubscriptionsID__in=sub_ids)
+
+            if request.POST['time']=='This week':
+                payments = SubscriptionsPayment.objects.filter(PaymentDate__range=[start_week.date(), end_week.date()],Paid=True,SubscriptionsID__in=sub_ids)
+            
+
+            amount_invoiced = sum([int(sub.Total)
+                                for sub in my_subscriptions])
+
+            
+
+            
+            amount_paid = sum([int(payment.Paidamount) for payment in payments])
+            amount_outstanding = amount_invoiced-amount_paid
+
+            
+            if request.POST['time']=='This week':
+                soldlitre = WaterBuyHistory.objects.filter(created_at__range=[start_week.date(), end_week.date()],)
+                allsoldlitre = sum([int(litre.Amount) for litre in soldlitre])
+
+            if request.POST['time']=='Today':
+                soldlitre = WaterBuyHistory.objects.filter(created_at__gte=d.date(),created_at__lte=tomorrow)
+                allsoldlitre = sum([int(litre.Amount) for litre in soldlitre])
+
+            
+
+            return render(request, 'dashboard.html', {
+                'subscriptions': subscriptions,
+                
+                'overdue_amount': overdue_amount,
+
+                'filter_title':request.POST['time']+' , All services',
+            
+                'show':True,
+                
+
+                'amount_paid': amount_paid,
+                'amount_invoiced': amount_invoiced,
+                'amount_outstanding': amount_outstanding,
+
+                'allsoldlitre': allsoldlitre,
+                'categories': categories,
+            
 
 
+            })
+
+        if request.POST['time']!='all' and request.POST['service']!='all':
+            categories=Category.objects.all()
+            d = datetime.now()
+            tomorrow = datetime.now().date()+timedelta(1)
+            dateweek = datetime.now()
+            start_week = dateweek - timedelta(dateweek.weekday())
+            end_week = start_week + timedelta(7)
+
+            
+
+            
+            overdue_months=0
+            overdue_amount=0
+            # overdue_months = SubscriptionsPayment.objects.filter(
+            #     Paid=False, PaidMonth__lte=datetime.now()+relativedelta(months=-1))
+            # overdue_amount = sum([int(overdue.Paidamount)
+            #                     for overdue in overdue_months])
+            category=Category.objects.get(Title=request.POST['service'])
+            if request.POST['time']=='Today':
+                subscriptions = len(Subscriptions.objects.filter(From__gte=d.date(),From__lte=tomorrow,complete=True,Category=category.id))
+                my_subscriptions = Subscriptions.objects.filter(
+                    From__gte=d.date(),From__lte=tomorrow,complete=True,Category=category.id)
+                
+            if request.POST['time']=='This week':
+                subscriptions = len(Subscriptions.objects.filter(From__range=[start_week.date(), end_week.date()],complete=True,Category=category.id))
+                my_subscriptions = Subscriptions.objects.filter(
+                    From__range=[start_week.date(), end_week.date()],complete=True,Category=category.id)
+            sub_ids=[]
+            for sub in my_subscriptions:
+                sub_ids.append(sub.id)
+            
+            if request.POST['time']=='Today':
+                payments = SubscriptionsPayment.objects.filter(PaymentDate=d.date(),Paid=True,SubscriptionsID__in=sub_ids)
+
+            if request.POST['time']=='This week':
+                payments = SubscriptionsPayment.objects.filter(PaymentDate__range=[start_week.date(), end_week.date()],Paid=True,SubscriptionsID__in=sub_ids)
+            
+
+            amount_invoiced = sum([int(sub.Total)
+                                for sub in my_subscriptions])
+
+            
+
+            
+            amount_paid = sum([int(payment.Paidamount) for payment in payments])
+            amount_outstanding = amount_invoiced-amount_paid
+
+            
+            if request.POST['service'].upper()=='INUMA':
+                show=True
+                if request.POST['time']=='This week':
+                    soldlitre = WaterBuyHistory.objects.filter(created_at__range=[start_week.date(), end_week.date()],)
+                    allsoldlitre = sum([int(litre.Amount) for litre in soldlitre])
+
+                if request.POST['time']=='Today':
+                    soldlitre = WaterBuyHistory.objects.filter(created_at__gte=d.date(),created_at__lte=tomorrow)
+                    allsoldlitre = sum([int(litre.Amount) for litre in soldlitre])
+            else:
+                allsoldlitre = 0
+                show=False
+
+            
+
+            return render(request, 'dashboard.html', {
+                'subscriptions': subscriptions,
+                
+                'overdue_amount': overdue_amount,
+
+                'filter_title':request.POST['time']+' , '+request.POST['service'],
+                
+                'show':show,
+                'amount_paid': amount_paid,
+                'amount_invoiced': amount_invoiced,
+                'amount_outstanding': amount_outstanding,
+
+                'allsoldlitre': allsoldlitre,
+                'categories': categories,
+            
 
 
+            })
+    else:
+        categories=Category.objects.all()
+        d = datetime.now()
+        dateweek = datetime.now()
+        start_week = dateweek - timedelta(dateweek.weekday())
+        end_week = start_week + timedelta(7)
 
-    })
+        
+
+        
+
+        overdue_months = SubscriptionsPayment.objects.filter(
+            Paid=False, PaidMonth__lte=datetime.now()+relativedelta(months=-1))
+        overdue_amount = sum([int(overdue.Paidamount)
+                            for overdue in overdue_months])
+
+        subscriptions = len(Subscriptions.objects.filter(complete=True))
+
+        my_subscriptions = Subscriptions.objects.filter(
+            complete=True)
+
+        
+
+        amount_invoiced = sum([int(sub.Total)
+                            for sub in my_subscriptions])
+
+        
+
+        payments = SubscriptionsPayment.objects.filter(Paid=True)
+        amount_paid = sum([int(payment.Paidamount) for payment in payments])
+        amount_outstanding = amount_invoiced-amount_paid
+
+        
+
+        soldlitre = WaterBuyHistory.objects.all()
+        allsoldlitre = sum([int(litre.Amount) for litre in soldlitre])
+
+        
+
+        return render(request, 'dashboard.html', {
+            'subscriptions': subscriptions,
+            
+            'overdue_amount': overdue_amount,
+            'show':True,
+        
+            'filter_title': 'All time, All services',
+            
+
+            'amount_paid': amount_paid,
+            'amount_invoiced': amount_invoiced,
+            'amount_outstanding': amount_outstanding,
+
+            'allsoldlitre': allsoldlitre,
+            'categories': categories,
+        
+
+
+        })
 
 
 @login_required(login_url='/login')
