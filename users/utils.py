@@ -6,6 +6,21 @@ import threading
 import math
 import string
 from datetime import date, datetime
+import random
+
+
+def send_otp_to_phone(phone):
+    try:
+        otp=random.randint(1000,9999)
+        payload = {
+                'details': f' Use this code to verify your phone number,\n code: {otp}', 'phone': f'25{phone}'}
+        headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+                          headers=headers, data=payload, verify=False)
+        return otp
+    except Exception as e:
+        return None
+
 
 
 def cookieCart(request):

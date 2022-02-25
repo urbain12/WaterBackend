@@ -13,7 +13,7 @@ from dateutil.relativedelta import *
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, phone=None, password=None, is_active=True, is_staff=False, is_admin=False):
+    def create_user(self, email, phone=None,otp=None, password=None, is_phone_verified=False , is_active=True, is_staff=False, is_admin=False):
         if not email:
             raise ValueError('Users must have a valid email')
         if not phone:
@@ -26,6 +26,8 @@ class UserManager(BaseUserManager):
         user_obj.set_password(password)
         user_obj.staff = is_staff
         user_obj.phone = phone
+        user_obj.otp = otp
+        user_obj.is_phone_verified = is_phone_verified
         user_obj.admin = is_admin
         user_obj.active = is_active
         user_obj.save(using=self._db)
@@ -46,6 +48,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     phone = models.CharField(
         max_length=255, unique=True, null=True, blank=True)
+    otp = models.CharField(max_length=6, null=True, blank=True)
+    is_phone_verified = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)

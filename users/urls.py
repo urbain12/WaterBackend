@@ -26,6 +26,7 @@ urlpatterns = [
     path('operator/',operator,name='operator'),
     path('user/',user,name='user'),
     path('login/',login,name='login'),
+    path('send_otp/',send_otp,name='send_otp'),
     path('success/',success,name='success'),
     path('create_system/',create_system,name='create_system'),
     path('view_system/<int:systemID>/',view_system,name='view_system'),

@@ -5,7 +5,8 @@ from pickle import TRUE
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import *
 import csv
-from .utils import cartData, check_transaction, check_instalment
+
+from .utils import cartData, check_transaction, check_instalment, send_otp_to_phone
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView, UpdateAPIView
 from .models import *
 import requests
@@ -43,6 +44,90 @@ import os
 from django.contrib import auth
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 User = get_user_model()
+
+@api_view(['POST'])
+def verify_otp(request):
+    data=request.data
+
+    if data.get('phone') is None :
+        return Response({
+            'status':'Failed',
+            'code':status.HTTP_400_BAD_REQUEST,
+            'message':'Phone number required!'
+        })
+    if data.get('otp') is None:
+        return Response({
+            'status':'Failed',
+            'code':status.HTTP_400_BAD_REQUEST,
+            'message':'OTP required!'
+        })
+
+    
+    user=User.objects.get(phone=request.data['phone'])
+    if user.otp==request.data['otp']:
+        user.is_phone_verified=True
+        user.save()
+        return Response({
+            'status':'Success',
+            'code':status.HTTP_200_OK,
+            'message':'OTP verified!'
+        })
+
+@api_view(['POST'])
+def send_otp(request):
+    data=request.data
+
+    if data.get('phone') is None :
+        return Response({
+            'status':'Failed',
+            'code':status.HTTP_400_BAD_REQUEST,
+            'message':'Phone number required!'
+        })
+    
+
+
+    
+    
+    if data.get('phone') is not None:
+        try:
+            user1 = User.objects.get(phone=data.get('phone'))
+            user1.otp=send_otp_to_phone(data.get('phone'))
+            user1.save()
+            response = {
+                'status': 'Success',
+                'code': status.HTTP_200_OK,
+                'message': 'OTP successfully sent on your phone!',
+                'data': []
+            }
+
+            return Response(response)
+        except User.DoesNotExist:
+            password="12345"
+            if data.get('phone')[0:2] == '25':
+                user = User.objects.create_user(
+                    email=data.get('phone')+'@gmail.com',
+                    phone=data.get('phone')[2:],
+                    otp=send_otp_to_phone(data.get('phone')[2:]),
+                    password=password)
+                return Response({
+                'status':'Success',
+                'code':status.HTTP_200_OK,
+                'message':'otp sent successfully!'
+                })
+                
+            else:
+                user = User.objects.create_user(
+                    email=data.get('phone')+'@gmail.com',
+                    phone=data.get('phone'),
+                    otp=send_otp_to_phone(data.get('phone')),
+                    password=password)
+                return Response({
+                'status':'Success',
+                'code':status.HTTP_200_OK,
+                'message':'otp sent successfully!'
+                })
+    
+            
 
 # website
 
@@ -3028,54 +3113,35 @@ class register(CreateAPIView):
 
             return Response(response)
         except User.DoesNotExist:
-            try:
-                user2 = User.objects.get(phone=request.data['phone'])
-                response = {
-                    'status': 'Failure',
-                    'code': status.HTTP_400_BAD_REQUEST,
-                    'message': 'A user with that phone number already exists!',
-                    'data': []
-                }
+            user = User.objects.get(phone=request.data['phone'])
+            user.email=request.data['email']
+            user.set_password(password)
+            user.save()
+            my_phone = request.data['phone']
+            payload = {'details': f' Dear Customer,\nYou have been successfully registered. Here are your credentials to login in mobile app:\nPhone:{request.data["phone"]}\npassword:{password}\n\nPlease follow the provided link below to download our mobile application.\n Android: http://shorturl.at/qEQZ2 \n IOS:http://shorturl.at/tDEG0', 'phone': f'25{request.data["phone"]}'}
+            headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+            r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+                                headers=headers, data=payload, verify=False)
+            customer = Customer()
+            customer.user = user
+            customer.FirstName = request.data['FirstName']
+            customer.LastName = request.data['LastName']
+            customer.IDnumber = request.data['IDnumber']
+            customer.Province = request.data['Province']
+            customer.District = request.data['District']
+            customer.Sector = request.data['Sector']
+            customer.Cell = request.data['Cell']
+            customer.Language = request.data['Language']
+            customer.Image = request.data['Image']
+            customer.save()
+            response = {
+                'status': 'success',
+                'code': status.HTTP_200_OK,
+                'message': 'Customer created successfully!!!',
+                'data': []
+            }
 
-                return Response(response)
-            except User.DoesNotExist:
-                if request.data['phone'][0:2] == '25':
-                    user = User.objects.create_user(
-                        email=request.data['email'],
-                        phone=request.data['phone'][2:],
-                        password=password)
-                    my_phone = request.data['phone'][2:]
-                    payload = {'details': f' Dear Customer,\nYou have been successfully registered. Here are your credentials to login in mobile app:\nPhone:{my_phone}\npassword:{password}\n\nPlease follow the provided link below to download our mobile application.\n Android: http://shorturl.at/qEQZ2 \n IOS:http://shorturl.at/tDEG0', 'phone': f'{my_phone}'}
-                else:
-                    user = User.objects.create_user(
-                        email=request.data['email'],
-                        phone=request.data['phone'],
-                        password=password)
-                    my_phone = request.data['phone']
-                    payload = {'details': f' Dear Customer,\nYou have been successfully registered. Here are your credentials to login in mobile app:\nPhone:{my_phone}\npassword:{password}\n\nPlease follow the provided link below to download our mobile application.\n Android: http://shorturl.at/qEQZ2 \n IOS:http://shorturl.at/tDEG0', 'phone': f'25{my_phone}'}
-                headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-                r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
-                                  headers=headers, data=payload, verify=False)
-                customer = Customer()
-                customer.user = user
-                customer.FirstName = request.data['FirstName']
-                customer.LastName = request.data['LastName']
-                customer.IDnumber = request.data['IDnumber']
-                customer.Province = request.data['Province']
-                customer.District = request.data['District']
-                customer.Sector = request.data['Sector']
-                customer.Cell = request.data['Cell']
-                customer.Language = request.data['Language']
-                customer.Image = request.data['Image']
-                customer.save()
-                response = {
-                    'status': 'success',
-                    'code': status.HTTP_200_OK,
-                    'message': 'Customer created successfully!!!',
-                    'data': []
-                }
-
-                return Response(response)
+            return Response(response)
 
 
 @login_required(login_url='/login')
