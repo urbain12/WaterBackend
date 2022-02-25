@@ -2778,6 +2778,37 @@ def get_balance(request, phone_number):
     dump = json.dumps(data)
     return HttpResponse(dump, content_type='application/json')
 
+def get_exception(request, phone_number):
+    user = User.objects.filter(phone=phone_number).exists()
+    if user:
+        users = User.objects.get(phone=phone_number)
+        customer = Customer.objects.get(user=users.id)
+        category = Category.objects.get(Title="INUMA")
+        subscription = Subscriptions.objects.filter(
+            CustomerID=customer.id, Category=category.id).exists()
+        if subscription:
+            print(subscription)
+            my_subscription = Subscriptions.objects.get(
+                CustomerID=customer.id, Category=category.id)
+            data = {
+                'exception': my_subscription.customer_exception,
+                'status': status.HTTP_200_OK,
+
+            }
+        else:
+            data = {
+                'data': 'Customer not registered in INUMA!',
+                'status': status.HTTP_400_BAD_REQUEST
+
+            }
+    else:
+        data = {
+            'data': 'Phone is not registered!',
+            'status': status.HTTP_400_BAD_REQUEST
+        }
+    dump = json.dumps(data)
+    return HttpResponse(dump, content_type='application/json')
+
 
 def get_category(request, user_id):
     customer = Customer.objects.get(user=user_id)

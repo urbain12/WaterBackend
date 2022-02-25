@@ -172,6 +172,7 @@ urlpatterns = [
 
     path('get_customer/<str:phone_number>/',GetCustomer,name="get_customer"),
     path('get_balance/<str:phone_number>/',get_balance,name="get_balance"),
+    path('get_exception/<str:phone_number>/',get_exception,name="get_exception"),
     path('getcustomerbyid/<int:user_id>/',GetCustomerbyId.as_view()),
     path('getcustomerbymeters/<str:meter_number>/',GetCustomerbymeter.as_view(), name="getcustomerbymeters"),
     path('get_meters/<str:phone_number>/',GetCustomerMetersList.as_view(), name="get_meters"),
