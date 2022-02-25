@@ -3,7 +3,27 @@
 {% block content%}
 {% load humanize %}
 {% load mathfilters %}
-
+<style>
+    /* width */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+    
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1; 
+    }
+     
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: #888; 
+    }
+    
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555; 
+    }
+    </style>
  <div id="page-content">
                     
 					<div class="panel">
@@ -35,15 +55,15 @@
                                     <div class="form-group">
                                         <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'instalment'%}">
                                             {% csrf_token %}
-                                        <select  name="service" class="js-example-basic-single2 form-control">
-                                           <option value="Amazi">Search by Service</option>
-                                           <option value="All">All</option>
-                                           {% for category in categories%}
+                                            <select  name="service" class="js-example-basic-single2 form-control">
+                                            <option value="Amazi">Search by Service</option>
+                                            <option value="All">All</option>
+                                            {% for category in categories%}
 
-                                                   <option value="{{category.Title}}">{{category.Title}}</option> 
-                                            {% endfor %}
-                                        </select> 
-                                        <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;&nbsp;
+                                                    <option value="{{category.Title}}">{{category.Title}}</option> 
+                                                {% endfor %}
+                                            </select> 
+                                            <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;&nbsp;&nbsp;
                                     </form>
                                     
                                     </div>
@@ -88,7 +108,7 @@
                                     </thead>
                                     
                                     <tbody>
-                                    {% for sub in subscriptions %}
+                                    {% for sub in page_obj %}
                                     
 
                                             {% if sub.Category.Title|upper == "AMAZI" %}
@@ -183,6 +203,24 @@
                                     
                                         </tbody>
                                 </table>
+                            </div>
+
+                            <div class="pagination">
+                                <span class="step-links">
+                                    {% if page_obj.has_previous %}
+                                        <a class="btn btn-primary mb-4" href="?page=1">&laquo; first</a>
+                                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.previous_page_number }}">previous</a>
+                                    {% endif %}
+                
+                                    <span class="current">
+                                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                    </span>
+                
+                                    {% if page_obj.has_next %}
+                                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.next_page_number }}">next</a>
+                                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                                    {% endif %}
+                                </span>
                             </div>
                             
                         </div>
