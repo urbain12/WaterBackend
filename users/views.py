@@ -72,6 +72,12 @@ def verify_otp(request):
             'code':status.HTTP_200_OK,
             'message':'OTP verified!'
         })
+    else:
+        return Response({
+            'status':'Failed',
+            'code':status.HTTP_400_BAD_REQUEST,
+            'message':'Wrong otp!'
+        })
 
 @api_view(['POST'])
 def send_otp(request):
