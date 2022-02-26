@@ -31,7 +31,7 @@
 							</select>
 						</div>
 						<div class="col-sm-2">
-							<button class="btn btn-success my-sm-0" type="submit"><i class="fa fa-filter" aria-hidden="true"></i></button>
+							<button class="btn btn-success my-sm-0" type="submit"><i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
 						</div>
                         
 						</div>
@@ -116,7 +116,7 @@
 					                            </div>
 					                        </div>
 					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">{{overdue_amount}} RWF</p>
+					                            <p class="text-2x mar-no text-semibold">{{overdue_amount|intcomma}} RWF</p>
 					                            <p class="mar-no">Total Amount Overdue</p>
 					                        </div>
 					                    </div>
@@ -131,7 +131,7 @@
 					                            </div>
 					                        </div>
 					                        <div class="media-body">
-										<p class="text-2x mar-no text-semibold">{{allsoldlitre}}</p>
+										<p class="text-2x mar-no text-semibold">{{allsoldlitre|intcomma}}</p>
 					                            <p class="mar-no">All Sold litres</p>
 					                        </div>
 					                    </div>
