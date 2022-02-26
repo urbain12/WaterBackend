@@ -226,6 +226,8 @@ class Service(models.Model):
 
 
 class Request(models.Model):
+    user = models.ForeignKey(
+        'User', on_delete=models.CASCADE, null=True, blank=True)
     Names = models.CharField(max_length=255, null=True, blank=True)
     Message = models.TextField(blank=True, null=False)
     phonenumber = models.CharField(max_length=255, null=True, blank=True)

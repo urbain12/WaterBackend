@@ -2338,6 +2338,12 @@ class RequestListView(ListAPIView):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
 
+class Requestlistbyid(ListAPIView):
+    serializer_class = RequestSerializer
+    
+    def get_queryset(self):
+        return Request.objects.filter(user=self.kwargs['user_id'])
+
 
 class subRequestCreateView(CreateAPIView):
     queryset = subRequest.objects.all()
