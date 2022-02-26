@@ -97,16 +97,24 @@ def send_otp(request):
     if data.get('phone') is not None:
         try:
             user1 = User.objects.get(phone=data.get('phone'))
-            user1.otp=send_otp_to_phone(data.get('phone'))
-            user1.save()
-            response = {
+            if user1.is_phone_verified == False:
+                user1.otp=send_otp_to_phone(data.get('phone'))
+                user1.save()
+                response = {
                 'status': 'Success',
                 'code': status.HTTP_200_OK,
                 'message': 'OTP successfully sent on your phone!',
                 'data': []
-            }
+                }
 
-            return Response(response)
+                return Response(response)
+            else:
+                return Response({
+                'status':'Failed',
+                'code':status.HTTP_400_BAD_REQUEST,
+                'message':'Phone number is exist!'
+                })
+            
         except User.DoesNotExist:
             password="12345"
             if data.get('phone')[0:2] == '25':
