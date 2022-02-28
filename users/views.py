@@ -223,6 +223,8 @@ def sendToken(request, tokenID):
 @login_required(login_url='/login')
 def troubleshoot(request, paymentID):
     payment=WaterBuyHistory.objects.get(id=paymentID)
+    print(payment.Amount)
+    print(payment.Customer.Meternumber.Meternumber)
     r = requests.get(
             f'http://44.196.8.236:3038/generatePurchase/?payment={payment.Amount}.00&meternumber={payment.Customer.Meternumber.Meternumber}', verify=False)
     if 'tokenlist' in r.text:
@@ -3235,7 +3237,7 @@ def new_subscriptions(request):
             for cust in customers:
                 customers_ids.append(cust.id)
                 subscriptions = Subscriptions.objects.filter(
-                CustomerID__in=customers_ids)
+                CustomerID__in=customers_ids,complete=False)
         paginator = Paginator(subscriptions, 6)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
