@@ -1996,7 +1996,7 @@ def subscriptions(request):
             for cust in customers:
                 customers_ids.append(cust.id)
             subscriptions = Subscriptions.objects.filter(
-                CustomerID__in=customers_ids)
+                CustomerID__in=customers_ids,complete=True)
         paginator = Paginator(subscriptions, 6)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
