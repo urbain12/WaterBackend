@@ -72,6 +72,12 @@ def verify_otp(request):
             'code':status.HTTP_200_OK,
             'message':'OTP verified!'
         })
+    else:
+        return Response({
+            'status':'Failed',
+            'code':status.HTTP_400_BAD_REQUEST,
+            'message':'Wrong otp!'
+        })
 
 @api_view(['POST'])
 def send_otp(request):
@@ -91,16 +97,24 @@ def send_otp(request):
     if data.get('phone') is not None:
         try:
             user1 = User.objects.get(phone=data.get('phone'))
-            user1.otp=send_otp_to_phone(data.get('phone'))
-            user1.save()
-            response = {
+            if user1.is_phone_verified == False:
+                user1.otp=send_otp_to_phone(data.get('phone'))
+                user1.save()
+                response = {
                 'status': 'Success',
                 'code': status.HTTP_200_OK,
                 'message': 'OTP successfully sent on your phone!',
                 'data': []
-            }
+                }
 
-            return Response(response)
+                return Response(response)
+            else:
+                return Response({
+                'status':'Failed',
+                'code':status.HTTP_400_BAD_REQUEST,
+                'message':'Phone number is exist!'
+                })
+            
         except User.DoesNotExist:
             password="12345"
             if data.get('phone')[0:2] == '25':
@@ -209,6 +223,8 @@ def sendToken(request, tokenID):
 @login_required(login_url='/login')
 def troubleshoot(request, paymentID):
     payment=WaterBuyHistory.objects.get(id=paymentID)
+    print(payment.Amount)
+    print(payment.Customer.Meternumber.Meternumber)
     r = requests.get(
             f'http://44.196.8.236:3038/generatePurchase/?payment={payment.Amount}.00&meternumber={payment.Customer.Meternumber.Meternumber}', verify=False)
     if 'tokenlist' in r.text:
@@ -1666,10 +1682,10 @@ def approve_subscription(request, subID):
         subscription.TotalBalance = new_balance
         subscription.save()
         if subscription.CustomerID.Language == 'English':
-            payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nThank for subscribing to our App. You are almost done , we just need to confirm your subscription, please wait as our people are working on it.',
+            payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nWe have succesfully approve your subscription,\nyour monthly payment is {Monthly} Rwf.',
                        'phone': f'25{subscription.CustomerID.user.phone}'}
         if subscription.CustomerID.Language == 'Kinyarwanda':
-            payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nUrakoze kwiyandikisha kuri App yacu. Mu mwanya muto, byose biraba bitunganye. Mwihangane mu gihe turi kubandika kuri serivisi mwasabye.',
+            payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nTurangije kwemeza ubasabe bwanyu kuri servisi zacu,\nifatabuguzi ryaburikwezi ni {Monthly} RWf.',
                        'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
@@ -1705,10 +1721,10 @@ def approvesubscription(request, subID):
                 new_balance/int(request.POST['period']))
             payment.save()
         if subscription.CustomerID.Language == 'English':
-            payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nThank for subscribing to our App. You are almost done , we just need to confirm your subscription, please wait as our people are working on it.',
+            payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nWe have succesfully approve your subscription,\nyour monthly payment is {Monthly} Rwf.',
                        'phone': f'25{subscription.CustomerID.user.phone}'}
         if subscription.CustomerID.Language == 'Kinyarwanda':
-            payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nUrakoze kwiyandikisha kuri App yacu. Mu mwanya muto, byose biraba bitunganye. Mwihangane mu gihe turi kubandika kuri serivisi mwasabye.',
+            payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nTurangije kwemeza ubasabe bwanyu kuri servisi zacu,\nifatabuguzi ryaburikwezi ni {Monthly} Rwf.',
                        'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
@@ -1980,7 +1996,7 @@ def subscriptions(request):
             for cust in customers:
                 customers_ids.append(cust.id)
             subscriptions = Subscriptions.objects.filter(
-                CustomerID__in=customers_ids)
+                CustomerID__in=customers_ids,complete=True)
         paginator = Paginator(subscriptions, 6)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
@@ -2323,6 +2339,12 @@ class RequestCreateView(CreateAPIView):
 class RequestListView(ListAPIView):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
+
+class Requestlistbyid(ListAPIView):
+    serializer_class = RequestSerializer
+    
+    def get_queryset(self):
+        return Request.objects.filter(user=self.kwargs['user_id'])
 
 
 class subRequestCreateView(CreateAPIView):
@@ -3215,7 +3237,7 @@ def new_subscriptions(request):
             for cust in customers:
                 customers_ids.append(cust.id)
                 subscriptions = Subscriptions.objects.filter(
-                CustomerID__in=customers_ids)
+                CustomerID__in=customers_ids,complete=False)
         paginator = Paginator(subscriptions, 6)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
