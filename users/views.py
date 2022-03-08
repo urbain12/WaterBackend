@@ -3247,8 +3247,8 @@ def new_subscriptions(request):
 def export_users_csv(request):
     today = datetime.today()
     ondate=today.strftime("%Y-%m-%d %H:%M")
-    response = HttpResponse(content_type='text/xlsx')
-    response['Content-Disposition'] = f'attachment; filename="Instalments - {ondate}.xlsx"'
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="Instalments - {ondate}.csv"'
 
     writer = csv.writer(response)
     writer.writerow([
@@ -3321,8 +3321,8 @@ def export_users_csv(request):
 def export_orders(request):
     today = datetime.today()
     ondate=today.strftime("%Y-%m-%d %H:%M")
-    response = HttpResponse(content_type='text/xlsx')
-    response['Content-Disposition'] = f'attachment; filename="Shop orders - {ondate}.xlsx"'
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="Shop orders - {ondate}.csv"'
 
     writer = csv.writer(response)
     writer.writerow([
@@ -3372,8 +3372,8 @@ def export_orders(request):
 def export_catridgesorders(request):
     today = datetime.today()
     ondate=today.strftime("%Y-%m-%d %H:%M")
-    response = HttpResponse(content_type='text/xlsx')
-    response['Content-Disposition'] = f'attachment; filename="Catridges orders - {ondate}.xlsx"'
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="Catridges orders - {ondate}.csv"'
 
     writer = csv.writer(response)
     writer.writerow([
@@ -3424,8 +3424,8 @@ def export_transaction_csv(request, customerID):
     today = datetime.today()
     ondate=today.strftime("%Y-%m-%d %H:%M")
     customer = Customer.objects.get(id=customerID)
-    response = HttpResponse(content_type='text/xlsx')
-    response['Content-Disposition'] = f'attachment; filename="{customer.FirstName} {customer.LastName} installment transactions - {ondate}.xlsx"'
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="{customer.FirstName} {customer.LastName} installment transactions - {ondate}.csv"'
     writer = csv.writer(response)
     writer.writerow([
 
@@ -3484,8 +3484,8 @@ def export_quotation_csv(request, SubscriptionsID,customerID):
     ondate=today.strftime("%Y-%m-%d %H:%M")
     customer = Customer.objects.get(id=customerID)
     subscriptionper = Subscriptions.objects.filter(CustomerID=customerID)
-    response = HttpResponse(content_type='text/xlsx')
-    response['Content-Disposition'] = f'attachment; filename="{customer.FirstName} {customer.LastName} quotation - {ondate}.xlsx"'
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="{customer.FirstName} {customer.LastName} quotation - {ondate}.csv"'
 
     writer = csv.writer(response)
     writer.writerow([
@@ -3539,8 +3539,8 @@ def export_quotation_csv(request, SubscriptionsID,customerID):
 def export_receipts(request):
     today = datetime.today()
     ondate=today.strftime("%Y-%m-%d %H:%M")
-    response = HttpResponse(content_type='text/xlsx')
-    response['Content-Disposition'] = f'attachment; filename="Water Receipt - {ondate}.xlsx"'
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="Water Receipt - {ondate}.csv"'
 
     writer = csv.writer(response)
     writer.writerow([
