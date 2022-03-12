@@ -116,7 +116,7 @@ def check_transaction(trans_id, meter_number, amount, phone):
                         trans_id, meter_number, amount, phone])
     t.start()
     r = requests.get(
-        f'http://localhost:5070/api/web/index.php?r=v1/app/get-transaction-status&transactionID={trans_id}', headers=headers, verify=False).json()
+        f'http://app.amazi.rw/api/web/index.php?r=v1/app/get-transaction-status&transactionID={trans_id}', headers=headers, verify=False).json()
     res = json.loads(r)
     print(res[0]['payment_status'])
 
@@ -167,7 +167,7 @@ def check_instalment(trans_id, meter_number, amount, customer_id):
                         trans_id, meter_number, amount, customer_id])
     t.start()
     r = requests.get(
-        f'http://localhost:5070/api/web/index.php?r=v1/app/get-transaction-status&transactionID={trans_id}', headers=headers, verify=False).json()
+        f'http://app.amazi.rw/api/web/index.php?r=v1/app/get-transaction-status&transactionID={trans_id}', headers=headers, verify=False).json()
     res = json.loads(r)
     print(res[0]['payment_status'])
 
