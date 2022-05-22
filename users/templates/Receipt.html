@@ -58,6 +58,7 @@
                                             <th>Amount</th>
                                             <th>Littre</th>
                                             <th>Token</th>
+                                            <th>TransactionID</th>
                                             <th>Date</th>
                                             <th>Action</th>
                                             
@@ -73,6 +74,7 @@
                                             <td>{{history.Amount}} Rwf</td>
                                             <td>{{history.Amount}}Ltr</td>
                                             <td>{{history.Token}}</td>
+                                            <td>{{history.TransactionID}}</td>
                                             <td>{{history.created_at|date:'d/m/Y'}}</td>
                                             <td>
                                                 {% if history.Token is None %}

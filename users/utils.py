@@ -126,6 +126,7 @@ def check_transaction(trans_id, meter_number, amount, phone):
         pay = WaterBuyHistory()
         pay.Meternumber = meter
         pay.Amount = amount
+        pay.TransactionID = trans_id
         totalamount = str(amount)
         users = User.objects.get(phone=phone)
         customer = Customer.objects.get(user=users.id)

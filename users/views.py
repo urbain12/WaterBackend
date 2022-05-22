@@ -2790,6 +2790,7 @@ def pay_Water(request):
         pay = WaterBuyHistory()
         pay.Meternumber = meter
         pay.Amount = Amount
+        pay.TransactionID =  body['trans_id']
         users = User.objects.get(phone=Phone)
         customer = Customer.objects.get(user=users.id)
         pay.Customer = customer
