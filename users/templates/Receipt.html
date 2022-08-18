@@ -1,6 +1,8 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block content%}
+{% load humanize %}
+{% load mathfilters %}
 
  <div id="page-content">
                     
@@ -36,12 +38,13 @@
                                         <div class="form-group">
                                         <form class="form-inline my-2 my-lg-0" action="{% url 'Receipts'%}">
                                         <input id="demo-input-search2" type="text" name="search" placeholder="Search by Names" class="form-control" autocomplete="off">
-                                        <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>&nbsp;&nbsp;&nbsp;
                                         </form>
                                         </div>
                                    
                                             
                                         </div>
+                                        <a href="{% url 'troubleshoot' %}"> <button class="btn btn-mint my-2 my-sm-0" type="submit"><i class="fa fa-send fa-lg" aria-hidden="true"></i>&nbsp;Add Manually</button></a>&nbsp;&nbsp;&nbsp;
                                         <a href="{% url 'export_receipts' %}"> <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;Export</button></a>
 
                                     </div>
@@ -71,22 +74,14 @@
                                             <td>{{history.Customer.FirstName}} {{history.Customer.LastName}}</td>
                                             <td>{{history.Customer.user.phone}}</td>
                                             <td>{{history.Meternumber}}</td>
-                                            <td>{{history.Amount}} Rwf</td>
+                                            <td>{{history.Amount|intcomma}} Rwf</td>
                                             <td>{{history.Amount}}Ltr</td>
                                             <td>{{history.Token}}</td>
                                             <td>{{history.TransactionID}}</td>
                                             <td>{{history.created_at|date:'d/m/Y'}}</td>
                                             <td>
-                                                {% if history.Token is None %}
-                                                <a onclick="return confirm('Are you sure you want to troubleshoot token?')" class="btn-link" href="{% url 'troubleshoot' history.id%}"><button class="btn btn-purple">Troubleshoot</button></a>
-
-                                                {% else %}
-                                                <a onclick="return confirm('Are you sure you want to resend token?')" class="btn-link" href="{% url 'sendToken' history.id%}"><button class="btn btn-warning">Send Token</button></a>
-                                                {% endif %}
+                                                <a onclick="return confirm('Are you sure you want to resend token?')" class="btn-link" href="{% url 'sendToken' history.id%}"><button class="btn btn-warning">Resend Token</button></a>                                            
                                             </td>
-
-                                           
-                                            
                                         </tr>
 
                                     {% endfor %}

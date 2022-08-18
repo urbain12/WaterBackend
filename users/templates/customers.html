@@ -70,7 +70,11 @@
                                                 </a> {% endcomment %}
                                             <a href=" {% url 'update_customer' customer.id %}">
                                                 <button class="btn btn-primary" title="Update"><i class='fa fa-pencil'></i></button>
-                                                </a>
+                                            </a>
+
+                                            <a onclick="return confirm('Are you sure you want to delete this customer?')" href="{% url 'deleteCustomer' customer.id %}">
+                                                <button class="btn btn-danger">Delete</button>
+                                            </a>
                                             
                                             </td>
                                             

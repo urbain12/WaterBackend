@@ -2,11 +2,11 @@
 {% load static %}
 {% block content%}
 
- <div id="page-content">
+ <div id="page-content ">
                     
 					<div class="panel">
                         <div class="panel-heading">
-                            <h3 class="panel-title">{{customer.FirstName}} {{customer.LastName}} Transactions</h3>
+                            <h3 class="panel-title">{{customer.FirstName}} {{customer.LastName}} Installment Transactions</h3>
                         </div>
                     
                         <!--Data Table-->
@@ -29,8 +29,7 @@
                                             <th>Names</th>
                                             <th>Phone</th>
                                             <th>Amount Paid</th>
-                                            <th>Payment Date</th>
-                                            
+                                            <th>Payment Date</th>                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -41,6 +40,62 @@
                                             <td>{{payment.SubscriptionsID.CustomerID.user.phone}}</td>
                                             <td>{{payment.Paidamount}} Rwf</td>
                                             <td>{{payment.PaymentDate}}</td>
+
+                                            
+                                            
+                                        </tr>
+
+                                    {% endfor %}
+                                        
+                                    
+                                        </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                        <!--===================================================-->
+                        <!--End Data Table-->
+                    
+                    </div>
+
+
+
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{{customer.FirstName}} {{customer.LastName}} Buy water Transactions</h3>
+                        </div>
+                    
+                        <!--Data Table-->
+                        <!--===================================================-->
+                        <div class="panel-body">
+                            <div class="pad-btm form-inline">
+                                <div class="row">
+                                    
+                                    <div class="col-sm-12 table-toolbar-right">
+                                        <button value="click" onclick="printDiv()" id="demo-btn-addrow" class="btn btn-mint"><i class="fa fa-print fa-lg"></i>&nbsp; &nbsp;Print</button>
+                                        <a href="{% url 'export_transaction_csv' customer.id %}"> <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-download fa-lg" aria-hidden="true"></i>&nbsp; &nbsp;Export</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="onlytable" class="table-responsive">
+                                <table class="table table-striped" style="border: 1px">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">ID</th>
+                                            <th>Names</th>
+                                            <th>Phone</th>
+                                            <th>Amount Paid</th>
+                                            <th>Payment Date</th>                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for payment in waterpayments %}
+                                    <tr>
+                                            <td>{{payment.id}}</td>
+                                            <td>{{payment.SubscriptionsID.CustomerID.FirstName}} {{payment.SubscriptionsID.CustomerID.LastName}}</td>
+                                            <td>{{payment.SubscriptionsID.CustomerID.user.phone}}</td>
+                                            <td>{{payment.Amount}} Rwf</td>
+                                            <td>{{payment.created_at}}</td>
 
                                             
                                             
