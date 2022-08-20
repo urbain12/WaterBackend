@@ -221,26 +221,43 @@ def sendToken(request, tokenID):
     return redirect('Receipts')
 
 @login_required(login_url='/login')
-def troubleshoot(request, paymentID):
-    payment=WaterBuyHistory.objects.get(id=paymentID)
-    print(payment.Amount)
-    print(payment.Customer.Meternumber.Meternumber)
-    r = requests.get(
-            f'http://44.196.8.236:3038/generatePurchase/?payment={payment.Amount}.00&meternumber={payment.Customer.Meternumber.Meternumber}', verify=False)
-    if 'tokenlist' in r.text:
-            token = r.text.split("tokenlist=", 1)[1]
-            payment.Token=token
-            payment.save()
-    if payment.Customer.Language == 'English':
-        payload = {'details': f' Dear {payment.Customer.FirstName},\nHere is your token for water : {payment.Token} ',
-                   'phone': f'25{payment.Customer.user.phone}'}
-    if payment.Customer.Language == 'Kinyarwanda':
-        payload = {'details': f' Mukiriya wacu {payment.Customer.FirstName},\nTokeni yamazi mwaguze :: {payment.Token} ',
-                   'phone': f'25{payment.Customer.user.phone}'}
-    headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-    r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
-                      headers=headers, data=payload, verify=False)
-    return redirect('Receipts')
+def troubleshoot(request):
+    if request.method == 'POST':
+        payment = WaterBuyHistory()
+        if request.POST['customer'] != '':
+            customer = Customer.objects.only('id').get(
+                id=request.POST['customer'])
+            payment.Customer = customer
+
+        if request.POST['meter'] != '':
+            meter = Meters.objects.only('id').get(
+                id=int(request.POST['meter']))
+            payment.Meternumber = meter
+
+        payment.Amount = request.POST['amount']
+        payment.TransactionID = request.POST['transid']
+        payment.save()
+        print(payment.Amount)
+        r = requests.get(
+                f'http://44.196.8.236:3038/generatePurchase/?payment={payment.Amount}.00&meternumber={payment.Meternumber}', verify=False)
+        if 'tokenlist' in r.text:
+                token = r.text.split("tokenlist=", 1)[1]
+                payment.Token=token
+                payment.save()
+        if payment.Customer.Language == 'English':
+            payload = {'details': f' Dear {payment.Customer.FirstName},\nHere is your token for water : {payment.Token} ',
+                    'phone': f'25{payment.Customer.user.phone}'}
+        if payment.Customer.Language == 'Kinyarwanda':
+            payload = {'details': f' Mukiriya wacu {payment.Customer.FirstName},\nTokeni yamazi mwaguze :: {payment.Token} ',
+                    'phone': f'25{payment.Customer.user.phone}'}
+        headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+                        headers=headers, data=payload, verify=False)
+        return redirect('Receipts')
+    else:
+        customers=Customer.objects.all()
+        meters=Meters.objects.all()
+        return render(request, 'BuyWaterManually.html',{'customers':customers, 'meters':meters})
 
 
 @login_required(login_url='/login')
@@ -557,6 +574,20 @@ def Techreply(request, requestID):
         message = subRequest.objects.get(id=requestID)
         return render(request, 'techreply.html', {'message': message})
 
+@login_required(login_url='/login')
+def techsolved(request, solvedID):
+    pending = subRequest.objects.get(id=solvedID)
+    pending.Pending = True
+    pending.save()
+    return redirect('subrequest')
+
+@login_required(login_url='/login')
+def techpending(request, pendID):
+    pending = subRequest.objects.get(id=pendID)
+    pending.Pending = False
+    pending.save()
+    return redirect('subrequest')
+
 
 @login_required(login_url='/login')
 def update_customer(request, customerID):
@@ -582,6 +613,12 @@ def update_customer(request, customerID):
         Meter = Meters.objects.all()
         english = updatecustomer.Language == 'English'
         return render(request, 'update_customer.html', {'updatecustomer': updatecustomer, 'english': english, 'Meter': Meter})
+
+
+def deleteCustomer(request, customerID):
+    customers = Customer.objects.get(id=customerID)
+    customers.delete()
+    return redirect('customers')
 
 
 @login_required(login_url='/login')
@@ -994,6 +1031,17 @@ def transactions(request, customerID):
     payments = SubscriptionsPayment.objects.filter(
         SubscriptionsID__in=subs, Paid=True)
     return render(request, 'transactions.html', {'customer': customer, 'subscription': subscription, 'payments': payments})
+
+@login_required(login_url='/login')
+def CustomerwaterTrans(request, customerID):
+    customer = Customer.objects.get(id=customerID)
+    subscription = Subscriptions.objects.filter(CustomerID=customerID)
+    subs = []
+    for i in subscription:
+        subs.append(i.id)
+    waterpayments = WaterBuyHistory.objects.filter(
+        SubscriptionsID__in=subs)
+    return render(request, 'transactions.html', {'customer': customer, 'subscription': subscription, 'waterpayments': waterpayments})
 
 
 @login_required(login_url='/login')

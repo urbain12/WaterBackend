@@ -265,12 +265,13 @@ class subRequest(models.Model):
     Cell = models.CharField(max_length=255, null=True, blank=True)
     Language = models.CharField(max_length=255, null=True, blank=True)
     send_at = models.DateField(auto_now_add=True)
-    reply = models.TextField(blank=True, null=True,
-                             default="Please wait for the response")
+    reply = models.TextField(blank=True, null=True,default="Please wait for the response")
     techname = models.CharField(max_length=255,blank=True, null=True)
     techphone = models.CharField(max_length=255,blank=True, null=True)
     techdate = models.DateField(blank=True, null=True)
     replied = models.BooleanField(default=False)
+    Pending = models.BooleanField(default=False)
+    
 
 
     def __str__(self):

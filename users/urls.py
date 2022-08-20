@@ -129,6 +129,11 @@ urlpatterns = [
     path('not_paidorder/<int:notpaidID>',not_paidorder,name="not_paidorder"),
 
 
+    #TechIssueStatus
+    path('techsolved/<int:solvedID>',techsolved,name="techsolved"),
+    path('techpending/<int:pendID>',techpending,name="techpending"),
+
+
     #paidcat
     path('paidordercatridges/<int:paidID>',paidordercatridges,name="paidordercatridges"),
     path('not_paidcatridges/<int:notpaidID>',not_paidcatridges,name="not_paidcatridges"),
@@ -138,7 +143,9 @@ urlpatterns = [
     path('add_exception/<int:exceptionID>',add_exception,name="add_exception"),
     path('remove_exception/<int:rmvexceptionID>',remove_exception,name="remove_exception"),
 
-    path('troubleshoot/<int:paymentID>',troubleshoot,name="troubleshoot"),
+    path('troubleshoot/',troubleshoot,name="troubleshoot"),
+
+    path('deleteCustomer/<int:customerID>',deleteCustomer,name="deleteCustomer"),
 
 
 

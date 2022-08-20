@@ -61,13 +61,24 @@
                                             <td>
                                             {% if request.replied %}
                                             <a href="#">
-                                            <button class="btn btn-warning" style="border-radius:10px">Replied</button>
+                                            <button class="btn btn-warning" style="border-radius:10px">Addressed</button>
                                             </a>
                                             {% else %}
                                             <a href="{% url 'Techreply' request.id %}">
                                             <button class="btn btn-primary" style="border-radius:10px">Reply</button>
                                             </a>
                                             {% endif %}
+
+                                            {% if request.Pending %}
+                                            <a href="{% url 'techpending' request.id %}">
+                                            <button class="btn btn-success" style="border-radius:10px">Solved</button>
+                                            </a>
+                                            {% else %}
+                                            <a href="{% url 'techsolved' request.id %}">
+                                            <button class="btn btn-mint" style="border-radius:10px">Pending</button>
+                                            </a>
+                                            {% endif %}
+                                            
                                             </td>
                                            
 
