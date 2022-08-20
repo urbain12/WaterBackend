@@ -1,7 +1,8 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block content%}
-
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
  <div id="page-content">
                     
 					<div class="panel">
@@ -19,7 +20,7 @@
                                             <div class="col-sm-6">
                                                     <div class="form-group">
                                                     <label class="control-label">Customer</label>
-                                                    <select class="form-control" name="customer" required>
+                                                    <select style="width:100%" class="js-example-basic-single" name="customer" required>
                                                        <option value="">Select customer</option> 
                                                     {% for customer in customers%}
 
@@ -32,7 +33,7 @@
                                             <div class="col-sm-6">
                                                     <div class="form-group">
                                                     <label class="control-label">Service</label>
-                                                    <select class="form-control" name="category" id='category' onchange="populate(this.id,'system')" required>
+                                                    <select style="height:30px;border-color:gray" class="form-control" name="category" id='category' onchange="populate(this.id,'system')" required>
                                                        <option value="Select meter number">Select Service</option> 
                                                     {% for category in categories%}
 
@@ -83,6 +84,12 @@
 					
 					
                 </div>
+                <script>
+                    $(document).ready(function() {
+                        $('.js-example-basic-single2').select2();
+                    });
+                    
+                    </script>
 <script>
 //var my_func=()=>{
  //   var tools= "{{ my_tools }}" 

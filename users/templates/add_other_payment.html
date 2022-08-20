@@ -1,0 +1,84 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+ <div id="page-content">
+                    
+					<div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Add payment</h3>
+                                </div>
+                    
+                                <!--Block Styled Form -->
+                                <!--===================================================-->
+                                <form enctype="multipart/form-data" action="{% url 'add_other_payment' %}" method="POST">
+                                {% csrf_token %}
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12" style="margin-bottom:20px">
+                                                <select style="width:100%" class="js-example-basic-single" name="customer" required>
+                                                    <option value="">Select customer</option> 
+                                                 {% for customer in customers %}
+
+                                                    <option value="{{customer.id}}">{{customer.FirstName}} {{customer.LastName}}</option> 
+                                                 {% endfor %}
+                                                    
+                                                 </select> 
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Amount</label>
+                                                    <input type="number" class="form-control" name="amount">
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="control-label">Date</label>
+                                                <input type="date" class="form-control" name="date">
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <div class="row">
+                                            
+                                            
+                                           
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Description</label>
+                                                    <textarea class="form-control" name="description"></textarea> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer text-right">
+                                        <button class="btn btn-block btn-success" type="submit">Submit</button>
+                                    </div>
+                                </form>
+                                <!--===================================================-->
+                                <!--End Block Styled Form -->
+                    
+                            </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+                <script>
+                    $(document).ready(function() {
+                        $('.js-example-basic-single2').select2();
+                    });
+                    
+                    </script>
+{% endblock content%}

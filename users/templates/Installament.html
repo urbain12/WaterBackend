@@ -181,7 +181,13 @@
                                                    
                                                     {% endif %}
                                                     <td>{{sub.To|date:'d/m/Y'}}</td>
-                                                     <td>{{sub.get_overdue_months}}</td>
+                                                     <td>
+                                                         {% ifequal sub.TotalBalance 0  %}
+                                                         0
+                                                         {% else %}
+                                                         {{sub.get_overdue_months}}
+                                                         {% endifequal %}
+                                                    </td>
                                                                     
 
                                                 </tr> 

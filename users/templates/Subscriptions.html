@@ -71,6 +71,7 @@
                                             <th>Exception</th>
                                             <th>Action</th>
                                             <th>Status</th>
+                                            <th>Add payment</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -100,11 +101,18 @@
                                             <td> 
                                                 {% if sub.Category.Title == "AMAZI" %}
                                                 
-                                                <a class="btn-link" href="{% url 'quotation' sub.id%}"><button class="btn btn-primary">View</button></a>
-                                                
+                                                <a class="btn-link" href="{% url 'quotation' sub.id%}"><button class="btn btn-primary"><i class='fa fa-eye'></i></button></a>
+                                                <a class="btn-link" href="{% url 'updatesubs' sub.id%}"><button class="btn btn-dark"><i class='fa fa-pencil'></i></button></a>
+                                                <a onclick="return confirm('Are you sure you want to delete this?')" href="{% url 'delete_subscription' sub.id %}">
+                                                    <button class="btn btn-danger"><i class='fa fa-trash'></i></button>
+                                                    </a>
                                                 {% else %}
 
-                                                <a class="btn-link" href="{% url 'instalment'%}"><button class="btn btn-primary">View</button></a>
+                                                <a class="btn-link" href="{% url 'instalment'%}"><button class="btn btn-primary"><i class='fa fa-eye'></i></button></a>
+                                                <a class="btn-link" href="{% url 'update_subscription' sub.id%}"><button class="btn btn-dark"><i class='fa fa-pencil'></i></button></a>
+                                                <a onclick="return confirm('Are you sure you want to delete this?')" href="{% url 'delete_subscription' sub.id %}">
+                                                    <button class="btn btn-danger"><i class='fa fa-trash'></i></button>
+                                                    </a>
 
                                                 {% comment %} <a class="btn-link" href="{% url 'notify' sub.id%}"><button class="btn btn-warning">Notify</button></a> {% endcomment %}
                                                 {% endif %}
@@ -121,6 +129,14 @@
                                             {% endif %}
                                             
                                             </td>
+                                            <td> 
+                                                <a class="btn-link" href="{% url 'add_payment' sub.id%}">
+
+                                                    <button class="btn btn-info">Add Payment</button>
+                                                </a>
+                                                
+                                                
+                                                </td>
                                     </tr>
                                     {% endfor %}
 

@@ -386,6 +386,68 @@ def updateProduct(request, updateID):
         return render(request, 'Updateproduct.html', {'Updateproduct': Updateproduct})
 
 
+@login_required(login_url='/login')
+def add_payment(request, subscriptionID):
+    subscription = Subscriptions.objects.get(id=subscriptionID)
+    payments_ = SubscriptionsPayment.objects.filter( SubscriptionsID=subscription.id).order_by('id')
+    payments = SubscriptionsPayment.objects.filter(
+            Paid=False, SubscriptionsID=subscription.id).order_by('id')
+    payment = payments_[0]
+    print(subscription.CustomerID.FirstName)
+    if request.method == 'POST':
+        amount = int(request.POST['amount'])
+        
+        if int(amount) >= int(subscription.TotalBalance):
+            subscription.Extra = subscription.Extra + (int(amount)-int(subscription.TotalBalance))
+            subscription.TotalBalance = 0
+            SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True)
+            subscription.save()
+        else:
+            if (subscription.Extra+int(amount))>=int(subscription.TotalBalance):
+                subscription.Extra = (int(subscription.Extra+int(amount))-int(subscription.TotalBalance))
+                subscription.TotalBalance = 0
+                SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True)
+                subscription.save()
+            elif (subscription.Extra+int(amount))>=int(payment.Paidamount):
+                num_of_months = math.floor(int(subscription.Extra+int(amount))/int(payment.Paidamount))
+                extra = int(subscription.Extra+int(amount)) % int(payment.Paidamount)
+                subscription.Extra =extra
+                subscription.TotalBalance = int(subscription.TotalBalance)-int(num_of_months*int(payment.Paidamount))
+                subscription.save()
+                print(num_of_months)
+                ids=[]
+                for i in range(0,num_of_months):
+                    ids.append(payments[i].id)
+
+                SubscriptionsPayment.objects.filter(id__in=ids).update(Paid=True)
+
+            else:
+                subscription.Extra=subscription.Extra+amount
+                subscription.save()
+                
+
+        subprice = format(subscription.TotalBalance, ",.0f")
+        print(subprice)
+        
+            
+        
+        
+
+        
+        if subscription.CustomerID.Language == 'English':
+            payload = {
+                'details': f' Dear {subscription.CustomerID.FirstName},\nThank you for your installment payment. We confirmed your payment of {format(int(amount), ",.0f")} Rwf For more information about your transaction, please check your app\nYour due balance is : {subprice} Rwf', 'phone': f'25{subscription.CustomerID.user.phone}'}
+        if subscription.CustomerID.Language == 'Kinyarwanda':
+            payload = {
+                'details': f' Mukiriya wacu  {subscription.CustomerID.FirstName},\nMurakoze kwishyura konti yanyu. Twemeje ko mwishyuye {format(int(amount), ",.0f")} Rwf Kubindi bisobanuro mwakoresha app \nUmwenda musigaje ni : {subprice} Rwf', 'phone': f'25{subscription.CustomerID.user.phone}'}
+        headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+                          headers=headers, data=payload, verify=False)
+        return redirect('Subscriptions')
+    else:
+        return render(request, 'add_payment.html', {'subscription': subscription})
+
+
 def rainwater(request):
     return render(request, 'website/ijabo.html')
 
@@ -394,12 +456,18 @@ def single_blog(request, blogID):
     blog = Blog.objects.get(id=blogID)
     return render(request, 'website/post.html', {'blog': blog})
 
-
+@login_required(login_url='/login')
 def delete_blog(request, blogID):
     blog = Blog.objects.get(id=blogID)
     blog.delete()
     return redirect('Viewblog')
 
+
+@login_required(login_url='/login')
+def delete_subscription(request, subID):
+    subscription = Subscriptions.objects.get(id=subID)
+    subscription.delete()
+    return redirect('Subscriptions')
 
 @login_required(login_url='/login')
 def updateBlog(request, updateID):
@@ -1234,6 +1302,61 @@ def customers(request):
     page_obj = paginator.get_page(page_number)
     return render(request, 'customers.html', {'Customers': Customers, 'page_obj': page_obj})
 
+@login_required(login_url='/login')
+def other_payments(request):
+    payments = OtherPayment.objects.all().order_by('-id')
+    search_query = request.GET.get('search', '')
+    if search_query:
+        customer = Customer.objects.filter(
+            Q(FirstName__icontains=search_query) |  Q(LastName__icontains=search_query))
+        payments = OtherPayment.objects.filter(CustomerID__in=customer)
+    paginator = Paginator(payments, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'other_payments.html', {'payments': payments, 'page_obj': page_obj})
+
+
+
+@login_required(login_url='/login')
+def add_other_payment(request):
+    if request.method=='POST':
+        payment=OtherPayment()
+        customer=Customer.objects.get(id=request.POST['customer'])
+        payment.CustomerID=customer
+        payment.Paidamount=int(request.POST['amount'])
+        payment.PaymentDate=request.POST['date']
+        payment.Description=request.POST['description']
+        payment.save()
+        return redirect('other_payments')
+    else:
+        customers=Customer.objects.all()
+        return render(request,'add_other_payment.html',{'customers':customers})
+
+
+@login_required(login_url='/login')
+def delete_other_payment(request,paymentID):
+    payment=OtherPayment.objects.get(id=paymentID)
+    payment.delete()
+    return redirect('other_payments')
+    
+
+
+@login_required(login_url='/login')
+def update_other_payment(request,paymentID):
+    if request.method=='POST':
+        payment=OtherPayment.objects.get(id=paymentID)
+        customer=Customer.objects.get(id=request.POST['customer'])
+        payment.CustomerID=customer
+        payment.Paidamount=int(request.POST['amount'])
+        payment.PaymentDate=request.POST['date']
+        payment.Description=request.POST['description']
+        payment.save()
+        return redirect('other_payments')
+    else:
+        customers=Customer.objects.all()
+        payment=OtherPayment.objects.get(id=paymentID)
+        return render(request,'update_other_payment.html',{'customers':customers,'payment':payment})
+
 
 @login_required(login_url='/login')
 def products(request):
@@ -1667,8 +1790,7 @@ def approve_subscription(request, subID):
             subscriptionTool.quantity = 1
             subscriptionTool.save()
         if request.POST['system2'] != "":
-            new_balance = int(request.POST['total'])+int(fulltotal) - \
-                int(request.POST['downpayment'])+int(fulltotal1)
+            new_balance = int(request.POST['total'])+int(fulltotal) - int(request.POST['downpayment'])+int(fulltotal1)
             mothlypay = new_balance/int(request.POST['period'])
             Monthly = format(mothlypay, ",.0f")
         else:
@@ -1706,8 +1828,7 @@ def approvesubscription(request, subID):
         subscription.InstallmentPeriod = int(request.POST['period'])
         subscription.To = today + timedelta(days=365)
         subscription.save()
-        new_balance = int(request.POST['amount']) - \
-            int(request.POST['downpayment'])
+        new_balance = int(request.POST['amount']) - int(request.POST['downpayment'])
         mothlypay = new_balance/int(request.POST['period'])
         Monthly = format(mothlypay, ",.0f")
         subscription.TotalBalance = str(new_balance)
@@ -1730,6 +1851,141 @@ def approvesubscription(request, subID):
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
         return redirect('Subscriptions')
+
+
+@login_required(login_url='/login')
+def update_subscription(request, subID):
+    if request.method == 'POST':
+        today = datetime.today()
+        SubscriptionsPayment.objects.filter(SubscriptionsID=subID).delete()
+        subscription = Subscriptions.objects.get(id=subID)
+        subscription.From = today
+        subscription.Total = int(request.POST['amount'])
+        subscription.Downpayment = int(request.POST['downpayment'])
+        subscription.InstallmentPeriod = int(request.POST['period'])
+        subscription.To = today + timedelta(days=365)
+        subscription.save()
+        new_balance = int(request.POST['amount']) - int(request.POST['downpayment'])
+        mothlypay = new_balance/int(request.POST['period'])
+        Monthly = format(mothlypay, ",.0f")
+        subscription.TotalBalance = str(new_balance)
+        subscription.complete = True
+        subscription.save()
+        for i in range(0, int(request.POST['period'])):
+            payment = SubscriptionsPayment()
+            payment.SubscriptionsID = subscription
+            payment.PaidMonth = subscription.From.date()+relativedelta(months=+i)
+            payment.Paidamount = math.ceil(
+                new_balance/int(request.POST['period']))
+            payment.save()
+        if subscription.CustomerID.Language == 'English':
+            payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nWe have succesfully approve your subscription,\nyour monthly payment is {Monthly} Rwf.',
+                       'phone': f'25{subscription.CustomerID.user.phone}'}
+        if subscription.CustomerID.Language == 'Kinyarwanda':
+            payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nTurangije kwemeza ubasabe bwanyu kuri servisi zacu,\nifatabuguzi ryaburikwezi ni {Monthly} Rwf.',
+                       'phone': f'25{subscription.CustomerID.user.phone}'}
+        headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+                          headers=headers, data=payload, verify=False)
+        return redirect('Subscriptions')
+    else:
+        subscription=Subscriptions.objects.get(id=subID)
+        return render(request,'update_sub.html',{'subscription':subscription})
+
+
+@login_required(login_url='/login')
+def updatesubs(request, subID):
+    if request.method == 'POST':
+        today = datetime.today()
+        subscription = Subscriptions.objects.get(id=subID)
+        SubscriptionsTools.objects.filter(SubscriptionsID=subID).delete()
+        system = System.objects.get(
+            id=int(request.POST['system']))
+        discount = system.total * int(request.POST['discount']) / 100
+        fulltotal = system.total - discount
+        if request.POST['system2'] != "":
+            system2 = System.objects.get(
+                id=int(request.POST['system2']))
+            discount1 = system2.total * int(request.POST['discount1']) / 100
+            fulltotal1 = system2.total - discount1
+        subscription.From = today
+
+        if request.POST['system2'] != "":
+            subscription.Total = int(
+                request.POST['total'])+int(fulltotal)+int(fulltotal1)
+        else:
+            subscription.Total = int(request.POST['total'])+int(fulltotal)
+        subscription.System = system
+        if request.POST['system2'] != "":
+            subscription.System2 = system2
+        else:
+            subscription.System2 = None
+        subscription.Downpayment = int(request.POST['downpayment'])
+        subscription.InstallmentPeriod = int(request.POST['period'])
+        subscription.users = request.POST['users']
+        subscription.To = today + timedelta(days=365)
+        subscription.save()
+        tools = SystemTool.objects.filter(system=system.id)
+        if request.POST['system2'] != "":
+            tools = SystemTool.objects.filter(
+                system=system.id) | SystemTool.objects.filter(system=system2.id)
+
+        for tool in tools:
+            my_tool = Tools.objects.get(id=tool.tool.id)
+            subscriptionTool = SubscriptionsTools()
+            subscriptionTool.ToolID = my_tool
+            subscriptionTool.SubscriptionsID = subscription
+            subscriptionTool.quantity = 1
+            subscriptionTool.save()
+        if request.POST['system2'] != "":
+            new_balance = int(request.POST['total'])+int(fulltotal) - int(request.POST['downpayment'])+int(fulltotal1)
+            mothlypay = new_balance/int(request.POST['period'])
+            Monthly = format(mothlypay, ",.0f")
+        else:
+            new_balance = int(
+                request.POST['total'])+int(fulltotal)-int(request.POST['downpayment'])
+            mothlypay = new_balance/int(request.POST['period'])
+            Monthly = format(mothlypay, ",.0f")
+
+        subscription.discount = request.POST['discount']
+        subscription.discount1 = request.POST['discount1']
+        subscription.TotalBalance = new_balance
+        subscription.save()
+        if subscription.CustomerID.Language == 'English':
+            payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nWe have succesfully approve your subscription,\nyour monthly payment is {Monthly} Rwf.',
+                       'phone': f'25{subscription.CustomerID.user.phone}'}
+        if subscription.CustomerID.Language == 'Kinyarwanda':
+            payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nTurangije kwemeza ubasabe bwanyu kuri servisi zacu,\nifatabuguzi ryaburikwezi ni {Monthly} RWf.',
+                       'phone': f'25{subscription.CustomerID.user.phone}'}
+        headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+                          headers=headers, data=payload, verify=False)
+        my_tools = SubscriptionsTools.objects.filter(
+            SubscriptionsID=subscription.id)
+        return redirect('checkout_page', pk=subscription.id)
+    else:
+        subscription = Subscriptions.objects.get(id=subID)
+        categories = Category.objects.all()
+        systs = System.objects.all()
+        systems = []
+        for sys in systs:
+            sys_obj = {
+                "category": sys.Category.Title,
+                "title": sys.title,
+                "id": sys.id
+            }
+            systems.append(sys_obj)
+        tools_am = SystemTool.objects.all()
+        amazi_tools = []
+        for tool in tools_am:
+            tool_obj = {
+                "system": tool.system.title,
+                "title": tool.tool.Title,
+                "id": tool.id
+            }
+            amazi_tools.append(tool_obj)
+            print(amazi_tools)
+        return render(request, 'updatesubs.html', {'amazi_tools': amazi_tools, 'subscription': subscription, 'categories': categories, 'systems': systems})
 
 
 @login_required(login_url='/login')
@@ -1828,14 +2084,14 @@ def checkout_page(request, pk):
 @login_required(login_url='/login')
 def confirm(request, subID):
     subscription = Subscriptions.objects.get(id=subID)
+    SubscriptionsPayment.objects.filter(SubscriptionsID=subID).delete()
     subscription.complete = True
     subscription.save()
     for i in range(0, subscription.InstallmentPeriod):
         payment = SubscriptionsPayment()
         payment.SubscriptionsID = subscription
         payment.PaidMonth = subscription.From.date()+relativedelta(months=+i)
-        payment.Paidamount = math.ceil(
-            (subscription.Total-subscription.Downpayment)/subscription.InstallmentPeriod)
+        payment.Paidamount = math.ceil((subscription.Total-subscription.Downpayment)/subscription.InstallmentPeriod)
         payment.save()
     return redirect('Subscriptions')
 
@@ -2194,16 +2450,16 @@ def updateItem2(request):
 #     return JsonResponse('Payment submitted..', safe=False)
 
 
-@login_required(login_url='/login')
-def update_subscription(request, subID):
-    subscription = Subscriptions.objects.get(id=subID)
-    customers = Customer.objects.all()
-    tools = Tools.objects.all()
-    tools_ids = []
-    sub_tools = SubscriptionsTools.objects.filter(SubscriptionsID=subID)
-    for tool in sub_tools:
-        tools_ids.append(tool.ToolID.id)
-    return render(request, 'update_subscription.html', {'subscription': subscription, 'tools_ids': tools_ids, 'tools': tools, 'customers': customers})
+# @login_required(login_url='/login')
+# def update_subscription(request, subID):
+#     subscription = Subscriptions.objects.get(id=subID)
+#     customers = Customer.objects.all()
+#     tools = Tools.objects.all()
+#     tools_ids = []
+#     sub_tools = SubscriptionsTools.objects.filter(SubscriptionsID=subID)
+#     for tool in sub_tools:
+#         tools_ids.append(tool.ToolID.id)
+#     return render(request, 'update_subscription.html', {'subscription': subscription, 'tools_ids': tools_ids, 'tools': tools, 'customers': customers})
 
 
 def check_payment(transID, items, amount, email, address, city, names, phone):
@@ -2724,40 +2980,54 @@ def pay_subscription(request):
         customer_id = body['customerID']
         sub_id = body['sub_id']
         subscription = Subscriptions.objects.get(id=sub_id)
+        payments_ = SubscriptionsPayment.objects.filter( SubscriptionsID=subscription.id).order_by('id')
+        payments = SubscriptionsPayment.objects.filter(
+                Paid=False, SubscriptionsID=subscription.id).order_by('id')
+        payment = payments_[0]
         amount = int(body['amount'])
-        if int(amount) > int(subscription.TotalBalance):
-            subscription.Extra = subscription.Extra + \
-                (int(amount)-int(subscription.TotalBalance))
+        if int(amount) >= int(subscription.TotalBalance):
+            subscription.Extra = subscription.Extra + (int(amount)-int(subscription.TotalBalance))
             subscription.TotalBalance = 0
+            SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True)
+            subscription.save()
         else:
-            subscription.TotalBalance = int(
-                subscription.TotalBalance)-int(amount)
+            if (subscription.Extra+int(amount))>=int(subscription.TotalBalance):
+                subscription.Extra = (int(subscription.Extra+int(amount))-int(subscription.TotalBalance))
+                subscription.TotalBalance = 0
+                SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True)
+                subscription.save()
+            elif (subscription.Extra+int(amount))>=int(payment.Paidamount):
+                num_of_months = math.floor(int(subscription.Extra+int(amount))/int(payment.Paidamount))
+                extra = int(subscription.Extra+int(amount)) % int(payment.Paidamount)
+                subscription.Extra =extra
+                subscription.TotalBalance = int(subscription.TotalBalance)-int(num_of_months*int(payment.Paidamount))
+                subscription.save()
+                print(num_of_months)
+                ids=[]
+                for i in range(0,num_of_months):
+                    ids.append(payments[i].id)
+
+                SubscriptionsPayment.objects.filter(id__in=ids).update(Paid=True)
+
+            else:
+                subscription.Extra=subscription.Extra+amount
+                subscription.save()
+                
 
         subprice = format(subscription.TotalBalance, ",.0f")
         print(subprice)
-        subscription.save()
-        payments = SubscriptionsPayment.objects.filter(
-            Paid=False, SubscriptionsID=subscription.id).order_by('id')
-        payment = payments[0]
-        num_of_months = math.floor(int(amount)/int(payment.Paidamount))
-        extra = int(amount) % int(payment.Paidamount)
-        subscription.Extra = subscription.Extra + extra
-        subscription.save()
-        for p in payments:
-            print(p.id)
-        for i in range(0, num_of_months):
-            print(payments[i].id)
-            p = SubscriptionsPayment.objects.get(id=payments[i].id)
-            p.Paid = True
-            p.save()
+        
+            
+        
+        
 
-        customer = Customer.objects.get(id=customer_id)
-        if customer.Language == 'English':
+        
+        if subscription.CustomerID.Language == 'English':
             payload = {
-                'details': f' Dear {customer.FirstName},\nThank you for your installment payment. We confirmed your payment of {format(int(amount), ",.0f")} Rwf For more information about your transaction, please check your app\nYour due balance is : {subprice} Rwf', 'phone': f'25{customer.user.phone}'}
-        if customer.Language == 'Kinyarwanda':
+                'details': f' Dear {subscription.CustomerID.FirstName},\nThank you for your installment payment. We confirmed your payment of {format(int(amount), ",.0f")} Rwf For more information about your transaction, please check your app\nYour due balance is : {subprice} Rwf', 'phone': f'25{subscription.CustomerID.user.phone}'}
+        if subscription.CustomerID.Language == 'Kinyarwanda':
             payload = {
-                'details': f' Mukiriya wacu  {customer.FirstName},\nMurakoze kwishyura konti yanyu. Twemeje ko mwishyuye {format(int(amount), ",.0f")} Rwf Kubindi bisobanuro mwakoresha app \nUmwenda musigaje ni : {subprice} Rwf', 'phone': f'25{customer.user.phone}'}
+                'details': f' Mukiriya wacu  {subscription.CustomerID.FirstName},\nMurakoze kwishyura konti yanyu. Twemeje ko mwishyuye {format(int(amount), ",.0f")} Rwf Kubindi bisobanuro mwakoresha app \nUmwenda musigaje ni : {subprice} Rwf', 'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)

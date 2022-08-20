@@ -184,6 +184,14 @@ class SubscriptionsPayment(models.Model):
     PaymentDate = models.DateField(blank=True, null=True)
 
 
+class OtherPayment(models.Model):
+    CustomerID = models.ForeignKey(
+        'Customer', on_delete=models.CASCADE, null=True, blank=True)
+    Paidamount = models.CharField(max_length=255, null=True, blank=True)
+    PaymentDate = models.DateField(blank=True, null=True)
+    Description = models.TextField(blank=True, null=False)
+
+
 class ToolsCategory(models.Model):
     Description = models.CharField(max_length=255, null=True, blank=True)
 

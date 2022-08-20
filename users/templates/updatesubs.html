@@ -6,35 +6,80 @@
                     
 					<div class="panel">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Approve {{subscription.CustomerID.FirstName}}'s subscription in {{subscription.Category.Title}}</h3>
+                                    <h3 class="panel-title">Update {{subscription.CustomerID.FirstName}}'s subscription in {{subscription.Category.Title}}</h3>
                                 </div>
                     
                                 <!--Block Styled Form -->
                                 <!--===================================================-->
-                                <form enctype="multipart/form-data" action="{% url 'approvesubscription' subscription.id %}" method="POST">
+                                <form enctype="multipart/form-data" action="{% url 'updatesubs' subscription.id %}" method="POST">
                                 {% csrf_token %}
                                     <div class="panel-body">
 
                                         <div class="row">
      
-                                           
-                                                <div class="col-sm-12">
+                                            <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                    <label class="control-label">System</label>
+                                                    <select value='1' class="form-control" name="system" id='system' required>
+                                                       <option value="">Select System</option> 
+                                                    </select>  
+                                                </div>
+                                            </div>
+                                              <div class="col-sm-12">
                                                             <div class="form-group">
-                                                            <label class="control-label">Amount</label>
-                                                            <input type="number" class="form-control" name="amount" >   
+                                                            <label class="control-label">Discount on system 1 <b style="color:#38b3f5;">(in percentage)</b></label>
+                                                            <input type="number" value='0' max="100" class="form-control" name="discount" required>   
                                                         </div>
                                                 </div>
-                                                <div class="col-sm-12">
+                                            <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                    <label class="control-label">Second System (if any)</label>
+                                                    <select value={{subscription.System2.id}} class="form-control" name="system2" id='system2'>
+                                                       <option value="">Select second System</option> 
+                                                    </select>  
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                            <label class="control-label">Discount on system 2</label>
+                                                            <input type="number" max="100" value='0' class="form-control" name="discount1" required>   
+                                                        </div>
+                                                </div>
+                                      
+
+                                            <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                    <label class="control-label">Users</label>
+                                                    <select value={{subscription.users}} class="form-control" name="users" id='users' onchange="my_func()" required>
+                                                       <option value="">Select number of users</option> 
+                                                       <option value="Under 100">Under 100</option> 
+                                                       <option value="101-500">101-500</option> 
+                                                       <option value="500-1500">500-1500</option> 
+                                                       <option value="Above 1500">Above 1500</option> 
+                                                    
+                                                       
+                                                    </select>  
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                            <label class="control-label">Additional Amount</label>
+                                                            <input  type="text" value='0' class="form-control" name="total" required>   
+                                                        </div>
+                                                </div>
+
+                                            <div class="col-sm-12">
                                                             <div class="form-group">
                                                             <label class="control-label">Down payment</label>
-                                                            <input type="number" value='0' class="form-control" name="downpayment" >   
+                                                            <input type="text" value='0' class="form-control" name="downpayment" required>   
                                                         </div>
                                                 </div>
 
                                                 <div class="col-sm-12">
                                                             <div class="form-group">
                                                             <label class="control-label">Installment Period</label>
-                                                            <input type="number" min="1" class="form-control" name="period" required>   
+                                                            <input value={{subscription.InstallmentPeriod}} type="number" min="1"  class="form-control" name="period" required>   
                                                         </div>
                                                 </div>
                                            
@@ -65,7 +110,7 @@
                                         </div>
                                     </div>
                                     <div class="panel-footer text-right">
-                                        <button class="btn btn-block btn-success" type="submit">Confirm</button>
+                                        <button class="btn btn-block btn-success" type="submit">Checkout</button>
                                     </div>
                                 </form>
                                 <!--===================================================-->
@@ -80,6 +125,12 @@
 					
 					
                 </div>
+
+
+
+
+
+
 <script>
 //var my_func=()=>{
  //   var tools= "{{ my_tools }}" 
@@ -88,7 +139,9 @@
 //}
 window.onload=function (){
     var s2 = document.getElementById('system');
+    var s1 = document.getElementById('system2');
     s2.innerHTML = "";
+    s1.innerHTML = "";
     if(true){
         console.log('haha')
         var optionArray = ["|Select system"];
@@ -105,8 +158,23 @@ window.onload=function (){
         var pair = optionArray[option].split("|");
         var newOption = document.createElement("option");
         newOption.value = pair[0];
+        var sys_id="{{subscription.System.id}}"
+        if(sys_id==pair[0]){
+            newOption.selected="selected"
+        }
         newOption.innerHTML = pair[1];
         s2.options.add(newOption);
+    }
+    for(var option in optionArray){
+        var pair = optionArray[option].split("|");
+        var newOption = document.createElement("option");
+        newOption.value = pair[0];
+        var sys_id="{{subscription.System2.id}}"
+        if(sys_id==pair[0]){
+            newOption.selected="selected"
+        }
+        newOption.innerHTML = pair[1];
+        s1.options.add(newOption);
     }
 }
 /*function populate2(s1,s2){

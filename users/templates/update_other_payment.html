@@ -1,0 +1,87 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+ <div id="page-content">
+                    
+					<div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Update payment</h3>
+                                </div>
+                    
+                                <!--Block Styled Form -->
+                                <!--===================================================-->
+                                <form enctype="multipart/form-data" action="{% url 'update_other_payment' payment.id%}" method="POST">
+                                {% csrf_token %}
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12" style="margin-bottom:20px">
+                                                <select value="1" style="width:100%" class="js-example-basic-single" name="customer" required>
+                                                    <option value="">Select customer</option> 
+                                                 {% for customer in customers %}
+                                                    {% ifequal payment.CustomerID.id customer.id %}
+                                                    <option value="{{customer.id}}" selected>{{customer.FirstName}} {{customer.LastName}}</option> 
+                                                    {% else %}
+                                                    <option value="{{customer.id}}">{{customer.FirstName}} {{customer.LastName}}</option> 
+                                                    {% endifequal %}
+                                                 {% endfor %}
+                                                    
+                                                 </select> 
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Amount</label>
+                                                    <input value="{{payment.Paidamount}}" type="number" class="form-control" name="amount">
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="control-label">Date</label>
+                                                <input value="{{payment.PaymentDate|date:"Y-m-d"}}" type="date" class="form-control" name="date">
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <div class="row">
+                                            
+                                            
+                                           
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Description</label>
+                                                    <textarea class="form-control" name="description">{{payment.Description}}</textarea> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer text-right">
+                                        <button class="btn btn-block btn-success" type="submit">Submit</button>
+                                    </div>
+                                </form>
+                                <!--===================================================-->
+                                <!--End Block Styled Form -->
+                    
+                            </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+                <script>
+                    $(document).ready(function() {
+                        $('.js-example-basic-single2').select2();
+                    });
+                    
+                    </script>
+{% endblock content%}

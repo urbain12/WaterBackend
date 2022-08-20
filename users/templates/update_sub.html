@@ -11,7 +11,7 @@
                     
                                 <!--Block Styled Form -->
                                 <!--===================================================-->
-                                <form enctype="multipart/form-data" action="{% url 'approvesubscription' subscription.id %}" method="POST">
+                                <form enctype="multipart/form-data" action="{% url 'update_subscription' subscription.id %}" method="POST">
                                 {% csrf_token %}
                                     <div class="panel-body">
 
@@ -21,20 +21,20 @@
                                                 <div class="col-sm-12">
                                                             <div class="form-group">
                                                             <label class="control-label">Amount</label>
-                                                            <input type="number" class="form-control" name="amount" >   
+                                                            <input type="text" value={{subscription.Total}} class="form-control" name="amount" required>   
                                                         </div>
                                                 </div>
                                                 <div class="col-sm-12">
                                                             <div class="form-group">
                                                             <label class="control-label">Down payment</label>
-                                                            <input type="number" value='0' class="form-control" name="downpayment" >   
+                                                            <input value={{subscription.Downpayment}} type="number"  class="form-control" name="downpayment" required>   
                                                         </div>
                                                 </div>
 
                                                 <div class="col-sm-12">
                                                             <div class="form-group">
                                                             <label class="control-label">Installment Period</label>
-                                                            <input type="number" min="1" class="form-control" name="period" required>   
+                                                            <input value={{subscription.InstallmentPeriod}} type="number" class="form-control" name="period" required>   
                                                         </div>
                                                 </div>
                                            

@@ -370,6 +370,16 @@
                                             </span>
                                         </a>
                                     </li>
+                                    {% url 'other_payments' as other %}
+                                    <li {% if request.path == other  %} class="active-sub"{% endif %}>
+                                        <a href="{% url 'other_payments' %}">
+                                            <i class="fa fa-credit-card"></i>
+                                            <span class="menu-title">
+                                                <strong>Other payments</strong>
+                                                
+                                            </span>
+                                        </a>
+                                    </li>
                                     {% url 'Meters' as url2 %}
                                     <li {% if request.path == url2  %} class="active-sub"{% endif %}>
                                         <a href="{% url 'Meters' %}">
