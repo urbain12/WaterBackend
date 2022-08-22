@@ -71,7 +71,12 @@
                                             <th>Exception</th>
                                             <th>Action</th>
                                             <th>Status</th>
+                                            {% ifequal sub.TotalBalance 0 %}
+                                             <span></span>
+                                            {% else %}
                                             <th>Add payment</th>
+                                            {% endifequal %}
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -129,6 +134,9 @@
                                             {% endif %}
                                             
                                             </td>
+                                            {% ifequal sub.TotalBalance 0 %}
+                                             <span></span>
+                                            {% else %}
                                             <td> 
                                                 <a class="btn-link" href="{% url 'add_payment' sub.id%}">
 
@@ -137,6 +145,8 @@
                                                 
                                                 
                                                 </td>
+                                            {% endifequal %}
+                                           
                                     </tr>
                                     {% endfor %}
 
