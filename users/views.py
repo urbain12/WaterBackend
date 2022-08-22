@@ -1798,7 +1798,8 @@ def checkout(request):
 @login_required(login_url='/login')
 def approve_subscription(request, subID):
     if request.method == 'POST':
-        today = datetime.today()
+        today =  datetime.strptime(request.POST['from']+" 13:00:00", '%Y-%m-%d %H:%M:%S')
+        print(today)
         subscription = Subscriptions.objects.get(id=subID)
 
         system = System.objects.get(
@@ -1868,7 +1869,7 @@ def approve_subscription(request, subID):
 @login_required(login_url='/login')
 def approvesubscription(request, subID):
     if request.method == 'POST':
-        today = datetime.today()
+        today = datetime.strptime(request.POST['from']+" 13:00:00", '%Y-%m-%d %H:%M:%S')
         subscription = Subscriptions.objects.get(id=subID)
         subscription.From = today
         subscription.Total = int(request.POST['amount'])
@@ -1904,7 +1905,7 @@ def approvesubscription(request, subID):
 @login_required(login_url='/login')
 def update_subscription(request, subID):
     if request.method == 'POST':
-        today = datetime.today()
+        today = datetime.strptime(request.POST['from']+" 13:00:00", '%Y-%m-%d %H:%M:%S')
         SubscriptionsPayment.objects.filter(SubscriptionsID=subID).delete()
         subscription = Subscriptions.objects.get(id=subID)
         subscription.From = today
