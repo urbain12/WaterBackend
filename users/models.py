@@ -127,6 +127,7 @@ class WaterBuyHistory(models.Model):
         'Meters', on_delete=models.SET_NULL, null=True, blank=True)
     Token = models.CharField(max_length=255, null=True, blank=True)
     TransactionID = models.CharField(max_length=255, null=True, blank=True)
+    PaymentType = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
@@ -161,11 +162,15 @@ class Subscriptions(models.Model):
     customer_exception = models.BooleanField(default=False)
     users = models.CharField(max_length=100, null=True, blank=True)
 
-    # @property
-    # def get_total_amount(self):
-    #     tools = self.subscriptionstools_set.all()
-    #     total = sum([tool.get_total for tool in tools])
-    #     return total
+    @property
+    def hasPaid(self):
+        payments = self.subscriptionspayment_set.filter(
+            Paid=True)
+        if len(payments)>0:
+            has_paid=True
+        else:
+            has_paid=False
+        return has_paid
 
     @property
     def get_overdue_months(self):
@@ -179,8 +184,10 @@ class SubscriptionsPayment(models.Model):
     SubscriptionsID = models.ForeignKey(
         'Subscriptions', on_delete=models.CASCADE, null=True, blank=True)
     Paidamount = models.CharField(max_length=255, null=True, blank=True)
+    TransID = models.CharField(max_length=255, null=True, blank=True)
     Paid = models.BooleanField(default=False)
     PaidMonth = models.DateField(blank=True, null=True)
+    PaymentType = models.CharField(max_length=255, null=True, blank=True)
     PaymentDate = models.DateField(blank=True, null=True)
 
 
@@ -189,6 +196,7 @@ class OtherPayment(models.Model):
         'Customer', on_delete=models.CASCADE, null=True, blank=True)
     Paidamount = models.CharField(max_length=255, null=True, blank=True)
     PaymentDate = models.DateField(blank=True, null=True)
+    PaymentType = models.CharField(max_length=255, null=True, blank=True)
     Description = models.TextField(blank=True, null=False)
 
 
