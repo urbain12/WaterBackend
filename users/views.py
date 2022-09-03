@@ -1928,10 +1928,10 @@ def update_subscription(request, subID):
                 new_balance/int(request.POST['period']))
             payment.save()
         if subscription.CustomerID.Language == 'English':
-            payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nWe have succesfully approve your subscription,\nyour monthly payment is {Monthly} Rwf.',
+            payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nWe have succesfully update your subscription,\nyour monthly payment is {Monthly} Rwf.',
                        'phone': f'25{subscription.CustomerID.user.phone}'}
         if subscription.CustomerID.Language == 'Kinyarwanda':
-            payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nTurangije kwemeza ubasabe bwanyu kuri servisi zacu,\nifatabuguzi ryaburikwezi ni {Monthly} Rwf.',
+            payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nTurangije guhindura ubasabe bwanyu kuri servisi zacu,\nifatabuguzi ryaburikwezi ni {Monthly} Rwf.',
                        'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
@@ -2001,10 +2001,10 @@ def updatesubs(request, subID):
         subscription.TotalBalance = new_balance
         subscription.save()
         if subscription.CustomerID.Language == 'English':
-            payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nWe have succesfully approve your subscription,\nyour monthly payment is {Monthly} Rwf.',
+            payload = {'details': f' Dear {subscription.CustomerID.FirstName},\nWe have succesfully update your subscription,\nyour monthly payment is {Monthly} Rwf.',
                        'phone': f'25{subscription.CustomerID.user.phone}'}
         if subscription.CustomerID.Language == 'Kinyarwanda':
-            payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nTurangije kwemeza ubasabe bwanyu kuri servisi zacu,\nifatabuguzi ryaburikwezi ni {Monthly} RWf.',
+            payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nTurangije guhindura ubasabe bwanyu kuri servisi zacu,\nifatabuguzi ryaburikwezi ni {Monthly} RWf.',
                        'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
