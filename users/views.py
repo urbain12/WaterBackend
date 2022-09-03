@@ -2015,6 +2015,13 @@ def updatesubs(request, subID):
         categories = Category.objects.all()
         systs = System.objects.all()
         systems = []
+        if subscription.System2:
+            amount1=int(subscription.System.total)-((int(subscription.System.total)*int(subscription.discount))/100)
+            amount2=int(subscription.System2.total)-((int(subscription.System2.total)*int(subscription.discount1))/100)
+            additional=int(subscription.Total-(amount1+amount2))
+        else:
+            amount1=int(subscription.System.total)-((int(subscription.System.total)*int(subscription.discount))/100)
+            additional=int(subscription.Total-amount1)
         for sys in systs:
             sys_obj = {
                 "category": sys.Category.Title,
@@ -2032,7 +2039,7 @@ def updatesubs(request, subID):
             }
             amazi_tools.append(tool_obj)
             print(amazi_tools)
-        return render(request, 'updatesubs.html', {'amazi_tools': amazi_tools, 'subscription': subscription, 'categories': categories, 'systems': systems})
+        return render(request, 'updatesubs.html', {'amazi_tools': amazi_tools, 'subscription': subscription, 'categories': categories, 'systems': systems,'additional':additional})
 
 
 @login_required(login_url='/login')

@@ -1,5 +1,6 @@
 {% extends 'base.html'%}
 {% load static %}
+{% load mathfilters %}
 {% block content%}
 
  <div id="page-content">
@@ -65,7 +66,7 @@
                                             <div class="col-sm-12">
                                                             <div class="form-group">
                                                             <label class="control-label">Additional Amount</label>
-                                                            <input  type="number" value='0' class="form-control" name="total" required>   
+                                                            <input  type="number" value={{additional}} class="form-control" name="total" required>   
                                                         </div>
                                                 </div>
 
