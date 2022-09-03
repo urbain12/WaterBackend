@@ -236,6 +236,7 @@ def troubleshoot(request):
 
         payment.Amount = request.POST['amount']
         payment.TransactionID = request.POST['transid']
+        payment.PaymentType = "Manual"
         payment.save()
         print(payment.Amount)
         r = requests.get(
@@ -405,6 +406,7 @@ def updateProduct(request, updateID):
 
 @login_required(login_url='/login')
 def add_payment(request, subscriptionID):
+    
     subscription = Subscriptions.objects.get(id=subscriptionID)
     payments_ = SubscriptionsPayment.objects.filter( SubscriptionsID=subscription.id).order_by('id')
     payments = SubscriptionsPayment.objects.filter(
@@ -412,18 +414,19 @@ def add_payment(request, subscriptionID):
     payment = payments_[0]
     print(subscription.CustomerID.FirstName)
     if request.method == 'POST':
+        payment_date=datetime.strptime(request.POST['payment_date']+" 13:00:00", '%Y-%m-%d %H:%M:%S')
         amount = int(request.POST['amount'])
         
         if int(amount) >= int(subscription.TotalBalance):
             subscription.Extra = subscription.Extra + (int(amount)-int(subscription.TotalBalance))
             subscription.TotalBalance = 0
-            SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True)
+            SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="Manual",PaymentDate=payment_date,TransID=request.POST['trans_id'])
             subscription.save()
         else:
             if (subscription.Extra+int(amount))>=int(subscription.TotalBalance):
                 subscription.Extra = (int(subscription.Extra+int(amount))-int(subscription.TotalBalance))
                 subscription.TotalBalance = 0
-                SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True)
+                SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="Manual",PaymentDate=payment_date,TransID=request.POST['trans_id'])
                 subscription.save()
             elif (subscription.Extra+int(amount))>=int(payment.Paidamount):
                 num_of_months = math.floor(int(subscription.Extra+int(amount))/int(payment.Paidamount))
@@ -436,7 +439,7 @@ def add_payment(request, subscriptionID):
                 for i in range(0,num_of_months):
                     ids.append(payments[i].id)
 
-                SubscriptionsPayment.objects.filter(id__in=ids).update(Paid=True)
+                SubscriptionsPayment.objects.filter(id__in=ids).update(Paid=True,PaymentType="Manual",PaymentDate=payment_date,TransID=request.POST['trans_id'])
 
             else:
                 subscription.Extra=subscription.Extra+amount
@@ -1030,18 +1033,11 @@ def transactions(request, customerID):
         subs.append(i.id)
     payments = SubscriptionsPayment.objects.filter(
         SubscriptionsID__in=subs, Paid=True)
-    return render(request, 'transactions.html', {'customer': customer, 'subscription': subscription, 'payments': payments})
-
-@login_required(login_url='/login')
-def CustomerwaterTrans(request, customerID):
-    customer = Customer.objects.get(id=customerID)
-    subscription = Subscriptions.objects.filter(CustomerID=customerID)
-    subs = []
-    for i in subscription:
-        subs.append(i.id)
     waterpayments = WaterBuyHistory.objects.filter(
-        SubscriptionsID__in=subs)
-    return render(request, 'transactions.html', {'customer': customer, 'subscription': subscription, 'waterpayments': waterpayments})
+        Customer=customerID)
+    return render(request, 'transactions.html', {'customer': customer, 'subscription': subscription, 'payments': payments, 'waterpayments': waterpayments})
+
+
 
 
 @login_required(login_url='/login')
@@ -1374,6 +1370,7 @@ def add_other_payment(request):
         payment.Paidamount=int(request.POST['amount'])
         payment.PaymentDate=request.POST['date']
         payment.Description=request.POST['description']
+        payment.PaymentType=request.POST['Ptype']
         payment.save()
         return redirect('other_payments')
     else:
@@ -1398,6 +1395,7 @@ def update_other_payment(request,paymentID):
         payment.Paidamount=int(request.POST['amount'])
         payment.PaymentDate=request.POST['date']
         payment.Description=request.POST['description']
+        payment.PaymentType=request.POST['Ptype']
         payment.save()
         return redirect('other_payments')
     else:
@@ -3028,22 +3026,24 @@ def pay_subscription(request):
         print(body)
         customer_id = body['customerID']
         sub_id = body['sub_id']
+
         subscription = Subscriptions.objects.get(id=sub_id)
         payments_ = SubscriptionsPayment.objects.filter( SubscriptionsID=subscription.id).order_by('id')
         payments = SubscriptionsPayment.objects.filter(
                 Paid=False, SubscriptionsID=subscription.id).order_by('id')
         payment = payments_[0]
         amount = int(body['amount'])
+
         if int(amount) >= int(subscription.TotalBalance):
             subscription.Extra = subscription.Extra + (int(amount)-int(subscription.TotalBalance))
             subscription.TotalBalance = 0
-            SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True)
+            SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="Mobile Money",PaymentDate=today,TransID=body['trans_id'])
             subscription.save()
         else:
             if (subscription.Extra+int(amount))>=int(subscription.TotalBalance):
                 subscription.Extra = (int(subscription.Extra+int(amount))-int(subscription.TotalBalance))
                 subscription.TotalBalance = 0
-                SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True)
+                SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="Mobile Money",PaymentDate=today,TransID=body['trans_id'])
                 subscription.save()
             elif (subscription.Extra+int(amount))>=int(payment.Paidamount):
                 num_of_months = math.floor(int(subscription.Extra+int(amount))/int(payment.Paidamount))
@@ -3056,7 +3056,7 @@ def pay_subscription(request):
                 for i in range(0,num_of_months):
                     ids.append(payments[i].id)
 
-                SubscriptionsPayment.objects.filter(id__in=ids).update(Paid=True)
+                SubscriptionsPayment.objects.filter(id__in=ids).update(Paid=True,PaymentType="Mobile Money",PaymentDate=today,TransID=body['trans_id'])
 
             else:
                 subscription.Extra=subscription.Extra+amount
@@ -3787,7 +3787,7 @@ def export_transaction_csv(request, customerID):
             sub.SubscriptionsID.CustomerID.LastName,
             sub.SubscriptionsID.CustomerID.user.phone,
             sub.Paidamount,
-            sub.PaymentDate.strftime("%Y-%m-%d"),
+            sub.PaymentDate,
         ]
 
         print(transactions)
@@ -3898,7 +3898,7 @@ def export_receipts(request):
             rec.Amount + 'Rwf',
             rec.Amount + 'Ltr',
             rec.Token,
-            rec.created_at.strftime("%Y-%m-%d"),
+            rec.created_at,
 
         ]
 

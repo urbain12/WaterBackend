@@ -18,13 +18,13 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Title</label>
-                                                    <input type="text" class="form-control" name="title" value="{{updatesystem.title}}"> 
+                                                    <input type="text" class="form-control" name="title" value="{{updatesystem.title}}" required> 
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Total price</label>
-                                                    <input type="text" class="form-control" name="total" value={{updatesystem.total}}> 
+                                                    <input type="number" class="form-control" name="total" value={{updatesystem.total}} required> 
                                                 </div>
                                             </div>
                                             
@@ -33,7 +33,7 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Category</label>
-                                                    <select class="form-control" name="category">
+                                                    <select class="form-control" name="category" required>
                                                        <option value="Select meter number">Select Category</option> 
                                                     {% for category in categories %}
                                                         {% if category.Title == updatesystem.Category.Title %}
@@ -49,7 +49,7 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Inches</label>
-                                                    <input type="number" class="form-control" name="inches" value={{updatesystem.inches}}>
+                                                    <input type="number" class="form-control" name="inches" value={{updatesystem.inches}} required>
                                                 </div>
                                             </div>
                                         </div>

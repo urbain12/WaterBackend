@@ -30,6 +30,7 @@
                                             <th>Phone</th>
                                             <th>Amount Paid</th>
                                             <th>Payment Date</th>                                            
+                                            <th>Transaction ID</th>                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -40,6 +41,7 @@
                                             <td>{{payment.SubscriptionsID.CustomerID.user.phone}}</td>
                                             <td>{{payment.Paidamount}} Rwf</td>
                                             <td>{{payment.PaymentDate}}</td>
+                                            <td>{{payment.TransID}}</td>
 
                                             
                                             
@@ -86,16 +88,18 @@
                                             <th>Phone</th>
                                             <th>Amount Paid</th>
                                             <th>Payment Date</th>                                            
+                                            <th>Transaction ID</th>                                            
                                         </tr>
                                     </thead>
                                     <tbody>
                                     {% for payment in waterpayments %}
                                     <tr>
                                             <td>{{payment.id}}</td>
-                                            <td>{{payment.SubscriptionsID.CustomerID.FirstName}} {{payment.SubscriptionsID.CustomerID.LastName}}</td>
-                                            <td>{{payment.SubscriptionsID.CustomerID.user.phone}}</td>
+                                            <td>{{payment.Customer.FirstName}} {{payment.Customer.LastName}}</td>
+                                            <td>{{payment.Customer.user.phone}}</td>
                                             <td>{{payment.Amount}} Rwf</td>
                                             <td>{{payment.created_at}}</td>
+                                            <td>{{payment.TransactionID}}</td>
 
                                             
                                             

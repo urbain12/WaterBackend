@@ -6,6 +6,11 @@
                     
 					<div class="panel">
                         <div class="panel-heading">
+                            <h1 class="panel-title">Systems: {{subscription.System.title}} {% if subscription.System2 %}
+                            , {{subscription.System2.title}}
+                            {% else %}
+                            <span></span>
+                            {% endif %}</h3>
                             <h3 class="panel-title">Quotation installation</h3>
                         </div>
                     
@@ -59,9 +64,14 @@
                                         <tr>
                                             <td> <strong>Total</strong> </td>
                                             <td></td>
-
-                                            <td><strong><u>{{subscription.System.total|intcomma}} Rwf</u></strong></td>
-                                           
+                                             <td><strong><u>
+                                            {% if subscription.System2 %}
+                                            
+                                           {{subscription.System.total|add:subscription.System2.total|intcomma}} 
+                                            {% else %}
+                                            {{subscription.System.total|intcomma}} 
+                                            {% endif %}
+                                           Rwf</u></strong></td>
                                         </tr>
                                         
                                     
