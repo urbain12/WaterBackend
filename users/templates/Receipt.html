@@ -63,6 +63,7 @@
                                             <th>Token</th>
                                             <th>TransactionID</th>
                                             <th>Date</th>
+                                            <th>Payment Method</th>
                                             <th>Action</th>
                                             
                                             
@@ -79,6 +80,8 @@
                                             <td>{{history.Token}}</td>
                                             <td>{{history.TransactionID}}</td>
                                             <td>{{history.created_at|date:'d/m/Y'}}</td>
+                                            <td>{{history.PaymentType}}</td>
+
                                             <td>
                                                 <a onclick="return confirm('Are you sure you want to resend token?')" class="btn-link" href="{% url 'sendToken' history.id%}"><button class="btn btn-warning">Resend Token</button></a>                                            
                                             </td>

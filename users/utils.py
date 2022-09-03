@@ -195,6 +195,7 @@ def check_instalment(trans_id, meter_number, amount, customer_id):
         num_of_months = math.floor(int(amount)/int(payment.Paidamount))
         extra = int(amount) % int(payment.Paidamount)
         subscription.Extra = subscription.Extra + extra
+        
         subscription.save()
         for p in payments:
             print(p.id)

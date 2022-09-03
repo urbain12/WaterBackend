@@ -236,7 +236,7 @@ def troubleshoot(request):
 
         payment.Amount = request.POST['amount']
         payment.TransactionID = request.POST['transid']
-        payment.PaymentType = "Manual"
+        payment.PaymentType=request.POST['Ptype']
         payment.save()
         print(payment.Amount)
         r = requests.get(
@@ -3109,6 +3109,7 @@ def pay_Water(request):
         pay = WaterBuyHistory()
         pay.Meternumber = meter
         pay.Amount = Amount
+        pay.PaymentType =  "Mobile Money"
         pay.TransactionID =  body['trans_id']
         users = User.objects.get(phone=Phone)
         customer = Customer.objects.get(user=users.id)
@@ -3689,6 +3690,110 @@ def export_orders(request):
     return response
 
 
+
+def export_techrequest(request):
+    today = datetime.today()
+    ondate=today.strftime("%Y-%m-%d %H:%M")
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="technician Request - {ondate}.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow([
+
+        'Water Access Rwanda'
+    ])
+    writer.writerow([
+
+        'technician Request'
+    ])
+    writer.writerow([
+
+        "Date"+' : '+today.strftime("%Y-%m-%d %H:%M")
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow(['Customer', 'Message', 'Address', 'Reply', 'Date'])
+
+    orders = subRequest.objects.all()
+    order = []
+    for sub in orders:
+
+        list_orders = [
+            sub.Names,
+            sub.Message,
+            sub.Province+', '+sub.District+', '+sub.Sector+', '+sub.Cell,
+            sub.reply,
+            sub.send_at
+        ]
+
+        print(list_orders)
+        print(type(list_orders))
+        order.append(list_orders)
+    for user in order:
+        writer.writerow(user)
+
+    return response
+
+
+def export_requests(request):
+    today = datetime.today()
+    ondate=today.strftime("%Y-%m-%d %H:%M")
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="Requests - {ondate}.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow([
+
+        'Water Access Rwanda'
+    ])
+    writer.writerow([
+
+        'Request'
+    ])
+    writer.writerow([
+
+        "Date"+' : '+today.strftime("%Y-%m-%d %H:%M")
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow(['Customer', 'Service', 'Message','Address', 'Reply', 'Date'])
+
+    orders = Request.objects.all()
+    order = []
+    for sub in orders:
+
+        list_orders = [
+            sub.Names,
+            sub.service,
+            sub.Message,
+            sub.Province+', '+sub.District+', '+sub.Sector+', '+sub.Cell,
+            sub.reply,
+            sub.send_at
+        ]
+
+        print(list_orders)
+        print(type(list_orders))
+        order.append(list_orders)
+    for user in order:
+        writer.writerow(user)
+
+    return response
+
+
 def export_catridgesorders(request):
     today = datetime.today()
     ondate=today.strftime("%Y-%m-%d %H:%M")
@@ -3788,6 +3893,67 @@ def export_transaction_csv(request, customerID):
             sub.SubscriptionsID.CustomerID.user.phone,
             sub.Paidamount,
             sub.PaymentDate,
+        ]
+
+        print(transactions)
+        print(type(transactions))
+        instalments.append(transactions)
+    for user in instalments:
+        writer.writerow(user)
+
+    return response
+
+
+
+
+def export_watertransaction_csv(request, customerID):
+    today = datetime.today()
+    ondate=today.strftime("%Y-%m-%d %H:%M")
+    customer = Customer.objects.get(id=customerID)
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="{customer.FirstName} {customer.LastName} Water buy transactions - {ondate}.csv"'
+    writer = csv.writer(response)
+    writer.writerow([
+
+        'Water Access Rwanda'
+    ])
+    writer.writerow([
+    
+
+                str(customer.FirstName) +' '+str(customer.LastName)+
+                ' ' "Water Buy Transaction"
+
+    ])
+    writer.writerow([
+
+        "Date"+' : '+today.strftime("%Y-%m-%d %H:%M")
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    
+    writer.writerow(['FirstName', 'LastName', 'Phone',
+                    'Amount paid', 'Payment date','Transaction ID' ])
+                    
+    customer = Customer.objects.filter(id=customerID)
+    payments = WaterBuyHistory.objects.filter(
+        Customer=customerID)
+    instalments = []
+    for sub in payments:
+
+        transactions = [
+            sub.Customer.FirstName,
+            sub.Customer.LastName,
+            sub.Customer.user.phone,
+            sub.Amount,
+            sub.created_at.strftime("%Y-%m-%d"),
+            sub.TransactionID,
         ]
 
         print(transactions)

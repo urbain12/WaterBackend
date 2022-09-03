@@ -157,6 +157,9 @@ urlpatterns = [
     url(r'^export/order/$',export_orders, name='export_orders'),
     url(r'^export/catridgesorder/$',export_catridgesorders, name='export_catridgesorders'),
     path('export/transaction/<int:customerID>',export_transaction_csv, name='export_transaction_csv'),
+    path('export/watertransaction/<int:customerID>',export_watertransaction_csv, name='export_watertransaction_csv'),
+    url(r'^export/requests/$',export_techrequest, name='export_techrequest'),
+    url(r'^export/techrequests/$',export_requests, name='export_requests'),
     path('export/quotation/<int:SubscriptionsID>/<int:customerID>',export_quotation_csv, name='export_quotation_csv'),
     url(r'^export/receipts/$',export_receipts, name='export_receipts'),
 
