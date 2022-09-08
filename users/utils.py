@@ -156,7 +156,7 @@ def check_transaction(trans_id, meter_number, amount, phone):
                           headers=headers, data=payload, verify=False)
 
 
-def check_instalment(trans_id, meter_number, amount, customer_id):
+def check_instalment(trans_id, meter_number, amount, customer_id,sub_id):
     headers = {
         "Content-Type": "application/json",
         "app-type": "none",
@@ -167,7 +167,7 @@ def check_instalment(trans_id, meter_number, amount, customer_id):
         "x-auth": "705d3a96-c5d7-11ea-87d0-0242ac130003"
     }
     t = threading.Timer(10.0, check_instalment, [
-                        trans_id, meter_number, amount, customer_id])
+                        trans_id, meter_number, amount, customer_id,sub_id])
     t.start()
     r = requests.get(
         f'http://app.amazi.rw/api/web/index.php?r=v1/app/get-transaction-status&transactionID={trans_id}', headers=headers, verify=False).json()
@@ -177,41 +177,56 @@ def check_instalment(trans_id, meter_number, amount, customer_id):
     if res[0]['payment_status'] == 'SUCCESSFUL':
         t.cancel()
         today = datetime.today()
-        subscription = Subscriptions.objects.get(CustomerID=customer_id)
-        if int(amount) > int(subscription.TotalBalance):
-            subscription.Extra = subscription.Extra + \
-                (int(amount)-int(subscription.TotalBalance))
+        subscription = Subscriptions.objects.get(id=sub_id)
+        payments_ = SubscriptionsPayment.objects.filter( SubscriptionsID=subscription.id).order_by('id')
+        payments = SubscriptionsPayment.objects.filter(
+                Paid=False, SubscriptionsID=subscription.id).order_by('id')
+        payment = payments_[0]
+
+        if int(amount) >= int(subscription.TotalBalance):
+            subscription.Extra = subscription.Extra + (int(amount)-int(subscription.TotalBalance))
             subscription.TotalBalance = 0
+            SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="Mobile Money",PaymentDate=today,TransID=trans_id)
+            subscription.save()
         else:
-            subscription.TotalBalance = int(
-                subscription.TotalBalance)-int(amount)
+            if (subscription.Extra+int(amount))>=int(subscription.TotalBalance):
+                subscription.Extra = (int(subscription.Extra+int(amount))-int(subscription.TotalBalance))
+                subscription.TotalBalance = 0
+                SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="Mobile Money",PaymentDate=today,TransID=trans_id)
+                subscription.save()
+            elif (subscription.Extra+int(amount))>=int(payment.Paidamount):
+                num_of_months = math.floor(int(subscription.Extra+int(amount))/int(payment.Paidamount))
+                extra = int(subscription.Extra+int(amount)) % int(payment.Paidamount)
+                subscription.Extra =extra
+                subscription.TotalBalance = int(subscription.TotalBalance)-int(num_of_months*int(payment.Paidamount))
+                subscription.save()
+                print(num_of_months)
+                ids=[]
+                for i in range(0,num_of_months):
+                    ids.append(payments[i].id)
+
+                SubscriptionsPayment.objects.filter(id__in=ids).update(Paid=True,PaymentType="Mobile Money",PaymentDate=today,TransID=trans_id)
+
+            else:
+                subscription.Extra=subscription.Extra+amount
+                subscription.save()
+                
 
         subprice = format(subscription.TotalBalance, ",.0f")
         print(subprice)
-        subscription.save()
-        payments = SubscriptionsPayment.objects.filter(
-            Paid=False, SubscriptionsID=subscription.id).order_by('id')
-        payment = payments[0]
-        num_of_months = math.floor(int(amount)/int(payment.Paidamount))
-        extra = int(amount) % int(payment.Paidamount)
-        subscription.Extra = subscription.Extra + extra
         
-        subscription.save()
-        for p in payments:
-            print(p.id)
-        for i in range(0, num_of_months):
-            print(payments[i].id)
-            p = SubscriptionsPayment.objects.get(id=payments[i].id)
-            p.Paid = True
-            p.save()
+            
+        
+        
 
-        customer = Customer.objects.get(id=customer_id)
-        if customer.Language == 'English':
+        
+        if subscription.CustomerID.Language == 'English':
             payload = {
-                'details': f' Dear {customer.FirstName},\nThank you for your installment payment. We confirmed your payment of {format(int(amount), ",.0f")} Rwf For more information about your transaction, please check your app\nYour due balance is : {subprice} Rwf', 'phone': f'25{customer.user.phone}'}
-        if customer.Language == 'Kinyarwanda':
+                'details': f' Dear {subscription.CustomerID.FirstName},\nThank you for your installment payment. We confirmed your payment of {format(int(amount), ",.0f")} Rwf For more information about your transaction, please check your app\nYour due balance is : {subprice} Rwf', 'phone': f'25{subscription.CustomerID.user.phone}'}
+        if subscription.CustomerID.Language == 'Kinyarwanda':
             payload = {
-                'details': f' Mukiriya wacu  {customer.FirstName},\nMurakoze kwishyura konti yanyu. Twemeje ko mwishyuye {format(int(amount), ",.0f")} Rwf Kubindi bisobanuro mwakoresha app \nUmwenda musigaje ni : {subprice} Rwf', 'phone': f'25{customer.user.phone}'}
+                'details': f' Mukiriya wacu  {subscription.CustomerID.FirstName},\nMurakoze kwishyura konti yanyu. Twemeje ko mwishyuye {format(int(amount), ",.0f")} Rwf Kubindi bisobanuro mwakoresha app \nUmwenda musigaje ni : {subprice} Rwf', 'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
         r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
+       

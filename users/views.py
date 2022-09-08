@@ -224,16 +224,12 @@ def sendToken(request, tokenID):
 def troubleshoot(request):
     if request.method == 'POST':
         payment = WaterBuyHistory()
-        if request.POST['customer'] != '':
-            customer = Customer.objects.only('id').get(
-                id=request.POST['customer'])
-            payment.Customer = customer
-
-        if request.POST['meter'] != '':
-            meter = Meters.objects.only('id').get(
-                id=int(request.POST['meter']))
-            payment.Meternumber = meter
-
+        customer = Customer.objects.only('id').get(
+            id=request.POST['customer'])
+        payment.Customer = customer
+        meter = Meters.objects.only('id').get(
+                id=int(customer.Meternumber.id))
+        payment.Meternumber = meter
         payment.Amount = request.POST['amount']
         payment.TransactionID = request.POST['transid']
         payment.PaymentType=request.POST['Ptype']
@@ -3023,7 +3019,7 @@ def ussd_pay_subscription(request):
         body = json.loads(body_unicode)
         print(body)
         check_instalment(body['trans_id'], body['meter_number'],
-                         body['amount'], body['customer_id'])
+                         body['amount'], body['customer_id'],body['sub_id'])
         data = {
             'result': 'Checking instalment payment...',
         }
