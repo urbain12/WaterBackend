@@ -202,6 +202,7 @@ urlpatterns = [
     path('Request/create/',RequestCreateView.as_view()),
     path('Request/list/',RequestListView.as_view()),
     path('requestbyid/<int:user_id>/',Requestlistbyid.as_view()),
+    path('technicianreqbyid/<int:user_id>/',TechReqlistbyid.as_view()),
 
 
     path('register/',register.as_view()),
