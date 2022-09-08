@@ -2653,6 +2653,12 @@ class Requestlistbyid(ListAPIView):
         return Request.objects.filter(user=self.kwargs['user_id'])
 
 
+class TechReqlistbyid(ListAPIView):
+    serializer_class = SubRequestSerializer
+    def get_queryset(self):
+        return subRequest.objects.filter(user=self.kwargs['user_id'])
+
+
 class subRequestCreateView(CreateAPIView):
     queryset = subRequest.objects.all()
     serializer_class = SubRequestSerializer
