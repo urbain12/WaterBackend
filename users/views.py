@@ -3106,49 +3106,56 @@ def pay_subscription(request):
 
 def pay_Water(request):
     if request.method == 'POST':
-
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
-        print(body)
-        meter = Meters.objects.only('id').get(Meternumber=body['Meternumber'])
-        Amount = int(body['Amount'])
-        Phone = body['Phone']
-        totalamount = body['Amount']
-        print(totalamount)
-        pay = WaterBuyHistory()
-        pay.Meternumber = meter
-        pay.Amount = Amount
-        pay.PaymentType =  "Mobile Money"
-        pay.TransactionID =  body['trans_id']
-        users = User.objects.get(phone=Phone)
-        customer = Customer.objects.get(user=users.id)
-        pay.Customer = customer
-        r2 = requests.get(
-            f'http://44.196.8.236:3038/generatePurchase/?payment={totalamount}.00&meternumber={meter.Meternumber}', verify=False)
-        payload = {
-            'details': f' Mukiriya wacu {customer.FirstName}, Kugura amazi ntibyaciyemo.Ongera ugerageze cyangwa uhamagare umukozi wacu abibafashemo\n\n\n Dear Customer {customer.FirstName} , Buying water Failed! Try again or contact our staff!', 'phone': f'25{customer.user.phone}'}
-        if 'tokenlist' in r2.text:
-            token = r2.text.split("tokenlist=", 1)[1]
-            pay.Token = token
-            now = datetime.now()
-            mydate = now.strftime("%d/%m/%Y %H:%M:%S")
+        if WaterBuyHistory.objects.filter(TransactionID=body['trans_id']).exists():
+            data = {
+                'result': 'sorry!!!',
+            }
+            dump = json.dumps(data)
+            return HttpResponse(dump, content_type='application/json')
+        else:
+            print(body)
+            meter = Meters.objects.only('id').get(Meternumber=body['Meternumber'])
+            Amount = int(body['Amount'])
+            Phone = body['Phone']
+            totalamount = body['Amount']
+            print(totalamount)
+            pay = WaterBuyHistory()
+            pay.Meternumber = meter
+            pay.Amount = Amount
+            pay.PaymentType =  "Mobile Money"
+            pay.TransactionID =  body['trans_id']
+            users = User.objects.get(phone=Phone)
+            customer = Customer.objects.get(user=users.id)
+            pay.Customer = customer
+            r2 = requests.get(
+                f'http://44.196.8.236:3038/generatePurchase/?payment={totalamount}.00&meternumber={meter.Meternumber}', verify=False)
+            payload = {
+                'details': f' Mukiriya wacu {customer.FirstName}, Kugura amazi ntibyaciyemo.Ongera ugerageze cyangwa uhamagare umukozi wacu abibafashemo\n\n\n Dear Customer {customer.FirstName} , Buying water Failed! Try again or contact our staff!', 'phone': f'25{customer.user.phone}'}
+            if 'tokenlist' in r2.text:
+                token = r2.text.split("tokenlist=", 1)[1]
+                pay.Token = token
+                now = datetime.now()
+                mydate = now.strftime("%d/%m/%Y %H:%M:%S")
 
-            if customer.Language == 'English':
-                payload = {
-                    'details': f' Dear {customer.FirstName},\nThanks again for buying water. Your token number is : {token} ', 'phone': f'25{customer.user.phone}'}
-            if customer.Language == 'Kinyarwanda':
-                payload = {
-                    'details': f' Mukiriya wacu {customer.FirstName},\nMurakoze kugura amazi. Tokeni yanyu ni: {token} ', 'phone': f'25{customer.user.phone}'}
-        pay.save()
+                if customer.Language == 'English':
+                    payload = {
+                        'details': f' Dear {customer.FirstName},\nThanks again for buying water. Your token number is : {token} ', 'phone': f'25{customer.user.phone}'}
+                if customer.Language == 'Kinyarwanda':
+                    payload = {
+                        'details': f' Mukiriya wacu {customer.FirstName},\nMurakoze kugura amazi. Tokeni yanyu ni: {token} ', 'phone': f'25{customer.user.phone}'}
+            pay.save()
 
-        headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
-                          headers=headers, data=payload, verify=False)
-        data = {
-            'result': 'Payment done successfully!!!',
-        }
-        dump = json.dumps(data)
-        return HttpResponse(dump, content_type='application/json')
+            headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+            r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+                            headers=headers, data=payload, verify=False)
+            data = {
+                'result': 'Payment done successfully!!!',
+            }
+            dump = json.dumps(data)
+            return HttpResponse(dump, content_type='application/json')
+
 
 
 def GetCustomer(request, phone_number):
