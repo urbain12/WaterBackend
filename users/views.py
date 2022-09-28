@@ -4065,10 +4065,15 @@ def export_receipts(request):
     Receipts = WaterBuyHistory.objects.all()
     inumatoken = []
     for rec in Receipts:
-
+        if rec.Customer:
+            names=rec.Customer.FirstName+' '+rec.Customer.LastName
+            phone=rec.Customer.user.phone
+        else:
+            names='-'
+            phone='-'
         allreceipts = [
-            rec.Customer.FirstName+' '+rec.Customer.LastName,
-            rec.Customer.user.phone,
+            names,
+            phone,
             rec.Meternumber,
             rec.Amount + 'Rwf',
             rec.Amount + 'Ltr',
