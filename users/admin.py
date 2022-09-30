@@ -11,11 +11,17 @@ class CustomerAdmin(ImportExportModelAdmin):
     list_display = ['id','user','FirstName','LastName','IDnumber','Province','District','Sector','Cell','Language','Meternumber']
     resource_class = CustomerResource
 admin.site.register(Customer, CustomerAdmin)
+
+class WaterBuyHistoryAdmin(ImportExportModelAdmin):
+    list_display = ['id','Customer','Amount','Meternumber','TransactionID','PaymentType']
+    resource_class = CustomerResource
+admin.site.register(WaterBuyHistory, WaterBuyHistoryAdmin)
+
+
 class MetersAdmin(ImportExportModelAdmin):
     list_display = ['id','Meternumber']
     resource_class = MetersResource
 admin.site.register(Meters, MetersAdmin)
-admin.site.register(WaterBuyHistory)
 admin.site.register(Category)
 admin.site.register(Subscriptions)
 admin.site.register(SubscriptionsPayment)
