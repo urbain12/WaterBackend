@@ -16,6 +16,10 @@ class MetersResource(resources.ModelResource):
         model = Meters
         fields = ['id','Meternumber']
 
+class WaterBuyResource(resources.ModelResource):
+    class Meta:
+        model = User
+        fields = ['id','Customer','Amount','Meternumber','Token','TransactionID']
 
 
 
