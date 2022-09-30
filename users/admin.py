@@ -15,7 +15,10 @@ class MetersAdmin(ImportExportModelAdmin):
     list_display = ['id','Meternumber']
     resource_class = MetersResource
 admin.site.register(Meters, MetersAdmin)
-admin.site.register(WaterBuyHistory)
+class WaterBuyAdmin(ImportExportModelAdmin):
+    list_display = ['id','Customer','Amount','Meternumber','Token','TransactionID']
+    resource_class = WaterBuyResource
+admin.site.register(WaterBuyHistory,WaterBuyAdmin)
 admin.site.register(Category)
 admin.site.register(Subscriptions)
 admin.site.register(SubscriptionsPayment)
