@@ -3132,6 +3132,7 @@ def pay_Water(request):
             users = User.objects.get(phone=Phone)
             customer = Customer.objects.get(user=users.id)
             pay.Customer = customer
+            pay.save()
             r2 = requests.get(
                 f'http://44.196.8.236:3038/generatePurchase/?payment={totalamount}.00&meternumber={meter.Meternumber}', verify=False)
             payload = {
