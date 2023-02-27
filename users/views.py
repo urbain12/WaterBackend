@@ -600,6 +600,7 @@ def update_customer(request, customerID):
         customer.Sector = request.POST['Sector']
         customer.Cell = request.POST['Cell']
         customer.Language = request.POST['Language']
+        customer.customerType = request.POST['ctype']
         if request.POST['Meternumber'] != '':
             meter = Meters.objects.only('id').get(
                 id=int(request.POST['Meternumber']))
@@ -611,7 +612,8 @@ def update_customer(request, customerID):
         updatecustomer = Customer.objects.get(id=customerID)
         Meter = Meters.objects.all()
         english = updatecustomer.Language == 'English'
-        return render(request, 'update_customer.html', {'updatecustomer': updatecustomer, 'english': english, 'Meter': Meter})
+        kiosque = updatecustomer.customerType == 'Kiosk'
+        return render(request, 'update_customer.html', {'updatecustomer': updatecustomer, 'english': english, 'Meter': Meter,'kiosque':kiosque})
 
 
 def deleteCustomer(request, customerID):
@@ -1640,6 +1642,7 @@ def Addcustomers(request):
         Addcustomers.Sector = request.POST['Sector']
         Addcustomers.Cell = request.POST['Cell']
         Addcustomers.Language = request.POST['Language']
+        Addcustomers.customerType = request.POST['ctype']
         if request.POST['Meternumber'] != '':
             meter = Meters.objects.only('id').get(
                 id=int(request.POST['Meternumber']))
@@ -4075,6 +4078,7 @@ def export_receipts(request):
         if rec.Customer:
             names=rec.Customer.FirstName+' '+rec.Customer.LastName
             phone=rec.Customer.user.phone
+            type_=rec.Customer.customerType
         else:
             names='-'
             phone='-'
@@ -4083,7 +4087,7 @@ def export_receipts(request):
             phone,
             rec.Meternumber,
             rec.Amount + 'Rwf',
-            rec.Amount + 'Ltr',
+            str(int(rec.Amount)/1.25) + 'Ltr' if type_=='Kiosk' else rec.Amount + 'Ltr',
             rec.Token,
             rec.created_at,
 

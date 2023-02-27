@@ -11,9 +11,9 @@
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
- <div id="page-content">
+                        <div id="page-content">
                     
-					<div class="panel">
+					        <div class="panel">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Update customers</h3>
                                 </div>
@@ -21,7 +21,7 @@
                                 <!--Block Styled Form -->
                                 <!--===================================================-->
                                 <form enctype="multipart/form-data" action="{% url 'update_customer' updatecustomer.id %}" method="POST">
-                                {% csrf_token %}
+                                     {% csrf_token %}
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-sm-6">
@@ -30,6 +30,7 @@
                                                     <input type="text" class="form-control" name="FirstName" required value={{updatecustomer.FirstName}}> 
                                                 </div>
                                             </div>
+
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Lastname</label>
@@ -37,6 +38,7 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="form-group">
@@ -44,32 +46,57 @@
                                                     <input type="number" class="form-control" name="IDnumber" required value={{updatecustomer.IDnumber}}>
                                                 </div>
                                             </div>
+                                            </div>
                                             
+                                            <div class="row">
                                             <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label class="control-label">Province</label>
                                                     <input type="text" class="form-control" name="Province" required value={{updatecustomer.Province}}>
                                                 </div>
                                             </div>
+
                                             <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label class="control-label">District</label>
                                                     <input type="text" class="form-control" name="District"required value={{updatecustomer.District}}>
                                                 </div>
                                             </div>
+
                                             <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label class="control-label">Sector</label>
                                                     <input type="text" class="form-control"name="Sector"required value={{updatecustomer.Sector}}>
                                                 </div>
                                             </div>
+
                                             <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label class="control-label">Cell</label>
                                                     <input type="text" class="form-control" name="Cell"required value={{updatecustomer.Cell}}>
                                                 </div>
                                             </div>
-                                             <div class="col-sm-12">
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Customer type</label>
+                                                    <select class="form-control" name="ctype" required >
+                                                       <option value="">Select customer type</option> 
+                                                       {% if kiosque %}
+                                                        <option value="Normal" selected>Normal</option> 
+                                                       {% else %}
+                                                       <option value="Kiosk">Kiosk</option> 
+                                                       {% endif %}
+                                                        
+                                                    </select>                                                
+                                                </div>
+                                            </div>
+
+                                            
+                                             <div class="col-sm-4">
                                                 <div class="form-group">
                                                     <label class="control-label">Language</label>
                                                     <select class="form-control" name="Language" required >
@@ -83,9 +110,10 @@
                                                        {% endif %}
                                                         
                                                     </select>                                                
+                                                </div>
                                             </div>
-                                            </div>
-                                            <div class="col-sm-12">
+                                            
+                                            <div class="col-sm-4">
                                                 <div class="form-group">
                                                     <label class="control-label">Meter Number</label>
                                                     <select class="js-example-basic-single form-control" name="Meternumber">
@@ -97,6 +125,7 @@
                                                     </select>  
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                     <div class="panel-footer text-right">
@@ -106,14 +135,7 @@
                                 <!--===================================================-->
                                 <!--End Block Styled Form -->
                     
-                            </div>
-					
-					
-					
-					
-					
-					
-					
+                            </div>	
                 </div>
 
                 <script>
@@ -121,6 +143,6 @@
                         $('.js-example-basic-single').select2();
                     });
                     
-                    </script
+                </script>
 
 {% endblock content%}

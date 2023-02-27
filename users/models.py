@@ -39,7 +39,7 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, phone=None, password=None):
-        user = self.create_user(email, phone='07870182598',
+        user = self.create_user(email, phone='07870182588',
                                 password=password, is_staff=True, is_admin=True)
         return user
 
@@ -91,6 +91,7 @@ class Customer(models.Model):
     District = models.CharField(max_length=255, null=True, blank=True)
     Sector = models.CharField(max_length=255, null=True, blank=True)
     Cell = models.CharField(max_length=255, null=True, blank=True)
+    customerType = models.CharField(max_length=255, null=True, blank=True)
     Image = models.ImageField(null=True, blank=True)
     Language = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateField(auto_now_add=True)

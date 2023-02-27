@@ -72,11 +72,16 @@
                                     <tbody>
                                     {% for history in page_obj %}
                                     <tr>
-                                            <td>{{history.Customer.FirstName}} {{history.Customer.LastName}}</td>
+                                            <td>{{history.Customer.FirstName}} {{history.Customer.customerType}}</td>
                                             <td>{{history.Customer.user.phone}}</td>
                                             <td>{{history.Meternumber}}</td>
                                             <td>{{history.Amount|intcomma}} Rwf</td>
-                                            <td>{{history.Amount}}Ltr</td>
+                                            
+                                            {% if history.Customer.customerType == "Kiosk" %}
+                                                <td>{{history.Amount|div:1.25}}Ltr</td>
+                                            {%else%}
+                                                <td>{{history.Amount}}Ltr</td>
+                                            {%endif%}
                                             <td>{{history.Token}}</td>
                                             <td>{{history.TransactionID}}</td>
                                             <td>{{history.created_at|date:'d/m/Y'}}</td>
