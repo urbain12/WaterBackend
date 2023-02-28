@@ -216,7 +216,7 @@ def sendToken(request, tokenID):
         payload = {'details': f' Mukiriya wacu {waterreceipt.Customer.FirstName},\nTokeni yamazi mwaguze :: {waterreceipt.Token} ',
                    'phone': f'25{waterreceipt.Customer.user.phone}'}
     headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-    r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+    r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                       headers=headers, data=payload, verify=False)
     return redirect('Receipts')
 
@@ -248,7 +248,7 @@ def troubleshoot(request):
             payload = {'details': f' Mukiriya wacu {payment.Customer.FirstName},\nTokeni yamazi mwaguze :: {payment.Token} ',
                     'phone': f'25{payment.Customer.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                         headers=headers, data=payload, verify=False)
         return redirect('Receipts')
     else:
@@ -457,7 +457,7 @@ def add_payment(request, subscriptionID):
             payload = {
                 'details': f' Mukiriya wacu  {subscription.CustomerID.FirstName},\nMurakoze kwishyura konti yanyu. Twemeje ko mwishyuye {format(int(amount), ",.0f")} Rwf Kubindi bisobanuro mwakoresha app \nUmwenda musigaje ni : {subprice} Rwf', 'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
         return redirect('Subscriptions')
     else:
@@ -541,7 +541,7 @@ def reply(request, requestID):
             payload = {'details': f' Mukiriya wacu {req.Names},\nWater Access Rwanda twabohereje igisubizo: {req.reply} \n',
                        'phone': f'25{req.phonenumber}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
         return redirect('requestor')
     else:
@@ -566,7 +566,7 @@ def Techreply(request, requestID):
             payload = {'details': f' Mukiriya wacu  {req.Names},\n Twakiriye neza ubusabe bwanyu bwumutenisiye, kandi hari ugiye kubahamagara mu mwanya muto abafashe.  \nizina ryumutekinisiye uzabafasha:{req.techname}\nnumero ye ni :{req.techphone}\nazaza tariki: {req.techdate}',
                        'phone': f'25{req.phonenumber}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
         return redirect('subrequest')
     else:
@@ -649,7 +649,7 @@ def notify(request, subID):
         payload = {'details': f' Dear {subscription.CustomerID.FirstName},\n \n It is time to pay water ',
                    'phone': f'25{subscription.CustomerID.user.phone}'}
     headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-    r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+    r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                       headers=headers, data=payload, verify=False)
     return redirect('Subscriptions')
 
@@ -660,7 +660,7 @@ def send_app_link(request):
                    'phone': f'25{request.POST["phone"]}'}
 
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
         return redirect('dashboard')
     else:
@@ -1112,7 +1112,7 @@ def operator(request):
                 else:
                     payload = {'details': f' Dear Customer,\nYou have been registered successfully\nYour credentials to login in mobile app are:\nPhone:{my_phone}\nEmail:{my_email}\npassword:{password}\n\n Download the application through\n http://shorturl.at/qEQZ2', 'phone': f'25{my_phone}'}
                 headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-                r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+                r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                                   headers=headers, data=payload, verify=False)
             return redirect('add_customer')
     return render(request, 'operator.html')
@@ -1585,7 +1585,7 @@ def reset_password(request, userID):
     user.save()
     payload = {'details': f' Dear {customer.FirstName},\nWe received a request to reset the password of your account. \nPlease use this code:{password} \nTo confirm your request.', 'phone': f'25{my_phone}'}
     headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-    r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+    r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                       headers=headers, data=payload, verify=False)
     return redirect('user')
 
@@ -1856,7 +1856,7 @@ def approve_subscription(request, subID):
             payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nTurangije kwemeza ubasabe bwanyu kuri servisi zacu,\nifatabuguzi ryaburikwezi ni {Monthly} RWf.',
                        'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
         my_tools = SubscriptionsTools.objects.filter(
             SubscriptionsID=subscription.id)
@@ -1894,7 +1894,7 @@ def approvesubscription(request, subID):
             payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nTurangije kwemeza ubasabe bwanyu kuri servisi zacu,\nifatabuguzi ryaburikwezi ni {Monthly} Rwf.',
                        'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
         return redirect('Subscriptions')
 
@@ -1931,7 +1931,7 @@ def update_subscription(request, subID):
             payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nTurangije guhindura ubasabe bwanyu kuri servisi zacu,\nifatabuguzi ryaburikwezi ni {Monthly} Rwf.',
                        'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
         return redirect('Subscriptions')
     else:
@@ -2004,7 +2004,7 @@ def updatesubs(request, subID):
             payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nTurangije guhindura ubasabe bwanyu kuri servisi zacu,\nifatabuguzi ryaburikwezi ni {Monthly} RWf.',
                        'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
         my_tools = SubscriptionsTools.objects.filter(
             SubscriptionsID=subscription.id)
@@ -2545,7 +2545,7 @@ def check_payment(transID, items, amount, email, address, city, names, phone):
         order.save()
         payload = {'details': f' Dear {names},\n \nThank you for ordering with us. We received your order and will begin processing it soon. Your order information appears below.\nYour order number: WA{transaction_id}', 'phone': f'25{phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
 
         for item in items:
@@ -3090,7 +3090,7 @@ def pay_subscription(request):
             payload = {
                 'details': f' Mukiriya wacu  {subscription.CustomerID.FirstName},\nMurakoze kwishyura konti yanyu. Twemeje ko mwishyuye {format(int(amount), ",.0f")} Rwf Kubindi bisobanuro mwakoresha app \nUmwenda musigaje ni : {subprice} Rwf', 'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
         # subscription=Subscriptions.objects.get(CustomerID=body['customerID'])
         # subscription.TotalBalance=int(subscription.TotalBalance)-int(body['amount'])
@@ -3152,7 +3152,7 @@ def pay_Water(request):
             pay.save()
 
             headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-            r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+            r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                             headers=headers, data=payload, verify=False)
             data = {
                 'result': 'Payment done successfully!!!',
@@ -3467,7 +3467,7 @@ class subscribe(CreateAPIView):
             payload = {'details': f' Mukiliya wacu {subscription.CustomerID.FirstName},\nUrakoze kwiyandikisha kuri App yacu. Mu mwanya muto, byose biraba bitunganye. Mwihangane mu gihe turi kubandika kuri serivisi mwasabye.',
                        'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
         response = {
             'status': 'success',
@@ -3491,7 +3491,7 @@ class reset_passwordView(CreateAPIView):
         user.save()
         payload = {'details': f' Dear {customer.FirstName},\nWe received a request to reset the password of your account.\nPlease use this code:{password} ', 'phone': f'25{my_phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
         response = {
             'status': 'success',
@@ -3528,7 +3528,7 @@ class register(CreateAPIView):
             my_phone = request.data['phone']
             payload = {'details': f' Dear Customer,\nYou have been successfully registered. Here are your credentials to login in mobile app:\nPhone:{request.data["phone"]}\npassword:{password}\n\nPlease follow the provided link below to download our mobile application.\n Android: http://shorturl.at/qEQZ2 \n IOS:http://shorturl.at/tDEG0', 'phone': f'25{request.data["phone"]}'}
             headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-            r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+            r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                                 headers=headers, data=payload, verify=False)
             customer = Customer()
             customer.user = user

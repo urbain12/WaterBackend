@@ -15,7 +15,7 @@ def send_otp_to_phone(phone):
         payload = {
                 'details': f' Use this code to verify your phone number,\n code: {otp}', 'phone': f'25{phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
         return otp
     except Exception as e:
@@ -152,7 +152,7 @@ def check_transaction(trans_id, meter_number, amount, phone):
         pay.save()
 
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
 
 
@@ -227,6 +227,6 @@ def check_instalment(trans_id, meter_number, amount, customer_id,sub_id):
             payload = {
                 'details': f' Mukiriya wacu  {subscription.CustomerID.FirstName},\nMurakoze kwishyura konti yanyu. Twemeje ko mwishyuye {format(int(amount), ",.0f")} Rwf Kubindi bisobanuro mwakoresha app \nUmwenda musigaje ni : {subprice} Rwf', 'phone': f'25{subscription.CustomerID.user.phone}'}
         headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-        r = requests.post('https://float.tapandgoticketing.co.rw/api/send-sms-water_access',
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
                           headers=headers, data=payload, verify=False)
        
