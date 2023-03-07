@@ -3049,13 +3049,13 @@ def pay_subscription(request):
         if int(amount) >= int(subscription.TotalBalance):
             subscription.Extra = subscription.Extra + (int(amount)-int(subscription.TotalBalance))
             subscription.TotalBalance = 0
-            SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="Mobile Money",PaymentDate=today,TransID=body['trans_id'])
+            SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="App",PaymentDate=today,TransID=body['trans_id'])
             subscription.save()
         else:
             if (subscription.Extra+int(amount))>=int(subscription.TotalBalance):
                 subscription.Extra = (int(subscription.Extra+int(amount))-int(subscription.TotalBalance))
                 subscription.TotalBalance = 0
-                SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="Mobile Money",PaymentDate=today,TransID=body['trans_id'])
+                SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="App",PaymentDate=today,TransID=body['trans_id'])
                 subscription.save()
             elif (subscription.Extra+int(amount))>=int(payment.Paidamount):
                 num_of_months = math.floor(int(subscription.Extra+int(amount))/int(payment.Paidamount))
@@ -3068,7 +3068,7 @@ def pay_subscription(request):
                 for i in range(0,num_of_months):
                     ids.append(payments[i].id)
 
-                SubscriptionsPayment.objects.filter(id__in=ids).update(Paid=True,PaymentType="Mobile Money",PaymentDate=today,TransID=body['trans_id'])
+                SubscriptionsPayment.objects.filter(id__in=ids).update(Paid=True,PaymentType="App",PaymentDate=today,TransID=body['trans_id'])
 
             else:
                 subscription.Extra=subscription.Extra+amount
@@ -3127,7 +3127,7 @@ def pay_Water(request):
             pay = WaterBuyHistory()
             pay.Meternumber = meter
             pay.Amount = Amount
-            pay.PaymentType =  "Mobile Money"
+            pay.PaymentType =  "App"
             pay.TransactionID =  body['trans_id']
             users = User.objects.get(phone=Phone)
             customer = Customer.objects.get(user=users.id)

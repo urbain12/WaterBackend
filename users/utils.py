@@ -131,7 +131,7 @@ def check_transaction(trans_id, meter_number, amount, phone):
         users = User.objects.get(phone=phone)
         customer = Customer.objects.get(user=users.id)
         pay.Customer =  customer
-        pay.PaymentType =  "Mobile Money"
+        pay.PaymentType =  "USSD"
         pay.save()
         r2 = requests.get(
             f'http://44.196.8.236:3038/generatePurchase/?payment={totalamount}.00&meternumber={meter.Meternumber}', verify=False)
@@ -186,13 +186,13 @@ def check_instalment(trans_id, meter_number, amount, customer_id,sub_id):
         if int(amount) >= int(subscription.TotalBalance):
             subscription.Extra = subscription.Extra + (int(amount)-int(subscription.TotalBalance))
             subscription.TotalBalance = 0
-            SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="Mobile Money",PaymentDate=today,TransID=trans_id)
+            SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="USSD",PaymentDate=today,TransID=trans_id)
             subscription.save()
         else:
             if (subscription.Extra+int(amount))>=int(subscription.TotalBalance):
                 subscription.Extra = (int(subscription.Extra+int(amount))-int(subscription.TotalBalance))
                 subscription.TotalBalance = 0
-                SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="Mobile Money",PaymentDate=today,TransID=trans_id)
+                SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="USSD",PaymentDate=today,TransID=trans_id)
                 subscription.save()
             elif (subscription.Extra+int(amount))>=int(payment.Paidamount):
                 num_of_months = math.floor(int(subscription.Extra+int(amount))/int(payment.Paidamount))
@@ -205,7 +205,7 @@ def check_instalment(trans_id, meter_number, amount, customer_id,sub_id):
                 for i in range(0,num_of_months):
                     ids.append(payments[i].id)
 
-                SubscriptionsPayment.objects.filter(id__in=ids).update(Paid=True,PaymentType="Mobile Money",PaymentDate=today,TransID=trans_id)
+                SubscriptionsPayment.objects.filter(id__in=ids).update(Paid=True,PaymentType="USSD",PaymentDate=today,TransID=trans_id)
 
             else:
                 subscription.Extra=subscription.Extra+amount
