@@ -43,34 +43,22 @@
                                                     <label class="control-label">Subscription date</label>
                                                     <input type="date" value="{{subscription.From|date:"Y-m-d"}}"  class="form-control" name="from" required>   
                                                     </div>
-                                                </div>
-                                           
-                                            
-                                            
-                                           {% comment %} <h3 id='my_title'></h3>
-                                            <div class="row" style="margin:10px" id='tools1'>
-                                            
-                                              {% for tool in tools%}
-                                            <div class="col-sm-2">
-                                                <div class="checkbox">
-                                                    <input id="demo-remember-me" value={{tool.Title}} class="magic-checkbox" type="checkbox">
-                                                    <label for="demo-remember-me">{{tool.Title}}</label>
-                                                </div>
-                                            </div>
-                                            {% endfor %}  
-
-                                            </div>
-
-
-                                            <div class="col-sm-12">
-                                                <div class="form-group">
-                                                    <label for="demo-inline-inputmail" class="sr-only">Tools</label>
-                                                    <input type="text" name="tools" id="tools" class="form-control">
-                                                </div>
-                                            </div>{% endcomment %}
-
+                                                </div> 
                                         </div>
                                     </div>
+                                    <div class="panel-heading">
+                                            <h3 class="panel-title">Change {{subscription.CustomerID.FirstName}}'s sediment date in {{subscription.Category.Title}}</h3>
+                                        </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                <label class="control-label">Sediment date</label>
+                                                <input type="date" value="{{subscription.changeDate|date:"Y-m-d"}}"  class="form-control" name="changeDate" required>   
+                                                </div>
+                                            </div> 
+                                        </div>
+                                   </div>
                                     <div class="panel-footer text-right">
                                         <button class="btn btn-block btn-success" type="submit">Confirm</button>
                                     </div>

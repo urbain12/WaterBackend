@@ -153,6 +153,7 @@ class Subscriptions(models.Model):
     discount1 = models.CharField(max_length=255, null=True, blank=True)
     From = models.DateTimeField(blank=True, null=True)
     To = models.DateTimeField(blank=True, null=True)
+    changeDate = models.DateTimeField(blank=True, null=True, default=datetime.datetime.now)
     Tools = models.TextField(max_length=200, blank=True, null=True)
     Total = models.IntegerField(blank=True, null=True)
     InstallmentPeriod = models.IntegerField(blank=True, null=True)

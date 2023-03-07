@@ -1903,9 +1903,11 @@ def approvesubscription(request, subID):
 def update_subscription(request, subID):
     if request.method == 'POST':
         today = datetime.strptime(request.POST['from']+" 13:00:00", '%Y-%m-%d %H:%M:%S')
+        change = datetime.strptime(request.POST['changeDate']+" 13:00:00", '%Y-%m-%d %H:%M:%S')
         SubscriptionsPayment.objects.filter(SubscriptionsID=subID).delete()
         subscription = Subscriptions.objects.get(id=subID)
         subscription.From = today
+        subscription.changeDate = change
         subscription.Total = int(request.POST['amount'])
         subscription.Downpayment = int(request.POST['downpayment'])
         subscription.InstallmentPeriod = int(request.POST['period'])
