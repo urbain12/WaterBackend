@@ -30,6 +30,7 @@ urlpatterns = [
     path('dashboard/',dashboard,name='dashboard'),
     path('operator/',operator,name='operator'),
     path('user/',user,name='user'),
+    path('user_update/<id>/',UserUpdateView.as_view(),name='user_update'),
     path('login/',login,name='login'),
     path('send_otp/',send_otp,name='send_otp'),
     path('verify_otp/',verify_otp,name='verify_otp'),
