@@ -1898,7 +1898,7 @@ def approvesubscription(request, subID):
                           headers=headers, data=payload, verify=False)
         return redirect('Subscriptions')
 
-
+ 
 @login_required(login_url='/login')
 def update_subscription(request, subID):
     if request.method == 'POST':
@@ -1909,7 +1909,7 @@ def update_subscription(request, subID):
         subscription.From = today
         subscription.changeDate = change
         subscription.Total = int(request.POST['amount'])
-        subscription.Downpayment = int(request.POST['downpayment'])
+        subscription.Downpayment = int(request.POST['downpayment']) 
         subscription.InstallmentPeriod = int(request.POST['period'])
         subscription.To = today + timedelta(days=365)
         subscription.save()

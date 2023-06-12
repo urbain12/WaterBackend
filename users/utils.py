@@ -116,10 +116,9 @@ def check_transaction(trans_id, meter_number, amount, phone):
                         trans_id, meter_number, amount, phone])
     t.start()
     r = requests.get(
-        f'http://app.amazi.rw/api/web/index.php?r=v1/app/get-transaction-status&transactionID={trans_id}', headers=headers, verify=False).json()
+        f'http://war.t3ch.rw:8231/wa-api/api/web/index.php?r=v1/app/get-transaction-status&transactionID=9775763180', headers=headers, verify=False).json()
+    print(r)
     res = json.loads(r)
-    print(res[0]['payment_status'])
-
     if res[0]['payment_status'] == 'SUCCESSFUL':
         t.cancel()
         meter = Meters.objects.get(Meternumber=meter_number)
