@@ -2531,7 +2531,7 @@ def check_payment(transID, items, amount, email, address, city, names, phone):
                         transID, items, amount, email, address, city, names, phone])
     t.start()
     r = requests.get(
-        f'http://app.amazi.rw/api/web/index.php?r=v1/app/get-transaction-status&transactionID={transID}', headers=headers, verify=False).json()
+        f'http://war.t3ch.rw:8231/wa-api/api/web/index.php?r=v1/app/get-transaction-status&transactionID={transID}', headers=headers, verify=False).json()
     res = json.loads(r)
     print(res[0]['payment_status'])
 
@@ -2600,7 +2600,7 @@ def pay(request):
 
         print(payload)
 
-        r = requests.post('http://app.amazi.rw/api/web/index.php?r=v1/app/send-transaction',
+        r = requests.post('http://war.t3ch.rw:8231/wa-api/api/web/index.php?r=v1/app/send-transaction',
                           json=payload, headers=headers, verify=False).json()
         res = json.loads(r)
         check_payment(res['transactionid'], items, amount,
