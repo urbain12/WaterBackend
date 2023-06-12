@@ -2695,6 +2695,11 @@ class ServiceUpdateView(UpdateAPIView):
     serializer_class = ServiceSerializer
     lookup_field = 'id'
 
+class UserUpdateView(UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = 'id'
+
 
 class CustomerListView(ListAPIView):
     queryset = Customer.objects.all()

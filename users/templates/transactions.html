@@ -130,8 +130,10 @@
                     function printDiv() {
                         var divContents = document.getElementById("onlytable").innerHTML;
                         var a = window.open('', '', 'height=2000, width=2000');
-                        a.document.write('<html> <title');
-                        a.document.write('<body> <h1>Transactions<br>');
+                        a.document.write('<html> ');
+                        a.document.write('<body>');
+                        a.document.write('<img height=100px src="{% static "img/header.png" %}">');
+                        a.document.write('<h1>Transactions<br>');
                         a.document.write(divContents);
                         a.document.write('</body></html>');
                         a.document.close();
@@ -144,8 +146,10 @@
                     function printDiv2() {
                         var divContents = document.getElementById("onlytable2").innerHTML;
                         var a = window.open('', '', 'height=2000, width=2000');
-                        a.document.write('<html> <title');
-                        a.document.write('<body> <h1>Wter Buy Transactions<br>');
+                        a.document.write('<html> ');
+                        a.document.write('<body>');
+                        a.document.write('<img height=100px src="{% static "img/header.png" %}">');
+                        a.document.write('<h1>Water Buy Transactions<br>');
                         a.document.write(divContents);
                         a.document.write('</body></html>');
                         a.document.close();
