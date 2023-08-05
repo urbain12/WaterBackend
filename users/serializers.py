@@ -24,6 +24,16 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = '__all__'
+
+class catridgeOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderTools
+        fields = '__all__'
         
 class backgroundSerializer(serializers.ModelSerializer):
     class Meta:
@@ -174,4 +184,37 @@ class ChangePasswordSerializer(serializers.Serializer):
     user_id = serializers.CharField(required=True)
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
+
+
+
+class orderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = ('id','product','order','quantity','date_added','get_total')
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if data['product'] is not None:
+            data['product'] = ProductSerializer(
+                Product.objects.get(pk=data['product'])).data
+        if data['order'] is not None:
+            data['order'] = OrderSerializer(
+                Order.objects.get(pk=data['order'])).data
+        return data
+    
+
+class catridgesrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItemTool
+        fields = ('id','Tool','order','quantity','date_added','get_total')
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if data['Tool'] is not None:
+            data['Tool'] = ToolsSerializer(
+                Product.objects.get(pk=data['Tool'])).data
+        if data['order'] is not None:
+            data['order'] = catridgeOrderSerializer(
+                OrderTools.objects.get(pk=data['order'])).data
+        return data
     

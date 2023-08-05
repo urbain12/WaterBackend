@@ -1430,6 +1430,14 @@ def orders(request):
     page_obj = paginator.get_page(page_number)
     return render(request, 'orders.html', {'orders': orders, 'page_obj': page_obj,'numoforder':numoforder,'numofdeliv':numofdeliv})
 
+class orderItemListView(ListAPIView):
+    queryset = OrderItem.objects.all()
+    serializer_class = orderItemSerializer
+
+class catridgesOrderItemListView(ListAPIView):
+    queryset = OrderItemTool.objects.all()
+    serializer_class = catridgesrderItemSerializer
+
 
 @login_required(login_url='/login')
 def not_deliveredorder(request, notdelivID):

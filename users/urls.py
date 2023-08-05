@@ -164,24 +164,15 @@ urlpatterns = [
     path('export/quotation/<int:SubscriptionsID>/<int:customerID>',export_quotation_csv, name='export_quotation_csv'),
     url(r'^export/receipts/$',export_receipts, name='export_receipts'),
 
-
     #blog
     path('unpublish/<int:unpublishID>',unpublish,name="unpublish"),
     path('publishblog/<int:publishID>',publishblog,name="publishblog"),
-
-
-
-
-    
+ 
     #MOBILE
     path('Productlist/',ProductListView.as_view()),
     path('backgroundlist/',backgroundListView.as_view()),
     path('api/change-password/', ChangePasswordView.as_view()),
     path('api/resetpassword/', reset_passwordView.as_view()),
-
-
-
-
 
 
     path('Language/',LanguageListView.as_view()),
@@ -281,4 +272,10 @@ urlpatterns = [
 
 
     path('session/',Sessionhold,name='Sessionhold'),
+
+    # New api
+    path('waterbuy/transaction',WaterBuyHistoryListView.as_view()),
+    path('services/installments',SubscriptionsListView.as_view()),
+    path('product/orders',orderItemListView.as_view()),
+    path('catridges/orders',catridgesOrderItemListView.as_view()),
 ]
