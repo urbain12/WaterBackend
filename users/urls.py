@@ -277,5 +277,5 @@ urlpatterns = [
     path('waterbuy/transaction',WaterBuyHistoryListView.as_view()),
     path('services/installments',SubscriptionsListView.as_view()),
     path('product/orders',orderItemListView.as_view()),
-    path('catridges/orders',catridgesOrderItemListView.as_view()),
+    path('catridge/orders',catridgesOrderItemListView.as_view()),
 ]
