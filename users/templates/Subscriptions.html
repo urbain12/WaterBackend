@@ -170,8 +170,8 @@
                             <div class="pagination">
                                 <span class="step-links">
                                     {% if page_obj.has_previous %}
-                                        <a class="btn btn-primary mb-4" href="?page=1">&laquo; first</a>
-                                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.previous_page_number }}">previous</a>
+                                        <a class="btn btn-primary mb-4" href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">&laquo; first</a>
+                                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">previous</a>
                                     {% endif %}
                 
                                     <span class="current">
@@ -179,8 +179,8 @@
                                     </span>
                 
                                     {% if page_obj.has_next %}
-                                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.next_page_number }}">next</a>
-                                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">next</a>
+                                        <a class="btn btn-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">last &raquo;</a>
                                     {% endif %}
                                 </span>
                             </div>

@@ -201,7 +201,7 @@ def Receipts(request):
                 customers_ids.append(cust.id)
             waterhistory = WaterBuyHistory.objects.filter(
                 Customer__in=customers_ids)
-        paginator = Paginator(waterhistory, 6)
+        paginator = Paginator(waterhistory, 1)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         return render(request, 'Receipt.html', {'waterhistory': waterhistory, 'page_obj': page_obj})
