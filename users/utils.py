@@ -8,7 +8,6 @@ import string
 from datetime import date, datetime
 import random
 
-elapsed_time = 0
 def send_otp_to_phone(phone):
     try:
         otp=random.randint(1000,9999)
@@ -103,7 +102,6 @@ def guestOrder(request, data):
 
 
 def check_transaction(trans_id, meter_number, amount, phone):
-    global elapsed_time
     headers = {
         "Content-Type": "application/json",
         "app-type": "none",
@@ -120,48 +118,43 @@ def check_transaction(trans_id, meter_number, amount, phone):
         f'http://war.t3ch.rw:8231/wa-api/api/web/index.php?r=v1/app/get-transaction-status&transactionID={trans_id}', headers=headers, verify=False).json()
     print(r)
     res = json.loads(r)
-    if elapsed_time < 250:
-        elapsed_time += 10
-        if res[0]['payment_status'] == 'SUCCESSFUL':
-            t.cancel()
-            meter = Meters.objects.get(Meternumber=meter_number)
-            pay = WaterBuyHistory()
-            pay.Meternumber = meter
-            pay.Amount = amount
-            pay.TransactionID = trans_id
-            totalamount = str(amount)
-            users = User.objects.get(phone=phone)
-            customer = Customer.objects.get(user=users.id)
-            pay.Customer =  customer
-            pay.PaymentType =  "USSD"
-            pay.save()
-            r2 = requests.get(
-                f'http://44.196.8.236:3038/generatePurchase/?payment={totalamount}.00&meternumber={meter.Meternumber}', verify=False)
-            payload = {
-                'details': f' Mukiriya wacu {customer.FirstName}, Kugura amazi ntibyaciyemo.Ongera ugerageze cyangwa uhamagare umukozi wacu abibafashemo\n\n\n Dear Customer {customer.FirstName} , Buying water Failed! Try again or contact our staff!', 'phone': f'25{customer.user.phone}'}
-            if 'tokenlist' in r2.text:
-                token = r2.text.split("tokenlist=", 1)[1]
-                pay.Token = token
-                now = datetime.now()
-                mydate = now.strftime("%d/%m/%Y %H:%M:%S")
-
-                if customer.Language == 'English':
-                    payload = {
-                        'details': f' Dear {customer.FirstName},\nThanks again for buying water. Your token number is : {token} ', 'phone': f'25{customer.user.phone}'}
-                if customer.Language == 'Kinyarwanda':
-                    payload = {
-                        'details': f' Mukiriya wacu {customer.FirstName},\nMurakoze kugura amazi. Tokeni yanyu ni: {token} ', 'phone': f'25{customer.user.phone}'}
-            pay.save()
-
-            headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-            r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
-                            headers=headers, data=payload, verify=False)
-    else:
+    if res[0]['payment_status'] == 'SUCCESSFUL':
         t.cancel()
+        meter = Meters.objects.get(Meternumber=meter_number)
+        pay = WaterBuyHistory()
+        pay.Meternumber = meter
+        pay.Amount = amount
+        pay.TransactionID = trans_id
+        totalamount = str(amount)
+        users = User.objects.get(phone=phone)
+        customer = Customer.objects.get(user=users.id)
+        pay.Customer =  customer
+        pay.PaymentType =  "USSD"
+        pay.save()
+        r2 = requests.get(
+            f'http://44.196.8.236:3038/generatePurchase/?payment={totalamount}.00&meternumber={meter.Meternumber}', verify=False)
+        payload = {
+            'details': f' Mukiriya wacu {customer.FirstName}, Kugura amazi ntibyaciyemo.Ongera ugerageze cyangwa uhamagare umukozi wacu abibafashemo\n\n\n Dear Customer {customer.FirstName} , Buying water Failed! Try again or contact our staff!', 'phone': f'25{customer.user.phone}'}
+        if 'tokenlist' in r2.text:
+            token = r2.text.split("tokenlist=", 1)[1]
+            pay.Token = token
+            now = datetime.now()
+            mydate = now.strftime("%d/%m/%Y %H:%M:%S")
+
+            if customer.Language == 'English':
+                payload = {
+                    'details': f' Dear {customer.FirstName},\nThanks again for buying water. Your token number is : {token} ', 'phone': f'25{customer.user.phone}'}
+            if customer.Language == 'Kinyarwanda':
+                payload = {
+                    'details': f' Mukiriya wacu {customer.FirstName},\nMurakoze kugura amazi. Tokeni yanyu ni: {token} ', 'phone': f'25{customer.user.phone}'}
+        pay.save()
+
+        headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
+                          headers=headers, data=payload, verify=False)
 
 
 def check_instalment(trans_id, meter_number, amount, customer_id,sub_id):
-    global elapsed_time
     headers = {
         "Content-Type": "application/json",
         "app-type": "none",
@@ -178,64 +171,60 @@ def check_instalment(trans_id, meter_number, amount, customer_id,sub_id):
         f'http://war.t3ch.rw:8231/wa-api/api/web/index.php?r=v1/app/get-transaction-status&transactionID={trans_id}', headers=headers, verify=False).json()
     res = json.loads(r)
     print(res[0]['payment_status'])
-    if elapsed_time < 250:
-        elapsed_time += 10
-        if res[0]['payment_status'] == 'SUCCESSFUL':
-            t.cancel()
-            today = datetime.today()
-            subscription = Subscriptions.objects.get(id=sub_id)
-            payments_ = SubscriptionsPayment.objects.filter( SubscriptionsID=subscription.id).order_by('id')
-            payments = SubscriptionsPayment.objects.filter(
-                    Paid=False, SubscriptionsID=subscription.id).order_by('id')
-            payment = payments_[0]
 
-            if int(amount) >= int(subscription.TotalBalance):
-                subscription.Extra = subscription.Extra + (int(amount)-int(subscription.TotalBalance))
+    if res[0]['payment_status'] == 'SUCCESSFUL':
+        t.cancel()
+        today = datetime.today()
+        subscription = Subscriptions.objects.get(id=sub_id)
+        payments_ = SubscriptionsPayment.objects.filter( SubscriptionsID=subscription.id).order_by('id')
+        payments = SubscriptionsPayment.objects.filter(
+                Paid=False, SubscriptionsID=subscription.id).order_by('id')
+        payment = payments_[0]
+
+        if int(amount) >= int(subscription.TotalBalance):
+            subscription.Extra = subscription.Extra + (int(amount)-int(subscription.TotalBalance))
+            subscription.TotalBalance = 0
+            SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="USSD",PaymentDate=today,TransID=trans_id)
+            subscription.save()
+        else:
+            if (subscription.Extra+int(amount))>=int(subscription.TotalBalance):
+                subscription.Extra = (int(subscription.Extra+int(amount))-int(subscription.TotalBalance))
                 subscription.TotalBalance = 0
                 SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="USSD",PaymentDate=today,TransID=trans_id)
                 subscription.save()
+            elif (subscription.Extra+int(amount))>=int(payment.Paidamount):
+                num_of_months = math.floor(int(subscription.Extra+int(amount))/int(payment.Paidamount))
+                extra = int(subscription.Extra+int(amount)) % int(payment.Paidamount)
+                subscription.Extra =extra
+                subscription.TotalBalance = int(subscription.TotalBalance)-int(num_of_months*int(payment.Paidamount))
+                subscription.save()
+                print(num_of_months)
+                ids=[]
+                for i in range(0,num_of_months):
+                    ids.append(payments[i].id)
+
+                SubscriptionsPayment.objects.filter(id__in=ids).update(Paid=True,PaymentType="USSD",PaymentDate=today,TransID=trans_id)
+
             else:
-                if (subscription.Extra+int(amount))>=int(subscription.TotalBalance):
-                    subscription.Extra = (int(subscription.Extra+int(amount))-int(subscription.TotalBalance))
-                    subscription.TotalBalance = 0
-                    SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="USSD",PaymentDate=today,TransID=trans_id)
-                    subscription.save()
-                elif (subscription.Extra+int(amount))>=int(payment.Paidamount):
-                    num_of_months = math.floor(int(subscription.Extra+int(amount))/int(payment.Paidamount))
-                    extra = int(subscription.Extra+int(amount)) % int(payment.Paidamount)
-                    subscription.Extra =extra
-                    subscription.TotalBalance = int(subscription.TotalBalance)-int(num_of_months*int(payment.Paidamount))
-                    subscription.save()
-                    print(num_of_months)
-                    ids=[]
-                    for i in range(0,num_of_months):
-                        ids.append(payments[i].id)
-
-                    SubscriptionsPayment.objects.filter(id__in=ids).update(Paid=True,PaymentType="USSD",PaymentDate=today,TransID=trans_id)
-
-                else:
-                    subscription.Extra=subscription.Extra+amount
-                    subscription.save()
-                    
-
-            subprice = format(subscription.TotalBalance, ",.0f")
-            print(subprice)
-            
+                subscription.Extra=subscription.Extra+amount
+                subscription.save()
                 
-            
-            
 
-            
-            if subscription.CustomerID.Language == 'English':
-                payload = {
-                    'details': f' Dear {subscription.CustomerID.FirstName},\nThank you for your installment payment. We confirmed your payment of {format(int(amount), ",.0f")} Rwf For more information about your transaction, please check your app\nYour due balance is : {subprice} Rwf', 'phone': f'25{subscription.CustomerID.user.phone}'}
-            if subscription.CustomerID.Language == 'Kinyarwanda':
-                payload = {
-                    'details': f' Mukiriya wacu  {subscription.CustomerID.FirstName},\nMurakoze kwishyura konti yanyu. Twemeje ko mwishyuye {format(int(amount), ",.0f")} Rwf Kubindi bisobanuro mwakoresha app \nUmwenda musigaje ni : {subprice} Rwf', 'phone': f'25{subscription.CustomerID.user.phone}'}
-            headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-            r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
-                            headers=headers, data=payload, verify=False)
+        subprice = format(subscription.TotalBalance, ",.0f")
+        print(subprice)
         
-    else:
-        t.cancel()
+            
+        
+        
+
+        
+        if subscription.CustomerID.Language == 'English':
+            payload = {
+                'details': f' Dear {subscription.CustomerID.FirstName},\nThank you for your installment payment. We confirmed your payment of {format(int(amount), ",.0f")} Rwf For more information about your transaction, please check your app\nYour due balance is : {subprice} Rwf', 'phone': f'25{subscription.CustomerID.user.phone}'}
+        if subscription.CustomerID.Language == 'Kinyarwanda':
+            payload = {
+                'details': f' Mukiriya wacu  {subscription.CustomerID.FirstName},\nMurakoze kwishyura konti yanyu. Twemeje ko mwishyuye {format(int(amount), ",.0f")} Rwf Kubindi bisobanuro mwakoresha app \nUmwenda musigaje ni : {subprice} Rwf', 'phone': f'25{subscription.CustomerID.user.phone}'}
+        headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
+                          headers=headers, data=payload, verify=False)
        

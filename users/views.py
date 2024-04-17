@@ -2524,9 +2524,7 @@ def updateItem2(request):
 #         tools_ids.append(tool.ToolID.id)
 #     return render(request, 'update_subscription.html', {'subscription': subscription, 'tools_ids': tools_ids, 'tools': tools, 'customers': customers})
 
-elapsed_time = 0
 def check_payment(transID, items, amount, email, address, city, names, phone):
-    global elapsed_time
     headers = {
         "Content-Type": "application/json",
         "app-type": "none",
@@ -2536,7 +2534,6 @@ def check_payment(transID, items, amount, email, address, city, names, phone):
         "app-device-id": "0",
         "x-auth": "705d3a96-c5d7-11ea-87d0-0242ac130003"
     }
-    
     t = threading.Timer(10.0, check_payment, [
                         transID, items, amount, email, address, city, names, phone])
     t.start()
@@ -2544,47 +2541,43 @@ def check_payment(transID, items, amount, email, address, city, names, phone):
         f'http://war.t3ch.rw:8231/wa-api/api/web/index.php?r=v1/app/get-transaction-status&transactionID={transID}', headers=headers, verify=False).json()
     res = json.loads(r)
     print(res[0]['payment_status'])
-    if elapsed_time < 250:
-        elapsed_time += 10
-        if res[0]['payment_status'] == 'SUCCESSFUL':
-            t.cancel()
-            print('vyarangiye')
-            # print(order_id)
-            transaction_id = transID
-            order = Order()
-            order.transaction_id = transaction_id
-            order.complete = True
-            order.paid = True
-            order.save()
-            payload = {'details': f' Dear {names},\n \nThank you for ordering with us. We received your order and will begin processing it soon. Your order information appears below.\nYour order number: WA{transaction_id}', 'phone': f'25{phone}'}
-            headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
-            r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
-                            headers=headers, data=payload, verify=False)
 
-            for item in items:
-                print(item)
-                print(item['id'])
-                product = Product.objects.get(id=item['id'])
-                OrderItem.objects.create(
-                    product=product,
-                    order=order,
-                    quantity=item['quantity'],
-                )
-                product.inStock = product.inStock-item['quantity']
-                product.save()
-
-            ShippingAddress.objects.create(
-                order=order,
-                address=address,
-                city=city,
-                names=names,
-                phone=phone,
-                email=email,
-            )
-            print("doneeee paid")
-
-    else:
+    if res[0]['payment_status'] == 'SUCCESSFUL':
         t.cancel()
+        print('vyarangiye')
+        # print(order_id)
+        transaction_id = transID
+        order = Order()
+        order.transaction_id = transaction_id
+        order.complete = True
+        order.paid = True
+        order.save()
+        payload = {'details': f' Dear {names},\n \nThank you for ordering with us. We received your order and will begin processing it soon. Your order information appears below.\nYour order number: WA{transaction_id}', 'phone': f'25{phone}'}
+        headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+        r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
+                          headers=headers, data=payload, verify=False)
+
+        for item in items:
+            print(item)
+            print(item['id'])
+            product = Product.objects.get(id=item['id'])
+            OrderItem.objects.create(
+                product=product,
+                order=order,
+                quantity=item['quantity'],
+            )
+            product.inStock = product.inStock-item['quantity']
+            product.save()
+
+        ShippingAddress.objects.create(
+            order=order,
+            address=address,
+            city=city,
+            names=names,
+            phone=phone,
+            email=email,
+        )
+        print("doneeee paid")
 
 
 def pay(request):
