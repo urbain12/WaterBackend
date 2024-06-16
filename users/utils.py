@@ -176,7 +176,7 @@ def check_instalment(trans_id, meter_number, amount, customer_id,sub_id):
         t.cancel()
         today = datetime.today()
         subscription = Subscriptions.objects.get(id=sub_id)
-        payments_ = SubscriptionsPayment.objects.filter( SubscriptionsID=subscription.id).order_by('id')
+        payments_ = SubscriptionsPayment.objects.filter(SubscriptionsID=subscription.id).order_by('id')
         payments = SubscriptionsPayment.objects.filter(
                 Paid=False, SubscriptionsID=subscription.id).order_by('id')
         payment = payments_[0]
@@ -184,13 +184,13 @@ def check_instalment(trans_id, meter_number, amount, customer_id,sub_id):
         if int(amount) >= int(subscription.TotalBalance):
             subscription.Extra = subscription.Extra + (int(amount)-int(subscription.TotalBalance))
             subscription.TotalBalance = 0
-            SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="USSD",PaymentDate=today,TransID=trans_id)
+            SubscriptionsPayment.objects.filter(Paid=False,SubscriptionsID=subscription.id).update(Paid=True,PaymentType="USSD",PaymentDate=today,TransID=trans_id)
             subscription.save()
         else:
             if (subscription.Extra+int(amount))>=int(subscription.TotalBalance):
                 subscription.Extra = (int(subscription.Extra+int(amount))-int(subscription.TotalBalance))
                 subscription.TotalBalance = 0
-                SubscriptionsPayment.objects.filter(Paid=False).update(Paid=True,PaymentType="USSD",PaymentDate=today,TransID=trans_id)
+                SubscriptionsPayment.objects.filter(Paid=False,SubscriptionsID=subscription.id).update(Paid=True,PaymentType="USSD",PaymentDate=today,TransID=trans_id)
                 subscription.save()
             elif (subscription.Extra+int(amount))>=int(payment.Paidamount):
                 num_of_months = math.floor(int(subscription.Extra+int(amount))/int(payment.Paidamount))

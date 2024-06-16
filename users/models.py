@@ -131,6 +131,7 @@ class WaterBuyHistory(models.Model):
     Token = models.CharField(max_length=255, null=True, blank=True)
     TransactionID = models.CharField(unique=True,max_length=255, null=True, blank=True)
     PaymentType = models.CharField(max_length=255, null=True, blank=True)
+    IsPaid = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 

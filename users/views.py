@@ -2544,7 +2544,6 @@ def check_payment(transID, items, amount, email, address, city, names, phone):
 
     if res[0]['payment_status'] == 'SUCCESSFUL':
         t.cancel()
-        print('vyarangiye')
         # print(order_id)
         transaction_id = transID
         order = Order()
@@ -3020,9 +3019,24 @@ def post_transaction(request):
     if request.method == 'POST':
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
+        meter_number =  body['meter_number']
+        amount = body['amount']
+        trans_id = body['trans_id']
+        phone = body['phone']
         print(body)
-        check_transaction(body['trans_id'],
-                          body['meter_number'], body['amount'], body['phone'])
+        # check_transaction(body['trans_id'],
+        #                   body['meter_number'], body['amount'], body['phone'])
+        meter = Meters.objects.get(Meternumber=meter_number)
+        pay = WaterBuyHistory()
+        pay.Meternumber = meter
+        pay.Amount = amount
+        pay.TransactionID = trans_id
+        users = User.objects.get(phone=phone)
+        customer = Customer.objects.get(user=users.id)
+        pay.Customer =  customer
+        pay.IsPaid = False
+        pay.PaymentType =  "USSD"
+        pay.save()
         data = {
             'result': 'Checking transaction status...',
         }
@@ -3034,11 +3048,111 @@ def ussd_pay_subscription(request):
     if request.method == 'POST':
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
+        amount = body['amount']
+        trans_id = body['trans_id']
+        today = datetime.today()
         print(body)
-        check_instalment(body['trans_id'], body['meter_number'],
-                         body['amount'], body['customer_id'],body['sub_id'])
+        subscription = Subscriptions.objects.get(id=body['sub_id'])
+        payments_ = SubscriptionsPayment.objects.filter( SubscriptionsID=subscription.id).order_by('id')
+        payments = SubscriptionsPayment.objects.filter(
+                Paid=False, SubscriptionsID=subscription.id).order_by('id')
+        payment = payments_[0]
+        if int(amount) >= int(subscription.TotalBalance):
+            SubscriptionsPayment.objects.filter(Paid=False,SubscriptionsID=subscription.id).update(Paid=False,PaymentType="USSD",PaymentDate=today,TransID=trans_id)
+        else:
+            if (subscription.Extra+int(amount))>=int(subscription.TotalBalance):
+                SubscriptionsPayment.objects.filter(Paid=False,SubscriptionsID=subscription.id).update(Paid=False,PaymentType="USSD",PaymentDate=today,TransID=trans_id)
+            elif (subscription.Extra+int(amount))>=int(payment.Paidamount):
+                num_of_months = math.floor(int(subscription.Extra+int(amount))/int(payment.Paidamount))
+                print(num_of_months)
+                ids=[]
+                for i in range(0,num_of_months):
+                    ids.append(payments[i].id)
+
+                SubscriptionsPayment.objects.filter(id__in=ids).update(Paid=False,PaymentType="USSD",PaymentDate=today,TransID=trans_id)
+
+            else:
+                print('')
+
         data = {
             'result': 'Checking instalment payment...',
+        }
+        dump = json.dumps(data)
+        return HttpResponse(dump, content_type='application/json')
+
+def get_transaction_status(request):
+    if request.method == 'POST':
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        status = body['payment_status']
+        amount = body['amount']
+        trans_id = body['external_payment_code']
+        if status == "SUCCESSFUL":
+            today = datetime.today()
+            print(body)
+            payments_ = SubscriptionsPayment.objects.filter(TransID=trans_id).order_by('id')
+            if len(payments_)>0:
+                payment = payments_[0]
+                subscription = Subscriptions.objects.get(id=payment.SubscriptionsID)
+                payments = SubscriptionsPayment.objects.filter(
+                        Paid=False, SubscriptionsID=subscription.id).order_by('id')
+                if int(amount) >= int(subscription.TotalBalance):
+                    subscription.Extra = subscription.Extra + (int(amount)-int(subscription.TotalBalance))
+                    subscription.TotalBalance = 0
+                    SubscriptionsPayment.objects.filter(Paid=False,SubscriptionsID=subscription.id).update(Paid=True,PaymentType="USSD",PaymentDate=today,TransID=trans_id)
+                    subscription.save()
+                else:
+                    if (subscription.Extra+int(amount))>=int(subscription.TotalBalance):
+                        subscription.Extra = (int(subscription.Extra+int(amount))-int(subscription.TotalBalance))
+                        subscription.TotalBalance = 0
+                        SubscriptionsPayment.objects.filter(Paid=False,SubscriptionsID=subscription.id).update(Paid=True,PaymentType="USSD",PaymentDate=today,TransID=trans_id)
+                        subscription.save()
+                    elif (subscription.Extra+int(amount))>=int(payment.Paidamount):
+                        num_of_months = math.floor(int(subscription.Extra+int(amount))/int(payment.Paidamount))
+                        extra = int(subscription.Extra+int(amount)) % int(payment.Paidamount)
+                        subscription.Extra =extra
+                        subscription.TotalBalance = int(subscription.TotalBalance)-int(num_of_months*int(payment.Paidamount))
+                        subscription.save()
+                        print(num_of_months)
+                        ids=[]
+                        for i in range(0,num_of_months):
+                            ids.append(payments[i].id)
+
+                        SubscriptionsPayment.objects.filter(id__in=ids).update(Paid=True,PaymentType="USSD",PaymentDate=today,TransID=trans_id)
+
+                    else:
+                        subscription.Extra=subscription.Extra+amount
+                        subscription.save()
+            else:
+                pay = WaterBuyHistory.objects.get(TransactionID=trans_id)
+                
+                totalamount = str(amount)
+                customer = Customer.objects.get(id=pay.Customer.id)
+                pay.IsPaid =  True
+                pay.save()
+                r2 = requests.get(
+                    f'http://44.196.8.236:3038/generatePurchase/?payment={totalamount}.00&meternumber={pay.Meternumber.Meternumber}', verify=False)
+                payload = {
+                    'details': f' Mukiriya wacu {customer.FirstName}, Kugura amazi ntibyaciyemo.Ongera ugerageze cyangwa uhamagare umukozi wacu abibafashemo\n\n\n Dear Customer {customer.FirstName} , Buying water Failed! Try again or contact our staff!', 'phone': f'25{customer.user.phone}'}
+                if 'tokenlist' in r2.text:
+                    token = r2.text.split("tokenlist=", 1)[1]
+                    pay.Token = token
+                    now = datetime.now()
+                    mydate = now.strftime("%d/%m/%Y %H:%M:%S")
+
+                    if customer.Language == 'English':
+                        payload = {
+                            'details': f' Dear {customer.FirstName},\nThanks again for buying water. Your token number is : {token} ', 'phone': f'25{customer.user.phone}'}
+                    if customer.Language == 'Kinyarwanda':
+                        payload = {
+                            'details': f' Mukiriya wacu {customer.FirstName},\nMurakoze kugura amazi. Tokeni yanyu ni: {token} ', 'phone': f'25{customer.user.phone}'}
+                pay.save()
+
+                headers = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZmxvYXQudGFwYW5kZ290aWNrZXRpbmcuY28ucndcL2FwaVwvbW9iaWxlXC9hdXRoZW50aWNhdGUiLCJpYXQiOjE2MjI0NjEwNzIsIm5iZiI6MTYyMjQ2MTA3MiwianRpIjoiVXEyODJIWHhHTng2bnNPSiIsInN1YiI6MywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.vzXW4qrNSmzTlaeLcMUGIqMk77Y8j6QZ9P_j_CHdT3w'}
+                r = requests.post('https://upcountry.ticket.rw/api/send-sms-water_access',
+                                headers=headers, data=payload, verify=False)
+        data = {
+            'result': 'Payment status checked',
         }
         dump = json.dumps(data)
         return HttpResponse(dump, content_type='application/json')

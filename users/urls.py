@@ -278,4 +278,8 @@ urlpatterns = [
     path('services/installments',SubscriptionsListView.as_view()),
     path('product/orders',orderItemListView.as_view()),
     path('catridge/orders',catridgesOrderItemListView.as_view()),
+
+
+    #payment CALLBACK
+    path('get_transaction_status/',csrf_exempt(get_transaction_status),name='get_transaction_status'),
 ]
